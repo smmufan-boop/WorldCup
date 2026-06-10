@@ -1,0 +1,1285 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>足球红黑榜</title>
+  <style>
+    :root {
+      --bg: #eef5ff;
+      --panel: #ffffff;
+      --panel-2: #f7fbff;
+      --line: #cdd9ea;
+      --text: #162033;
+      --muted: #5d6d84;
+      --red: #ef3340;
+      --black: #1f2937;
+      --amber: #ffb020;
+      --blue: #2f80ed;
+      --green: #18a56d;
+      --shadow: 0 16px 42px rgba(39, 65, 103, .16);
+      --radius: 20px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 12% 0%, rgba(239, 51, 64, .16), transparent 30%),
+        radial-gradient(circle at 82% 6%, rgba(47, 128, 237, .18), transparent 34%),
+        linear-gradient(180deg, #f9fcff 0%, var(--bg) 52%, #e8f0fb 100%);
+      font-family: "Microsoft YaHei", "PingFang SC", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      min-height: 100vh;
+    }
+
+    button, input, select {
+      font: inherit;
+    }
+
+    .app {
+      width: min(1440px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 28px 0 52px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 22px;
+      align-items: end;
+      margin-bottom: 18px;
+      padding: 24px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, .94), rgba(241, 247, 255, .84));
+      border: 1px solid rgba(101, 125, 160, .22);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: clamp(30px, 4vw, 54px);
+      letter-spacing: .04em;
+    }
+
+    .subtitle {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .scoreboard {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(120px, 1fr));
+      gap: 12px;
+      min-width: min(620px, 100%);
+    }
+
+    .stat {
+      padding: 15px 16px;
+      border-radius: 16px;
+      background: rgba(47, 128, 237, .07);
+      border: 1px solid rgba(47, 128, 237, .14);
+    }
+
+    .stat b {
+      display: block;
+      font-size: 26px;
+      margin-bottom: 4px;
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .filters {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      display: grid;
+      grid-template-columns: 1.3fr repeat(3, minmax(145px, 200px));
+      gap: 12px;
+      padding: 14px 0;
+      background: linear-gradient(180deg, rgba(238, 245, 255, .98), rgba(238, 245, 255, .86));
+      backdrop-filter: blur(12px);
+    }
+
+    .control {
+      width: 100%;
+      color: var(--text);
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      outline: none;
+      padding: 13px 14px;
+    }
+
+    .control:focus {
+      border-color: rgba(90, 167, 255, .95);
+      box-shadow: 0 0 0 3px rgba(90, 167, 255, .18);
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 4px 0 18px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .legend-item {
+      display: inline-flex;
+      gap: 7px;
+      align-items: center;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .045);
+      border: 1px solid rgba(101, 125, 160, .18);
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .dot.hit { background: var(--red); }
+    .dot.miss { background: var(--black); border: 1px solid rgba(255, 255, 255, .36); }
+    .dot.mixed { background: var(--amber); }
+    .dot.push { background: var(--blue); }
+    .dot.pending { background: var(--green); }
+
+    .tabs {
+      display: flex;
+      gap: 10px;
+      margin: 0 0 18px;
+      padding: 8px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, .72);
+      border: 1px solid rgba(101, 125, 160, .18);
+      box-shadow: 0 10px 28px rgba(39, 65, 103, .09);
+    }
+
+    .tab-btn {
+      flex: 0 1 180px;
+      padding: 12px 16px;
+      color: var(--muted);
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: 13px;
+      cursor: pointer;
+      font-weight: 800;
+      letter-spacing: .03em;
+      transition: color .16s ease, background .16s ease, border-color .16s ease, transform .16s ease;
+    }
+
+    .tab-btn:hover {
+      color: #183153;
+      background: rgba(47, 128, 237, .07);
+      transform: translateY(-1px);
+    }
+
+    .tab-btn.active {
+      color: #ffffff;
+      background: linear-gradient(135deg, var(--red), var(--blue));
+      border-color: rgba(255, 255, 255, .36);
+      box-shadow: 0 10px 24px rgba(47, 128, 237, .22);
+    }
+
+    .tab-panel[hidden] {
+      display: none;
+    }
+
+    .section-shell {
+      margin: 18px 0 24px;
+      padding: 22px;
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, .66);
+      border: 1px solid rgba(101, 125, 160, .18);
+      box-shadow: 0 12px 32px rgba(39, 65, 103, .08);
+    }
+
+    .today-shell {
+      background:
+        linear-gradient(135deg, rgba(24, 165, 109, .12), rgba(47, 128, 237, .07)),
+        rgba(255, 255, 255, .72);
+      border-color: rgba(24, 165, 109, .2);
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: end;
+      margin-bottom: 14px;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-size: clamp(24px, 3vw, 36px);
+    }
+
+    .section-head p {
+      margin: 6px 0 0;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      margin: 0 0 8px;
+      padding: 5px 9px;
+      color: #126a49;
+      background: rgba(24, 165, 109, .12);
+      border: 1px solid rgba(24, 165, 109, .2);
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .08em;
+    }
+
+    .section-pill {
+      flex: 0 0 auto;
+      padding: 8px 12px;
+      color: #183153;
+      background: rgba(47, 128, 237, .09);
+      border: 1px solid rgba(47, 128, 237, .18);
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .template-note {
+      margin: 0 0 14px;
+      padding: 13px 15px;
+      color: #35506c;
+      background: rgba(24, 165, 109, .08);
+      border: 1px solid rgba(24, 165, 109, .18);
+      border-radius: 15px;
+      line-height: 1.7;
+    }
+
+    .date-section {
+      margin-top: 24px;
+    }
+
+    .date-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 0 0 14px;
+      font-size: 26px;
+    }
+
+    .date-title::before {
+      content: "";
+      width: 8px;
+      height: 28px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, var(--red), var(--blue));
+    }
+
+    .series-section {
+      margin: 16px 0;
+      padding: 18px;
+      border-radius: var(--radius);
+      background: rgba(24, 33, 51, .76);
+      background: rgba(255, 255, 255, .78);
+      border: 1px solid rgba(101, 125, 160, .18);
+    }
+
+    .series-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .series-head h3 {
+      margin: 0;
+      font-size: 20px;
+    }
+
+    .series-count {
+      color: var(--muted);
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(255px, 1fr));
+      gap: 14px;
+    }
+
+    .card {
+      position: relative;
+      display: grid;
+      grid-template-columns: 58px 1fr;
+      gap: 12px;
+      min-height: 140px;
+      padding: 15px;
+      border-radius: 18px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, .96), rgba(246, 250, 255, .88));
+      border: 1px solid rgba(101, 125, 160, .18);
+      cursor: pointer;
+      text-align: left;
+      color: var(--text);
+      transition: transform .16s ease, border-color .16s ease, background .16s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(47, 128, 237, .35);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 1), rgba(235, 244, 255, .92));
+    }
+
+    .ball {
+      width: 54px;
+      height: 54px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      font-size: 27px;
+      line-height: 1;
+      box-shadow: inset 0 -8px 16px rgba(0, 0, 0, .22), 0 9px 25px rgba(0, 0, 0, .28);
+    }
+
+    .ball.hit { background: var(--red); }
+    .ball.miss { background: var(--black); border: 1px solid rgba(255, 255, 255, .18); }
+    .ball.mixed { background: var(--amber); color: #161000; }
+    .ball.push { background: var(--blue); color: #06111e; }
+    .ball.pending { background: var(--green); color: #06170f; }
+
+    .card h4 {
+      margin: 0 0 7px;
+      font-size: 17px;
+      line-height: 1.35;
+    }
+
+    .score {
+      display: inline-flex;
+      gap: 6px;
+      align-items: center;
+      padding: 5px 8px;
+      border-radius: 999px;
+      background: rgba(47, 128, 237, .1);
+      color: #183153;
+      font-weight: 700;
+      margin-bottom: 9px;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 13px;
+    }
+
+    .badges {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    .badge {
+      padding: 4px 7px;
+      border-radius: 999px;
+      color: #33506f;
+      background: rgba(47, 128, 237, .08);
+      border: 1px solid rgba(47, 128, 237, .14);
+      font-size: 12px;
+    }
+
+    .badge-hit {
+      color: #9f1722;
+      background: rgba(239, 51, 64, .13);
+      border-color: rgba(239, 51, 64, .28);
+      font-weight: 700;
+    }
+
+    .badge-miss {
+      color: #111827;
+      background: rgba(17, 24, 39, .12);
+      border-color: rgba(17, 24, 39, .28);
+      font-weight: 700;
+    }
+
+    .badge-mixed {
+      color: #8a5200;
+      background: rgba(255, 176, 32, .18);
+      border-color: rgba(255, 176, 32, .34);
+      font-weight: 700;
+    }
+
+    .badge-push {
+      color: #0f4f98;
+      background: rgba(47, 128, 237, .14);
+      border-color: rgba(47, 128, 237, .3);
+      font-weight: 700;
+    }
+
+    .badge-pending {
+      color: #126a49;
+      background: rgba(24, 165, 109, .14);
+      border-color: rgba(24, 165, 109, .3);
+      font-weight: 700;
+    }
+
+    .empty {
+      padding: 36px;
+      text-align: center;
+      color: var(--muted);
+      border: 1px dashed var(--line);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, .6);
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 20;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 22px;
+      background: rgba(83, 106, 137, .36);
+      backdrop-filter: blur(10px);
+    }
+
+    .modal-backdrop.open { display: flex; }
+
+    .modal {
+      width: min(860px, 100%);
+      max-height: min(780px, calc(100vh - 44px));
+      overflow: auto;
+      border-radius: 22px;
+      background: #ffffff;
+      border: 1px solid rgba(101, 125, 160, .2);
+      box-shadow: var(--shadow);
+    }
+
+    .modal-head {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: 62px 1fr auto;
+      gap: 14px;
+      align-items: center;
+      padding: 18px 20px;
+      background: rgba(255, 255, 255, .96);
+      border-bottom: 1px solid rgba(101, 125, 160, .16);
+      backdrop-filter: blur(12px);
+    }
+
+    .modal h2 {
+      margin: 0 0 4px;
+      font-size: 24px;
+    }
+
+    .modal-meta {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .close-btn {
+      width: 40px;
+      height: 40px;
+      color: var(--text);
+      background: rgba(47, 128, 237, .08);
+      border: 1px solid rgba(47, 128, 237, .16);
+      border-radius: 12px;
+      cursor: pointer;
+    }
+
+    .modal-body {
+      padding: 20px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .detail-block {
+      padding: 15px;
+      border-radius: 16px;
+      background: rgba(47, 128, 237, .055);
+      border: 1px solid rgba(47, 128, 237, .12);
+    }
+
+    .detail-block h3 {
+      margin: 0 0 9px;
+      font-size: 16px;
+      color: #183153;
+    }
+
+    .detail-block p,
+    .detail-block li {
+      color: #4f6179;
+      line-height: 1.75;
+    }
+
+    .detail-block p { margin: 0; }
+    .detail-block ul { margin: 0; padding-left: 20px; }
+
+    @media (max-width: 920px) {
+      .hero { grid-template-columns: 1fr; }
+      .scoreboard { grid-template-columns: repeat(2, minmax(120px, 1fr)); }
+      .filters { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 620px) {
+      .app { width: min(100% - 20px, 1440px); padding-top: 12px; }
+      .hero { padding: 18px; }
+      .tabs { grid-template-columns: 1fr; display: grid; }
+      .tab-btn { flex: auto; }
+      .section-shell { padding: 16px; }
+      .section-head { display: block; }
+      .section-pill { display: inline-flex; margin-top: 10px; }
+      .filters { grid-template-columns: 1fr; }
+      .cards { grid-template-columns: 1fr; }
+      .modal-head { grid-template-columns: 52px 1fr auto; }
+      .ball { width: 48px; height: 48px; font-size: 24px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <section class="hero">
+      <div>
+        <h1>足球红黑榜</h1>
+        <p class="subtitle">标签页切换既往红黑榜与今日方案；待赛方案赛后再回填红黑结算。</p>
+      </div>
+      <div class="scoreboard" id="scoreboard"></div>
+    </section>
+
+    <nav class="tabs" role="tablist" aria-label="红黑榜页面切换">
+      <button class="tab-btn active" id="todayTab" type="button" role="tab" aria-selected="true" aria-controls="todayPanel" data-panel="todayPanel">今日方案</button>
+      <button class="tab-btn" id="historyTab" type="button" role="tab" aria-selected="false" aria-controls="historyPanel" data-panel="historyPanel">既往红黑榜</button>
+    </nav>
+
+    <section class="section-shell today-shell tab-panel" id="todayPanel" role="tabpanel" aria-labelledby="todayTab">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">TODAY PLAN</span>
+          <h2 id="todayTitle">今日方案</h2>
+          <p>固定模板：足球分析师视角 → 最终推荐方案 → 赔率模型推测 → 自有模型校准 → 风险控制。</p>
+        </div>
+        <span class="section-pill" id="todayCount"></span>
+      </div>
+      <p class="template-note">以下为本地三场方案。每张卡片点击后查看完整模板；赛后把实际比分和结算转入“既往红黑榜”。</p>
+      <section id="todayBoard"></section>
+    </section>
+
+    <section class="section-shell tab-panel" id="historyPanel" role="tabpanel" aria-labelledby="historyTab" hidden>
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">HISTORY</span>
+          <h2 id="historyTitle">既往红黑榜</h2>
+          <p>保留前面的红黑榜记录，支持按日期、系列赛、结果和关键词筛选。</p>
+        </div>
+        <span class="section-pill">赛后复盘</span>
+      </div>
+
+      <section class="filters" aria-label="筛选">
+        <input class="control" id="searchInput" type="search" placeholder="搜索球队、盘口、经验关键词...">
+        <select class="control" id="dateFilter"></select>
+        <select class="control" id="seriesFilter"></select>
+        <select class="control" id="statusFilter">
+          <option value="all">全部结果</option>
+          <option value="hit">只看红</option>
+          <option value="miss">只看黑</option>
+          <option value="mixed">只看半中/混合</option>
+          <option value="push">只看走水</option>
+        </select>
+      </section>
+
+      <div class="legend">
+        <span class="legend-item"><span class="dot hit"></span>红：推荐结构命中</span>
+        <span class="legend-item"><span class="dot miss"></span>黑：主方向失误</span>
+        <span class="legend-item"><span class="dot mixed"></span>半中/混合：方向部分对、结构不优</span>
+        <span class="legend-item"><span class="dot push"></span>走水：主盘口退回本金</span>
+        <span class="legend-item"><span class="dot pending"></span>待赛：今日方案未结算</span>
+      </div>
+
+      <section id="board"></section>
+    </section>
+  </main>
+
+  <div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <article class="modal">
+      <header class="modal-head">
+        <div class="ball" id="modalBall">⚽</div>
+        <div>
+          <h2 id="modalTitle"></h2>
+          <div class="modal-meta" id="modalMeta"></div>
+        </div>
+        <button class="close-btn" id="modalClose" aria-label="关闭">×</button>
+      </header>
+      <div class="modal-body" id="modalBody"></div>
+    </article>
+  </div>
+
+  <script>
+    const records = [
+      {
+        date: "2026-06-08",
+        series: "男子国家队友谊赛",
+        match: "斯里兰卡 vs 不丹",
+        score: "4-1",
+        status: "miss",
+        label: "黑榜",
+        summary: "低估低级别比赛崩盘风险，小2.5和不丹受让保护失败。",
+        plan: ["小于2.5 @2.14", "不丹 +1.5 @1.64"],
+        settlement: ["小2.5输", "不丹+1.5输"],
+        review: "低排名国家队友谊赛防守稳定性很差，FIFA/Elo平衡感不能直接转化为小球和受让安全。",
+        lessons: ["低级别国家队不要重仓小球。", "弱队+1.5不等于安全，尤其下半场体能和防线会断。"]
+      },
+      {
+        date: "2026-06-09",
+        series: "男子国家队友谊赛",
+        match: "荷兰 vs 乌兹别克斯坦",
+        score: "2-1",
+        status: "hit",
+        label: "红榜",
+        summary: "强队赢球但不穿深盘，受让保护方向正确。",
+        plan: ["乌兹别克斯坦 +2 / +2.5", "避开荷兰低赔ML和深让"],
+        settlement: ["乌兹别克斯坦+2赢/推", "乌兹别克斯坦+2.5赢"],
+        review: "友谊赛强队控制比赛后不一定继续扩大比分，低赔胜出和深盘穿出是两回事。",
+        lessons: ["强队ML低于1.30通常不是价值。", "优先找受让+1.5/+2/+2.5。"]
+      },
+      {
+        date: "2026-06-09",
+        series: "男子国家队友谊赛",
+        match: "法国 vs 北爱尔兰",
+        score: "3-1",
+        status: "hit",
+        label: "红榜",
+        summary: "法国方向对，但价值在北爱受让保护。",
+        plan: ["北爱尔兰 +2 / +2.5", "避免法国低赔ML"],
+        settlement: ["北爱+2推", "北爱+2.5赢"],
+        review: "强队赢2球的比分带很厚，+2/+2.5比追-2.5更合理。",
+        lessons: ["强弱明显但友谊赛轮换时，受让盘比强队让深盘更稳。"]
+      },
+      {
+        date: "2026-06-09",
+        series: "男子国家队友谊赛",
+        match: "尼日尔 vs 毛里塔尼亚",
+        score: "0-1",
+        status: "hit",
+        label: "红榜",
+        summary: "毛里塔尼亚方向和小比分逻辑兑现。",
+        plan: ["毛里塔尼亚方向/不败", "低比分优先"],
+        settlement: ["毛里塔尼亚胜", "小比分命中"],
+        review: "多模型冲突时没有强行扩大仓位，最终客队方向兑现。",
+        lessons: ["模型冲突场可小仓抓方向，但不要进稳胆串。"]
+      },
+      {
+        date: "2026-06-09",
+        series: "青年队友谊赛",
+        match: "意大利U21 vs 阿尔巴尼亚U21",
+        score: "1-0",
+        status: "hit",
+        label: "红榜",
+        summary: "意大利方向对，但深盘不可追。",
+        plan: ["意大利 DNB/小让", "避免-1.5以上深盘"],
+        settlement: ["意大利胜", "深盘难穿"],
+        review: "青年队强队能赢但不稳定穿盘，1-0是典型友谊赛比分。",
+        lessons: ["U21/U23强队不要当成年队强队处理。"]
+      },
+      {
+        date: "2026-06-09",
+        series: "埃及杯",
+        match: "恩彼 vs 马斯里",
+        score: "0-3",
+        status: "mixed",
+        label: "半中",
+        summary: "马斯里方向对，但小球思路被杯赛状态打穿。",
+        plan: ["马斯里DNB/方向", "偏小球"],
+        settlement: ["马斯里方向赢", "小球输"],
+        review: "杯赛一旦先丢球，落后方压上会放大反击进球。",
+        lessons: ["杯赛淘汰场别把边路方向和小球强绑定。"]
+      },
+      {
+        date: "2026-06-09",
+        series: "青年队友谊赛",
+        match: "USA U21 vs 乌兹别克斯坦U23",
+        score: "0-1",
+        status: "hit",
+        label: "红榜",
+        summary: "反名气盘成功，乌兹别克斯坦受让/不败方向兑现。",
+        plan: ["乌兹别克斯坦U23 +0.75/+1", "避免USA名气低赔"],
+        settlement: ["乌兹别克斯坦U23胜", "受让全赢"],
+        review: "U21对U23存在年龄和阵容差，不应只按美国名气定价。",
+        lessons: ["青年队跨年龄比赛，名气盘要降权。"]
+      },
+      {
+        date: "2026-06-09",
+        series: "男子国家队友谊赛",
+        match: "秘鲁 vs 西班牙",
+        score: "1-3",
+        status: "hit",
+        label: "红榜",
+        summary: "西班牙赢球但没有打穿+2.5，受让保护优于低赔胜。",
+        plan: ["秘鲁 +2 @1.94", "秘鲁 +2.5 @1.54", "不买西班牙ML @1.12"],
+        settlement: ["秘鲁+2推", "秘鲁+2.5赢", "小3/小3.5输"],
+        review: "强队3-0后可能丢安慰球，受让保护比小球更稳。",
+        lessons: ["热门强队高xG时，慎用小3.5。"]
+      },
+      {
+        date: "2026-06-09",
+        series: "女子国家队友谊赛",
+        match: "巴拿马女足 vs 牙买加女足",
+        score: "0-0",
+        status: "hit",
+        label: "红榜",
+        summary: "牙买加DNB走水，小球和BTTS No命中。",
+        plan: ["牙买加 +0/DNB", "小3.5", "小2.5高价才买"],
+        settlement: ["DNB走水", "小2.5/小3.5赢", "BTTS No赢"],
+        review: "二番战防守调整明显，胜负方向不如不败+小球。",
+        lessons: ["女足二番战优先DNB/X2/小球，不追首战赢家ML。"]
+      },
+      {
+        date: "2026-06-09",
+        series: "男子国家队友谊赛",
+        match: "瓦努阿图 vs 斐济",
+        score: "2-2",
+        status: "mixed",
+        label: "半中",
+        summary: "早期BTTS/大球正确，后期瓦努阿图低赔和小球投机不优。",
+        plan: ["避免瓦努阿图ML 1.59", "早期BTTS/大2.5", "后期小2.5仅投机"],
+        settlement: ["瓦努阿图ML输", "大2.5赢", "BTTS赢"],
+        review: "低信息岛国/区域赛，热门压缩到1.60附近要警惕。",
+        lessons: ["区域友谊赛更适合BTTS/大球或受让，不追快速降赔热门。"]
+      },
+      {
+        date: "2026-06-09",
+        series: "男子国家队友谊赛",
+        match: "塔吉克斯坦 vs 印度",
+        score: "1-1",
+        status: "mixed",
+        label: "半中",
+        summary: "塔吉克斯坦ML过热，小3.5正确。",
+        plan: ["塔吉克斯坦ML小仓", "避免-0.75", "小3.5"],
+        settlement: ["塔吉克斯坦ML输", "DNB推", "小3.5赢"],
+        review: "首回合3-1不能直接外推，印度二番战调整有效。",
+        lessons: ["同对手短期复赛，首战赢家必须降权。"]
+      },
+      {
+        date: "2026-06-09",
+        series: "女子国家队友谊赛",
+        match: "澳大利亚女足 vs 墨西哥女足",
+        score: "3-1",
+        status: "miss",
+        label: "黑榜",
+        summary: "过度倾向墨西哥和小球，澳大利亚反弹打出高节奏。",
+        plan: ["墨西哥 +0.5/X2", "小2.5", "BTTS No"],
+        settlement: ["墨西哥受让输", "小2.5输", "BTTS No输"],
+        review: "强队首战输球后的主场反弹不能被简单当作继续被压制。",
+        lessons: ["女足近期大胜数据要做对手强度校正。", "强队窄败后的二番战可转向反弹+大球。"]
+      },
+      {
+        date: "2026-06-10",
+        series: "男子国家队友谊赛",
+        match: "中国 vs 泰国",
+        score: "0-0",
+        status: "hit",
+        label: "红榜",
+        summary: "不买中国主胜，泰国受让和小球命中。",
+        plan: ["泰国 +1", "小3.5", "避免中国ML低价"],
+        settlement: ["泰国+1赢", "小3.5/小2.5赢", "中国ML输"],
+        review: "双方评级接近，主场优势不足以支撑短价主胜。",
+        lessons: ["近均势AFC友谊赛，平局概率必须作为主结果处理。"]
+      },
+      {
+        date: "2026-06-10",
+        series: "男子国家队友谊赛",
+        match: "菲律宾 vs 缅甸",
+        score: "5-1",
+        status: "hit",
+        label: "红榜",
+        summary: "大球/BTTS优于低赔主胜，东南亚低级别高事件兑现。",
+        plan: ["大2.5 >=1.75", "BTTS Yes >=1.90", "菲律宾ML低价不追"],
+        settlement: ["大2.5赢", "BTTS赢", "菲律宾胜"],
+        review: "这里不该过度使用FIFA/Elo防冷，近期进攻和外部大球信号更重要。",
+        lessons: ["低级别东南亚场，优先看总球/队伍总球。"]
+      },
+      {
+        date: "2026-06-10",
+        series: "男子国家队友谊赛",
+        match: "亚美尼亚 vs 摩尔多瓦",
+        score: "1-1",
+        status: "hit",
+        label: "红榜",
+        summary: "避开亚美尼亚短价ML，小3.5和受让方向正确。",
+        plan: ["亚美尼亚ML只>=1.70才买", "小3.5", "摩尔多瓦+1.5"],
+        settlement: ["亚美尼亚ML输", "小3.5赢", "摩尔多瓦+1.5赢"],
+        review: "1.60-1.70区间友谊赛热门并不稳，1-1在比分带内。",
+        lessons: ["中档热门配22-25%平局时，ML不适合串关。"]
+      },
+      {
+        date: "2026-06-10",
+        series: "男子国家队友谊赛",
+        match: "刚果DR vs 智利",
+        score: "1-2",
+        status: "hit",
+        label: "红榜",
+        summary: "智利+0.5和小3.5是正确结构，刚果DR主方向太脆。",
+        plan: ["智利 +0.5", "小3.5", "不重仓刚果DR ML"],
+        settlement: ["智利+0.5赢", "小3.5赢", "小2.5输"],
+        review: "两队差距不大时，+0.5和小3.5比轻热门ML稳。",
+        lessons: ["主比分含2-1/1-2时，小3.5优于小2.5。"]
+      },
+      {
+        date: "2026-06-10",
+        series: "男子国家队友谊赛",
+        match: "印尼 vs 莫桑比克",
+        score: "1-0",
+        status: "hit",
+        label: "红榜",
+        summary: "印尼低比分胜出，-1推、小球和BTTS No命中。",
+        plan: ["印尼 -1 亚洲价够才买", "小3.5", "BTTS No"],
+        settlement: ["印尼ML赢", "印尼-1推", "小3.5赢", "BTTS No赢"],
+        review: "市场和本地赔率模型胜过FIFA/Elo，但FIFA/Elo正确限制深盘仓位。",
+        lessons: ["赔率模型与市场一致时，不要只因FIFA分逆向。"]
+      },
+      {
+        date: "2026-06-10",
+        series: "男子国家队友谊赛",
+        match: "匈牙利 vs 哈萨克斯坦",
+        score: "3-1",
+        status: "mixed",
+        label: "半中",
+        summary: "匈牙利赢球且穿+1.5，+2保护才避免损失；小3.5失败。",
+        plan: ["哈萨克斯坦 +1.5 小价值", "更稳为 +2", "小3.5需谨慎"],
+        settlement: ["哈萨克+1.5输", "哈萨克+2推", "小3.5输"],
+        review: "强队xG>2且弱队有进球概率时，3-1路径很危险。",
+        lessons: ["+2和+1.5差异很大，稳妥串关优先推盘保护。"]
+      },
+      {
+        date: "2026-06-10",
+        series: "男子国家队友谊赛",
+        match: "巴林 vs 叙利亚",
+        score: "0-0",
+        status: "hit",
+        label: "红榜",
+        summary: "小2亚洲和小1.5命中，边线全部不如小球。",
+        plan: ["小2亚洲 @2.12", "小1.5 @2.84小注", "避免巴林ML/DNB"],
+        settlement: ["小2全赢", "小1.5赢"],
+        review: "近均势西亚友谊赛，低比分和平局权重很高。",
+        lessons: ["U2亚洲优于短价U2.5。", "边线压缩后不要追主胜。"]
+      },
+      {
+        date: "2026-06-10",
+        series: "男子国家队友谊赛",
+        match: "利比里亚 vs 塞拉利昂",
+        score: "3-1",
+        status: "miss",
+        label: "黑榜",
+        summary: "低估利比里亚主场反弹和二番战开放度。",
+        plan: ["小2.5", "塞拉利昂DNB/ML高价才买"],
+        settlement: ["小2.5输", "塞拉利昂方向输"],
+        review: "首战小比分和塞拉利昂1-0优势被过度外推。",
+        lessons: ["复仇/主场回合要提高波动率。", "近均势且价格不够，不进主串。"]
+      },
+      {
+        date: "2026-06-10",
+        series: "男子国家队友谊赛",
+        match: "吉尔吉斯 vs 巴勒斯坦",
+        score: "0-0",
+        status: "hit",
+        label: "红榜",
+        summary: "巴勒斯坦不败和小球正确，ML/-0.25不该买。",
+        plan: ["巴勒斯坦DNB/X2价格够才买", "小2.5/小3.5", "避免硬买ML"],
+        settlement: ["DNB推", "小球赢", "ML输"],
+        review: "客队小优不等于必须赢，平局概率接近30%。",
+        lessons: ["轻微客优场，DNB/X2/小球比ML好。"]
+      },
+      {
+        date: "2026-06-10",
+        series: "女子国家队友谊赛",
+        match: "日本女足 vs 南非女足",
+        score: "0-1",
+        status: "mixed",
+        label: "半中",
+        summary: "赛前强队判断失败，但防过热的南非+3.5和赛中X2思路正确。",
+        plan: ["避开日本ML 1.03", "南非 +3.5 防过热", "落后后不追日本低价 comeback"],
+        settlement: ["南非+3.5赢", "赛中南非X2赢", "日本深盘全输"],
+        review: "首战5-0制造严重过热，二番战轮换和调整风险被低估。",
+        lessons: ["女足首战大胜后二番战要防冷。", "强队落后但live仍短，优先看下狗X2。"]
+      },
+      {
+        date: "2026-06-10",
+        series: "女子国家队友谊赛",
+        match: "印尼女足 vs 柬埔寨女足",
+        score: "1-1",
+        status: "hit",
+        label: "红榜",
+        summary: "柬埔寨不败方向正确，+0走水，+0.25更优，小球补仓正确。",
+        plan: ["柬埔寨 +0/DNB >=1.90", "更优为 +0.25", "小2.5/小3.5"],
+        settlement: ["柬埔寨DNB走水", "+0.25半赢", "小2.5/小3.5赢"],
+        review: "方向对但DNB 1.85略低，5U偏重；结构上+0.25更适合1-1比分带。",
+        lessons: ["女足模型冲突场限仓。", "1-1主比分时，+0.25优于+0。"]
+      },
+      {
+        date: "2026-06-10",
+        series: "男子国家队友谊赛",
+        match: "阿根廷 vs 冰岛",
+        score: "3-0",
+        status: "mixed",
+        label: "半中",
+        summary: "阿根廷胜、3-0比分带、-1和小3.5正确；主推小2.5与冰岛+2.5失败。",
+        plan: ["主线阿根廷胜但不买低赔ML", "小2.5 >=2.25", "冰岛 +2.5 >=1.50", "保守替代：阿根廷 -1 / 小3.5 / BTTS No"],
+        settlement: ["阿根廷胜赢", "阿根廷-1赢", "小3.5赢", "BTTS No赢", "小2.5输", "冰岛+2.5输"],
+        review: "胜负和比分带判断正确，3-0也在赛前主区间内；但最终方案把友谊赛轮换和冰岛抗压能力权重放得过高。市场校准与自建模型都显示阿根廷xG可到2.4以上、冰岛xG低于0.6时，3-0是自然路径，不应把冰岛+2.5和小2.5放到主仓。",
+        lessons: ["精英强队且对手xG极低时，友谊赛轮换不能机械转成下狗+2.5。", "主比分含3-0时，小3.5优于小2.5。", "这种结构优先阿根廷-1/BTTS No/小3.5，少碰深盘和低赔ML。"]
+      }
+    ];
+
+    const todayPlans = [
+      {
+        date: "2026-06-11",
+        series: "今日本地方案",
+        match: "巴基斯坦 vs 阿富汗",
+        score: "未赛",
+        status: "pending",
+        label: "待赛",
+        summary: "巴基斯坦这次在马累的表现明显超出其FIFA排名，球队在 Nolberto Solano 带领下防守结构更紧，三场保持零封，Umar Nawaz、Harun Hamid、Abdul Arshad 都在本届赛事有进球贡献，说明他们不是单纯靠摆大巴，而是能通过反击和后段冲击拿到结果。阿富汗长期排名和历史底子更好，2013年曾拿过 SAFF 冠军，阵容理论上更成熟，Jose Antonio Nogueira 的球队也有中前场个人能力，但本届比赛进攻效率偏低，对孟加拉 U23 和巴基斯坦都没能破门。两队有明显地域与历史对抗属性，决赛氛围会更紧，犯错成本高。公开伤病和首发信息目前没有完全确认，因此不能把任何一边当成稳胆。盘口给出阿富汗微优，更多是长期实力和排名定价；但巴基斯坦当前状态、零封能力和刚刚2-0赢过对手，使得受保护盘口更有价值。",
+        plan: ["第一选择：巴基斯坦 0 / DNB ≥1.85", "第二选择：半场平 ≥1.80", "第三选择：BTTS No ≥1.65", "预测比分：巴基斯坦 1-0；次选 0-0；防守破局后 1-1"],
+        settlement: ["赔率模型推测：William Hill 1X2 为巴基斯坦胜2.88 / 平2.70 / 阿富汗胜2.62，去水后约31.6% / 33.7% / 34.7%。三项非常接近，平局权重很高，市场预期是低比分、胶着、90分钟难分胜负。", "盘口结论：阿富汗胜赔只是微优，不足以覆盖近期状态冲突；巴基斯坦DNB能保留当前赛会状态优势，同时规避决赛平局风险。", "总球方向：小2.5方向对但若只有1.44，EV不够；BTTS No若能到1.65以上，结构比低赔小球更好。"],
+        review: "自有模型校准：PL模型偏阿富汗小优，阿富汗38.96%、巴基斯坦33.94%、平27.09%；Soccer-Betting xG为巴基斯坦0.75-1.48阿富汗；FIFA/Elo长期层面阿富汗排名169、巴基斯坦202，阿富汗底子更高。但本届Diamond Jubilee活体证据明显偏巴基斯坦：0-0孟加拉U23、3-0马尔代夫、2-0阿富汗，3场2胜1平进5球失0球；阿富汗则1-0马尔代夫、0-0孟加拉U23、0-2巴基斯坦，进攻产量偏低。核心冲突是长期实力和通用模型偏阿富汗，但近期赛会状态偏巴基斯坦，因此最终不直接买巴基斯坦胜，而选巴基斯坦DNB/半场平/BTTS No。",
+        lessons: ["不建议：阿富汗胜 @2.62，模型支持但近期状态不支持重仓。", "不建议：巴基斯坦胜 @2.88，有冷门价值但平局风险太大。", "不建议：小2.5 @1.44，方向对但赔率太低，EV不够。", "不建议：大2.5 @2.65，与本届赛事节奏冲突。", "最终判断：看好巴基斯坦常规时间不败；若必须选胜负，轻看巴基斯坦小胜，但不建议直接重仓买胜。", "数据源：Diamond Jubilee Tournament赛程和积分；阿富汗国家队历史与对巴基斯坦rivalry。"]
+      },
+      {
+        date: "2026-06-11",
+        series: "今日本地方案",
+        match: "葡萄牙 vs 尼日利亚",
+        score: "未赛",
+        status: "pending",
+        label: "待赛",
+        summary: "葡萄牙整体实力明显强于尼日利亚，中场控制力是最大优势。布鲁诺、维蒂尼亚、若昂·内维斯这一组能保证传控节奏，边路和肋部推进质量也高。罗伯托·马丁内斯大概率会把这场当成世界杯前节奏校准，前60分钟强度不会低，但领先后会有轮换和保护主力的倾向。尼日利亚虽然没进世界杯，整体动力不如葡萄牙，但身体条件、反击速度和中场对抗并不差。公开赛前信息提到奥斯梅恩、卢克曼等核心可能不完整，进攻上限受限；不过伊沃比、莫菲、阿科尔·亚当斯一类球员仍有反击威胁。两队历史上葡萄牙曾4-0赢过尼日利亚，但那场不能直接复制到这次友谊赛。综合看，葡萄牙更可能通过控场和定位球、边路推进拿下比赛，但在友谊赛环境下不宜追深盘。最合理路径是葡萄牙小胜或两球胜，比分更像2-0、1-0、2-1，而不是大比分屠杀。",
+        plan: ["首选：尼日利亚 +2 @1.55", "价值小注：小2.5 @2.40", "串关稳腿：小3.5 @1.57", "预测比分：葡萄牙 2-0；次选 1-0 / 2-1；进取防线 3-0"],
+        settlement: ["赔率模型推测：Bet365 1X2 为葡萄牙胜1.30 / 平5.25 / 尼日利亚胜10.00，去水后约72.6% / 18.0% / 9.4%，葡萄牙胜面明确但胜赔没有下注价值。", "盘口结构：葡萄牙-1.5 @1.85、-2 @2.38，尼日利亚+1.5 @1.95、+2 @1.55；当前更合理的是尼日利亚+2，葡萄牙赢1球全赢、赢2球走水，只怕赢3球以上。", "大小球：大2.5 @1.53偏热，小2.5 @2.40有价值但波动大；小3.5 @1.57更适合串关，但需防3-1。"],
+        review: "自有模型校准：市场模型给葡萄牙72.6%、平18.0%、尼日利亚9.4%；PL模型给葡萄牙77.0%、平10.6%、尼日利亚12.4%；Soccer-Betting为葡萄牙69.9%、平18.7%、尼日利亚11.4%，xG 2.14-0.73；自建FIFA/Elo更保守，葡萄牙56.2%、平23.2%、尼日利亚20.6%，xG 1.78-0.98。核心结论是葡萄牙赢面明确，但赢穿-1.5/-2不稳。主比分集中在2-0、1-0、2-1、3-0、1-1，因此最终倾向葡萄牙赢，但尼日利亚受让更好。",
+        lessons: ["不建议：葡萄牙胜 @1.30，太低。", "不建议：葡萄牙 -1.5 @1.85，2-0才赢，1-0/2-1都黑。", "不建议：葡萄牙 -2 @2.38，需要赢3球才全赢，风险偏高。", "不建议：大2.5 @1.53，价格被压低，没明显优势。", "风险控制：尼日利亚+2是最稳结构，核心比分2-0可保护；小2.5只适合小仓，小3.5更适合串关。"]
+      },
+      {
+        date: "2026-06-11",
+        series: "今日本地方案",
+        match: "英格兰 vs 哥斯达黎加",
+        score: "未赛",
+        status: "pending",
+        label: "待赛",
+        summary: "英格兰这场是世界杯前最后热身，比赛目的不是刷净胜球，而是让主力找状态、控制体能和避免伤病。Tuchel 上一场对新西兰只赢 1-0，并且大量轮换，说明他更重视负荷管理而不是比分。Saka 目前仍有跟腱不适，需要被控制出场时间；Rice、Eze、Madueke 状态更完整，Kane 仍是最稳定终结点。哥斯达黎加整体实力低于英格兰，但他们不是完全开放型球队，面对强队大概率会收缩防线，依靠 Ugalde、Zamora 等人打反击。公开情报还显示哥斯达黎加处于换帅后的过渡期，可能使用部分发展型球员，这会削弱他们的进攻组织，但也会让比赛更接近防守演练。综合看，英格兰胜面很大，但在高温、轮换、世界杯前保护主力的背景下，追 -2.5 并不舒服；盘口更合理的方向是哥斯达黎加受让保护，或者小3.5配合英格兰胜方向。",
+        plan: ["首选：哥斯达黎加 +2 @2.02", "稳妥备选：哥斯达黎加 +2.5 @1.62", "保守总球：小3.5 @1.57", "预测比分：英格兰 2-0；次选 3-0 / 2-1；防冷 1-0"],
+        settlement: ["赔率模型推测：Bet365 1X2 为英格兰1.14 / 平8.00 / 哥斯达黎加17.00，去水后约82.7% / 11.8% / 5.5%，英格兰胜面极大但胜赔没有价值。", "让球市场已到英格兰-2 @1.78、-2.5 @2.25；模型测算哥斯达黎加+2 @2.02是最佳价值位，+2.5 @1.62更稳但赔率一般。", "大小球方面，大2.5 @1.53偏热，小3.5 @1.57可做保守串关，但3-1/4-0是主要风险。"],
+        review: "自有模型校准：PL模型给英格兰胜78.5%、平10.4%、哥斯达黎加11.0%；Soccer-Betting xG为2.44-0.75，总进球3.20；自建FIFA/Elo为2.19-0.79，总进球2.98。比分集中在2-0、3-0、1-0、2-1、3-1，核心判断是英格兰赢球没问题，但赢3球以上不稳。交手参考为2014世界杯0-0、2018热身赛2-0，风格偏英格兰控场但不一定打爆。",
+        lessons: ["不建议：英格兰胜 @1.14，赔率太低。", "不建议：英格兰 -2.5 @2.25，需要大胜，友谊赛不稳。", "不建议：大2.5 @1.53，价格被压低，没有明显EV。", "不建议：BTTS No @1.44，方向可以但赔率太短。", "风险控制：哥斯达黎加+2是当前最好的结构，英格兰赢1球或不胜全赢，赢2球走水，只有英格兰赢3球以上才输。"]
+      }
+    ];
+
+    const statusText = {
+      hit: "红",
+      miss: "黑",
+      mixed: "半中",
+      push: "走水",
+      pending: "待赛"
+    };
+
+    const todayBoard = document.getElementById("todayBoard");
+    const todayCount = document.getElementById("todayCount");
+    const board = document.getElementById("board");
+    const scoreboard = document.getElementById("scoreboard");
+    const searchInput = document.getElementById("searchInput");
+    const dateFilter = document.getElementById("dateFilter");
+    const seriesFilter = document.getElementById("seriesFilter");
+    const statusFilter = document.getElementById("statusFilter");
+    const tabButtons = document.querySelectorAll(".tab-btn");
+    const tabPanels = document.querySelectorAll(".tab-panel");
+    const modalBackdrop = document.getElementById("modalBackdrop");
+    const modalBall = document.getElementById("modalBall");
+    const modalTitle = document.getElementById("modalTitle");
+    const modalMeta = document.getElementById("modalMeta");
+    const modalBody = document.getElementById("modalBody");
+    const modalClose = document.getElementById("modalClose");
+
+    function unique(values) {
+      return [...new Set(values)].sort();
+    }
+
+    function optionList(select, label, values) {
+      select.innerHTML = `<option value="all">${label}</option>` +
+        values.map(value => `<option value="${escapeHtml(value)}">${escapeHtml(value)}</option>`).join("");
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function recordText(record) {
+      return [
+        record.date,
+        record.series,
+        record.match,
+        record.score,
+        record.summary,
+        record.review,
+        ...(record.plan || []),
+        ...(record.settlement || []),
+        ...(record.lessons || [])
+      ].join(" ").toLowerCase();
+    }
+
+    function getFilteredRecords() {
+      const q = searchInput.value.trim().toLowerCase();
+      return records.filter(record => {
+        const dateOk = dateFilter.value === "all" || record.date === dateFilter.value;
+        const seriesOk = seriesFilter.value === "all" || record.series === seriesFilter.value;
+        const statusOk = statusFilter.value === "all"
+          || record.status === statusFilter.value
+          || (statusFilter.value === "mixed" && hasMixed(record))
+          || (statusFilter.value === "push" && hasPush(record));
+        const searchOk = !q || recordText(record).includes(q);
+        return dateOk && seriesOk && statusOk && searchOk;
+      });
+    }
+
+    function renderStats(list) {
+      const bestOutcomes = list.map(bestOutcome);
+      const hit = bestOutcomes.filter(status => status === "hit").length;
+      const miss = bestOutcomes.filter(status => status === "miss").length;
+      const mixed = bestOutcomes.filter(status => status === "mixed").length;
+      const push = bestOutcomes.filter(status => status === "push").length;
+      const weightedHits = hit + mixed * .5 + push * .5;
+      const hitRate = list.length ? Math.round(weightedHits / list.length * 100) : 0;
+      scoreboard.innerHTML = [
+        { value: list.length, label: "既往展示" },
+        { value: hit, label: "最好为红" },
+        { value: miss, label: "最好为黑" },
+        { value: mixed, label: "最好半中" },
+        { value: push, label: "最好走水" },
+        { value: `${hitRate}%`, label: "折算命中率" }
+      ].map(item => `<div class="stat"><b>${item.value}</b><span>${item.label}</span></div>`).join("");
+    }
+
+    function groupBy(list, key) {
+      return list.reduce((acc, item) => {
+        const value = item[key];
+        if (!acc[value]) acc[value] = [];
+        acc[value].push(item);
+        return acc;
+      }, {});
+    }
+
+    function activateTab(panelId) {
+      tabButtons.forEach(button => {
+        const active = button.dataset.panel === panelId;
+        button.classList.toggle("active", active);
+        button.setAttribute("aria-selected", String(active));
+      });
+
+      tabPanels.forEach(panel => {
+        panel.hidden = panel.id !== panelId;
+      });
+    }
+
+    function renderTodayBoard() {
+      todayCount.textContent = `${todayPlans.length} 个方案`;
+
+      const byDate = groupBy(todayPlans, "date");
+      const html = Object.keys(byDate).sort().map(date => {
+        const seriesMap = groupBy(byDate[date], "series");
+        const seriesHtml = Object.keys(seriesMap).sort().map(series => {
+          const cards = seriesMap[series]
+            .map(record => renderCard(record, "today", todayPlans.indexOf(record)))
+            .join("");
+          return `
+            <section class="series-section">
+              <div class="series-head">
+                <h3>${escapeHtml(series)}</h3>
+                <span class="series-count">${seriesMap[series].length} 个方案</span>
+              </div>
+              <div class="cards">${cards}</div>
+            </section>
+          `;
+        }).join("");
+
+        return `
+          <section class="date-section">
+            <h2 class="date-title">${escapeHtml(date)}</h2>
+            ${seriesHtml}
+          </section>
+        `;
+      }).join("");
+
+      todayBoard.innerHTML = html;
+    }
+
+    function renderBoard() {
+      const list = getFilteredRecords();
+      renderStats(list);
+
+      if (!list.length) {
+        board.innerHTML = `<div class="empty">没有匹配记录。换个日期、系列赛或关键词。</div>`;
+        return;
+      }
+
+      const byDate = groupBy(list, "date");
+      const html = Object.keys(byDate).sort().map(date => {
+        const seriesMap = groupBy(byDate[date], "series");
+        const seriesHtml = Object.keys(seriesMap).sort().map(series => {
+          const cards = seriesMap[series]
+            .map(record => renderCard(record, "history", records.indexOf(record)))
+            .join("");
+          return `
+            <section class="series-section">
+              <div class="series-head">
+                <h3>${escapeHtml(series)}</h3>
+                <span class="series-count">${seriesMap[series].length} 场</span>
+              </div>
+              <div class="cards">${cards}</div>
+            </section>
+          `;
+        }).join("");
+
+        return `
+          <section class="date-section">
+            <h2 class="date-title">${escapeHtml(date)}</h2>
+            ${seriesHtml}
+          </section>
+        `;
+      }).join("");
+
+      board.innerHTML = html;
+    }
+
+    function renderCard(record, source = "history", index = records.indexOf(record)) {
+      const cardText = record.status === "pending"
+        ? (record.plan || []).join("；")
+        : record.summary;
+      return `
+        <button class="card" data-source="${source}" data-index="${index}">
+          <div class="ball ${record.status}" aria-hidden="true">⚽</div>
+          <div>
+            <h4>${escapeHtml(record.match)}</h4>
+            <div class="score">${escapeHtml(record.score)}</div>
+            <p>${escapeHtml(cardText)}</p>
+          </div>
+        </button>
+      `;
+    }
+
+    function settlementText(record) {
+      return (record.settlement || []).join(" ");
+    }
+
+    function hasFullWin(record) {
+      return record.status === "hit" || /全赢|命中|赢|胜/.test(settlementText(record));
+    }
+
+    function hasPush(record) {
+      return record.status === "push" || /走水|推|DNB推|全退|退回本金/.test(settlementText(record));
+    }
+
+    function hasMixed(record) {
+      return record.status === "mixed" || /半中|半赢|赢半|半输|输半|半红|半黑/.test(settlementText(record));
+    }
+
+    function bestOutcome(record) {
+      if (hasFullWin(record)) return "hit";
+      if (hasMixed(record)) return "mixed";
+      if (hasPush(record)) return "push";
+      return "miss";
+    }
+
+    function listHtml(items) {
+      return `<ul>${items.map(item => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`;
+    }
+
+    function openModal(record) {
+      const isPending = record.status === "pending";
+      modalBall.className = `ball ${record.status}`;
+      modalBall.textContent = "⚽";
+      modalTitle.textContent = record.match;
+      modalMeta.textContent = `${record.date} · ${record.series} · ${record.score} · ${statusText[record.status] || record.label}`;
+      modalBody.innerHTML = `
+        <section class="detail-block">
+          <h3>${isPending ? "足球分析师视角" : "结论"}</h3>
+          <p>${escapeHtml(record.summary)}</p>
+        </section>
+        <section class="detail-block">
+          <h3>${isPending ? "最终推荐方案" : "赛前方案 / 盘口结构"}</h3>
+          ${listHtml(record.plan || [])}
+        </section>
+        <section class="detail-block">
+          <h3>${isPending ? "赔率模型推测" : "结算"}</h3>
+          ${listHtml(record.settlement || [])}
+        </section>
+        <section class="detail-block">
+          <h3>${isPending ? "自有模型校准" : "复盘"}</h3>
+          <p>${escapeHtml(record.review)}</p>
+        </section>
+        <section class="detail-block">
+          <h3>${isPending ? "风险控制" : "经验校准"}</h3>
+          ${listHtml(record.lessons || [])}
+        </section>
+      `;
+      modalBackdrop.classList.add("open");
+    }
+
+    function closeModal() {
+      modalBackdrop.classList.remove("open");
+    }
+
+    function init() {
+      optionList(dateFilter, "全部日期", unique(records.map(r => r.date)));
+      optionList(seriesFilter, "全部系列赛", unique(records.map(r => r.series)));
+      renderTodayBoard();
+      renderBoard();
+      activateTab("todayPanel");
+    }
+
+    [searchInput, dateFilter, seriesFilter, statusFilter].forEach(el => {
+      el.addEventListener("input", renderBoard);
+      el.addEventListener("change", renderBoard);
+    });
+
+    tabButtons.forEach(button => {
+      button.addEventListener("click", () => activateTab(button.dataset.panel));
+    });
+
+    board.addEventListener("click", event => {
+      const card = event.target.closest(".card");
+      if (!card) return;
+      openModal(records[Number(card.dataset.index)]);
+    });
+
+    todayBoard.addEventListener("click", event => {
+      const card = event.target.closest(".card");
+      if (!card) return;
+      openModal(todayPlans[Number(card.dataset.index)]);
+    });
+
+    modalClose.addEventListener("click", closeModal);
+    modalBackdrop.addEventListener("click", event => {
+      if (event.target === modalBackdrop) closeModal();
+    });
+    window.addEventListener("keydown", event => {
+      if (event.key === "Escape") closeModal();
+    });
+
+    init();
+  </script>
+</body>
+</html>
