@@ -64,7 +64,7 @@
       document.querySelector('#paperStatsPeriodTitle').textContent=requestedScope==='today'?'今日统计':requestedScope==='all'?'全部日期统计':'所选赛日统计';
       document.querySelector('#paperStatsPeriod').textContent=requestedScope==='all'?'全部赛日（北京时间）':`${appliedFilters.from} 12:00 至 ${shiftDate(appliedFilters.to,1)} 12:00（北京时间，截止时间不含）`;
       const s=data.summary;
-      document.querySelector('#paperStatsSummary').innerHTML=[['投注笔数',s.total],['待结算',s.pending],['已结算',s.settled],['胜率（走盘剔除）',percent(s.winRate)],['最大回撤（单位）',units(s.maxDrawdown)],['ROI',percent(s.roi)],['净收益（单位）',units(s.profit)],['已结算投入',units(s.settledUnits)]]
+      document.querySelector('#paperStatsSummary').innerHTML=[['投注笔数',s.total],['待结算',s.pending],['已结算',s.settled],['胜率（走盘剔除）',percent(s.winRate)],['最大回撤（单位）',units(s.maxDrawdown)],['ROI',percent(s.roi)],['净收益（单位）',units(s.profit)],['已结算投入（单位）',units(s.settledUnits)]]
         .map(([label,value])=>`<div class="metric"><span>${label}</span><strong>${value}</strong></div>`).join('');
       const all=data.allTimeSummary;
       document.querySelector('#paperStatsAllTime').innerHTML=all?[['总笔数',all.total],['胜率',percent(all.winRate)],['ROI',percent(all.roi)],['累计净收益（单位）',units(all.profit)]]
