@@ -1,18 +1,39 @@
 // Static GitHub Pages data adapter: no localhost calls, credentials or write operations.
 (() => {
   globalThis.paperStatsReadOnly=true;
+  function kickoffTime(value) {
+    if(typeof value!=='string'||!value.trim())return NaN;
+    let text=value.trim().replace(' ','T');
+    if(!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(?::\d{2}(?:\.\d+)?)?(?:Z|[+-]\d{2}:?\d{2})?$/i.test(text))return NaN;
+    const [year,month,day,hour,minute]=[text.slice(0,4),text.slice(5,7),text.slice(8,10),text.slice(11,13),text.slice(14,16)].map(Number);
+    if(!year||month<1||month>12||day<1||day>new Date(Date.UTC(year,month,0)).getUTCDate()||hour>23||minute>59)return NaN;
+    if(!/(Z|[+-]\d{2}:?\d{2})$/i.test(text))text+='+08:00';
+    return Date.parse(text);
+  }
+  function maxDrawdown(settled) {
+    if(!settled.length)return null;
+    const ordered=settled.map(row=>({row,time:kickoffTime(row.kickoff)}));
+    if(ordered.some(item=>!Number.isFinite(item.time)))return null;
+    ordered.sort((a,b)=>a.time-b.time||a.row.id-b.row.id);
+    // Stored profits have six-decimal precision; integer micro-units avoid float drift.
+    let equity=0,peak=0,drawdown=0;
+    for(const {row} of ordered) {
+      equity+=Math.round(row.profit*1e6);peak=Math.max(peak,equity);
+      drawdown=Math.max(drawdown,peak-equity);
+    }
+    return drawdown/1e6;
+  }
   function summary(rows) {
     const settled=rows.filter(r=>r.status==='settled');
     const outcomes={win:0,half_win:0,push:0,half_loss:0,loss:0};
     for(const row of settled)outcomes[row.result]++;
     const settledUnits=settled.reduce((sum,r)=>sum+r.units,0);
     const profit=Math.round(settled.reduce((sum,r)=>sum+r.profit,0)*1e6)/1e6;
-    const wins=outcomes.win+outcomes.half_win*.5,losses=outcomes.loss+outcomes.half_loss*.5;
     const decisive=settled.length-outcomes.push;
     return {total:rows.length,pending:rows.length-settled.length,settled:settled.length,
       placedUnits:rows.reduce((sum,r)=>sum+r.units,0),settledUnits,profit,
       roi:settledUnits?profit/settledUnits:null,winRate:decisive?(outcomes.win+outcomes.half_win)/decisive:null,
-      halfWeightedWinRate:wins+losses?wins/(wins+losses):null,outcomes};
+      maxDrawdown:maxDrawdown(settled),outcomes};
   }
   globalThis.paperStatsSource=async params=>{
     const response=await fetch('./data.json',{cache:'no-store'});
