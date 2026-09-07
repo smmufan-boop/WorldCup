@@ -9,7 +9,7 @@
   const companyNames={'1':'澳彩','3':'皇家','8':'Bet365'};
   const failedBadgeUrls=new Set();
   function teamBadge(name,url) {
-    const trusted=typeof url==='string'&&url.length<=2048&&/^https:\/\/(?:sd\.qunliao\.info|(?:[a-z0-9-]+\.)*dongqiudi\.com)(?::443)?\/[^\s<>"\\#]+$/i.test(url);
+    const trusted=typeof url==='string'&&url.length<=2048&&/^https:\/\/(?:(?:sd|img1)\.qunliao\.info|(?:[a-z0-9-]+\.)*dongqiudi\.com)(?::443)?\/[^\s<>"\\#]+$/i.test(url);
     const badge=trusted&&!failedBadgeUrls.has(url)?`<img class="paper-team-badge" src="${esc(url)}" width="24" height="24" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer">`:'';
     return `<span class="paper-team">${badge}<strong>${esc(name)}</strong></span>`;
   }

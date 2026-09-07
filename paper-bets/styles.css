@@ -767,6 +767,10 @@ select option {
 }
 
 .team {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -776,7 +780,12 @@ select option {
 
 .team.away {
   text-align: right;
+  justify-content: flex-end;
 }
+
+.team-name { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.board-team-badge { width:24px; height:24px; flex:none; object-fit:contain; border-radius:4px; background:#fff; }
+.board-team-badge[hidden] { display:none; }
 
 .score {
   min-width: 46px;
