@@ -7,6 +7,16 @@
   const units=v=>v==null?'—':`${Number(v).toFixed(3).replace(/0+$/,'').replace(/\.$/,'')}`;
   const names={competition:'联赛偏好',role:'投注方向偏好',units:'注码选择',leadTime:'下注时机',signalType:'信号分类（同方向）',signalAlignment:'信号关联',modelAlignment:'万象方向关联'};
   const companyNames={'1':'澳彩','3':'皇家','8':'Bet365'};
+  const failedBadgeUrls=new Set();
+  function teamBadge(name,url) {
+    const trusted=typeof url==='string'&&url.length<=2048&&/^https:\/\/(?:sd\.qunliao\.info|(?:[a-z0-9-]+\.)*dongqiudi\.com)(?::443)?\/[^\s<>"\\#]+$/i.test(url);
+    const badge=trusted&&!failedBadgeUrls.has(url)?`<img class="paper-team-badge" src="${esc(url)}" width="24" height="24" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer">`:'';
+    return `<span class="paper-team">${badge}<strong>${esc(name)}</strong></span>`;
+  }
+  document.querySelector('#paperStatsRecords').addEventListener('error',event=>{
+    const img=event.target;
+    if(img.matches?.('.paper-team-badge')){failedBadgeUrls.add(img.getAttribute('src'));img.hidden=true;}
+  },true);
   function selectedTeamHandicap(record) {
     if(!['home','away'].includes(record.side)||!Number.isFinite(record.line)||Math.abs(record.line)>20||!Number.isInteger(record.line*4))return '盘口待确认';
     // Source line > 0 means home gives goals. Display the signed handicap
@@ -62,7 +72,7 @@
       message.textContent=`全赢 ${s.outcomes.win} · 赢半 ${s.outcomes.half_win} · 走盘 ${s.outcomes.push} · 输半 ${s.outcomes.half_loss} · 全输 ${s.outcomes.loss}；`+(data.exportedAt?`只读快照，数据截至 ${beijingKickoff(data.exportedAt)}（北京时间）；最新结算需从本地再次同步。`:'服务运行时自动结算，证据不足保留待结算。');
       if(data.snapshotMode==='page-only')message.textContent='网页已发布，个人投注数据尚未上传。';
       document.querySelector('#paperRecordCount').textContent=`共 ${data.total} 笔`;
-      document.querySelector('#paperStatsRecords').innerHTML=data.records.map(r=>`<tr><td>${esc(beijingKickoff(r.kickoff))}<br><strong>${esc(r.home)} vs ${esc(r.away)}</strong><br>${esc(r.competition)} · 赛日 ${esc(r.gameDay)}</td><td>${r.marketTiming==='historical'?'旧盘口（已锁定） · ':''}${esc(companyNames[r.companyId]||r.companyName)}<br><strong>${esc(r.team)} ${esc(selectedTeamHandicap(r))}</strong> · 水位 ${Number(r.water).toFixed(2)}<br><small>${esc(r.quoteTs)}</small></td><td>${r.units}单位</td><td>${r.status==='settled'?`${r.scoreHome}-${r.scoreAway} · `:''}${esc(r.resultLabel)}${r.settlementRevisions>1?`<br>比分修订 ${r.settlementRevisions-1} 次`:''}</td><td class="${r.profit>0?'paper-profit':r.profit<0?'paper-loss':''}">${units(r.profit)}</td>${globalThis.paperStatsReadOnly?'':`<td>${esc(r.note||'—')}</td>`}</tr>`).join('')||`<tr><td colspan="${globalThis.paperStatsReadOnly?5:6}">${globalThis.paperStatsReadOnly?'所选赛日没有已同步的模拟投注记录。':'还没有模拟投注记录，请到比赛看板选择赛前让球盘。'}</td></tr>`;
+      document.querySelector('#paperStatsRecords').innerHTML=data.records.map(r=>`<tr><td>${esc(beijingKickoff(r.kickoff))}<div class="paper-match-teams">${teamBadge(r.home,r.homeLogo)}<span class="paper-match-vs">vs</span>${teamBadge(r.away,r.awayLogo)}</div>${esc(r.competition)} · 赛日 ${esc(r.gameDay)}</td><td>${r.marketTiming==='historical'?'旧盘口（已锁定） · ':''}${esc(companyNames[r.companyId]||r.companyName)}<br><strong>${esc(r.team)} ${esc(selectedTeamHandicap(r))}</strong> · 水位 ${Number(r.water).toFixed(2)}<br><small>${esc(r.quoteTs)}</small></td><td>${r.units}单位</td><td>${r.status==='settled'?`${r.scoreHome}-${r.scoreAway} · `:''}${esc(r.resultLabel)}${r.settlementRevisions>1?`<br>比分修订 ${r.settlementRevisions-1} 次`:''}</td><td class="${r.profit>0?'paper-profit':r.profit<0?'paper-loss':''}">${units(r.profit)}</td>${globalThis.paperStatsReadOnly?'':`<td>${esc(r.note||'—')}</td>`}</tr>`).join('')||`<tr><td colspan="${globalThis.paperStatsReadOnly?5:6}">${globalThis.paperStatsReadOnly?'所选赛日没有已同步的模拟投注记录。':'还没有模拟投注记录，请到比赛看板选择赛前让球盘。'}</td></tr>`;
       document.querySelector('#paperStatsPager').innerHTML=`<button data-offset="${Math.max(0,offset-data.limit)}" ${offset===0?'disabled':''}>上一页</button><span>第 ${Math.floor(offset/data.limit)+1} / ${Math.max(1,Math.ceil(data.total/data.limit))} 页</span><button data-offset="${offset+data.limit}" ${offset+data.limit>=data.total?'disabled':''}>下一页</button>`;
       const habits=document.querySelector('#paperStatsHabits');
       const habitsHtml=Object.entries(data.habits).filter(([key])=>Object.hasOwn(names,key)).map(([key,items])=>`<section class="board paper-habit-card"><div class="board-head"><h3>${esc(names[key])}</h3></div>

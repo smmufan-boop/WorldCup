@@ -1530,6 +1530,11 @@ select option {
 .paper-table th,.paper-table td { padding:12px; text-align:left; border-bottom:1px solid var(--line); line-height:1.6; overflow-wrap:anywhere; }
 .paper-table th { background:#f5f8fc; color:var(--muted); white-space:nowrap; }
 .paper-table td { min-width:85px; }
+.paper-match-teams { display:flex; align-items:center; flex-wrap:wrap; gap:6px 10px; margin:5px 0; }
+.paper-team { display:inline-flex; align-items:center; gap:6px; min-width:0; }
+.paper-team-badge { width:24px; height:24px; flex:none; object-fit:contain; border-radius:4px; background:#fff; }
+.paper-team-badge[hidden] { display:none; }
+.paper-match-vs { color:var(--muted); font-size:11px; }
 .paper-profit { color:#086044; font-weight:700; }
 .paper-loss { color:var(--red); font-weight:700; }
 .paper-habits { display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:14px; }
