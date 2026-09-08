@@ -523,6 +523,11 @@ select option {
   font-size: 11px;
 }
 
+.analysis-run-button { margin-left: auto; padding: 5px 10px; border: 1px solid #abc1d4; border-radius: 6px; background: #f5faff; color: #245579; font-size: 11px; cursor: pointer; }
+.analysis-run-button:hover:not(:disabled) { background: #e7f2fb; }
+.analysis-run-button:disabled { opacity: .55; cursor: not-allowed; }
+.analysis-title > small { flex-basis: 100%; color: var(--muted); }
+
 .analysis-stage {
   padding: 2px 6px;
   border-radius: 999px;
