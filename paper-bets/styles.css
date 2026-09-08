@@ -1561,3 +1561,13 @@ select option {
 .parallel-heading > span { padding: 3px 8px; border-radius: 5px; background: #e2e8f0; }
 .parallel-gates { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
 .parallel-note, .parallel-legacy { color: #64748b; font-size: 12px; }
+.reference-analysis { margin-top: 10px; padding: 12px; border: 1px solid #d4dbe6; border-radius: 8px; background: #f8fafc; color: #334155; }
+.reference-heading { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 8px; }
+.reference-heading > span, .analysis-stage.reference { background: #fff3d8; color: #805511; border-color: #ebd29b; }
+.reference-heading > span { padding: 3px 7px; border-radius: 5px; font-size: 12px; }
+.reference-analysis details { margin-top: 8px; font-size: 12px; }
+.reference-analysis summary { cursor: pointer; color: #475569; }
+.reference-table-scroll { overflow-x: auto; margin-top: 8px; }
+.reference-table { width: 100%; border-collapse: collapse; white-space: nowrap; font-size: 12px; }
+.reference-table th, .reference-table td { padding: 6px 8px; border-bottom: 1px solid #e2e8f0; text-align: right; }
+.reference-table th:first-child { text-align: left; }
