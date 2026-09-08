@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>模拟投注 · 统计与习惯</title><link rel="stylesheet" href="./styles.css?v=28"></head>
 <body><main class="shell paper-stats">
-  <div class="board-head"><div><p class="board-kicker">PAPER BETTING · READ-ONLY SNAPSHOT</p><h1>模拟投注统计</h1><p>模拟投注公开快照，不涉及真实资金；仅展示最近一次本地同步的数据。</p></div><a href="https://github.com/smmufan-boop/WorldCup/tree/main/paper-bets">GitHub 仓库</a></div>
+  <div class="board-head"><div><p class="board-kicker">PAPER BETTING · READ-ONLY SNAPSHOT</p><h1>模拟投注统计</h1><p>模拟投注与历史记录的单位化复盘，不执行真实下单。确认条款永久锁定。</p></div><a href="https://github.com/smmufan-boop/WorldCup/tree/main/paper-bets">GitHub 仓库</a></div>
   <form id="paperStatsFilters" class="toolbar"><button type="button" id="paperStatsPrev">前一日</button><label>赛日起 <input type="date" name="from"></label><label>至 <input type="date" name="to"></label><button type="button" id="paperStatsNext">后一日</button><button class="paper-action">查询 / 刷新</button><button type="button" id="paperStatsToday">今日赛日</button><button type="button" id="paperStatsAll">全部日期</button><span>北京时间12点切日，中午前属于前一赛日</span></form>
   
   <h2 id="paperStatsPeriodTitle">今日统计</h2><p id="paperStatsPeriod" class="paper-rules"></p>
@@ -12,4 +12,5 @@
   <p class="paper-rules">胜率按笔计算：（全赢＋赢半）÷（全赢＋赢半＋输半＋全输），走盘不计。ROI＝已结算净收益÷已结算投入（含走盘）；待结算不参与。仅最新盘口，同盘口赔率优先澳彩 → 皇家 → Bet365；记录方向以所选队伍为准：负数让球、正数受让、0平手。让球按90分钟含补时结算；平手盘按主队/客队选择，打平走盘退回本金。历史版本已确认的投注保留原盘口和赔率，不受此后变盘影响。</p>
   <section class="board"><div class="board-head"><h2>投注记录</h2><span id="paperRecordCount"></span></div><div class="paper-table-wrap"><table class="paper-table"><thead><tr><th>比赛时间（北京时间）</th><th>锁定盘口 / 方向</th><th>投入</th><th>比分 / 结果</th><th>净收益</th></tr></thead><tbody id="paperStatsRecords"></tbody></table></div><nav id="paperStatsPager" class="pagination"></nav></section>
   <h2>投注习惯（全部记录）</h2><p class="paper-rules">基于全部历史投注分类，不受上方日期筛选影响。按确认时的联赛、方向（上下盘或平手主客队）、注码、距开赛时间及信号/万象方向关联统计；关联不代表你实际采用了该依据。原始信号快照与备注未上传，在线页面只读。</p><div id="paperStatsHabits" class="paper-habits"></div>
-</main><script src="./paper-site-data.js?v=2" defer></script><script src="./paper-stats.js?v=15" defer></script></body></html>
+  <p class="paper-rules">历史导入保留原单盘口与香港盘水位，按统一单位重新计算收益；提前兑现按最终90分钟赛果重新结算。同场去重，已有记录不覆盖。历史信号和万象分析缺失单列，不用当前数据补造；单位化复盘收益不等于原账户资金收益。</p>
+</main><script src="./paper-site-data.js?v=2" defer></script><script src="./paper-stats.js?v=16" defer></script></body></html>
