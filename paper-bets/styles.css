@@ -1555,3 +1555,9 @@ select option {
 .paper-habit-scroll .paper-rules { margin:12px; }
 .paper-habit-scroll .paper-table th { position:sticky; top:0; z-index:1; }
 @media(max-width:520px) { .paper-box {margin:0 12px 12px;} .paper-habits {grid-template-columns:1fr;} .paper-box label {width:100%;} .paper-box select {flex:1;max-width:none;} }
+/* Shared Wanxiang production + frozen AH candidate: secondary, not a signal. */
+.parallel-analysis { margin-top: 12px; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; background: #f8fafc; color: #334155; }
+.parallel-heading { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 16px; font-size: 12px; }
+.parallel-heading > span { padding: 3px 8px; border-radius: 5px; background: #e2e8f0; }
+.parallel-gates { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+.parallel-note, .parallel-legacy { color: #64748b; font-size: 12px; }
