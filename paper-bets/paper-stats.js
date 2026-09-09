@@ -7,7 +7,8 @@
   const units=v=>v==null?'—':`${Number(v).toFixed(3).replace(/0+$/,'').replace(/\.$/,'')}`;
   const names={competition:'联赛偏好',role:'投注方向偏好',units:'注码选择',leadTime:'下注时机',signalType:'信号分类（同方向）',signalAlignment:'信号关联',modelAlignment:'万象方向关联'};
   const companyNames={'1':'澳彩','3':'皇家','8':'Bet365'};
-  const recordOrigin=r=>r.recordSource==='history-import'?'历史原单 · '+(r.inPlay?'滚球0–0':'赛前'):(companyNames[r.companyId]||r.companyName)+(r.inPlay?' · 滚球0–0':'');
+  const entryLabel=r=>['home','away'].every(s=>Number.isInteger(r.entryScore?.[s])&&r.entryScore[s]>=0&&r.entryScore[s]<=100)?`滚球${r.entryScore.home}–${r.entryScore.away}`:'滚球0–0';
+  const recordOrigin=r=>r.recordSource==='history-import'?'历史原单 · '+(r.inPlay?entryLabel(r):'赛前'):(companyNames[r.companyId]||r.companyName)+(r.inPlay?' · '+entryLabel(r):'');
   const failedBadgeUrls=new Set();
   function teamBadge(name,url) {
     const trusted=typeof url==='string'&&url.length<=2048&&/^https:\/\/(?:(?:sd|img1)\.qunliao\.info|(?:[a-z0-9-]+\.)*dongqiudi\.com)(?::443)?\/[^\s<>"\\#]+$/i.test(url);
