@@ -1,6 +1,7 @@
 (() => {
   const form=document.querySelector('#paperStatsFilters'),message=document.querySelector('#paperStatsMessage');
   const from=form.elements.namedItem('from'),to=form.elements.namedItem('to');
+  const profitChart=globalThis.PaperProfitChart?.mount(document.querySelector('#paperProfitChart'));
   let offset=0,busy=false,scope='today',today='',requestSeq=0,appliedFilters={from:'',to:''};
   const esc=v=>String(v??'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
   const percent=v=>v==null?'—':`${(v*100).toFixed(1)}%`;
@@ -71,6 +72,7 @@
       const all=data.allTimeSummary;
       document.querySelector('#paperStatsAllTime').innerHTML=all?[['总笔数',all.total],['胜率',percent(all.winRate)],['ROI',percent(all.roi)],['累计净收益（单位）',units(all.profit)]]
         .map(([label,value])=>`<div class="metric"><span>${label}</span><strong>${value}</strong></div>`).join(''):'<p class="paper-rules">历史总览暂不可用，请刷新页面。</p>';
+      profitChart?.update(data.allTimeProfitHistory);
       message.textContent=`全赢 ${s.outcomes.win} · 赢半 ${s.outcomes.half_win} · 走盘 ${s.outcomes.push} · 输半 ${s.outcomes.half_loss} · 全输 ${s.outcomes.loss}；`+(data.exportedAt?`只读快照，数据截至 ${beijingKickoff(data.exportedAt)}（北京时间）；最新结算需从本地再次同步。`:'服务运行时自动结算，证据不足保留待结算。');
       if(data.snapshotMode==='page-only')message.textContent='网页已发布，个人投注数据尚未上传。';
       document.querySelector('#paperRecordCount').textContent=`共 ${data.total} 笔`;

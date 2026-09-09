@@ -1551,6 +1551,33 @@ select option {
 .paper-match-vs { color:var(--muted); font-size:11px; }
 .paper-profit { color:#086044; font-weight:700; }
 .paper-loss { color:var(--red); font-weight:700; }
+.paper-profit-chart { margin-top:18px; min-width:0; }
+.paper-profit-chart h3 { margin:0; font-size:18px; }
+.paper-stats .paper-chart-controls { margin:0; gap:6px; }
+.paper-stats .paper-chart-controls button[aria-pressed="true"] { background:#245da8; border-color:#245da8; color:#fff; }
+.paper-chart-legend { display:flex; align-items:center; flex-wrap:wrap; gap:12px 20px; margin:12px 20px; color:var(--muted); font-size:12px; }
+.paper-profit-chart > .paper-rules { margin:12px 20px; }
+.paper-chart-legend span { display:inline-flex; align-items:center; gap:6px; }
+.paper-legend-line::before { content:""; width:22px; height:3px; background:#245da8; }
+.paper-legend-gain::before,.paper-legend-loss::before { content:""; width:12px; height:12px; border-radius:2px; background:#269675; }
+.paper-legend-loss::before { background:#d66460; }
+.paper-profit-plot { overflow-x:auto; min-width:0; overscroll-behavior-x:contain; scrollbar-gutter:stable; }
+.paper-profit-plot svg { display:block; width:100%; height:300px; }
+.paper-profit-plot text { fill:#64748b; font:11px system-ui,sans-serif; }
+.paper-chart-grid { stroke:#e7edf3; stroke-width:1; }
+.paper-chart-zero { stroke:#94a3b8; stroke-width:1.2; }
+.paper-chart-line { fill:none; stroke:#245da8; stroke-width:2.5; stroke-linecap:round; stroke-linejoin:round; pointer-events:none; }
+.paper-chart-dot { fill:#fff; stroke:#245da8; stroke-width:2; pointer-events:none; }
+.paper-chart-hit { fill:transparent; }
+.paper-chart-bar.gain { fill:#269675; }
+.paper-chart-bar.loss { fill:#d66460; }
+.paper-chart-bar.flat { fill:#94a3b8; }
+.paper-chart-point { cursor:crosshair; outline:none; }
+.paper-chart-point:hover .paper-chart-hit,.paper-chart-point:focus .paper-chart-hit { fill:#245da810; }
+.paper-chart-point:focus .paper-chart-hit { stroke:#245da8; stroke-dasharray:3 3; }
+.paper-profit-plot:focus-visible { outline:2px solid #245da8; outline-offset:2px; }
+.paper-profit-detail { min-height:22px; margin:12px 20px 18px; color:#334155; font-size:13px; line-height:1.7; font-variant-numeric:tabular-nums; }
+.paper-chart-empty { padding:70px 12px; color:var(--muted); text-align:center; }
 .paper-habits { display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:14px; }
 .paper-habit-card { box-sizing:border-box; height:360px; min-width:0; display:flex; flex-direction:column; }
 .paper-habit-card .board-head { flex:none; }

@@ -49,6 +49,7 @@
     const offset=Math.max(0,Number(params.get('offset'))||0),limit=50;
     // Export is already fully sorted by Beijing kickoff before any pagination.
     const data={...snapshot,today,scope,filters:{from,to},summary:summary(rows),
+      allTimeProfitHistory:globalThis.PaperProfitChart?.historyFromRecords(snapshot.records),
       records:rows.slice(offset,offset+limit),total:rows.length,limit,offset};
     return {ok:true,json:async()=>data};
   };
