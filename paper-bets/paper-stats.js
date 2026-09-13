@@ -27,6 +27,12 @@
     const handicap=record.side==='home'?-record.line:record.line;
     return handicap===0?'0':`${handicap>0?'+':''}${handicap}`;
   }
+  function lockedTerms(record) {
+    const legs=Array.isArray(record.betLegs)&&record.betLegs.length>1?record.betLegs:null;
+    if(legs)return `<small>同场合并 · 共 ${esc(record.units)} 单位</small><br>`+legs.map(leg=>
+      `<strong>${esc(record.team)} ${esc(selectedTeamHandicap({...record,line:leg.line}))}</strong> · 水位 ${Number(leg.water).toFixed(2)} · ${esc(leg.units)} 单位`).join('<br>');
+    return `<strong>${esc(record.team)} ${esc(selectedTeamHandicap(record))}</strong> · 水位 ${Number(record.water).toFixed(2)}${record.quoteTs?`<br><small>${esc(record.quoteTs)}</small>`:''}`;
+  }
   const kickoffFormatter=new Intl.DateTimeFormat('zh-CN',{timeZone:'Asia/Shanghai',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hourCycle:'h23'});
   function beijingKickoff(value) {
     if(typeof value!=='string'||!value.trim())return '时间待确认';
@@ -76,7 +82,7 @@
       message.textContent=`全赢 ${s.outcomes.win} · 赢半 ${s.outcomes.half_win} · 走盘 ${s.outcomes.push} · 输半 ${s.outcomes.half_loss} · 全输 ${s.outcomes.loss}；`+(data.exportedAt?`只读快照，数据截至 ${beijingKickoff(data.exportedAt)}（北京时间）；最新结算需从本地再次同步。`:'服务运行时自动结算，证据不足保留待结算。');
       if(data.snapshotMode==='page-only')message.textContent='网页已发布，个人投注数据尚未上传。';
       document.querySelector('#paperRecordCount').textContent=`共 ${data.total} 笔`;
-      document.querySelector('#paperStatsRecords').innerHTML=data.records.map(r=>`<tr><td>${esc(beijingKickoff(r.kickoff))}<div class="paper-match-teams">${teamBadge(r.home,r.homeLogo)}<span class="paper-match-vs">vs</span>${teamBadge(r.away,r.awayLogo)}</div>${esc(r.competition)} · 赛日 ${esc(r.gameDay)}</td><td>${r.marketTiming==='historical'?'旧盘口（已锁定） · ':''}${esc(recordOrigin(r))}<br><strong>${esc(r.team)} ${esc(selectedTeamHandicap(r))}</strong> · 水位 ${Number(r.water).toFixed(2)}${r.quoteTs?`<br><small>${esc(r.quoteTs)}</small>`:''}</td><td>${r.units}单位</td><td>${r.status==='settled'&&Number.isInteger(r.scoreHome)&&Number.isInteger(r.scoreAway)?`${r.scoreHome}-${r.scoreAway} · `:''}${esc(r.resultLabel)}${r.settlementRevisions>1?`<br>比分修订 ${r.settlementRevisions-1} 次`:''}</td><td class="${r.profit>0?'paper-profit':r.profit<0?'paper-loss':''}">${units(r.profit)}</td>${globalThis.paperStatsReadOnly?'':`<td>${esc(r.note||'—')}</td>`}</tr>`).join('')||`<tr><td colspan="${globalThis.paperStatsReadOnly?5:6}">${globalThis.paperStatsReadOnly?'所选赛日没有已同步的模拟投注记录。':'还没有模拟投注记录，请到比赛看板选择赛前让球盘。'}</td></tr>`;
+      document.querySelector('#paperStatsRecords').innerHTML=data.records.map(r=>`<tr><td>${esc(beijingKickoff(r.kickoff))}<div class="paper-match-teams">${teamBadge(r.home,r.homeLogo)}<span class="paper-match-vs">vs</span>${teamBadge(r.away,r.awayLogo)}</div>${esc(r.competition)} · 赛日 ${esc(r.gameDay)}</td><td>${r.marketTiming==='historical'?'旧盘口（已锁定） · ':''}${esc(recordOrigin(r))}<br>${lockedTerms(r)}</td><td>${r.units}单位</td><td>${r.status==='settled'&&Number.isInteger(r.scoreHome)&&Number.isInteger(r.scoreAway)?`${r.scoreHome}-${r.scoreAway} · `:''}${esc(r.resultLabel)}${r.settlementRevisions>1?`<br>结算修订 ${r.settlementRevisions-1} 次`:''}</td><td class="${r.profit>0?'paper-profit':r.profit<0?'paper-loss':''}">${units(r.profit)}</td>${globalThis.paperStatsReadOnly?'':`<td>${esc(r.note||'—')}</td>`}</tr>`).join('')||`<tr><td colspan="${globalThis.paperStatsReadOnly?5:6}">${globalThis.paperStatsReadOnly?'所选赛日没有已同步的模拟投注记录。':'还没有模拟投注记录，请到比赛看板选择赛前让球盘。'}</td></tr>`;
       document.querySelector('#paperStatsPager').innerHTML=`<button data-offset="${Math.max(0,offset-data.limit)}" ${offset===0?'disabled':''}>上一页</button><span>第 ${Math.floor(offset/data.limit)+1} / ${Math.max(1,Math.ceil(data.total/data.limit))} 页</span><button data-offset="${offset+data.limit}" ${offset+data.limit>=data.total?'disabled':''}>下一页</button>`;
       const habits=document.querySelector('#paperStatsHabits');
       const habitsHtml=Object.entries(data.habits).filter(([key])=>Object.hasOwn(names,key)).map(([key,items])=>`<section class="board paper-habit-card"><div class="board-head"><h3>${esc(names[key])}</h3></div>
