@@ -2,14 +2,15 @@
   const form=document.querySelector('#paperStatsFilters'),message=document.querySelector('#paperStatsMessage');
   const from=form.elements.namedItem('from'),to=form.elements.namedItem('to');
   const profitChart=globalThis.PaperProfitChart?.mount(document.querySelector('#paperProfitChart'));
-  let offset=0,busy=false,scope='today',today='',requestSeq=0,appliedFilters={from:'',to:''};
+  const matchBalls=globalThis.PaperMatchBalls?.mount(document.querySelector('#paperMatchBalls'));
+  let offset=0,busy=false,scope='today',today='',requestSeq=0,controller=null,appliedFilters={from:'',to:''};
   const esc=v=>String(v??'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
   const percent=v=>v==null?'—':`${(v*100).toFixed(1)}%`;
   const units=v=>v==null?'—':`${Number(v).toFixed(3).replace(/0+$/,'').replace(/\.$/,'')}`;
-  const names={competition:'联赛偏好',role:'投注方向偏好',units:'注码选择',leadTime:'下注时机',signalType:'信号分类（同方向）',signalAlignment:'信号关联',modelAlignment:'万象方向关联'};
+  const names={primaryBasis:'主依据分类（自选）',competition:'联赛偏好',role:'投注方向偏好',units:'注码选择',leadTime:'下注时机',signalType:'信号分类（同方向）',signalAlignment:'信号关联',modelAlignment:'万象方向关联',trajectoryT30Macau:'T−30颜色关联 · 澳彩',trajectoryT30Royal:'T−30颜色关联 · Royal'};
   const companyNames={'1':'澳彩','3':'皇家','8':'Bet365'};
   const entryLabel=r=>['home','away'].every(s=>Number.isInteger(r.entryScore?.[s])&&r.entryScore[s]>=0&&r.entryScore[s]<=100)?`滚球${r.entryScore.home}–${r.entryScore.away}`:'滚球0–0';
-  const recordOrigin=r=>r.recordSource==='history-import'?'历史原单 · '+(r.inPlay?entryLabel(r):'赛前'):(companyNames[r.companyId]||r.companyName)+(r.inPlay?' · '+entryLabel(r):'');
+  const recordOrigin=r=>r.recordSource==='royal-t10-backfill'?'皇家 T−10 · 信号历史补录（模拟）':r.recordSource==='royal-t10-auto'?'皇家 T−10 · 信号自动记录（模拟）':r.entryTiming==='normalized_initial'?`0–0初始口径 · 自选模拟 · ${companyNames[r.companyId]||r.companyName}`:r.recordSource==='history-import'?'历史原单 · '+(r.inPlay?entryLabel(r):'赛前'):(r.marketTiming==='custom'?'自选盘口 · 手填水位 · 参考':'')+(companyNames[r.companyId]||r.companyName)+(r.inPlay?' · '+entryLabel(r):'');
   const failedBadgeUrls=new Set();
   function teamBadge(name,url) {
     const trusted=typeof url==='string'&&url.length<=2048&&/^https:\/\/(?:(?:sd|img1)\.qunliao\.info|(?:[a-z0-9-]+\.)*dongqiudi\.com)(?::443)?\/[^\s<>"\\#]+$/i.test(url);
@@ -58,15 +59,21 @@
   }
   async function load() {
     const seq=++requestSeq,requestedScope=scope;
+    controller?.abort();
     if(scope==='range'&&!selectedRange()){busy=false;return;}
+    const activeController=new AbortController();controller=activeController;
+    const timeout=setTimeout(()=>activeController.abort(),15000);
     busy=true;
     const params=new URLSearchParams({scope:requestedScope,offset:String(offset)});
     if(requestedScope==='range'){params.set('from',from.value);params.set('to',to.value);}
     message.textContent='正在读取本地模拟投注…';
     try {
-      const response=await (globalThis.paperStatsSource?globalThis.paperStatsSource(params):fetch(`/api/paper-bets?${params}`,{cache:'no-store'})),data=await response.json();
+      const response=await (globalThis.paperStatsSource?globalThis.paperStatsSource(params):fetch(`/api/paper-bets?${params}`,{cache:'no-store',signal:activeController.signal})),data=await response.json();
       if(seq!==requestSeq)return; // A slower previous date must not replace the current selection.
       if (!response.ok) throw new Error(data.error||'统计读取失败');
+      if(requestedScope==='today'&&today&&data.today!==today&&offset) {
+        offset=0;return load(); // New day starts at page one, never at yesterday's offset.
+      }
       today=data.today||today;
       appliedFilters=data.filters||{from:from.value,to:to.value};
       from.value=appliedFilters.from;to.value=appliedFilters.to;
@@ -79,16 +86,18 @@
       document.querySelector('#paperStatsAllTime').innerHTML=all?[['总笔数',all.total],['胜率',percent(all.winRate)],['ROI',percent(all.roi)],['累计净收益（单位）',units(all.profit)]]
         .map(([label,value])=>`<div class="metric"><span>${label}</span><strong>${value}</strong></div>`).join(''):'<p class="paper-rules">历史总览暂不可用，请刷新页面。</p>';
       profitChart?.update(data.allTimeProfitHistory);
+      matchBalls?.update(data.matchBallRecords);
       message.textContent=`全赢 ${s.outcomes.win} · 赢半 ${s.outcomes.half_win} · 走盘 ${s.outcomes.push} · 输半 ${s.outcomes.half_loss} · 全输 ${s.outcomes.loss}；`+(data.exportedAt?`只读快照，数据截至 ${beijingKickoff(data.exportedAt)}（北京时间）；最新结算需从本地再次同步。`:'服务运行时自动结算，证据不足保留待结算。');
       if(data.snapshotMode==='page-only')message.textContent='网页已发布，个人投注数据尚未上传。';
       document.querySelector('#paperRecordCount').textContent=`共 ${data.total} 笔`;
-      document.querySelector('#paperStatsRecords').innerHTML=data.records.map(r=>`<tr><td>${esc(beijingKickoff(r.kickoff))}<div class="paper-match-teams">${teamBadge(r.home,r.homeLogo)}<span class="paper-match-vs">vs</span>${teamBadge(r.away,r.awayLogo)}</div>${esc(r.competition)} · 赛日 ${esc(r.gameDay)}</td><td>${r.marketTiming==='historical'?'旧盘口（已锁定） · ':''}${esc(recordOrigin(r))}<br>${lockedTerms(r)}</td><td>${r.units}单位</td><td>${r.status==='settled'&&Number.isInteger(r.scoreHome)&&Number.isInteger(r.scoreAway)?`${r.scoreHome}-${r.scoreAway} · `:''}${esc(r.resultLabel)}${r.settlementRevisions>1?`<br>结算修订 ${r.settlementRevisions-1} 次`:''}</td><td class="${r.profit>0?'paper-profit':r.profit<0?'paper-loss':''}">${units(r.profit)}</td>${globalThis.paperStatsReadOnly?'':`<td>${esc(r.note||'—')}</td>`}</tr>`).join('')||`<tr><td colspan="${globalThis.paperStatsReadOnly?5:6}">${globalThis.paperStatsReadOnly?'所选赛日没有已同步的模拟投注记录。':'还没有模拟投注记录，请到比赛看板选择赛前让球盘。'}</td></tr>`;
+      document.querySelector('#paperStatsRecords').innerHTML=data.records.map(r=>`<tr><td>${esc(beijingKickoff(r.kickoff))}<div class="paper-match-teams">${teamBadge(r.home,r.homeLogo)}<span class="paper-match-vs">vs</span>${teamBadge(r.away,r.awayLogo)}</div>${esc(r.competition)} · 赛日 ${esc(r.gameDay)}</td><td>${r.marketTiming==='historical'?'旧盘口（已锁定） · ':''}${esc(recordOrigin(r))}<br>${lockedTerms(r)}</td><td>${r.units}单位</td><td>${r.status==='settled'&&Number.isInteger(r.scoreHome)&&Number.isInteger(r.scoreAway)?`${r.scoreHome}-${r.scoreAway} · `:''}${esc(r.resultLabel)}${r.settlementRevisions>1?`<br>结算修订 ${r.settlementRevisions-1} 次`:''}</td><td class="${r.profit>0?'paper-profit':r.profit<0?'paper-loss':''}">${units(r.profit)}</td>${globalThis.paperStatsReadOnly?'':`<td>${[r.note,r.riskNote?'反向风险：'+r.riskNote:'',r.stakeReason?'加注理由：'+r.stakeReason:''].filter(Boolean).map(esc).join('<br>')||'—'}</td>`}</tr>`).join('')||`<tr><td colspan="${globalThis.paperStatsReadOnly?5:6}">${globalThis.paperStatsReadOnly?'所选赛日没有已同步的模拟投注记录。':'还没有模拟投注记录，请到比赛看板选择赛前让球盘。'}</td></tr>`;
       document.querySelector('#paperStatsPager').innerHTML=`<button data-offset="${Math.max(0,offset-data.limit)}" ${offset===0?'disabled':''}>上一页</button><span>第 ${Math.floor(offset/data.limit)+1} / ${Math.max(1,Math.ceil(data.total/data.limit))} 页</span><button data-offset="${offset+data.limit}" ${offset+data.limit>=data.total?'disabled':''}>下一页</button>`;
       const habits=document.querySelector('#paperStatsHabits');
       const habitsHtml=Object.entries(data.habits).filter(([key])=>Object.hasOwn(names,key)).map(([key,items])=>`<section class="board paper-habit-card"><div class="board-head"><h3>${esc(names[key])}</h3></div>
         <div class="paper-habit-scroll" data-habit="${esc(key)}" tabindex="0" role="region" aria-label="${esc(names[key])}，可上下左右滚动">
         ${key==='signalType'?`<p class="paper-rules">${esc(data.rules?.signalType||'按确认时同方向信号分类；同笔同类去重，多个类型可重叠；待结算不参与胜率和ROI。')}</p>`:''}
         ${key==='signalAlignment'?`<p class="paper-rules">${esc(data.rules?.signalAlignment||'仅同向、仅反向、双方均有、无有效方向信号互斥分组；胜率和ROI按你的投注结果计算。')}</p>`:''}
+        ${key.startsWith('trajectoryT30')?`<p class="paper-rules">${esc(data.trajectoryT30Rule||'按冻结T−30评分比较投注球队；下注后生成单列事后参考，不同盘口另标。颜色不是胜率；胜率及ROI按实际投注结果计算。')}</p>`:''}
         <table class="paper-table"><thead><tr><th>类别</th><th>笔数 / 单位</th><th>已结算</th><th>胜率</th><th>ROI</th></tr></thead><tbody>${items.map(r=>`<tr><td>${esc(r.label)}</td><td>${r.total} / ${r.placedUnits}</td><td>${r.settled}</td><td>${percent(r.winRate)}</td><td>${percent(r.roi)}</td></tr>`).join('')||'<tr><td colspan="5">暂无记录</td></tr>'}</tbody></table></div></section>`).join('');
       // Keep untouched cards in place; changed totals must not reset the reader's scroll positions.
       if(habits.innerHTML!==habitsHtml) {
@@ -99,7 +108,8 @@
           if(position){el.scrollTop=position.top;el.scrollLeft=position.left;}
         }
       }
-    } catch (error) {if(seq===requestSeq)message.textContent=error.message;} finally {if(seq===requestSeq)busy=false;}
+    } catch (error) {if(seq===requestSeq)message.textContent=error.name==='AbortError'?'统计读取超时，稍后自动重试':error.message;}
+    finally {clearTimeout(timeout);if(seq===requestSeq){busy=false;controller=null;}}
   }
   form.addEventListener('submit',event=>{event.preventDefault();
     if(!(scope==='all'&&!from.value&&!to.value)&&!(scope==='today'&&from.value===today&&to.value===today))scope='range';
@@ -120,5 +130,7 @@
   document.querySelector('#paperStatsToday').addEventListener('click',()=>{scope='today';offset=0;return load();});
   document.querySelector('#paperStatsAll').addEventListener('click',()=>{scope='all';from.value='';to.value='';offset=0;return load();});
   document.querySelector('#paperStatsPager').addEventListener('click',event=>{const b=event.target.closest('button[data-offset]');if(b&&!b.disabled&&!busy){offset=Number(b.dataset.offset);load();}});
+  document.addEventListener?.('visibilitychange',()=>{if(!document.hidden)return load();});
+  globalThis.addEventListener?.('pageshow',event=>{if(event.persisted)return load();});
   setInterval(()=>{if(!document.hidden&&!busy)return load();},30000);load();
 })();

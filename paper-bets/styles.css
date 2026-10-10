@@ -22,6 +22,11 @@
   --sans: Inter, "PingFang SC", "Microsoft YaHei", sans-serif;
 }
 
+.dashboard-nav { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+.dashboard-nav a { display: inline-block; padding: 10px 16px; border: 1px solid var(--line); border-radius: 9px; background: #fff; color: var(--muted); text-decoration: none; font-weight: 600; font-size: 14px; }
+.dashboard-nav a:hover, .dashboard-nav a.is-on { background: var(--mint-dim); border-color: var(--line-strong); color: var(--mint); }
+.dashboard-nav a:focus-visible { outline: 2px solid var(--mint); outline-offset: 3px; }
+
 * {
   box-sizing: border-box;
 }
@@ -1188,6 +1193,50 @@ select option {
   overflow-wrap: anywhere;
 }
 
+.favorite-btn {
+  display: block;
+  margin-top: 7px;
+  min-height: 30px;
+  padding: 4px 7px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: #fff;
+  color: var(--muted);
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.favorite-btn:hover:not(:disabled),
+.favorite-btn.is-favorite {
+  color: #805000;
+  border-color: #dcb968;
+  background: #fff4d8;
+}
+
+.favorite-btn:focus-visible,
+#favoriteFilters button:focus-visible {
+  outline: 2px solid #245da8;
+  outline-offset: 2px;
+}
+
+.favorite-btn:disabled { opacity: .5; cursor: not-allowed; }
+.favorite-message { margin: 10px 2px; color: var(--muted); font-size: 12px; }
+.favorite-message.is-error { color: #b42318; }
+.follow-teams-dialog { width:min(600px,calc(100% - 32px)); max-height:85vh; overflow:auto; padding:22px; border:1px solid var(--line); border-radius:14px; color:var(--text); background:#fff; }
+.follow-teams-dialog::backdrop { background:rgba(19,34,46,.35); }
+.follow-teams-dialog header { display:flex; align-items:center; justify-content:space-between; gap:16px; }
+.follow-teams-dialog h2 { margin:0; font-size:20px; }
+.follow-teams-dialog p,.follow-teams-dialog small { color:var(--muted); font-size:12px; line-height:1.7; }
+#followTeamsSearch { box-sizing:border-box; width:100%; padding:10px; border:1px solid var(--line); border-radius:8px; }
+#followTeamsList { list-style:none; padding:0; margin:12px 0; height:320px; overflow-y:auto; overscroll-behavior:contain; }
+#followTeamsList li { display:flex; justify-content:space-between; align-items:center; gap:12px; padding:10px 2px; border-bottom:1px solid var(--line); }
+#followTeamsList li div { min-width:0; overflow-wrap:anywhere; }
+#followTeamsList small { display:block; }
+#followTeamsList button { flex-shrink:0; }
+#followTeamsList .is-followed { color:#805000; background:#fff4d8; }
+#followTeamsMessage.is-error { color:#b42318; }
+.follow-teams-dialog button:focus-visible,#followTeamsSearch:focus-visible { outline:2px solid #245da8; outline-offset:2px; }
+
 .expand-btn {
   display: grid;
   width: 30px;
@@ -1517,6 +1566,18 @@ select option {
 .paper-action:disabled { opacity:.45; cursor:default; }
 .paper-dialog { width:min(520px,calc(100% - 32px)); border:1px solid #bccdde; border-radius:12px; padding:24px; color:var(--text); background:white; }
 .paper-dialog::backdrop { background:rgba(19,34,46,.35); }
+.paper-dialog { max-height:calc(100dvh - 40px); overflow-y:auto; box-sizing:border-box; }
+.paper-review { margin-top:18px; padding:14px; border:1px solid #d5dfdd; border-radius:10px; background:#f5f8f7; }
+.paper-review h3 { margin:0 0 8px; font-size:16px; }
+.paper-review ol { padding-left:22px; margin:8px 0; }
+.paper-review li { margin:7px 0; }
+.paper-review-warning { color:#8a4b13; }
+.paper-review-footnote { color:#59686c; font-size:12px; }
+.paper-review-scroll { overflow-x:auto; }
+.paper-review table { width:100%; border-collapse:collapse; font-size:12px; }
+.paper-review td,.paper-review th { padding:7px; text-align:left; vertical-align:top; border-bottom:1px solid #d5dfdd; }
+.paper-review summary { cursor:pointer; color:#245da8; }
+.paper-dialog-actions { position:sticky; bottom:-24px; background:white; padding:12px 0; }
 .paper-dialog h2 { margin-top:0; }
 .paper-confirm-content { font-size:14px; line-height:1.7; overflow-wrap:anywhere; }
 .paper-confirm-message { color:#835514; font-size:12px; line-height:1.6; }
