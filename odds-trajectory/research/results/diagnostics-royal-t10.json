@@ -1,0 +1,124 @@
+{
+ "pairAgreementOverall": {
+  "agree": 0.5076,
+  "n": 228155
+ },
+ "agreementBySimilarity": {
+  "(-0.1, 50.0]": {
+   "agree": 0.507,
+   "n": 95299
+  },
+  "(50.0, 70.0]": {
+   "agree": 0.5075,
+   "n": 119333
+  },
+  "(70.0, 85.0]": {
+   "agree": 0.5125,
+   "n": 12118
+  },
+  "(85.0, 95.0]": {
+   "agree": 0.5214,
+   "n": 959
+  },
+  "(95.0, 100.0]": {
+   "agree": 0.5359,
+   "n": 446
+  }
+ },
+ "agreementByGroup": {
+  "approx": {
+   "agree": 0.5077,
+   "n": 196731
+  },
+  "strict": {
+   "agree": 0.5073,
+   "n": 31424
+  }
+ },
+ "agreementByPastMark": {
+  "(-0.01, 0.3]": {
+   "agree": 0.4189,
+   "n": 3595
+  },
+  "(0.3, 0.45]": {
+   "agree": 0.4639,
+   "n": 42799
+  },
+  "(0.45, 0.55]": {
+   "agree": 0.5042,
+   "n": 73420
+  },
+  "(0.55, 0.7]": {
+   "agree": 0.5484,
+   "n": 49076
+  },
+  "(0.7, 1.01]": {
+   "agree": 0.5902,
+   "n": 5286
+  }
+ },
+ "agreementByV1AndMark": {
+  "(False, Interval(-0.01, 0.45, closed='right'))": {
+   "agree": 0.4461,
+   "n": 35244
+  },
+  "(False, Interval(0.45, 0.55, closed='right'))": {
+   "agree": 0.4611,
+   "n": 31906
+  },
+  "(False, Interval(0.55, 1.01, closed='right'))": {
+   "agree": 0.5124,
+   "n": 7636
+  },
+  "(True, Interval(-0.01, 0.45, closed='right'))": {
+   "agree": 0.5057,
+   "n": 11150
+  },
+  "(True, Interval(0.45, 0.55, closed='right'))": {
+   "agree": 0.5374,
+   "n": 41514
+  },
+  "(True, Interval(0.55, 1.01, closed='right'))": {
+   "agree": 0.559,
+   "n": 46726
+  }
+ },
+ "highMarkSameAsV1Share": 0.8595,
+ "lowMarkSameAsV1Share": 0.2403,
+ "pickWinLogitOnDev": {
+  "const": 0.0893,
+  "logitMarketPick": 1.175,
+  "v1Strength": -0.5784,
+  "log1pEffectiveN": 0.0058
+ },
+ "evFilter": {
+  "dev": {
+   "-1": {
+    "N": 6632,
+    "roi": -0.028
+   },
+   "0": {
+    "N": 2472,
+    "roi": -0.0071
+   },
+   "0.02": {
+    "N": 79,
+    "roi": -0.0318
+   }
+  },
+  "holdout": {
+   "-1": {
+    "N": 5619,
+    "roi": -0.0446
+   },
+   "0": {
+    "N": 2225,
+    "roi": -0.0434
+   },
+   "0.02": {
+    "N": 207,
+    "roi": -0.0387
+   }
+  }
+ }
+}

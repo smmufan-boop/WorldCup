@@ -1,0 +1,1207 @@
+{
+ "windows": {
+  "dev": [
+   "2026-02-01",
+   "2026-08-01"
+  ],
+  "holdout": [
+   "2026-08-01",
+   "2026-10-13"
+  ]
+ },
+ "variants": [
+  {
+   "name": "V1 (replay)",
+   "params": {},
+   "dev": {
+    "N": 6632,
+    "winRate": 0.5252,
+    "marketImplied": 0.5041,
+    "roi": -0.028,
+    "roiSE": 0.0106
+   },
+   "devFirstTier": {
+    "N": 2009,
+    "winRate": 0.5265,
+    "marketImplied": 0.5023,
+    "roi": -0.0129,
+    "roiSE": 0.0194
+   },
+   "holdout": {
+    "N": 5616,
+    "winRate": 0.5223,
+    "marketImplied": 0.5059,
+    "roi": -0.0449,
+    "roiSE": 0.0115
+   },
+   "holdoutFirstTier": {
+    "N": 1765,
+    "winRate": 0.53,
+    "marketImplied": 0.5037,
+    "roi": -0.0171,
+    "roiSE": 0.0206
+   }
+  },
+  {
+   "name": "V1 + instance marks",
+   "params": {
+    "prior": 5,
+    "gamma": 0.5,
+    "prune": false
+   },
+   "dev": {
+    "N": 6637,
+    "winRate": 0.5239,
+    "marketImplied": 0.5045,
+    "roi": -0.0316,
+    "roiSE": 0.0106
+   },
+   "devFirstTier": {
+    "N": 2010,
+    "winRate": 0.5193,
+    "marketImplied": 0.5027,
+    "roi": -0.0271,
+    "roiSE": 0.0194
+   },
+   "holdout": {
+    "N": 5619,
+    "winRate": 0.5263,
+    "marketImplied": 0.5068,
+    "roi": -0.0434,
+    "roiSE": 0.0114
+   },
+   "holdoutFirstTier": {
+    "N": 1766,
+    "winRate": 0.5303,
+    "marketImplied": 0.5044,
+    "roi": -0.0187,
+    "roiSE": 0.0205
+   }
+  },
+  {
+   "name": "V1 + instance marks",
+   "params": {
+    "prior": 5,
+    "gamma": 0.5,
+    "prune": true
+   },
+   "dev": {
+    "N": 6637,
+    "winRate": 0.5236,
+    "marketImplied": 0.5045,
+    "roi": -0.0321,
+    "roiSE": 0.0106
+   },
+   "devFirstTier": {
+    "N": 2010,
+    "winRate": 0.5193,
+    "marketImplied": 0.5027,
+    "roi": -0.0271,
+    "roiSE": 0.0194
+   },
+   "holdout": {
+    "N": 5617,
+    "winRate": 0.5265,
+    "marketImplied": 0.5068,
+    "roi": -0.043,
+    "roiSE": 0.0114
+   },
+   "holdoutFirstTier": {
+    "N": 1766,
+    "winRate": 0.5303,
+    "marketImplied": 0.5044,
+    "roi": -0.0187,
+    "roiSE": 0.0205
+   }
+  },
+  {
+   "name": "V1 + instance marks",
+   "params": {
+    "prior": 5,
+    "gamma": 1,
+    "prune": false
+   },
+   "dev": {
+    "N": 6637,
+    "winRate": 0.5252,
+    "marketImplied": 0.5048,
+    "roi": -0.0304,
+    "roiSE": 0.0106
+   },
+   "devFirstTier": {
+    "N": 2010,
+    "winRate": 0.5204,
+    "marketImplied": 0.503,
+    "roi": -0.0264,
+    "roiSE": 0.0193
+   },
+   "holdout": {
+    "N": 5619,
+    "winRate": 0.5292,
+    "marketImplied": 0.5072,
+    "roi": -0.0414,
+    "roiSE": 0.0114
+   },
+   "holdoutFirstTier": {
+    "N": 1766,
+    "winRate": 0.5364,
+    "marketImplied": 0.5047,
+    "roi": -0.012,
+    "roiSE": 0.0205
+   }
+  },
+  {
+   "name": "V1 + instance marks",
+   "params": {
+    "prior": 5,
+    "gamma": 1,
+    "prune": true
+   },
+   "dev": {
+    "N": 6637,
+    "winRate": 0.5251,
+    "marketImplied": 0.5049,
+    "roi": -0.0307,
+    "roiSE": 0.0106
+   },
+   "devFirstTier": {
+    "N": 2010,
+    "winRate": 0.5204,
+    "marketImplied": 0.503,
+    "roi": -0.0264,
+    "roiSE": 0.0193
+   },
+   "holdout": {
+    "N": 5617,
+    "winRate": 0.5296,
+    "marketImplied": 0.5072,
+    "roi": -0.0409,
+    "roiSE": 0.0114
+   },
+   "holdoutFirstTier": {
+    "N": 1766,
+    "winRate": 0.5364,
+    "marketImplied": 0.5047,
+    "roi": -0.012,
+    "roiSE": 0.0205
+   }
+  },
+  {
+   "name": "V1 + instance marks",
+   "params": {
+    "prior": 5,
+    "gamma": 2,
+    "prune": false
+   },
+   "dev": {
+    "N": 6637,
+    "winRate": 0.5223,
+    "marketImplied": 0.5052,
+    "roi": -0.0369,
+    "roiSE": 0.0106
+   },
+   "devFirstTier": {
+    "N": 2010,
+    "winRate": 0.5188,
+    "marketImplied": 0.5033,
+    "roi": -0.0312,
+    "roiSE": 0.0193
+   },
+   "holdout": {
+    "N": 5619,
+    "winRate": 0.5277,
+    "marketImplied": 0.5073,
+    "roi": -0.0458,
+    "roiSE": 0.0114
+   },
+   "holdoutFirstTier": {
+    "N": 1766,
+    "winRate": 0.5339,
+    "marketImplied": 0.505,
+    "roi": -0.0185,
+    "roiSE": 0.0205
+   }
+  },
+  {
+   "name": "V1 + instance marks",
+   "params": {
+    "prior": 5,
+    "gamma": 2,
+    "prune": true
+   },
+   "dev": {
+    "N": 6637,
+    "winRate": 0.5223,
+    "marketImplied": 0.5052,
+    "roi": -0.0369,
+    "roiSE": 0.0106
+   },
+   "devFirstTier": {
+    "N": 2010,
+    "winRate": 0.5188,
+    "marketImplied": 0.5033,
+    "roi": -0.0312,
+    "roiSE": 0.0193
+   },
+   "holdout": {
+    "N": 5617,
+    "winRate": 0.5279,
+    "marketImplied": 0.5073,
+    "roi": -0.0455,
+    "roiSE": 0.0114
+   },
+   "holdoutFirstTier": {
+    "N": 1766,
+    "winRate": 0.5339,
+    "marketImplied": 0.505,
+    "roi": -0.0185,
+    "roiSE": 0.0205
+   }
+  },
+  {
+   "name": "V1 + instance marks",
+   "params": {
+    "prior": 10,
+    "gamma": 0.5,
+    "prune": false
+   },
+   "dev": {
+    "N": 6637,
+    "winRate": 0.5231,
+    "marketImplied": 0.5043,
+    "roi": -0.032,
+    "roiSE": 0.0106
+   },
+   "devFirstTier": {
+    "N": 2010,
+    "winRate": 0.5209,
+    "marketImplied": 0.5025,
+    "roi": -0.0234,
+    "roiSE": 0.0194
+   },
+   "holdout": {
+    "N": 5619,
+    "winRate": 0.5259,
+    "marketImplied": 0.5066,
+    "roi": -0.0424,
+    "roiSE": 0.0114
+   },
+   "holdoutFirstTier": {
+    "N": 1766,
+    "winRate": 0.5309,
+    "marketImplied": 0.5044,
+    "roi": -0.0171,
+    "roiSE": 0.0205
+   }
+  },
+  {
+   "name": "V1 + instance marks",
+   "params": {
+    "prior": 10,
+    "gamma": 0.5,
+    "prune": true
+   },
+   "dev": {
+    "N": 6637,
+    "winRate": 0.5231,
+    "marketImplied": 0.5044,
+    "roi": -0.0319,
+    "roiSE": 0.0106
+   },
+   "devFirstTier": {
+    "N": 2010,
+    "winRate": 0.5209,
+    "marketImplied": 0.5025,
+    "roi": -0.0234,
+    "roiSE": 0.0194
+   },
+   "holdout": {
+    "N": 5617,
+    "winRate": 0.5258,
+    "marketImplied": 0.5067,
+    "roi": -0.0428,
+    "roiSE": 0.0114
+   },
+   "holdoutFirstTier": {
+    "N": 1766,
+    "winRate": 0.5309,
+    "marketImplied": 0.5044,
+    "roi": -0.0171,
+    "roiSE": 0.0205
+   }
+  },
+  {
+   "name": "V1 + instance marks",
+   "params": {
+    "prior": 10,
+    "gamma": 1,
+    "prune": false
+   },
+   "dev": {
+    "N": 6637,
+    "winRate": 0.5255,
+    "marketImplied": 0.5046,
+    "roi": -0.0293,
+    "roiSE": 0.0106
+   },
+   "devFirstTier": {
+    "N": 2010,
+    "winRate": 0.523,
+    "marketImplied": 0.5028,
+    "roi": -0.0207,
+    "roiSE": 0.0193
+   },
+   "holdout": {
+    "N": 5619,
+    "winRate": 0.5284,
+    "marketImplied": 0.5069,
+    "roi": -0.0409,
+    "roiSE": 0.0114
+   },
+   "holdoutFirstTier": {
+    "N": 1766,
+    "winRate": 0.5297,
+    "marketImplied": 0.5045,
+    "roi": -0.0205,
+    "roiSE": 0.0205
+   }
+  },
+  {
+   "name": "V1 + instance marks",
+   "params": {
+    "prior": 10,
+    "gamma": 1,
+    "prune": true
+   },
+   "dev": {
+    "N": 6637,
+    "winRate": 0.5255,
+    "marketImplied": 0.5047,
+    "roi": -0.0295,
+    "roiSE": 0.0106
+   },
+   "devFirstTier": {
+    "N": 2010,
+    "winRate": 0.523,
+    "marketImplied": 0.5028,
+    "roi": -0.0207,
+    "roiSE": 0.0193
+   },
+   "holdout": {
+    "N": 5617,
+    "winRate": 0.5288,
+    "marketImplied": 0.507,
+    "roi": -0.0406,
+    "roiSE": 0.0114
+   },
+   "holdoutFirstTier": {
+    "N": 1766,
+    "winRate": 0.5309,
+    "marketImplied": 0.5045,
+    "roi": -0.0195,
+    "roiSE": 0.0205
+   }
+  },
+  {
+   "name": "V1 + instance marks",
+   "params": {
+    "prior": 10,
+    "gamma": 2,
+    "prune": false
+   },
+   "dev": {
+    "N": 6637,
+    "winRate": 0.5236,
+    "marketImplied": 0.5049,
+    "roi": -0.0332,
+    "roiSE": 0.0106
+   },
+   "devFirstTier": {
+    "N": 2010,
+    "winRate": 0.5198,
+    "marketImplied": 0.503,
+    "roi": -0.0269,
+    "roiSE": 0.0193
+   },
+   "holdout": {
+    "N": 5619,
+    "winRate": 0.5309,
+    "marketImplied": 0.5073,
+    "roi": -0.0392,
+    "roiSE": 0.0114
+   },
+   "holdoutFirstTier": {
+    "N": 1766,
+    "winRate": 0.5376,
+    "marketImplied": 0.505,
+    "roi": -0.0102,
+    "roiSE": 0.0205
+   }
+  },
+  {
+   "name": "V1 + instance marks",
+   "params": {
+    "prior": 10,
+    "gamma": 2,
+    "prune": true
+   },
+   "dev": {
+    "N": 6637,
+    "winRate": 0.5234,
+    "marketImplied": 0.5049,
+    "roi": -0.0335,
+    "roiSE": 0.0106
+   },
+   "devFirstTier": {
+    "N": 2010,
+    "winRate": 0.5198,
+    "marketImplied": 0.503,
+    "roi": -0.0269,
+    "roiSE": 0.0193
+   },
+   "holdout": {
+    "N": 5617,
+    "winRate": 0.5311,
+    "marketImplied": 0.5073,
+    "roi": -0.0389,
+    "roiSE": 0.0114
+   },
+   "holdoutFirstTier": {
+    "N": 1766,
+    "winRate": 0.5376,
+    "marketImplied": 0.505,
+    "roi": -0.0102,
+    "roiSE": 0.0205
+   }
+  },
+  {
+   "name": "V1 + instance marks",
+   "params": {
+    "prior": 20,
+    "gamma": 0.5,
+    "prune": false
+   },
+   "dev": {
+    "N": 6637,
+    "winRate": 0.5247,
+    "marketImplied": 0.5042,
+    "roi": -0.0292,
+    "roiSE": 0.0106
+   },
+   "devFirstTier": {
+    "N": 2010,
+    "winRate": 0.5236,
+    "marketImplied": 0.5024,
+    "roi": -0.0178,
+    "roiSE": 0.0194
+   },
+   "holdout": {
+    "N": 5619,
+    "winRate": 0.5246,
+    "marketImplied": 0.5065,
+    "roi": -0.0437,
+    "roiSE": 0.0114
+   },
+   "holdoutFirstTier": {
+    "N": 1766,
+    "winRate": 0.5297,
+    "marketImplied": 0.5043,
+    "roi": -0.019,
+    "roiSE": 0.0206
+   }
+  },
+  {
+   "name": "V1 + instance marks",
+   "params": {
+    "prior": 20,
+    "gamma": 0.5,
+    "prune": true
+   },
+   "dev": {
+    "N": 6637,
+    "winRate": 0.5242,
+    "marketImplied": 0.5043,
+    "roi": -0.0301,
+    "roiSE": 0.0106
+   },
+   "devFirstTier": {
+    "N": 2010,
+    "winRate": 0.523,
+    "marketImplied": 0.5024,
+    "roi": -0.0189,
+    "roiSE": 0.0194
+   },
+   "holdout": {
+    "N": 5617,
+    "winRate": 0.525,
+    "marketImplied": 0.5066,
+    "roi": -0.0431,
+    "roiSE": 0.0114
+   },
+   "holdoutFirstTier": {
+    "N": 1766,
+    "winRate": 0.5309,
+    "marketImplied": 0.5043,
+    "roi": -0.0168,
+    "roiSE": 0.0206
+   }
+  },
+  {
+   "name": "V1 + instance marks",
+   "params": {
+    "prior": 20,
+    "gamma": 1,
+    "prune": false
+   },
+   "dev": {
+    "N": 6637,
+    "winRate": 0.523,
+    "marketImplied": 0.5044,
+    "roi": -0.0324,
+    "roiSE": 0.0106
+   },
+   "devFirstTier": {
+    "N": 2010,
+    "winRate": 0.5209,
+    "marketImplied": 0.5025,
+    "roi": -0.0234,
+    "roiSE": 0.0194
+   },
+   "holdout": {
+    "N": 5619,
+    "winRate": 0.5267,
+    "marketImplied": 0.5066,
+    "roi": -0.0419,
+    "roiSE": 0.0114
+   },
+   "holdoutFirstTier": {
+    "N": 1766,
+    "winRate": 0.5303,
+    "marketImplied": 0.5044,
+    "roi": -0.0181,
+    "roiSE": 0.0205
+   }
+  },
+  {
+   "name": "V1 + instance marks",
+   "params": {
+    "prior": 20,
+    "gamma": 1,
+    "prune": true
+   },
+   "dev": {
+    "N": 6637,
+    "winRate": 0.5228,
+    "marketImplied": 0.5044,
+    "roi": -0.0326,
+    "roiSE": 0.0106
+   },
+   "devFirstTier": {
+    "N": 2010,
+    "winRate": 0.5209,
+    "marketImplied": 0.5025,
+    "roi": -0.0234,
+    "roiSE": 0.0194
+   },
+   "holdout": {
+    "N": 5617,
+    "winRate": 0.5265,
+    "marketImplied": 0.5067,
+    "roi": -0.0423,
+    "roiSE": 0.0114
+   },
+   "holdoutFirstTier": {
+    "N": 1766,
+    "winRate": 0.5303,
+    "marketImplied": 0.5044,
+    "roi": -0.0181,
+    "roiSE": 0.0205
+   }
+  },
+  {
+   "name": "V1 + instance marks",
+   "params": {
+    "prior": 20,
+    "gamma": 2,
+    "prune": false
+   },
+   "dev": {
+    "N": 6637,
+    "winRate": 0.5257,
+    "marketImplied": 0.5047,
+    "roi": -0.0292,
+    "roiSE": 0.0106
+   },
+   "devFirstTier": {
+    "N": 2010,
+    "winRate": 0.5225,
+    "marketImplied": 0.5028,
+    "roi": -0.0217,
+    "roiSE": 0.0193
+   },
+   "holdout": {
+    "N": 5619,
+    "winRate": 0.5292,
+    "marketImplied": 0.507,
+    "roi": -0.0403,
+    "roiSE": 0.0114
+   },
+   "holdoutFirstTier": {
+    "N": 1766,
+    "winRate": 0.5327,
+    "marketImplied": 0.5047,
+    "roi": -0.017,
+    "roiSE": 0.0205
+   }
+  },
+  {
+   "name": "V1 + instance marks",
+   "params": {
+    "prior": 20,
+    "gamma": 2,
+    "prune": true
+   },
+   "dev": {
+    "N": 6637,
+    "winRate": 0.5255,
+    "marketImplied": 0.5048,
+    "roi": -0.0295,
+    "roiSE": 0.0106
+   },
+   "devFirstTier": {
+    "N": 2010,
+    "winRate": 0.5225,
+    "marketImplied": 0.5028,
+    "roi": -0.0217,
+    "roiSE": 0.0193
+   },
+   "holdout": {
+    "N": 5617,
+    "winRate": 0.5296,
+    "marketImplied": 0.5071,
+    "roi": -0.0397,
+    "roiSE": 0.0114
+   },
+   "holdoutFirstTier": {
+    "N": 1766,
+    "winRate": 0.5327,
+    "marketImplied": 0.5047,
+    "roi": -0.017,
+    "roiSE": 0.0205
+   }
+  },
+  {
+   "name": "V1 + pattern gate",
+   "params": {
+    "gatePrior": 10,
+    "threshold": 0.52
+   },
+   "dev": {
+    "N": 2441,
+    "winRate": 0.5219,
+    "marketImplied": 0.5042,
+    "roi": -0.0496,
+    "roiSE": 0.018
+   },
+   "devFirstTier": {
+    "N": 706,
+    "winRate": 0.5453,
+    "marketImplied": 0.5031,
+    "roi": -0.0002,
+    "roiSE": 0.0336
+   },
+   "holdout": {
+    "N": 2455,
+    "winRate": 0.5303,
+    "marketImplied": 0.5087,
+    "roi": -0.0488,
+    "roiSE": 0.0177
+   },
+   "holdoutFirstTier": {
+    "N": 762,
+    "winRate": 0.5262,
+    "marketImplied": 0.5054,
+    "roi": -0.0355,
+    "roiSE": 0.0325
+   }
+  },
+  {
+   "name": "instance + pattern gate",
+   "params": {
+    "gatePrior": 10,
+    "threshold": 0.52,
+    "prior": 20,
+    "gamma": 0.5,
+    "prune": false
+   },
+   "dev": {
+    "N": 2441,
+    "winRate": 0.5211,
+    "marketImplied": 0.5043,
+    "roi": -0.0513,
+    "roiSE": 0.018
+   },
+   "devFirstTier": {
+    "N": 706,
+    "winRate": 0.5411,
+    "marketImplied": 0.5032,
+    "roi": -0.0073,
+    "roiSE": 0.0336
+   },
+   "holdout": {
+    "N": 2455,
+    "winRate": 0.5336,
+    "marketImplied": 0.5091,
+    "roi": -0.0467,
+    "roiSE": 0.0177
+   },
+   "holdoutFirstTier": {
+    "N": 762,
+    "winRate": 0.5249,
+    "marketImplied": 0.506,
+    "roi": -0.0404,
+    "roiSE": 0.0324
+   }
+  },
+  {
+   "name": "V1 + pattern gate",
+   "params": {
+    "gatePrior": 10,
+    "threshold": 0.55
+   },
+   "dev": {
+    "N": 1026,
+    "winRate": 0.5234,
+    "marketImplied": 0.5057,
+    "roi": -0.0541,
+    "roiSE": 0.0278
+   },
+   "devFirstTier": {
+    "N": 297,
+    "winRate": 0.5522,
+    "marketImplied": 0.5042,
+    "roi": 0.0114,
+    "roiSE": 0.0521
+   },
+   "holdout": {
+    "N": 1053,
+    "winRate": 0.5356,
+    "marketImplied": 0.5112,
+    "roi": -0.0543,
+    "roiSE": 0.0267
+   },
+   "holdoutFirstTier": {
+    "N": 355,
+    "winRate": 0.5211,
+    "marketImplied": 0.506,
+    "roi": -0.0472,
+    "roiSE": 0.0472
+   }
+  },
+  {
+   "name": "instance + pattern gate",
+   "params": {
+    "gatePrior": 10,
+    "threshold": 0.55,
+    "prior": 20,
+    "gamma": 0.5,
+    "prune": false
+   },
+   "dev": {
+    "N": 1026,
+    "winRate": 0.5214,
+    "marketImplied": 0.5057,
+    "roi": -0.0588,
+    "roiSE": 0.0278
+   },
+   "devFirstTier": {
+    "N": 297,
+    "winRate": 0.5455,
+    "marketImplied": 0.5044,
+    "roi": -0.002,
+    "roiSE": 0.0521
+   },
+   "holdout": {
+    "N": 1053,
+    "winRate": 0.5394,
+    "marketImplied": 0.5117,
+    "roi": -0.0496,
+    "roiSE": 0.0267
+   },
+   "holdoutFirstTier": {
+    "N": 355,
+    "winRate": 0.5296,
+    "marketImplied": 0.5073,
+    "roi": -0.0328,
+    "roiSE": 0.0471
+   }
+  },
+  {
+   "name": "V1 + pattern gate",
+   "params": {
+    "gatePrior": 10,
+    "threshold": 0.58
+   },
+   "dev": {
+    "N": 373,
+    "winRate": 0.5469,
+    "marketImplied": 0.5061,
+    "roi": -0.0146,
+    "roiSE": 0.0463
+   },
+   "devFirstTier": {
+    "N": 111,
+    "winRate": 0.5586,
+    "marketImplied": 0.5025,
+    "roi": 0.0377,
+    "roiSE": 0.0875
+   },
+   "holdout": {
+    "N": 412,
+    "winRate": 0.5388,
+    "marketImplied": 0.5114,
+    "roi": -0.0484,
+    "roiSE": 0.0423
+   },
+   "holdoutFirstTier": {
+    "N": 141,
+    "winRate": 0.5248,
+    "marketImplied": 0.5078,
+    "roi": -0.0544,
+    "roiSE": 0.0733
+   }
+  },
+  {
+   "name": "instance + pattern gate",
+   "params": {
+    "gatePrior": 10,
+    "threshold": 0.58,
+    "prior": 20,
+    "gamma": 0.5,
+    "prune": false
+   },
+   "dev": {
+    "N": 373,
+    "winRate": 0.5362,
+    "marketImplied": 0.5063,
+    "roi": -0.0354,
+    "roiSE": 0.0463
+   },
+   "devFirstTier": {
+    "N": 111,
+    "winRate": 0.5405,
+    "marketImplied": 0.503,
+    "roi": 0.0019,
+    "roiSE": 0.0876
+   },
+   "holdout": {
+    "N": 412,
+    "winRate": 0.5485,
+    "marketImplied": 0.5118,
+    "roi": -0.0396,
+    "roiSE": 0.0423
+   },
+   "holdoutFirstTier": {
+    "N": 141,
+    "winRate": 0.539,
+    "marketImplied": 0.5083,
+    "roi": -0.0413,
+    "roiSE": 0.0733
+   }
+  },
+  {
+   "name": "V1 + pattern gate",
+   "params": {
+    "gatePrior": 30,
+    "threshold": 0.52
+   },
+   "dev": {
+    "N": 1529,
+    "winRate": 0.5219,
+    "marketImplied": 0.5054,
+    "roi": -0.0585,
+    "roiSE": 0.0227
+   },
+   "devFirstTier": {
+    "N": 426,
+    "winRate": 0.5657,
+    "marketImplied": 0.5042,
+    "roi": 0.0256,
+    "roiSE": 0.043
+   },
+   "holdout": {
+    "N": 1911,
+    "winRate": 0.5374,
+    "marketImplied": 0.511,
+    "roi": -0.0466,
+    "roiSE": 0.0199
+   },
+   "holdoutFirstTier": {
+    "N": 569,
+    "winRate": 0.5395,
+    "marketImplied": 0.5071,
+    "roi": -0.0166,
+    "roiSE": 0.0374
+   }
+  },
+  {
+   "name": "instance + pattern gate",
+   "params": {
+    "gatePrior": 30,
+    "threshold": 0.52,
+    "prior": 20,
+    "gamma": 0.5,
+    "prune": false
+   },
+   "dev": {
+    "N": 1529,
+    "winRate": 0.5206,
+    "marketImplied": 0.5055,
+    "roi": -0.0616,
+    "roiSE": 0.0227
+   },
+   "devFirstTier": {
+    "N": 426,
+    "winRate": 0.561,
+    "marketImplied": 0.5044,
+    "roi": 0.0163,
+    "roiSE": 0.043
+   },
+   "holdout": {
+    "N": 1911,
+    "winRate": 0.5406,
+    "marketImplied": 0.5115,
+    "roi": -0.0448,
+    "roiSE": 0.0199
+   },
+   "holdoutFirstTier": {
+    "N": 569,
+    "winRate": 0.5395,
+    "marketImplied": 0.5079,
+    "roi": -0.0214,
+    "roiSE": 0.0373
+   }
+  },
+  {
+   "name": "V1 + pattern gate",
+   "params": {
+    "gatePrior": 30,
+    "threshold": 0.55
+   },
+   "dev": {
+    "N": 264,
+    "winRate": 0.5152,
+    "marketImplied": 0.5099,
+    "roi": -0.0913,
+    "roiSE": 0.0543
+   },
+   "devFirstTier": {
+    "N": 78,
+    "winRate": 0.5,
+    "marketImplied": 0.5074,
+    "roi": -0.0903,
+    "roiSE": 0.1027
+   },
+   "holdout": {
+    "N": 525,
+    "winRate": 0.5371,
+    "marketImplied": 0.5157,
+    "roi": -0.0774,
+    "roiSE": 0.0365
+   },
+   "holdoutFirstTier": {
+    "N": 160,
+    "winRate": 0.5,
+    "marketImplied": 0.5104,
+    "roi": -0.1063,
+    "roiSE": 0.0687
+   }
+  },
+  {
+   "name": "instance + pattern gate",
+   "params": {
+    "gatePrior": 30,
+    "threshold": 0.55,
+    "prior": 20,
+    "gamma": 0.5,
+    "prune": false
+   },
+   "dev": {
+    "N": 264,
+    "winRate": 0.5038,
+    "marketImplied": 0.5101,
+    "roi": -0.1135,
+    "roiSE": 0.0541
+   },
+   "devFirstTier": {
+    "N": 78,
+    "winRate": 0.4744,
+    "marketImplied": 0.5082,
+    "roi": -0.1412,
+    "roiSE": 0.102
+   },
+   "holdout": {
+    "N": 525,
+    "winRate": 0.5486,
+    "marketImplied": 0.5165,
+    "roi": -0.0639,
+    "roiSE": 0.0365
+   },
+   "holdoutFirstTier": {
+    "N": 160,
+    "winRate": 0.5312,
+    "marketImplied": 0.512,
+    "roi": -0.0606,
+    "roiSE": 0.0687
+   }
+  },
+  {
+   "name": "V1 + pattern gate",
+   "params": {
+    "gatePrior": 30,
+    "threshold": 0.58
+   },
+   "dev": {
+    "N": 42,
+    "winRate": 0.5714,
+    "marketImplied": 0.5191,
+    "roi": -0.0587,
+    "roiSE": 0.1303
+   },
+   "devFirstTier": {
+    "N": 15,
+    "winRate": 0.6667,
+    "marketImplied": 0.5106,
+    "roi": 0.2097,
+    "roiSE": 0.2331
+   },
+   "holdout": {
+    "N": 133,
+    "winRate": 0.5188,
+    "marketImplied": 0.5242,
+    "roi": -0.1373,
+    "roiSE": 0.0714
+   },
+   "holdoutFirstTier": {
+    "N": 41,
+    "winRate": 0.4878,
+    "marketImplied": 0.5205,
+    "roi": -0.1655,
+    "roiSE": 0.1311
+   }
+  },
+  {
+   "name": "instance + pattern gate",
+   "params": {
+    "gatePrior": 30,
+    "threshold": 0.58,
+    "prior": 20,
+    "gamma": 0.5,
+    "prune": false
+   },
+   "dev": {
+    "N": 42,
+    "winRate": 0.5952,
+    "marketImplied": 0.5195,
+    "roi": -0.0154,
+    "roiSE": 0.1299
+   },
+   "devFirstTier": {
+    "N": 15,
+    "winRate": 0.6667,
+    "marketImplied": 0.5106,
+    "roi": 0.2097,
+    "roiSE": 0.2331
+   },
+   "holdout": {
+    "N": 133,
+    "winRate": 0.5414,
+    "marketImplied": 0.5253,
+    "roi": -0.1171,
+    "roiSE": 0.0716
+   },
+   "holdoutFirstTier": {
+    "N": 41,
+    "winRate": 0.5366,
+    "marketImplied": 0.5221,
+    "roi": -0.1207,
+    "roiSE": 0.132
+   }
+  }
+ ],
+ "v1ReproductionMaxAbsDiff": 7.105427357601002e-15,
+ "selectedOnDev": {
+  "instance": {
+   "name": "V1 + instance marks",
+   "params": {
+    "prior": 20,
+    "gamma": 0.5,
+    "prune": false
+   },
+   "dev": {
+    "N": 6637,
+    "winRate": 0.5247,
+    "marketImplied": 0.5042,
+    "roi": -0.0292,
+    "roiSE": 0.0106
+   },
+   "devFirstTier": {
+    "N": 2010,
+    "winRate": 0.5236,
+    "marketImplied": 0.5024,
+    "roi": -0.0178,
+    "roiSE": 0.0194
+   },
+   "holdout": {
+    "N": 5619,
+    "winRate": 0.5246,
+    "marketImplied": 0.5065,
+    "roi": -0.0437,
+    "roiSE": 0.0114
+   },
+   "holdoutFirstTier": {
+    "N": 1766,
+    "winRate": 0.5297,
+    "marketImplied": 0.5043,
+    "roi": -0.019,
+    "roiSE": 0.0206
+   }
+  },
+  "gate": {
+   "name": "V1 + pattern gate",
+   "params": {
+    "gatePrior": 10,
+    "threshold": 0.58
+   },
+   "dev": {
+    "N": 373,
+    "winRate": 0.5469,
+    "marketImplied": 0.5061,
+    "roi": -0.0146,
+    "roiSE": 0.0463
+   },
+   "devFirstTier": {
+    "N": 111,
+    "winRate": 0.5586,
+    "marketImplied": 0.5025,
+    "roi": 0.0377,
+    "roiSE": 0.0875
+   },
+   "holdout": {
+    "N": 412,
+    "winRate": 0.5388,
+    "marketImplied": 0.5114,
+    "roi": -0.0484,
+    "roiSE": 0.0423
+   },
+   "holdoutFirstTier": {
+    "N": 141,
+    "winRate": 0.5248,
+    "marketImplied": 0.5078,
+    "roi": -0.0544,
+    "roiSE": 0.0733
+   }
+  }
+ },
+ "pairsUsed": 252392
+}
