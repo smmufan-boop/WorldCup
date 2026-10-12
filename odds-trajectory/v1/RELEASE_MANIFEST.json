@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "publicationDate": "2026-10-13",
+  "directionVersion": "trajectory-direction-v1:e485690037a4",
+  "files": [
+    {
+      "path": "ALGORITHM.md",
+      "bytes": 10425,
+      "sha256": "3accbe37710335a98650b856a40e4f6003b659d0167c9d472247b1d8ca0750b5"
+    },
+    {
+      "path": "code/demo.py",
+      "bytes": 5656,
+      "sha256": "7e7abe4b27076d163a6b45495a9436119f8fa8eb73277406b084e80181ac10ab"
+    },
+    {
+      "path": "code/direction_v1.py",
+      "bytes": 5645,
+      "sha256": "14c4b1f290ee616fd1e25db0fa31999ed62bb23f9351d4b26019aed9edaf0a58"
+    },
+    {
+      "path": "code/matching_core.py",
+      "bytes": 10295,
+      "sha256": "c655a95419daf8cb4a4443ecaf73ddcc654b346038fb3592980ecd45016be3e2"
+    },
+    {
+      "path": "code/odds_point_similarity.py",
+      "bytes": 16377,
+      "sha256": "2acea819f82d50fc2e93282a8e5d03c13400ed8721e8891cd6fd7a5fe0ec098d"
+    },
+    {
+      "path": "code/odds_segment_similarity.py",
+      "bytes": 6514,
+      "sha256": "367b3e8a07d241e20095d90f4b7837a7f1c9b5c7e2507e5482183a9787de9a19"
+    },
+    {
+      "path": "code/parameters.json",
+      "bytes": 603,
+      "sha256": "36fce635034828c324b945875c810644006eca3b74f8280401a2b130cf48b1dc"
+    },
+    {
+      "path": "code/SOURCE_MANIFEST.json",
+      "bytes": 6307,
+      "sha256": "b01d827a2553fb0688d1545e972af0bafef7e9df4af1bf6660611cbce9273c07"
+    },
+    {
+      "path": "README.md",
+      "bytes": 4099,
+      "sha256": "fa655815e618cacda16df9bf9c839f0fd3d4f71b3ac6ea1be8cfb5a646f42e59"
+    },
+    {
+      "path": "reference/odds_point_similarity_spec.md",
+      "bytes": 20894,
+      "sha256": "fc9a08b118fb265b5b4921b7c65a1bb8317abb71d92eded9861768d1f27c6c43"
+    },
+    {
+      "path": "rules/first-tier-competitions.json",
+      "bytes": 3413,
+      "sha256": "5b3dca2da2dd6b2b352439c21c2d01b41506d0c91534bbcb7e1244a21b3911fc"
+    },
+    {
+      "path": "rules/t10_contract.json",
+      "bytes": 3678,
+      "sha256": "d14731a9727716a38a122fc2cfb69959739f69eae230b8b421cd83fca8cf617b"
+    },
+    {
+      "path": "T10_RULES.md",
+      "bytes": 6623,
+      "sha256": "8df464616e18d24ef664b2ae85dae6933834cda1aa66506715d0b5c56b3eecd4"
+    }
+  ],
+  "documentationSourceHashes": [
+    {
+      "workspaceRelativePath": "Pankou/live_dashboard/odds_similarity.py",
+      "sha256": "1b2f52d18751c4c7cf409f0c5056e59fea8dc6ecd9d18ef03fac97a5631ba4c9"
+    },
+    {
+      "workspaceRelativePath": "Pankou/live_dashboard/odds_point_scoring.py",
+      "sha256": "0272eee376067d9fc74f528a5e49a85665ea44a7e9f2528563423ff2769d131e"
+    },
+    {
+      "workspaceRelativePath": "Pankou/live_dashboard/odds_direction_score.py",
+      "sha256": "105f4e262cb520485a5994d2d5dd1f5a803ff5ff6965072d34810f15bc5e1e5c"
+    },
+    {
+      "workspaceRelativePath": "Pankou/live_dashboard/odds_direction_parameters.json",
+      "sha256": "36fce635034828c324b945875c810644006eca3b74f8280401a2b130cf48b1dc"
+    },
+    {
+      "workspaceRelativePath": "Pankou/live_dashboard/direction_score_journal.py",
+      "sha256": "41a740350acf64afd5ad85c45c0f7a9242a5d37cfd365de9245ac7f57802e881"
+    },
+    {
+      "workspaceRelativePath": "Pankou/live_dashboard/paper_signal_auto.py",
+      "sha256": "9e6b66ae3994487621fd66cac1bd98de40276373a4e3688f7e5d21fab489255e"
+    },
+    {
+      "workspaceRelativePath": "Pankou/live_dashboard/odds_similarity_service.py",
+      "sha256": "bef3ebba65ff1621ce44efc342e0089b41d680471052b8ab37beecfa844a67e3"
+    },
+    {
+      "workspaceRelativePath": "Pankou/live_dashboard/PAPER_ROYAL_T10_AUTO.md",
+      "sha256": "f383942a6b48fbd60a9bec99454bcb94f3c0682a9ff8742918a826fa1d459624"
+    }
+  ],
+  "validation": {
+    "offlineDemo": "passed",
+    "codeArtifactHashes": "passed",
+    "firstTierNames": 228,
+    "syntheticDataOnly": true
+  }
+}

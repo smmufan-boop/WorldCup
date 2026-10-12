@@ -1,0 +1,168 @@
+{
+  "schemaVersion": 1,
+  "publicationDate": "2026-10-13",
+  "pipeline": "V1",
+  "configurationVersion": "trajectory-direction-v1:e485690037a4",
+  "matchingRulesVersion": "same-company-path-v2-source-order",
+  "matchingVersionNote": "v2 in the matching rules label denotes source-order matching rules and does not enable the direction V2 weight model",
+  "artifacts": [
+    {
+      "exportPath": "odds_point_similarity.py",
+      "exportSha256": "2acea819f82d50fc2e93282a8e5d03c13400ed8721e8891cd6fd7a5fe0ec098d",
+      "method": "unmodified byte-for-byte copy",
+      "sources": [
+        {
+          "workspaceRelativePath": "Pankou/live_dashboard/odds_point_similarity.py",
+          "sha256": "2acea819f82d50fc2e93282a8e5d03c13400ed8721e8891cd6fd7a5fe0ec098d"
+        }
+      ]
+    },
+    {
+      "exportPath": "odds_segment_similarity.py",
+      "exportSha256": "367b3e8a07d241e20095d90f4b7837a7f1c9b5c7e2507e5482183a9787de9a19",
+      "method": "unmodified byte-for-byte copy",
+      "sources": [
+        {
+          "workspaceRelativePath": "Pankou/live_dashboard/odds_segment_similarity.py",
+          "sha256": "367b3e8a07d241e20095d90f4b7837a7f1c9b5c7e2507e5482183a9787de9a19"
+        }
+      ]
+    },
+    {
+      "exportPath": "parameters.json",
+      "exportSha256": "36fce635034828c324b945875c810644006eca3b74f8280401a2b130cf48b1dc",
+      "method": "unmodified byte-for-byte copy; renamed to parameters.json",
+      "sources": [
+        {
+          "workspaceRelativePath": "Pankou/live_dashboard/odds_direction_parameters.json",
+          "sha256": "36fce635034828c324b945875c810644006eca3b74f8280401a2b130cf48b1dc"
+        }
+      ]
+    },
+    {
+      "exportPath": "direction_v1.py",
+      "exportSha256": "14c4b1f290ee616fd1e25db0fa31999ed62bb23f9351d4b26019aed9edaf0a58",
+      "method": "Exact AST-selected original source segments; aggregate validates V1 power/shrinkage using the original finite, non-boolean, nonnegative parameter conditions and then calls unchanged _aggregate_legacy. It explicitly rejects all three V2 weighting keys. Configuration is adapted to require the frozen V1 snapshot and reproduce the original JSON hash. Original V2 weighting functions are omitted.",
+      "sources": [
+        {
+          "workspaceRelativePath": "Pankou/live_dashboard/odds_direction_score.py",
+          "sha256": "105f4e262cb520485a5994d2d5dd1f5a803ff5ff6965072d34810f15bc5e1e5c",
+          "selectedSymbols": [
+            "DEFAULT",
+            "RESULTS",
+            "observations",
+            "_aggregate_legacy",
+            "score_company"
+          ]
+        }
+      ]
+    },
+    {
+      "exportPath": "matching_core.py",
+      "exportSha256": "c655a95419daf8cb4a4443ecaf73ddcc654b346038fb3592980ecd45016be3e2",
+      "method": "Exact AST-selected original source segments with standard-library imports only. Database index, network/service integrations, automatic settlement, and history-pool eligibility are not exported. Caller supplies already scoped source rows and settled sample outcomes.",
+      "sources": [
+        {
+          "workspaceRelativePath": "Pankou/live_dashboard/odds_similarity.py",
+          "sha256": "1b2f52d18751c4c7cf409f0c5056e59fea8dc6ecd9d18ef03fac97a5631ba4c9",
+          "selectedSymbols": [
+            "RULES_VERSION",
+            "COMPANIES",
+            "STAGES",
+            "stamp",
+            "digest",
+            "movement",
+            "_quote",
+            "_ordered_minute",
+            "points",
+            "feature",
+            "classify",
+            "aggregate",
+            "fixture_key"
+          ]
+        },
+        {
+          "workspaceRelativePath": "Pankou/live_dashboard/paper_betting.py",
+          "sha256": "6b380a34f91919db882652fce9870ef5561dc020c8ac87634f4ff435dfcd23df",
+          "selectedSymbols": [
+            "clock",
+            "encode"
+          ]
+        },
+        {
+          "workspaceRelativePath": "Pankou/live_dashboard/daqiu_bridge.py",
+          "sha256": "47f78903e926ed88387a4e05412160c5d13bd551d2232f9414d16c2c4b119599",
+          "selectedSymbols": [
+            "daqiu_signed_line"
+          ]
+        },
+        {
+          "workspaceRelativePath": "Pankou/live_dashboard/engine.py",
+          "sha256": "2bca5b5d92bab4046479ab73992f9f1fdc2f6483977df163ed6bb772416661c0",
+          "selectedSymbols": [
+            "BJT"
+          ]
+        }
+      ]
+    },
+    {
+      "exportPath": "demo.py",
+      "exportSha256": "7e7abe4b27076d163a6b45495a9436119f8fa8eb73277406b084e80181ac10ab",
+      "method": "New synthetic, offline demonstration; no source match data",
+      "sources": []
+    }
+  ],
+  "validation": {
+    "versionVerifiedAgainstOriginalConfiguration": "trajectory-direction-v1:e485690037a4",
+    "exactAstFunctionEquivalence": true,
+    "pointAndSegmentFilesByteIdentical": true,
+    "parameterFileByteIdentical": true,
+    "directionOriginalVsPortableCases": 14,
+    "directionCases": [
+      "strict-first duplicate",
+      "push",
+      "full/half win/loss",
+      "zero weight",
+      "invalid bool/range/NaN/infinity",
+      "diagnostic rankable",
+      "unknown outcome",
+      "external scores",
+      "annotations",
+      "empty/push-only/diagnostic-only"
+    ],
+    "matchingCases": [
+      "gap=0.05 strict",
+      "gap=0.051 approximate",
+      "gap=0.101 rejected",
+      "counter giver rejected",
+      "verified same-minute A/B/A retained",
+      "ambiguous same-minute handicap switch rejected"
+    ],
+    "matchingRuntimeSourceEquivalence": true,
+    "pointAndSegmentDemoRuntimeSourceEquivalence": true,
+    "demoScores": {
+      "1": 51.67464114832536,
+      "3": 53.93258426966292
+    },
+    "demoPointScores": {
+      "sameDirection": 100.0,
+      "oppositeDirection": 0.0,
+      "mixedDirection": 50.0,
+      "insufficientPoints": 25.0,
+      "segmented": 45.45454545454545
+    },
+    "demoSegmentWeights": [
+      0.45454545454545453,
+      0.5454545454545454
+    ],
+    "dataUsed": "synthetic only; no local database, frozen snapshots, credentials, or service modules",
+    "invalidV1ParameterCasesMatchingOriginalValueError": 20,
+    "validZeroAndIntegerParameterCasesMatchingOriginal": 3,
+    "explicitV2ParameterRejectionCases": 9,
+    "rejectedV2ParameterKeys": [
+      "weightBlend",
+      "amplitudeScale",
+      "amplitudeStrength"
+    ]
+  }
+}

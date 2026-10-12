@@ -4,6 +4,8 @@
 
 完整字段定义、盘口符号、赛前截断与比分核验口径见 [DATA_DICTIONARY.md](DATA_DICTIONARY.md)。各分块的行数、SHA-256、字节数、空字段统计和源时间范围见 [manifest.json](snapshots/2026-10-13/manifest.json)。
 
+配套算法见 [V1 轨迹比对、评分与 T−10 规则](v1/README.md)，包含纯 Python 核心、固定参数和合成示例。
+
 ## 数据规模
 
 | 数据表 | 行数 | 用途 |

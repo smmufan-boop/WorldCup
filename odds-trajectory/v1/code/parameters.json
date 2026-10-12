@@ -1,0 +1,12 @@
+{
+  "status": "experimental_no_validated_gain",
+  "trainedThrough": "2026-09-28",
+  "effectiveFrom": "2026-10-04T12:53:49+08:00",
+  "companies": {
+    "1": {"power": 2.0, "shrinkage": 50.0},
+    "3": {"power": 2.0, "shrinkage": 20.0}
+  },
+  "selection": "Minimum development Brier among 12 predeclared candidates per company; no holdout retuning.",
+  "validationReport": "analysis/direction_validation_20261004_124334/report.json",
+  "warning": "Temporal holdout has not established improvement over equal weighting. Experimental advisory index, not calibrated probability or automatic betting rule."
+}
