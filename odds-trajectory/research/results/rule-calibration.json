@@ -1,0 +1,2142 @@
+{
+ "rule": "x.25 receiver, x.75 giver, else lower water",
+ "thresholdsOnDisplayDistance": [
+  0,
+  10,
+  25
+ ],
+ "ruleAll": {
+  "dev": {
+   "N": 23717,
+   "winRate": 0.5484,
+   "winSE": 0.0032,
+   "baseline": 0.5492,
+   "lift": -0.0008,
+   "roi": -0.0461
+  },
+  "devFirstTier": {
+   "N": 7023,
+   "winRate": 0.5566,
+   "winSE": 0.0059,
+   "baseline": 0.5484,
+   "lift": 0.0082,
+   "roi": -0.0245
+  },
+  "holdout": {
+   "N": 15182,
+   "winRate": 0.551,
+   "winSE": 0.004,
+   "baseline": 0.5496,
+   "lift": 0.0015,
+   "roi": -0.0406
+  },
+  "holdoutFirstTier": {
+   "N": 4619,
+   "winRate": 0.549,
+   "winSE": 0.0073,
+   "baseline": 0.5482,
+   "lift": 0.0009,
+   "roi": -0.0332
+  }
+ },
+ "ruleByLineType": {
+  "whole": {
+   "dev": {
+    "N": 4412,
+    "winRate": 0.5331,
+    "winSE": 0.0075,
+    "baseline": 0.5319,
+    "lift": 0.0012,
+    "roi": -0.0276
+   },
+   "devFirstTier": {
+    "N": 1300,
+    "winRate": 0.5185,
+    "winSE": 0.0139,
+    "baseline": 0.5286,
+    "lift": -0.0102,
+    "roi": -0.0333
+   },
+   "holdout": {
+    "N": 2961,
+    "winRate": 0.5478,
+    "winSE": 0.0091,
+    "baseline": 0.5329,
+    "lift": 0.0149,
+    "roi": -0.0087
+   },
+   "holdoutFirstTier": {
+    "N": 878,
+    "winRate": 0.5364,
+    "winSE": 0.0168,
+    "baseline": 0.5279,
+    "lift": 0.0085,
+    "roi": -0.0091
+   }
+  },
+  "quarter25": {
+   "dev": {
+    "N": 8570,
+    "winRate": 0.5747,
+    "winSE": 0.0053,
+    "baseline": 0.5747,
+    "lift": 0.0,
+    "roi": -0.0411
+   },
+   "devFirstTier": {
+    "N": 2575,
+    "winRate": 0.6004,
+    "winSE": 0.0097,
+    "baseline": 0.5753,
+    "lift": 0.0251,
+    "roi": 0.0063
+   },
+   "holdout": {
+    "N": 5503,
+    "winRate": 0.5617,
+    "winSE": 0.0067,
+    "baseline": 0.5731,
+    "lift": -0.0114,
+    "roi": -0.0584
+   },
+   "holdoutFirstTier": {
+    "N": 1681,
+    "winRate": 0.5699,
+    "winSE": 0.0121,
+    "baseline": 0.5743,
+    "lift": -0.0044,
+    "roi": -0.0356
+   }
+  },
+  "half": {
+   "dev": {
+    "N": 6321,
+    "winRate": 0.5184,
+    "winSE": 0.0063,
+    "baseline": 0.5222,
+    "lift": -0.0038,
+    "roi": -0.0573
+   },
+   "devFirstTier": {
+    "N": 1859,
+    "winRate": 0.5164,
+    "winSE": 0.0116,
+    "baseline": 0.5201,
+    "lift": -0.0037,
+    "roi": -0.0447
+   },
+   "holdout": {
+    "N": 3966,
+    "winRate": 0.5237,
+    "winSE": 0.0079,
+    "baseline": 0.5236,
+    "lift": 0.0001,
+    "roi": -0.0501
+   },
+   "holdoutFirstTier": {
+    "N": 1189,
+    "winRate": 0.5114,
+    "winSE": 0.0145,
+    "baseline": 0.52,
+    "lift": -0.0087,
+    "roi": -0.0542
+   }
+  },
+  "quarter75": {
+   "dev": {
+    "N": 4414,
+    "winRate": 0.5557,
+    "winSE": 0.0075,
+    "baseline": 0.5557,
+    "lift": 0.0,
+    "roi": -0.0653
+   },
+   "devFirstTier": {
+    "N": 1289,
+    "winRate": 0.5656,
+    "winSE": 0.0138,
+    "baseline": 0.5552,
+    "lift": 0.0104,
+    "roi": -0.0445
+   },
+   "holdout": {
+    "N": 2752,
+    "winRate": 0.5727,
+    "winSE": 0.0094,
+    "baseline": 0.558,
+    "lift": 0.0147,
+    "roi": -0.0382
+   },
+   "holdoutFirstTier": {
+    "N": 871,
+    "winRate": 0.5729,
+    "winSE": 0.0168,
+    "baseline": 0.5565,
+    "lift": 0.0164,
+    "roi": -0.0349
+   }
+  }
+ },
+ "V1_T10": {
+  "ruleOnV1Subset": {
+   "dev": {
+    "N": 6202,
+    "winRate": 0.5463,
+    "winSE": 0.0063,
+    "baseline": 0.5496,
+    "lift": -0.0034,
+    "roi": -0.0469
+   },
+   "devFirstTier": {
+    "N": 1865,
+    "winRate": 0.5507,
+    "winSE": 0.0115,
+    "baseline": 0.5489,
+    "lift": 0.0017,
+    "roi": -0.0312
+   },
+   "holdout": {
+    "N": 5258,
+    "winRate": 0.5525,
+    "winSE": 0.0069,
+    "baseline": 0.5509,
+    "lift": 0.0016,
+    "roi": -0.0387
+   },
+   "holdoutFirstTier": {
+    "N": 1634,
+    "winRate": 0.5526,
+    "winSE": 0.0123,
+    "baseline": 0.5492,
+    "lift": 0.0034,
+    "roi": -0.0275
+   }
+  },
+  "agreeShare": {
+   "dev": 0.6104,
+   "holdout": 0.6474
+  },
+  "agree_ruleSide": {
+   "dev": {
+    "N": 3817,
+    "winRate": 0.558,
+    "winSE": 0.008,
+    "baseline": 0.5535,
+    "lift": 0.0046,
+    "roi": -0.0334
+   },
+   "devFirstTier": {
+    "N": 1124,
+    "winRate": 0.5641,
+    "winSE": 0.0148,
+    "baseline": 0.5527,
+    "lift": 0.0114,
+    "roi": -0.015
+   },
+   "holdout": {
+    "N": 3445,
+    "winRate": 0.557,
+    "winSE": 0.0085,
+    "baseline": 0.5551,
+    "lift": 0.0019,
+    "roi": -0.0401
+   },
+   "holdoutFirstTier": {
+    "N": 1069,
+    "winRate": 0.5631,
+    "winSE": 0.0152,
+    "baseline": 0.5529,
+    "lift": 0.0102,
+    "roi": -0.017
+   }
+  },
+  "disagree": {
+   "dist>=0": {
+    "ruleSide": {
+     "dev": {
+      "N": 2385,
+      "winRate": 0.5275,
+      "winSE": 0.0102,
+      "baseline": 0.5435,
+      "lift": -0.0161,
+      "roi": -0.068
+     },
+     "devFirstTier": {
+      "N": 741,
+      "winRate": 0.5304,
+      "winSE": 0.0183,
+      "baseline": 0.5432,
+      "lift": -0.0129,
+      "roi": -0.0553
+     },
+     "holdout": {
+      "N": 1813,
+      "winRate": 0.5438,
+      "winSE": 0.0117,
+      "baseline": 0.5429,
+      "lift": 0.001,
+      "roi": -0.0363
+     },
+     "holdoutFirstTier": {
+      "N": 565,
+      "winRate": 0.5327,
+      "winSE": 0.021,
+      "baseline": 0.5421,
+      "lift": -0.0094,
+      "roi": -0.0461
+     }
+    },
+    "v1Side": {
+     "dev": {
+      "N": 2385,
+      "winRate": 0.4725,
+      "winSE": 0.0102,
+      "baseline": 0.4565,
+      "lift": 0.0161,
+      "roi": -0.0197
+     },
+     "devFirstTier": {
+      "N": 741,
+      "winRate": 0.4696,
+      "winSE": 0.0183,
+      "baseline": 0.4568,
+      "lift": 0.0129,
+      "roi": -0.0099
+     },
+     "holdout": {
+      "N": 1813,
+      "winRate": 0.4562,
+      "winSE": 0.0117,
+      "baseline": 0.4571,
+      "lift": -0.001,
+      "roi": -0.0539
+     },
+     "holdoutFirstTier": {
+      "N": 565,
+      "winRate": 0.4673,
+      "winSE": 0.021,
+      "baseline": 0.4579,
+      "lift": 0.0094,
+      "roi": -0.0173
+     }
+    }
+   },
+   "dist>=10": {
+    "ruleSide": {
+     "dev": {
+      "N": 1146,
+      "winRate": 0.5279,
+      "winSE": 0.0147,
+      "baseline": 0.5417,
+      "lift": -0.0138,
+      "roi": -0.0638
+     },
+     "devFirstTier": {
+      "N": 316,
+      "winRate": 0.5411,
+      "winSE": 0.028,
+      "baseline": 0.5404,
+      "lift": 0.0007,
+      "roi": -0.0305
+     },
+     "holdout": {
+      "N": 908,
+      "winRate": 0.5176,
+      "winSE": 0.0166,
+      "baseline": 0.5387,
+      "lift": -0.0211,
+      "roi": -0.0683
+     },
+     "holdoutFirstTier": {
+      "N": 278,
+      "winRate": 0.4964,
+      "winSE": 0.03,
+      "baseline": 0.5361,
+      "lift": -0.0397,
+      "roi": -0.0952
+     }
+    },
+    "v1Side": {
+     "dev": {
+      "N": 1146,
+      "winRate": 0.4721,
+      "winSE": 0.0147,
+      "baseline": 0.4583,
+      "lift": 0.0138,
+      "roi": -0.0275
+     },
+     "devFirstTier": {
+      "N": 316,
+      "winRate": 0.4589,
+      "winSE": 0.028,
+      "baseline": 0.4596,
+      "lift": -0.0007,
+      "roi": -0.0383
+     },
+     "holdout": {
+      "N": 908,
+      "winRate": 0.4824,
+      "winSE": 0.0166,
+      "baseline": 0.4613,
+      "lift": 0.0211,
+      "roi": -0.0231
+     },
+     "holdoutFirstTier": {
+      "N": 278,
+      "winRate": 0.5036,
+      "winSE": 0.03,
+      "baseline": 0.4639,
+      "lift": 0.0397,
+      "roi": 0.0383
+     }
+    }
+   },
+   "dist>=25": {
+    "ruleSide": {
+     "dev": {
+      "N": 267,
+      "winRate": 0.5581,
+      "winSE": 0.0304,
+      "baseline": 0.5365,
+      "lift": 0.0216,
+      "roi": -0.0085
+     },
+     "devFirstTier": {
+      "N": 57,
+      "winRate": 0.614,
+      "winSE": 0.0645,
+      "baseline": 0.533,
+      "lift": 0.0811,
+      "roi": 0.1042
+     },
+     "holdout": {
+      "N": 257,
+      "winRate": 0.5253,
+      "winSE": 0.0311,
+      "baseline": 0.535,
+      "lift": -0.0097,
+      "roi": -0.0396
+     },
+     "holdoutFirstTier": {
+      "N": 70,
+      "winRate": 0.4286,
+      "winSE": 0.0591,
+      "baseline": 0.5341,
+      "lift": -0.1055,
+      "roi": -0.1845
+     }
+    },
+    "v1Side": {
+     "dev": {
+      "N": 267,
+      "winRate": 0.4419,
+      "winSE": 0.0304,
+      "baseline": 0.4635,
+      "lift": -0.0216,
+      "roi": -0.0993
+     },
+     "devFirstTier": {
+      "N": 57,
+      "winRate": 0.386,
+      "winSE": 0.0645,
+      "baseline": 0.467,
+      "lift": -0.0811,
+      "roi": -0.1991
+     },
+     "holdout": {
+      "N": 257,
+      "winRate": 0.4747,
+      "winSE": 0.0311,
+      "baseline": 0.465,
+      "lift": 0.0097,
+      "roi": -0.0507
+     },
+     "holdoutFirstTier": {
+      "N": 70,
+      "winRate": 0.5714,
+      "winSE": 0.0591,
+      "baseline": 0.4659,
+      "lift": 0.1055,
+      "roi": 0.1405
+     }
+    }
+   }
+  },
+  "skip": {
+   "dist>=0": {
+    "dev": {
+     "N": 3817,
+     "winRate": 0.558,
+     "winSE": 0.008,
+     "baseline": 0.5535,
+     "lift": 0.0046,
+     "roi": -0.0334
+    },
+    "devFirstTier": {
+     "N": 1124,
+     "winRate": 0.5641,
+     "winSE": 0.0148,
+     "baseline": 0.5527,
+     "lift": 0.0114,
+     "roi": -0.015
+    },
+    "holdout": {
+     "N": 3445,
+     "winRate": 0.557,
+     "winSE": 0.0085,
+     "baseline": 0.5551,
+     "lift": 0.0019,
+     "roi": -0.0401
+    },
+    "holdoutFirstTier": {
+     "N": 1069,
+     "winRate": 0.5631,
+     "winSE": 0.0152,
+     "baseline": 0.5529,
+     "lift": 0.0102,
+     "roi": -0.017
+    }
+   },
+   "dist>=10": {
+    "dev": {
+     "N": 5056,
+     "winRate": 0.5504,
+     "winSE": 0.007,
+     "baseline": 0.5514,
+     "lift": -0.001,
+     "roi": -0.043
+    },
+    "devFirstTier": {
+     "N": 1549,
+     "winRate": 0.5526,
+     "winSE": 0.0126,
+     "baseline": 0.5507,
+     "lift": 0.0019,
+     "roi": -0.0313
+    },
+    "holdout": {
+     "N": 4350,
+     "winRate": 0.5598,
+     "winSE": 0.0075,
+     "baseline": 0.5535,
+     "lift": 0.0063,
+     "roi": -0.0325
+    },
+    "holdoutFirstTier": {
+     "N": 1356,
+     "winRate": 0.5642,
+     "winSE": 0.0135,
+     "baseline": 0.5519,
+     "lift": 0.0123,
+     "roi": -0.0129
+    }
+   },
+   "dist>=25": {
+    "dev": {
+     "N": 5935,
+     "winRate": 0.5457,
+     "winSE": 0.0065,
+     "baseline": 0.5502,
+     "lift": -0.0045,
+     "roi": -0.0486
+    },
+    "devFirstTier": {
+     "N": 1808,
+     "winRate": 0.5487,
+     "winSE": 0.0117,
+     "baseline": 0.5494,
+     "lift": -0.0008,
+     "roi": -0.0352
+    },
+    "holdout": {
+     "N": 5001,
+     "winRate": 0.5539,
+     "winSE": 0.007,
+     "baseline": 0.5517,
+     "lift": 0.0022,
+     "roi": -0.0387
+    },
+    "holdoutFirstTier": {
+     "N": 1564,
+     "winRate": 0.5582,
+     "winSE": 0.0126,
+     "baseline": 0.5499,
+     "lift": 0.0083,
+     "roi": -0.02
+    }
+   }
+  },
+  "override": {
+   "dist>=0": {
+    "dev": {
+     "N": 6202,
+     "winRate": 0.5252,
+     "winSE": 0.0063,
+     "baseline": 0.5162,
+     "lift": 0.009,
+     "roi": -0.028
+    },
+    "devFirstTier": {
+     "N": 1865,
+     "winRate": 0.5265,
+     "winSE": 0.0116,
+     "baseline": 0.5146,
+     "lift": 0.012,
+     "roi": -0.0129
+    },
+    "holdout": {
+     "N": 5258,
+     "winRate": 0.5223,
+     "winSE": 0.0069,
+     "baseline": 0.5214,
+     "lift": 0.0009,
+     "roi": -0.0449
+    },
+    "holdoutFirstTier": {
+     "N": 1634,
+     "winRate": 0.53,
+     "winSE": 0.0123,
+     "baseline": 0.5201,
+     "lift": 0.0099,
+     "roi": -0.0171
+    }
+   },
+   "dist>=10": {
+    "dev": {
+     "N": 6202,
+     "winRate": 0.536,
+     "winSE": 0.0063,
+     "baseline": 0.5342,
+     "lift": 0.0017,
+     "roi": -0.0401
+    },
+    "devFirstTier": {
+     "N": 1865,
+     "winRate": 0.5367,
+     "winSE": 0.0115,
+     "baseline": 0.5352,
+     "lift": 0.0015,
+     "roi": -0.0325
+    },
+    "holdout": {
+     "N": 5258,
+     "winRate": 0.5464,
+     "winSE": 0.0069,
+     "baseline": 0.5375,
+     "lift": 0.0089,
+     "roi": -0.0309
+    },
+    "holdoutFirstTier": {
+     "N": 1634,
+     "winRate": 0.5539,
+     "winSE": 0.0123,
+     "baseline": 0.5369,
+     "lift": 0.0169,
+     "roi": -0.0039
+    }
+   },
+   "dist>=25": {
+    "dev": {
+     "N": 6202,
+     "winRate": 0.5413,
+     "winSE": 0.0063,
+     "baseline": 0.5465,
+     "lift": -0.0052,
+     "roi": -0.0508
+    },
+    "devFirstTier": {
+     "N": 1865,
+     "winRate": 0.5437,
+     "winSE": 0.0115,
+     "baseline": 0.5469,
+     "lift": -0.0032,
+     "roi": -0.04
+    },
+    "holdout": {
+     "N": 5258,
+     "winRate": 0.55,
+     "winSE": 0.0069,
+     "baseline": 0.5475,
+     "lift": 0.0025,
+     "roi": -0.0393
+    },
+    "holdoutFirstTier": {
+     "N": 1634,
+     "winRate": 0.5588,
+     "winSE": 0.0123,
+     "baseline": 0.5463,
+     "lift": 0.0125,
+     "roi": -0.0126
+    }
+   }
+  },
+  "byLineType": {
+   "whole": {
+    "agree_ruleSide": {
+     "dev": {
+      "N": 573,
+      "winRate": 0.5567,
+      "winSE": 0.0208,
+      "baseline": 0.5299,
+      "lift": 0.0269,
+      "roi": 0.0067
+     },
+     "devFirstTier": {
+      "N": 147,
+      "winRate": 0.6054,
+      "winSE": 0.0403,
+      "baseline": 0.5254,
+      "lift": 0.08,
+      "roi": 0.0804
+     },
+     "holdout": {
+      "N": 615,
+      "winRate": 0.5463,
+      "winSE": 0.0201,
+      "baseline": 0.5338,
+      "lift": 0.0125,
+      "roi": -0.0098
+     },
+     "holdoutFirstTier": {
+      "N": 195,
+      "winRate": 0.5744,
+      "winSE": 0.0354,
+      "baseline": 0.5262,
+      "lift": 0.0482,
+      "roi": 0.0488
+     }
+    },
+    "disagree_ruleSide": {
+     "dev": {
+      "N": 494,
+      "winRate": 0.5466,
+      "winSE": 0.0224,
+      "baseline": 0.5295,
+      "lift": 0.017,
+      "roi": -0.004
+     },
+     "devFirstTier": {
+      "N": 169,
+      "winRate": 0.5621,
+      "winSE": 0.0382,
+      "baseline": 0.525,
+      "lift": 0.0371,
+      "roi": 0.0293
+     },
+     "holdout": {
+      "N": 360,
+      "winRate": 0.5806,
+      "winSE": 0.026,
+      "baseline": 0.5305,
+      "lift": 0.0501,
+      "roi": 0.0387
+     },
+     "holdoutFirstTier": {
+      "N": 107,
+      "winRate": 0.5234,
+      "winSE": 0.0483,
+      "baseline": 0.5257,
+      "lift": -0.0023,
+      "roi": -0.017
+     }
+    },
+    "disagree_v1Side": {
+     "dev": {
+      "N": 494,
+      "winRate": 0.4534,
+      "winSE": 0.0224,
+      "baseline": 0.4705,
+      "lift": -0.017,
+      "roi": -0.0695
+     },
+     "devFirstTier": {
+      "N": 169,
+      "winRate": 0.4379,
+      "winSE": 0.0382,
+      "baseline": 0.475,
+      "lift": -0.0371,
+      "roi": -0.0895
+     },
+     "holdout": {
+      "N": 360,
+      "winRate": 0.4194,
+      "winSE": 0.026,
+      "baseline": 0.4695,
+      "lift": -0.0501,
+      "roi": -0.1103
+     },
+     "holdoutFirstTier": {
+      "N": 107,
+      "winRate": 0.4766,
+      "winSE": 0.0483,
+      "baseline": 0.4743,
+      "lift": 0.0023,
+      "roi": -0.0278
+     }
+    }
+   },
+   "quarter25": {
+    "agree_ruleSide": {
+     "dev": {
+      "N": 1656,
+      "winRate": 0.57,
+      "winSE": 0.0122,
+      "baseline": 0.5787,
+      "lift": -0.0086,
+      "roi": -0.0509
+     },
+     "devFirstTier": {
+      "N": 521,
+      "winRate": 0.5701,
+      "winSE": 0.0217,
+      "baseline": 0.5776,
+      "lift": -0.0076,
+      "roi": -0.0476
+     },
+     "holdout": {
+      "N": 1475,
+      "winRate": 0.5749,
+      "winSE": 0.0129,
+      "baseline": 0.5783,
+      "lift": -0.0033,
+      "roi": -0.0442
+     },
+     "holdoutFirstTier": {
+      "N": 460,
+      "winRate": 0.5783,
+      "winSE": 0.023,
+      "baseline": 0.5781,
+      "lift": 0.0002,
+      "roi": -0.0256
+     }
+    },
+    "disagree_ruleSide": {
+     "dev": {
+      "N": 875,
+      "winRate": 0.5554,
+      "winSE": 0.0168,
+      "baseline": 0.5672,
+      "lift": -0.0118,
+      "roi": -0.0605
+     },
+     "devFirstTier": {
+      "N": 270,
+      "winRate": 0.563,
+      "winSE": 0.0302,
+      "baseline": 0.5703,
+      "lift": -0.0073,
+      "roi": -0.0485
+     },
+     "holdout": {
+      "N": 643,
+      "winRate": 0.535,
+      "winSE": 0.0197,
+      "baseline": 0.5641,
+      "lift": -0.0291,
+      "roi": -0.0855
+     },
+     "holdoutFirstTier": {
+      "N": 199,
+      "winRate": 0.593,
+      "winSE": 0.0348,
+      "baseline": 0.5709,
+      "lift": 0.0221,
+      "roi": 0.0136
+     }
+    },
+    "disagree_v1Side": {
+     "dev": {
+      "N": 875,
+      "winRate": 0.4446,
+      "winSE": 0.0168,
+      "baseline": 0.4328,
+      "lift": 0.0118,
+      "roi": -0.0308
+     },
+     "devFirstTier": {
+      "N": 270,
+      "winRate": 0.437,
+      "winSE": 0.0302,
+      "baseline": 0.4297,
+      "lift": 0.0073,
+      "roi": -0.0141
+     },
+     "holdout": {
+      "N": 643,
+      "winRate": 0.465,
+      "winSE": 0.0197,
+      "baseline": 0.4359,
+      "lift": 0.0291,
+      "roi": -0.0112
+     },
+     "holdoutFirstTier": {
+      "N": 199,
+      "winRate": 0.407,
+      "winSE": 0.0348,
+      "baseline": 0.4291,
+      "lift": -0.0221,
+      "roi": -0.0808
+     }
+    }
+   },
+   "half": {
+    "agree_ruleSide": {
+     "dev": {
+      "N": 947,
+      "winRate": 0.5364,
+      "winSE": 0.0162,
+      "baseline": 0.522,
+      "lift": 0.0144,
+      "roi": -0.023
+     },
+     "devFirstTier": {
+      "N": 265,
+      "winRate": 0.517,
+      "winSE": 0.0307,
+      "baseline": 0.5184,
+      "lift": -0.0014,
+      "roi": -0.0367
+     },
+     "holdout": {
+      "N": 772,
+      "winRate": 0.5259,
+      "winSE": 0.018,
+      "baseline": 0.5236,
+      "lift": 0.0023,
+      "roi": -0.0458
+     },
+     "holdoutFirstTier": {
+      "N": 216,
+      "winRate": 0.5324,
+      "winSE": 0.0339,
+      "baseline": 0.5189,
+      "lift": 0.0135,
+      "roi": -0.0141
+     }
+    },
+    "disagree_ruleSide": {
+     "dev": {
+      "N": 715,
+      "winRate": 0.4895,
+      "winSE": 0.0187,
+      "baseline": 0.5192,
+      "lift": -0.0297,
+      "roi": -0.1017
+     },
+     "devFirstTier": {
+      "N": 216,
+      "winRate": 0.4769,
+      "winSE": 0.034,
+      "baseline": 0.517,
+      "lift": -0.0402,
+      "roi": -0.1106
+     },
+     "holdout": {
+      "N": 546,
+      "winRate": 0.5201,
+      "winSE": 0.0214,
+      "baseline": 0.5211,
+      "lift": -0.001,
+      "roi": -0.0478
+     },
+     "holdoutFirstTier": {
+      "N": 193,
+      "winRate": 0.456,
+      "winSE": 0.0359,
+      "baseline": 0.518,
+      "lift": -0.0621,
+      "roi": -0.1535
+     }
+    },
+    "disagree_v1Side": {
+     "dev": {
+      "N": 715,
+      "winRate": 0.5105,
+      "winSE": 0.0187,
+      "baseline": 0.4808,
+      "lift": 0.0297,
+      "roi": 0.0054
+     },
+     "devFirstTier": {
+      "N": 216,
+      "winRate": 0.5231,
+      "winSE": 0.034,
+      "baseline": 0.483,
+      "lift": 0.0402,
+      "roi": 0.0385
+     },
+     "holdout": {
+      "N": 546,
+      "winRate": 0.4799,
+      "winSE": 0.0214,
+      "baseline": 0.4789,
+      "lift": 0.001,
+      "roi": -0.0506
+     },
+     "holdoutFirstTier": {
+      "N": 193,
+      "winRate": 0.544,
+      "winSE": 0.0359,
+      "baseline": 0.482,
+      "lift": 0.0621,
+      "roi": 0.0804
+     }
+    }
+   },
+   "quarter75": {
+    "agree_ruleSide": {
+     "dev": {
+      "N": 641,
+      "winRate": 0.5601,
+      "winSE": 0.0196,
+      "baseline": 0.5559,
+      "lift": 0.0041,
+      "roi": -0.0535
+     },
+     "devFirstTier": {
+      "N": 191,
+      "winRate": 0.5812,
+      "winSE": 0.0357,
+      "baseline": 0.5533,
+      "lift": 0.0278,
+      "roi": -0.008
+     },
+     "holdout": {
+      "N": 583,
+      "winRate": 0.5643,
+      "winSE": 0.0205,
+      "baseline": 0.5609,
+      "lift": 0.0034,
+      "roi": -0.0638
+     },
+     "holdoutFirstTier": {
+      "N": 198,
+      "winRate": 0.5505,
+      "winSE": 0.0354,
+      "baseline": 0.5581,
+      "lift": -0.0076,
+      "roi": -0.0847
+     }
+    },
+    "disagree_ruleSide": {
+     "dev": {
+      "N": 301,
+      "winRate": 0.505,
+      "winSE": 0.0288,
+      "baseline": 0.5553,
+      "lift": -0.0504,
+      "roi": -0.1571
+     },
+     "devFirstTier": {
+      "N": 86,
+      "winRate": 0.5,
+      "winSE": 0.0539,
+      "baseline": 0.56,
+      "lift": -0.06,
+      "roi": -0.1693
+     },
+     "holdout": {
+      "N": 264,
+      "winRate": 0.5644,
+      "winSE": 0.0305,
+      "baseline": 0.5529,
+      "lift": 0.0114,
+      "roi": -0.0421
+     },
+     "holdoutFirstTier": {
+      "N": 66,
+      "winRate": 0.5909,
+      "winSE": 0.0605,
+      "baseline": 0.5523,
+      "lift": 0.0386,
+      "roi": 0.0088
+     }
+    },
+    "disagree_v1Side": {
+     "dev": {
+      "N": 301,
+      "winRate": 0.495,
+      "winSE": 0.0288,
+      "baseline": 0.4447,
+      "lift": 0.0504,
+      "roi": 0.068
+     },
+     "devFirstTier": {
+      "N": 86,
+      "winRate": 0.5,
+      "winSE": 0.0539,
+      "baseline": 0.44,
+      "lift": 0.06,
+      "roi": 0.1003
+     },
+     "holdout": {
+      "N": 264,
+      "winRate": 0.4356,
+      "winSE": 0.0305,
+      "baseline": 0.4471,
+      "lift": -0.0114,
+      "roi": -0.0519
+     },
+     "holdoutFirstTier": {
+      "N": 66,
+      "winRate": 0.4091,
+      "winSE": 0.0605,
+      "baseline": 0.4477,
+      "lift": -0.0386,
+      "roi": -0.083
+     }
+    }
+   }
+  }
+ },
+ "V1_T120": {
+  "ruleOnV1Subset": {
+   "dev": {
+    "N": 6792,
+    "winRate": 0.549,
+    "winSE": 0.006,
+    "baseline": 0.5499,
+    "lift": -0.0009,
+    "roi": -0.0398
+   },
+   "devFirstTier": {
+    "N": 2511,
+    "winRate": 0.5444,
+    "winSE": 0.0099,
+    "baseline": 0.5491,
+    "lift": -0.0047,
+    "roi": -0.0394
+   },
+   "holdout": {
+    "N": 5406,
+    "winRate": 0.5605,
+    "winSE": 0.0068,
+    "baseline": 0.55,
+    "lift": 0.0105,
+    "roi": -0.0217
+   },
+   "holdoutFirstTier": {
+    "N": 1944,
+    "winRate": 0.5576,
+    "winSE": 0.0113,
+    "baseline": 0.5483,
+    "lift": 0.0094,
+    "roi": -0.0168
+   }
+  },
+  "agreeShare": {
+   "dev": 0.5987,
+   "holdout": 0.6352
+  },
+  "agree_ruleSide": {
+   "dev": {
+    "N": 4101,
+    "winRate": 0.5591,
+    "winSE": 0.0078,
+    "baseline": 0.5535,
+    "lift": 0.0056,
+    "roi": -0.0301
+   },
+   "devFirstTier": {
+    "N": 1502,
+    "winRate": 0.5499,
+    "winSE": 0.0128,
+    "baseline": 0.5523,
+    "lift": -0.0024,
+    "roi": -0.0362
+   },
+   "holdout": {
+    "N": 3474,
+    "winRate": 0.5699,
+    "winSE": 0.0084,
+    "baseline": 0.5537,
+    "lift": 0.0163,
+    "roi": -0.0128
+   },
+   "holdoutFirstTier": {
+    "N": 1254,
+    "winRate": 0.5694,
+    "winSE": 0.014,
+    "baseline": 0.5527,
+    "lift": 0.0167,
+    "roi": -0.0064
+   }
+  },
+  "disagree": {
+   "dist>=0": {
+    "ruleSide": {
+     "dev": {
+      "N": 2691,
+      "winRate": 0.5336,
+      "winSE": 0.0096,
+      "baseline": 0.5445,
+      "lift": -0.0109,
+      "roi": -0.0543
+     },
+     "devFirstTier": {
+      "N": 1009,
+      "winRate": 0.5362,
+      "winSE": 0.0157,
+      "baseline": 0.5444,
+      "lift": -0.0082,
+      "roi": -0.044
+     },
+     "holdout": {
+      "N": 1932,
+      "winRate": 0.5435,
+      "winSE": 0.0113,
+      "baseline": 0.5433,
+      "lift": 0.0002,
+      "roi": -0.037
+     },
+     "holdoutFirstTier": {
+      "N": 690,
+      "winRate": 0.5362,
+      "winSE": 0.019,
+      "baseline": 0.5402,
+      "lift": -0.004,
+      "roi": -0.0347
+     }
+    },
+    "v1Side": {
+     "dev": {
+      "N": 2691,
+      "winRate": 0.4664,
+      "winSE": 0.0096,
+      "baseline": 0.4555,
+      "lift": 0.0109,
+      "roi": -0.027
+     },
+     "devFirstTier": {
+      "N": 1009,
+      "winRate": 0.4638,
+      "winSE": 0.0157,
+      "baseline": 0.4556,
+      "lift": 0.0082,
+      "roi": -0.022
+     },
+     "holdout": {
+      "N": 1932,
+      "winRate": 0.4565,
+      "winSE": 0.0113,
+      "baseline": 0.4567,
+      "lift": -0.0002,
+      "roi": -0.0459
+     },
+     "holdoutFirstTier": {
+      "N": 690,
+      "winRate": 0.4638,
+      "winSE": 0.019,
+      "baseline": 0.4598,
+      "lift": 0.004,
+      "roi": -0.0292
+     }
+    }
+   },
+   "dist>=10": {
+    "ruleSide": {
+     "dev": {
+      "N": 1463,
+      "winRate": 0.527,
+      "winSE": 0.0131,
+      "baseline": 0.5424,
+      "lift": -0.0154,
+      "roi": -0.064
+     },
+     "devFirstTier": {
+      "N": 513,
+      "winRate": 0.5419,
+      "winSE": 0.022,
+      "baseline": 0.5421,
+      "lift": -0.0002,
+      "roi": -0.0311
+     },
+     "holdout": {
+      "N": 1189,
+      "winRate": 0.55,
+      "winSE": 0.0144,
+      "baseline": 0.5412,
+      "lift": 0.0088,
+      "roi": -0.0219
+     },
+     "holdoutFirstTier": {
+      "N": 407,
+      "winRate": 0.5332,
+      "winSE": 0.0247,
+      "baseline": 0.538,
+      "lift": -0.0048,
+      "roi": -0.0386
+     }
+    },
+    "v1Side": {
+     "dev": {
+      "N": 1463,
+      "winRate": 0.473,
+      "winSE": 0.0131,
+      "baseline": 0.4576,
+      "lift": 0.0154,
+      "roi": -0.0187
+     },
+     "devFirstTier": {
+      "N": 513,
+      "winRate": 0.4581,
+      "winSE": 0.022,
+      "baseline": 0.4579,
+      "lift": 0.0002,
+      "roi": -0.032
+     },
+     "holdout": {
+      "N": 1189,
+      "winRate": 0.45,
+      "winSE": 0.0144,
+      "baseline": 0.4588,
+      "lift": -0.0088,
+      "roi": -0.0602
+     },
+     "holdoutFirstTier": {
+      "N": 407,
+      "winRate": 0.4668,
+      "winSE": 0.0247,
+      "baseline": 0.462,
+      "lift": 0.0048,
+      "roi": -0.0227
+     }
+    }
+   },
+   "dist>=25": {
+    "ruleSide": {
+     "dev": {
+      "N": 477,
+      "winRate": 0.4969,
+      "winSE": 0.0229,
+      "baseline": 0.5384,
+      "lift": -0.0415,
+      "roi": -0.0971
+     },
+     "devFirstTier": {
+      "N": 151,
+      "winRate": 0.4901,
+      "winSE": 0.0407,
+      "baseline": 0.5358,
+      "lift": -0.0457,
+      "roi": -0.0988
+     },
+     "holdout": {
+      "N": 467,
+      "winRate": 0.5525,
+      "winSE": 0.023,
+      "baseline": 0.536,
+      "lift": 0.0165,
+      "roi": -0.0082
+     },
+     "holdoutFirstTier": {
+      "N": 155,
+      "winRate": 0.5419,
+      "winSE": 0.04,
+      "baseline": 0.5343,
+      "lift": 0.0076,
+      "roi": -0.0258
+     }
+    },
+    "v1Side": {
+     "dev": {
+      "N": 477,
+      "winRate": 0.5031,
+      "winSE": 0.0229,
+      "baseline": 0.4616,
+      "lift": 0.0415,
+      "roi": 0.0148
+     },
+     "devFirstTier": {
+      "N": 151,
+      "winRate": 0.5099,
+      "winSE": 0.0407,
+      "baseline": 0.4642,
+      "lift": 0.0457,
+      "roi": 0.0446
+     },
+     "holdout": {
+      "N": 467,
+      "winRate": 0.4475,
+      "winSE": 0.023,
+      "baseline": 0.464,
+      "lift": -0.0165,
+      "roi": -0.0743
+     },
+     "holdoutFirstTier": {
+      "N": 155,
+      "winRate": 0.4581,
+      "winSE": 0.04,
+      "baseline": 0.4657,
+      "lift": -0.0076,
+      "roi": -0.0422
+     }
+    }
+   }
+  },
+  "skip": {
+   "dist>=0": {
+    "dev": {
+     "N": 4101,
+     "winRate": 0.5591,
+     "winSE": 0.0078,
+     "baseline": 0.5535,
+     "lift": 0.0056,
+     "roi": -0.0301
+    },
+    "devFirstTier": {
+     "N": 1502,
+     "winRate": 0.5499,
+     "winSE": 0.0128,
+     "baseline": 0.5523,
+     "lift": -0.0024,
+     "roi": -0.0362
+    },
+    "holdout": {
+     "N": 3474,
+     "winRate": 0.5699,
+     "winSE": 0.0084,
+     "baseline": 0.5537,
+     "lift": 0.0163,
+     "roi": -0.0128
+    },
+    "holdoutFirstTier": {
+     "N": 1254,
+     "winRate": 0.5694,
+     "winSE": 0.014,
+     "baseline": 0.5527,
+     "lift": 0.0167,
+     "roi": -0.0064
+    }
+   },
+   "dist>=10": {
+    "dev": {
+     "N": 5329,
+     "winRate": 0.5551,
+     "winSE": 0.0068,
+     "baseline": 0.552,
+     "lift": 0.0031,
+     "roi": -0.033
+    },
+    "devFirstTier": {
+     "N": 1998,
+     "winRate": 0.545,
+     "winSE": 0.0111,
+     "baseline": 0.5509,
+     "lift": -0.0059,
+     "roi": -0.0416
+    },
+    "holdout": {
+     "N": 4217,
+     "winRate": 0.5634,
+     "winSE": 0.0076,
+     "baseline": 0.5525,
+     "lift": 0.011,
+     "roi": -0.0216
+    },
+    "holdoutFirstTier": {
+     "N": 1537,
+     "winRate": 0.5641,
+     "winSE": 0.0126,
+     "baseline": 0.551,
+     "lift": 0.0131,
+     "roi": -0.0106
+    }
+   },
+   "dist>=25": {
+    "dev": {
+     "N": 6315,
+     "winRate": 0.553,
+     "winSE": 0.0063,
+     "baseline": 0.5508,
+     "lift": 0.0022,
+     "roi": -0.0353
+    },
+    "devFirstTier": {
+     "N": 2360,
+     "winRate": 0.5479,
+     "winSE": 0.0102,
+     "baseline": 0.55,
+     "lift": -0.0021,
+     "roi": -0.0353
+    },
+    "holdout": {
+     "N": 4939,
+     "winRate": 0.5612,
+     "winSE": 0.0071,
+     "baseline": 0.5513,
+     "lift": 0.0099,
+     "roi": -0.023
+    },
+    "holdoutFirstTier": {
+     "N": 1789,
+     "winRate": 0.559,
+     "winSE": 0.0117,
+     "baseline": 0.5495,
+     "lift": 0.0095,
+     "roi": -0.0159
+    }
+   }
+  },
+  "override": {
+   "dist>=0": {
+    "dev": {
+     "N": 6792,
+     "winRate": 0.5224,
+     "winSE": 0.0061,
+     "baseline": 0.5147,
+     "lift": 0.0077,
+     "roi": -0.0288
+    },
+    "devFirstTier": {
+     "N": 2511,
+     "winRate": 0.5153,
+     "winSE": 0.01,
+     "baseline": 0.5135,
+     "lift": 0.0019,
+     "roi": -0.0303
+    },
+    "holdout": {
+     "N": 5406,
+     "winRate": 0.5294,
+     "winSE": 0.0068,
+     "baseline": 0.519,
+     "lift": 0.0104,
+     "roi": -0.0249
+    },
+    "holdoutFirstTier": {
+     "N": 1944,
+     "winRate": 0.5319,
+     "winSE": 0.0113,
+     "baseline": 0.5197,
+     "lift": 0.0122,
+     "roi": -0.0148
+    }
+   },
+   "dist>=10": {
+    "dev": {
+     "N": 6792,
+     "winRate": 0.5374,
+     "winSE": 0.006,
+     "baseline": 0.5317,
+     "lift": 0.0057,
+     "roi": -0.0299
+    },
+    "devFirstTier": {
+     "N": 2511,
+     "winRate": 0.5273,
+     "winSE": 0.01,
+     "baseline": 0.5319,
+     "lift": -0.0046,
+     "roi": -0.0396
+    },
+    "holdout": {
+     "N": 5406,
+     "winRate": 0.5385,
+     "winSE": 0.0068,
+     "baseline": 0.5319,
+     "lift": 0.0066,
+     "roi": -0.0304
+    },
+    "holdoutFirstTier": {
+     "N": 1944,
+     "winRate": 0.5437,
+     "winSE": 0.0113,
+     "baseline": 0.5324,
+     "lift": 0.0114,
+     "roi": -0.0133
+    }
+   },
+   "dist>=25": {
+    "dev": {
+     "N": 6792,
+     "winRate": 0.5495,
+     "winSE": 0.006,
+     "baseline": 0.5445,
+     "lift": 0.0049,
+     "roi": -0.0317
+    },
+    "devFirstTier": {
+     "N": 2511,
+     "winRate": 0.5456,
+     "winSE": 0.0099,
+     "baseline": 0.5448,
+     "lift": 0.0008,
+     "roi": -0.0301
+    },
+    "holdout": {
+     "N": 5406,
+     "winRate": 0.5514,
+     "winSE": 0.0068,
+     "baseline": 0.5438,
+     "lift": 0.0077,
+     "roi": -0.0277
+    },
+    "holdoutFirstTier": {
+     "N": 1944,
+     "winRate": 0.5509,
+     "winSE": 0.0113,
+     "baseline": 0.5428,
+     "lift": 0.0081,
+     "roi": -0.0182
+    }
+   }
+  },
+  "byLineType": {
+   "whole": {
+    "agree_ruleSide": {
+     "dev": {
+      "N": 627,
+      "winRate": 0.5614,
+      "winSE": 0.0198,
+      "baseline": 0.5298,
+      "lift": 0.0316,
+      "roi": 0.0136
+     },
+     "devFirstTier": {
+      "N": 217,
+      "winRate": 0.5576,
+      "winSE": 0.0337,
+      "baseline": 0.5255,
+      "lift": 0.0321,
+      "roi": 0.0195
+     },
+     "holdout": {
+      "N": 616,
+      "winRate": 0.5682,
+      "winSE": 0.02,
+      "baseline": 0.5313,
+      "lift": 0.0368,
+      "roi": 0.0215
+     },
+     "holdoutFirstTier": {
+      "N": 222,
+      "winRate": 0.5541,
+      "winSE": 0.0334,
+      "baseline": 0.5251,
+      "lift": 0.0289,
+      "roi": 0.0166
+     }
+    },
+    "disagree_ruleSide": {
+     "dev": {
+      "N": 557,
+      "winRate": 0.5422,
+      "winSE": 0.0211,
+      "baseline": 0.5319,
+      "lift": 0.0103,
+      "roi": -0.0071
+     },
+     "devFirstTier": {
+      "N": 215,
+      "winRate": 0.5349,
+      "winSE": 0.034,
+      "baseline": 0.5287,
+      "lift": 0.0062,
+      "roi": -0.0073
+     },
+     "holdout": {
+      "N": 440,
+      "winRate": 0.5795,
+      "winSE": 0.0235,
+      "baseline": 0.5328,
+      "lift": 0.0468,
+      "roi": 0.04
+     },
+     "holdoutFirstTier": {
+      "N": 151,
+      "winRate": 0.5629,
+      "winSE": 0.0404,
+      "baseline": 0.5292,
+      "lift": 0.0338,
+      "roi": 0.0276
+     }
+    },
+    "disagree_v1Side": {
+     "dev": {
+      "N": 557,
+      "winRate": 0.4578,
+      "winSE": 0.0211,
+      "baseline": 0.4681,
+      "lift": -0.0103,
+      "roi": -0.06
+     },
+     "devFirstTier": {
+      "N": 215,
+      "winRate": 0.4651,
+      "winSE": 0.034,
+      "baseline": 0.4713,
+      "lift": -0.0062,
+      "roi": -0.0457
+     },
+     "holdout": {
+      "N": 440,
+      "winRate": 0.4205,
+      "winSE": 0.0235,
+      "baseline": 0.4672,
+      "lift": -0.0468,
+      "roi": -0.1132
+     },
+     "holdoutFirstTier": {
+      "N": 151,
+      "winRate": 0.4371,
+      "winSE": 0.0404,
+      "baseline": 0.4708,
+      "lift": -0.0338,
+      "roi": -0.0821
+     }
+    }
+   },
+   "quarter25": {
+    "agree_ruleSide": {
+     "dev": {
+      "N": 1874,
+      "winRate": 0.58,
+      "winSE": 0.0114,
+      "baseline": 0.5765,
+      "lift": 0.0035,
+      "roi": -0.0285
+     },
+     "devFirstTier": {
+      "N": 697,
+      "winRate": 0.5825,
+      "winSE": 0.0187,
+      "baseline": 0.5766,
+      "lift": 0.0059,
+      "roi": -0.0179
+     },
+     "holdout": {
+      "N": 1538,
+      "winRate": 0.5897,
+      "winSE": 0.0125,
+      "baseline": 0.5761,
+      "lift": 0.0136,
+      "roi": -0.0108
+     },
+     "holdoutFirstTier": {
+      "N": 566,
+      "winRate": 0.6148,
+      "winSE": 0.0205,
+      "baseline": 0.5772,
+      "lift": 0.0376,
+      "roi": 0.0343
+     }
+    },
+    "disagree_ruleSide": {
+     "dev": {
+      "N": 831,
+      "winRate": 0.5548,
+      "winSE": 0.0172,
+      "baseline": 0.572,
+      "lift": -0.0172,
+      "roi": -0.0622
+     },
+     "devFirstTier": {
+      "N": 326,
+      "winRate": 0.5491,
+      "winSE": 0.0276,
+      "baseline": 0.5737,
+      "lift": -0.0247,
+      "roi": -0.0789
+     },
+     "holdout": {
+      "N": 525,
+      "winRate": 0.539,
+      "winSE": 0.0218,
+      "baseline": 0.5712,
+      "lift": -0.0321,
+      "roi": -0.0974
+     },
+     "holdoutFirstTier": {
+      "N": 175,
+      "winRate": 0.5257,
+      "winSE": 0.0377,
+      "baseline": 0.5719,
+      "lift": -0.0462,
+      "roi": -0.1078
+     }
+    },
+    "disagree_v1Side": {
+     "dev": {
+      "N": 831,
+      "winRate": 0.4452,
+      "winSE": 0.0172,
+      "baseline": 0.428,
+      "lift": 0.0172,
+      "roi": -0.0159
+     },
+     "devFirstTier": {
+      "N": 326,
+      "winRate": 0.4509,
+      "winSE": 0.0276,
+      "baseline": 0.4263,
+      "lift": 0.0247,
+      "roi": 0.0145
+     },
+     "holdout": {
+      "N": 525,
+      "winRate": 0.461,
+      "winSE": 0.0218,
+      "baseline": 0.4288,
+      "lift": 0.0321,
+      "roi": 0.0142
+     },
+     "holdoutFirstTier": {
+      "N": 175,
+      "winRate": 0.4743,
+      "winSE": 0.0377,
+      "baseline": 0.4281,
+      "lift": 0.0462,
+      "roi": 0.0395
+     }
+    }
+   },
+   "half": {
+    "agree_ruleSide": {
+     "dev": {
+      "N": 969,
+      "winRate": 0.5098,
+      "winSE": 0.0161,
+      "baseline": 0.5215,
+      "lift": -0.0117,
+      "roi": -0.0679
+     },
+     "devFirstTier": {
+      "N": 360,
+      "winRate": 0.4889,
+      "winSE": 0.0263,
+      "baseline": 0.5194,
+      "lift": -0.0305,
+      "roi": -0.0935
+     },
+     "holdout": {
+      "N": 773,
+      "winRate": 0.533,
+      "winSE": 0.0179,
+      "baseline": 0.5228,
+      "lift": 0.0102,
+      "roi": -0.028
+     },
+     "holdoutFirstTier": {
+      "N": 259,
+      "winRate": 0.529,
+      "winSE": 0.031,
+      "baseline": 0.5192,
+      "lift": 0.0098,
+      "roi": -0.02
+     }
+    },
+    "disagree_ruleSide": {
+     "dev": {
+      "N": 836,
+      "winRate": 0.5191,
+      "winSE": 0.0173,
+      "baseline": 0.52,
+      "lift": -0.0009,
+      "roi": -0.0448
+     },
+     "devFirstTier": {
+      "N": 302,
+      "winRate": 0.5166,
+      "winSE": 0.0288,
+      "baseline": 0.5189,
+      "lift": -0.0024,
+      "roi": -0.0398
+     },
+     "holdout": {
+      "N": 623,
+      "winRate": 0.5185,
+      "winSE": 0.02,
+      "baseline": 0.5218,
+      "lift": -0.0033,
+      "roi": -0.0487
+     },
+     "holdoutFirstTier": {
+      "N": 248,
+      "winRate": 0.5161,
+      "winSE": 0.0317,
+      "baseline": 0.5196,
+      "lift": -0.0034,
+      "roi": -0.0402
+     }
+    },
+    "disagree_v1Side": {
+     "dev": {
+      "N": 836,
+      "winRate": 0.4809,
+      "winSE": 0.0173,
+      "baseline": 0.48,
+      "lift": 0.0009,
+      "roi": -0.0488
+     },
+     "devFirstTier": {
+      "N": 302,
+      "winRate": 0.4834,
+      "winSE": 0.0288,
+      "baseline": 0.4811,
+      "lift": 0.0024,
+      "roi": -0.0351
+     },
+     "holdout": {
+      "N": 623,
+      "winRate": 0.4815,
+      "winSE": 0.02,
+      "baseline": 0.4782,
+      "lift": 0.0033,
+      "roi": -0.0428
+     },
+     "holdoutFirstTier": {
+      "N": 248,
+      "winRate": 0.4839,
+      "winSE": 0.0317,
+      "baseline": 0.4804,
+      "lift": 0.0034,
+      "roi": -0.0329
+     }
+    }
+   },
+   "quarter75": {
+    "agree_ruleSide": {
+     "dev": {
+      "N": 631,
+      "winRate": 0.5705,
+      "winSE": 0.0197,
+      "baseline": 0.5577,
+      "lift": 0.0128,
+      "roi": -0.0381
+     },
+     "devFirstTier": {
+      "N": 228,
+      "winRate": 0.5395,
+      "winSE": 0.033,
+      "baseline": 0.5554,
+      "lift": -0.0159,
+      "roi": -0.0786
+     },
+     "holdout": {
+      "N": 547,
+      "winRate": 0.5686,
+      "winSE": 0.0212,
+      "baseline": 0.5594,
+      "lift": 0.0091,
+      "roi": -0.049
+     },
+     "holdoutFirstTier": {
+      "N": 207,
+      "winRate": 0.5121,
+      "winSE": 0.0347,
+      "baseline": 0.557,
+      "lift": -0.0449,
+      "roi": -0.1343
+     }
+    },
+    "disagree_ruleSide": {
+     "dev": {
+      "N": 467,
+      "winRate": 0.5118,
+      "winSE": 0.0231,
+      "baseline": 0.5546,
+      "lift": -0.0428,
+      "roi": -0.1375
+     },
+     "devFirstTier": {
+      "N": 166,
+      "winRate": 0.5482,
+      "winSE": 0.0386,
+      "baseline": 0.5531,
+      "lift": -0.0049,
+      "roi": -0.0542
+     },
+     "holdout": {
+      "N": 344,
+      "winRate": 0.5494,
+      "winSE": 0.0268,
+      "baseline": 0.5533,
+      "lift": -0.0039,
+      "roi": -0.064
+     },
+     "holdoutFirstTier": {
+      "N": 116,
+      "winRate": 0.5603,
+      "winSE": 0.0461,
+      "baseline": 0.5509,
+      "lift": 0.0095,
+      "roi": -0.0361
+     }
+    },
+    "disagree_v1Side": {
+     "dev": {
+      "N": 467,
+      "winRate": 0.4882,
+      "winSE": 0.0231,
+      "baseline": 0.4454,
+      "lift": 0.0428,
+      "roi": 0.0481
+     },
+     "devFirstTier": {
+      "N": 166,
+      "winRate": 0.4518,
+      "winSE": 0.0386,
+      "baseline": 0.4469,
+      "lift": 0.0049,
+      "roi": -0.0235
+     },
+     "holdout": {
+      "N": 344,
+      "winRate": 0.4506,
+      "winSE": 0.0268,
+      "baseline": 0.4467,
+      "lift": 0.0039,
+      "roi": -0.021
+     },
+     "holdoutFirstTier": {
+      "N": 116,
+      "winRate": 0.4397,
+      "winSE": 0.0461,
+      "baseline": 0.4491,
+      "lift": -0.0095,
+      "roi": -0.0204
+     }
+    }
+   }
+  }
+ },
+ "confirmationFilters": {
+  "T10_agree": {
+   "dev": {
+    "N": 3817,
+    "winRate": 0.558,
+    "winSE": 0.008,
+    "baseline": 0.5535,
+    "lift": 0.0046,
+    "roi": -0.0334
+   },
+   "devFirstTier": {
+    "N": 1124,
+    "winRate": 0.5641,
+    "winSE": 0.0148,
+    "baseline": 0.5527,
+    "lift": 0.0114,
+    "roi": -0.015
+   },
+   "holdout": {
+    "N": 3445,
+    "winRate": 0.557,
+    "winSE": 0.0085,
+    "baseline": 0.5551,
+    "lift": 0.0019,
+    "roi": -0.0401
+   },
+   "holdoutFirstTier": {
+    "N": 1069,
+    "winRate": 0.5631,
+    "winSE": 0.0152,
+    "baseline": 0.5529,
+    "lift": 0.0102,
+    "roi": -0.017
+   }
+  },
+  "T120_agree": {
+   "dev": {
+    "N": 4101,
+    "winRate": 0.5591,
+    "winSE": 0.0078,
+    "baseline": 0.5535,
+    "lift": 0.0056,
+    "roi": -0.0301
+   },
+   "devFirstTier": {
+    "N": 1502,
+    "winRate": 0.5499,
+    "winSE": 0.0128,
+    "baseline": 0.5523,
+    "lift": -0.0024,
+    "roi": -0.0362
+   },
+   "holdout": {
+    "N": 3474,
+    "winRate": 0.5699,
+    "winSE": 0.0084,
+    "baseline": 0.5537,
+    "lift": 0.0163,
+    "roi": -0.0128
+   },
+   "holdoutFirstTier": {
+    "N": 1254,
+    "winRate": 0.5694,
+    "winSE": 0.014,
+    "baseline": 0.5527,
+    "lift": 0.0167,
+    "roi": -0.0064
+   }
+  },
+  "both_agree": {
+   "dev": {
+    "N": 1827,
+    "winRate": 0.5627,
+    "winSE": 0.0116,
+    "baseline": 0.5585,
+    "lift": 0.0042,
+    "roi": -0.0337
+   },
+   "devFirstTier": {
+    "N": 631,
+    "winRate": 0.561,
+    "winSE": 0.0198,
+    "baseline": 0.5577,
+    "lift": 0.0033,
+    "roi": -0.0305
+   },
+   "holdout": {
+    "N": 1765,
+    "winRate": 0.5728,
+    "winSE": 0.0118,
+    "baseline": 0.5583,
+    "lift": 0.0145,
+    "roi": -0.0152
+   },
+   "holdoutFirstTier": {
+    "N": 637,
+    "winRate": 0.5918,
+    "winSE": 0.0195,
+    "baseline": 0.557,
+    "lift": 0.0348,
+    "roi": 0.0252
+   }
+  },
+  "T120_agree_and_T10_not_disagree": {
+   "dev": {
+    "N": 3171,
+    "winRate": 0.5654,
+    "winSE": 0.0088,
+    "baseline": 0.5553,
+    "lift": 0.0101,
+    "roi": -0.0226
+   },
+   "devFirstTier": {
+    "N": 1156,
+    "winRate": 0.5588,
+    "winSE": 0.0146,
+    "baseline": 0.5537,
+    "lift": 0.0051,
+    "roi": -0.0241
+   },
+   "holdout": {
+    "N": 2775,
+    "winRate": 0.5773,
+    "winSE": 0.0094,
+    "baseline": 0.5554,
+    "lift": 0.0219,
+    "roi": -0.0045
+   },
+   "holdoutFirstTier": {
+    "N": 1005,
+    "winRate": 0.5781,
+    "winSE": 0.0156,
+    "baseline": 0.5539,
+    "lift": 0.0242,
+    "roi": 0.0052
+   }
+  }
+ }
+}
