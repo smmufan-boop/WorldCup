@@ -59,12 +59,13 @@ def state_at(times, quotes, t, ordered=False):
     return same[-1] if len(set(same)) == 1 else None
 
 
-def macau_quotes(targets):
+def macau_quotes(targets, company='1'):
+    """Pre-kickoff, not in-play, V1-clean quotes of ``company`` for the targets."""
     wanted = {r['matchId']: r for r in targets}
     found = defaultdict(list)
     for q in rows('odds_history'):
         r = wanted.get(q['match_id'])
-        if r is None or q['company_id'] != '1' or q['market_type'] != 'asia' or q['score']:
+        if r is None or q['company_id'] != company or q['market_type'] != 'asia' or q['score']:
             continue
         ts = clock(q['change_time_local'])
         quote = _quote(q)

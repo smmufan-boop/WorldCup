@@ -1,0 +1,869 @@
+{
+ "flatThresholdGoals": 0.05,
+ "K": 4.631,
+ "baseSets": {
+  "A_ruleAll": {
+   "dev": {
+    "N": 23717,
+    "winRate": 0.5484,
+    "winSE": 0.0032,
+    "lift": -0.0008
+   },
+   "holdout": {
+    "N": 15182,
+    "winRate": 0.551,
+    "winSE": 0.004,
+    "lift": 0.0015
+   }
+  },
+  "B_ruleV1Confirmed": {
+   "dev": {
+    "N": 3171,
+    "winRate": 0.5654,
+    "winSE": 0.0088,
+    "lift": 0.0101
+   },
+   "holdout": {
+    "N": 2775,
+    "winRate": 0.5773,
+    "winSE": 0.0094,
+    "lift": 0.0219
+   }
+  }
+ },
+ "gates": {
+  "A_ruleAll": {
+   "G1_marketMoveOpenToT10": {
+    "against": {
+     "dev": {
+      "N": 7419,
+      "winRate": 0.5463,
+      "winSE": 0.0058,
+      "lift": 0.0066
+     },
+     "holdout": {
+      "N": 4731,
+      "winRate": 0.5324,
+      "winSE": 0.0073,
+      "lift": -0.006
+     }
+    },
+    "flat": {
+     "dev": {
+      "N": 4966,
+      "winRate": 0.5449,
+      "winSE": 0.0071,
+      "lift": -0.0046
+     },
+     "holdout": {
+      "N": 3274,
+      "winRate": 0.54,
+      "winSE": 0.0087,
+      "lift": -0.0094
+     }
+    },
+    "toward": {
+     "dev": {
+      "N": 11332,
+      "winRate": 0.5514,
+      "winSE": 0.0047,
+      "lift": -0.004
+     },
+     "holdout": {
+      "N": 7177,
+      "winRate": 0.5683,
+      "winSE": 0.0058,
+      "lift": 0.0113
+     }
+    }
+   },
+   "G2_marketMoveT60ToT10": {
+    "against": {
+     "dev": {
+      "N": 4960,
+      "winRate": 0.5389,
+      "winSE": 0.0071,
+      "lift": 0.0004
+     },
+     "holdout": {
+      "N": 3158,
+      "winRate": 0.5443,
+      "winSE": 0.0089,
+      "lift": 0.0063
+     }
+    },
+    "flat": {
+     "dev": {
+      "N": 10899,
+      "winRate": 0.5482,
+      "winSE": 0.0048,
+      "lift": -0.0007
+     },
+     "holdout": {
+      "N": 7000,
+      "winRate": 0.5483,
+      "winSE": 0.0059,
+      "lift": -0.0012
+     }
+    },
+    "none": {
+     "dev": {
+      "N": 134,
+      "winRate": 0.4851,
+      "winSE": 0.0432,
+      "lift": -0.0663
+     },
+     "holdout": {
+      "N": 78,
+      "winRate": 0.5769,
+      "winSE": 0.0559,
+      "lift": 0.0251
+     }
+    },
+    "toward": {
+     "dev": {
+      "N": 7724,
+      "winRate": 0.5559,
+      "winSE": 0.0057,
+      "lift": -0.0006
+     },
+     "holdout": {
+      "N": 4946,
+      "winRate": 0.5588,
+      "winSE": 0.0071,
+      "lift": 0.0018
+     }
+    }
+   },
+   "G3_lineMoveOpenToT10": {
+    "against(退盘)": {
+     "dev": {
+      "N": 5566,
+      "winRate": 0.5584,
+      "winSE": 0.0067,
+      "lift": 0.0116
+     },
+     "holdout": {
+      "N": 3419,
+      "winRate": 0.5472,
+      "winSE": 0.0085,
+      "lift": 0.0019
+     }
+    },
+    "toward(升盘)": {
+     "dev": {
+      "N": 5391,
+      "winRate": 0.5455,
+      "winSE": 0.0068,
+      "lift": -0.0041
+     },
+     "holdout": {
+      "N": 3149,
+      "winRate": 0.5557,
+      "winSE": 0.0089,
+      "lift": 0.0051
+     }
+    },
+    "unchanged": {
+     "dev": {
+      "N": 12760,
+      "winRate": 0.5453,
+      "winSE": 0.0044,
+      "lift": -0.0048
+     },
+     "holdout": {
+      "N": 8614,
+      "winRate": 0.5508,
+      "winSE": 0.0054,
+      "lift": -0.0001
+     }
+    }
+   },
+   "G4_ruleSideWater": {
+    "0.85-0.95": {
+     "dev": {
+      "N": 8847,
+      "winRate": 0.5372,
+      "winSE": 0.0053,
+      "lift": -0.0028
+     },
+     "holdout": {
+      "N": 5572,
+      "winRate": 0.5212,
+      "winSE": 0.0067,
+      "lift": -0.0188
+     }
+    },
+    "<0.85": {
+     "dev": {
+      "N": 11412,
+      "winRate": 0.5585,
+      "winSE": 0.0046,
+      "lift": -0.0025
+     },
+     "holdout": {
+      "N": 7203,
+      "winRate": 0.5777,
+      "winSE": 0.0058,
+      "lift": 0.0151
+     }
+    },
+    ">0.95": {
+     "dev": {
+      "N": 3458,
+      "winRate": 0.5437,
+      "winSE": 0.0085,
+      "lift": 0.0101
+     },
+     "holdout": {
+      "N": 2407,
+      "winRate": 0.5405,
+      "winSE": 0.0102,
+      "lift": 0.0076
+     }
+    }
+   },
+   "G5_macauVsRoyal": {
+    "equal": {
+     "dev": {
+      "N": 4016,
+      "winRate": 0.5478,
+      "winSE": 0.0079,
+      "lift": 0.0006
+     },
+     "holdout": {
+      "N": 3205,
+      "winRate": 0.5445,
+      "winSE": 0.0088,
+      "lift": -0.002
+     }
+    },
+    "none": {
+     "dev": {
+      "N": 14884,
+      "winRate": 0.5451,
+      "winSE": 0.0041,
+      "lift": -0.0045
+     },
+     "holdout": {
+      "N": 9030,
+      "winRate": 0.5527,
+      "winSE": 0.0052,
+      "lift": 0.0024
+     }
+    },
+    "stronger": {
+     "dev": {
+      "N": 1882,
+      "winRate": 0.5553,
+      "winSE": 0.0115,
+      "lift": 0.0152
+     },
+     "holdout": {
+      "N": 1074,
+      "winRate": 0.5326,
+      "winSE": 0.0152,
+      "lift": -0.0072
+     }
+    },
+    "weaker": {
+     "dev": {
+      "N": 2935,
+      "winRate": 0.5618,
+      "winSE": 0.0092,
+      "lift": 0.0059
+     },
+     "holdout": {
+      "N": 1873,
+      "winRate": 0.5649,
+      "winSE": 0.0115,
+      "lift": 0.0078
+     }
+    }
+   },
+   "G6_bet365VsRoyal": {
+    "equal": {
+     "dev": {
+      "N": 0
+     },
+     "holdout": {
+      "N": 4200,
+      "winRate": 0.5436,
+      "winSE": 0.0077,
+      "lift": -0.0041
+     }
+    },
+    "none": {
+     "dev": {
+      "N": 23717,
+      "winRate": 0.5484,
+      "winSE": 0.0032,
+      "lift": -0.0008
+     },
+     "holdout": {
+      "N": 6616,
+      "winRate": 0.5523,
+      "winSE": 0.0061,
+      "lift": 0.0026
+     }
+    },
+    "stronger": {
+     "dev": {
+      "N": 0
+     },
+     "holdout": {
+      "N": 1732,
+      "winRate": 0.5473,
+      "winSE": 0.012,
+      "lift": 0.0093
+     }
+    },
+    "weaker": {
+     "dev": {
+      "N": 0
+     },
+     "holdout": {
+      "N": 2634,
+      "winRate": 0.5623,
+      "winSE": 0.0097,
+      "lift": 0.0023
+     }
+    }
+   },
+   "G7_competitionType": {
+    "league": {
+     "dev": {
+      "N": 20440,
+      "winRate": 0.5476,
+      "winSE": 0.0035,
+      "lift": -0.0015
+     },
+     "holdout": {
+      "N": 12983,
+      "winRate": 0.5505,
+      "winSE": 0.0044,
+      "lift": 0.001
+     }
+    },
+    "tournament/cup": {
+     "dev": {
+      "N": 3277,
+      "winRate": 0.5536,
+      "winSE": 0.0087,
+      "lift": 0.0036
+     },
+     "holdout": {
+      "N": 2199,
+      "winRate": 0.5543,
+      "winSE": 0.0106,
+      "lift": 0.0044
+     }
+    }
+   }
+  },
+  "B_ruleV1Confirmed": {
+   "G1_marketMoveOpenToT10": {
+    "against": {
+     "dev": {
+      "N": 936,
+      "winRate": 0.5513,
+      "winSE": 0.0163,
+      "lift": 0.0077
+     },
+     "holdout": {
+      "N": 826,
+      "winRate": 0.5375,
+      "winSE": 0.0173,
+      "lift": -0.0035
+     }
+    },
+    "flat": {
+     "dev": {
+      "N": 705,
+      "winRate": 0.5489,
+      "winSE": 0.0187,
+      "lift": -0.0069
+     },
+     "holdout": {
+      "N": 602,
+      "winRate": 0.5681,
+      "winSE": 0.0202,
+      "lift": 0.0131
+     }
+    },
+    "toward": {
+     "dev": {
+      "N": 1530,
+      "winRate": 0.5817,
+      "winSE": 0.0126,
+      "lift": 0.0195
+     },
+     "holdout": {
+      "N": 1347,
+      "winRate": 0.6058,
+      "winSE": 0.0133,
+      "lift": 0.0413
+     }
+    }
+   },
+   "G2_marketMoveT60ToT10": {
+    "against": {
+     "dev": {
+      "N": 729,
+      "winRate": 0.5556,
+      "winSE": 0.0184,
+      "lift": 0.014
+     },
+     "holdout": {
+      "N": 595,
+      "winRate": 0.5412,
+      "winSE": 0.0204,
+      "lift": 0.0009
+     }
+    },
+    "flat": {
+     "dev": {
+      "N": 1499,
+      "winRate": 0.559,
+      "winSE": 0.0128,
+      "lift": 0.0019
+     },
+     "holdout": {
+      "N": 1387,
+      "winRate": 0.584,
+      "winSE": 0.0132,
+      "lift": 0.0276
+     }
+    },
+    "toward": {
+     "dev": {
+      "N": 943,
+      "winRate": 0.5832,
+      "winSE": 0.0161,
+      "lift": 0.0203
+     },
+     "holdout": {
+      "N": 793,
+      "winRate": 0.5927,
+      "winSE": 0.0174,
+      "lift": 0.0276
+     }
+    }
+   },
+   "G3_lineMoveOpenToT10": {
+    "against(退盘)": {
+     "dev": {
+      "N": 536,
+      "winRate": 0.569,
+      "winSE": 0.0214,
+      "lift": 0.0201
+     },
+     "holdout": {
+      "N": 472,
+      "winRate": 0.5805,
+      "winSE": 0.0227,
+      "lift": 0.0315
+     }
+    },
+    "toward(升盘)": {
+     "dev": {
+      "N": 423,
+      "winRate": 0.6217,
+      "winSE": 0.0236,
+      "lift": 0.0716
+     },
+     "holdout": {
+      "N": 349,
+      "winRate": 0.6132,
+      "winSE": 0.0261,
+      "lift": 0.0629
+     }
+    },
+    "unchanged": {
+     "dev": {
+      "N": 2212,
+      "winRate": 0.5538,
+      "winSE": 0.0106,
+      "lift": -0.004
+     },
+     "holdout": {
+      "N": 1954,
+      "winRate": 0.5701,
+      "winSE": 0.0112,
+      "lift": 0.0122
+     }
+    }
+   },
+   "G4_ruleSideWater": {
+    "0.85-0.95": {
+     "dev": {
+      "N": 1191,
+      "winRate": 0.5466,
+      "winSE": 0.0144,
+      "lift": 0.0008
+     },
+     "holdout": {
+      "N": 1021,
+      "winRate": 0.5475,
+      "winSE": 0.0156,
+      "lift": 0.0026
+     }
+    },
+    "<0.85": {
+     "dev": {
+      "N": 1448,
+      "winRate": 0.5836,
+      "winSE": 0.013,
+      "lift": 0.0137
+     },
+     "holdout": {
+      "N": 1261,
+      "winRate": 0.6098,
+      "winSE": 0.0137,
+      "lift": 0.039
+     }
+    },
+    ">0.95": {
+     "dev": {
+      "N": 532,
+      "winRate": 0.5583,
+      "winSE": 0.0215,
+      "lift": 0.0215
+     },
+     "holdout": {
+      "N": 493,
+      "winRate": 0.5558,
+      "winSE": 0.0224,
+      "lift": 0.0178
+     }
+    }
+   },
+   "G5_macauVsRoyal": {
+    "equal": {
+     "dev": {
+      "N": 690,
+      "winRate": 0.5783,
+      "winSE": 0.0188,
+      "lift": 0.0257
+     },
+     "holdout": {
+      "N": 710,
+      "winRate": 0.538,
+      "winSE": 0.0187,
+      "lift": -0.0137
+     }
+    },
+    "none": {
+     "dev": {
+      "N": 1728,
+      "winRate": 0.5596,
+      "winSE": 0.0119,
+      "lift": 0.0031
+     },
+     "holdout": {
+      "N": 1446,
+      "winRate": 0.5878,
+      "winSE": 0.0129,
+      "lift": 0.031
+     }
+    },
+    "stronger": {
+     "dev": {
+      "N": 315,
+      "winRate": 0.5587,
+      "winSE": 0.028,
+      "lift": 0.0148
+     },
+     "holdout": {
+      "N": 234,
+      "winRate": 0.5855,
+      "winSE": 0.0322,
+      "lift": 0.0459
+     }
+    },
+    "weaker": {
+     "dev": {
+      "N": 438,
+      "winRate": 0.5731,
+      "winSE": 0.0236,
+      "lift": 0.0102
+     },
+     "holdout": {
+      "N": 385,
+      "winRate": 0.6052,
+      "winSE": 0.0249,
+      "lift": 0.0384
+     }
+    }
+   },
+   "G6_bet365VsRoyal": {
+    "equal": {
+     "dev": {
+      "N": 0
+     },
+     "holdout": {
+      "N": 845,
+      "winRate": 0.574,
+      "winSE": 0.017,
+      "lift": 0.0195
+     }
+    },
+    "none": {
+     "dev": {
+      "N": 3171,
+      "winRate": 0.5654,
+      "winSE": 0.0088,
+      "lift": 0.0101
+     },
+     "holdout": {
+      "N": 1230,
+      "winRate": 0.574,
+      "winSE": 0.0141,
+      "lift": 0.0195
+     }
+    },
+    "stronger": {
+     "dev": {
+      "N": 0
+     },
+     "holdout": {
+      "N": 270,
+      "winRate": 0.563,
+      "winSE": 0.0302,
+      "lift": 0.0235
+     }
+    },
+    "weaker": {
+     "dev": {
+      "N": 0
+     },
+     "holdout": {
+      "N": 430,
+      "winRate": 0.6023,
+      "winSE": 0.0236,
+      "lift": 0.0323
+     }
+    }
+   },
+   "G7_competitionType": {
+    "league": {
+     "dev": {
+      "N": 2827,
+      "winRate": 0.5688,
+      "winSE": 0.0093,
+      "lift": 0.0134
+     },
+     "holdout": {
+      "N": 2439,
+      "winRate": 0.5765,
+      "winSE": 0.01,
+      "lift": 0.021
+     }
+    },
+    "tournament/cup": {
+     "dev": {
+      "N": 344,
+      "winRate": 0.5378,
+      "winSE": 0.0269,
+      "lift": -0.0162
+     },
+     "holdout": {
+      "N": 336,
+      "winRate": 0.5833,
+      "winSE": 0.0269,
+      "lift": 0.0284
+     }
+    }
+   }
+  }
+ },
+ "categoriesBeatingBaseInBothWindows": [
+  {
+   "base": "A_ruleAll",
+   "gate": "G1_marketMoveOpenToT10",
+   "category": "toward",
+   "dev": {
+    "N": 11332,
+    "winRate": 0.5514,
+    "winSE": 0.0047,
+    "lift": -0.004
+   },
+   "holdout": {
+    "N": 7177,
+    "winRate": 0.5683,
+    "winSE": 0.0058,
+    "lift": 0.0113
+   }
+  },
+  {
+   "base": "A_ruleAll",
+   "gate": "G2_marketMoveT60ToT10",
+   "category": "toward",
+   "dev": {
+    "N": 7724,
+    "winRate": 0.5559,
+    "winSE": 0.0057,
+    "lift": -0.0006
+   },
+   "holdout": {
+    "N": 4946,
+    "winRate": 0.5588,
+    "winSE": 0.0071,
+    "lift": 0.0018
+   }
+  },
+  {
+   "base": "A_ruleAll",
+   "gate": "G4_ruleSideWater",
+   "category": "<0.85",
+   "dev": {
+    "N": 11412,
+    "winRate": 0.5585,
+    "winSE": 0.0046,
+    "lift": -0.0025
+   },
+   "holdout": {
+    "N": 7203,
+    "winRate": 0.5777,
+    "winSE": 0.0058,
+    "lift": 0.0151
+   }
+  },
+  {
+   "base": "A_ruleAll",
+   "gate": "G5_macauVsRoyal",
+   "category": "weaker",
+   "dev": {
+    "N": 2935,
+    "winRate": 0.5618,
+    "winSE": 0.0092,
+    "lift": 0.0059
+   },
+   "holdout": {
+    "N": 1873,
+    "winRate": 0.5649,
+    "winSE": 0.0115,
+    "lift": 0.0078
+   }
+  },
+  {
+   "base": "A_ruleAll",
+   "gate": "G7_competitionType",
+   "category": "tournament/cup",
+   "dev": {
+    "N": 3277,
+    "winRate": 0.5536,
+    "winSE": 0.0087,
+    "lift": 0.0036
+   },
+   "holdout": {
+    "N": 2199,
+    "winRate": 0.5543,
+    "winSE": 0.0106,
+    "lift": 0.0044
+   }
+  },
+  {
+   "base": "B_ruleV1Confirmed",
+   "gate": "G1_marketMoveOpenToT10",
+   "category": "toward",
+   "dev": {
+    "N": 1530,
+    "winRate": 0.5817,
+    "winSE": 0.0126,
+    "lift": 0.0195
+   },
+   "holdout": {
+    "N": 1347,
+    "winRate": 0.6058,
+    "winSE": 0.0133,
+    "lift": 0.0413
+   }
+  },
+  {
+   "base": "B_ruleV1Confirmed",
+   "gate": "G2_marketMoveT60ToT10",
+   "category": "toward",
+   "dev": {
+    "N": 943,
+    "winRate": 0.5832,
+    "winSE": 0.0161,
+    "lift": 0.0203
+   },
+   "holdout": {
+    "N": 793,
+    "winRate": 0.5927,
+    "winSE": 0.0174,
+    "lift": 0.0276
+   }
+  },
+  {
+   "base": "B_ruleV1Confirmed",
+   "gate": "G3_lineMoveOpenToT10",
+   "category": "against(退盘)",
+   "dev": {
+    "N": 536,
+    "winRate": 0.569,
+    "winSE": 0.0214,
+    "lift": 0.0201
+   },
+   "holdout": {
+    "N": 472,
+    "winRate": 0.5805,
+    "winSE": 0.0227,
+    "lift": 0.0315
+   }
+  },
+  {
+   "base": "B_ruleV1Confirmed",
+   "gate": "G3_lineMoveOpenToT10",
+   "category": "toward(升盘)",
+   "dev": {
+    "N": 423,
+    "winRate": 0.6217,
+    "winSE": 0.0236,
+    "lift": 0.0716
+   },
+   "holdout": {
+    "N": 349,
+    "winRate": 0.6132,
+    "winSE": 0.0261,
+    "lift": 0.0629
+   }
+  },
+  {
+   "base": "B_ruleV1Confirmed",
+   "gate": "G4_ruleSideWater",
+   "category": "<0.85",
+   "dev": {
+    "N": 1448,
+    "winRate": 0.5836,
+    "winSE": 0.013,
+    "lift": 0.0137
+   },
+   "holdout": {
+    "N": 1261,
+    "winRate": 0.6098,
+    "winSE": 0.0137,
+    "lift": 0.039
+   }
+  },
+  {
+   "base": "B_ruleV1Confirmed",
+   "gate": "G5_macauVsRoyal",
+   "category": "weaker",
+   "dev": {
+    "N": 438,
+    "winRate": 0.5731,
+    "winSE": 0.0236,
+    "lift": 0.0102
+   },
+   "holdout": {
+    "N": 385,
+    "winRate": 0.6052,
+    "winSE": 0.0249,
+    "lift": 0.0384
+   }
+  }
+ ]
+}
