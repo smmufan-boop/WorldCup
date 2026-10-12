@@ -7,10 +7,11 @@ before the target cutoff, with a verified 90-minute result and both team IDs
 A numpy prefilter only discards candidates V1 would reject anyway (first/last
 segment gaps above 0.10 or differing direction keys); it never admits extras.
 
-Outputs (cache/): targets-company{c}.pkl with V1 direction per target, and
-pairs-company{c}.pkl with one row per (target, neighbour) rankable comparison.
+Outputs (cache/): targets-company{c}-T{stage}.pkl with V1 direction per target,
+and pairs-company{c}-T{stage}.pkl with one row per (target, neighbour) comparison.
+Each company uses its own published V1 parameters (澳彩 alpha=50, Royal alpha=20).
 
-    python odds-trajectory/research/replay_v1.py [--company 3] [--from 2026-02-01]
+    python odds-trajectory/research/replay_v1.py [--company 3] [--stage 10] [--from 2026-02-01]
 """
 from __future__ import annotations
 
@@ -38,6 +39,8 @@ GAP_LIMIT = .10 + 1e-8
 
 INPUTS: list = []
 BUCKETS: dict = {}
+COMPANY = '3'
+STAGE = 10
 
 
 def bucket_key(feat):
@@ -56,8 +59,8 @@ def gap_vector(feat):
 
 
 def match_payload(rec):
-    return {'id': rec['matchId'], 'bookmaker': 'royal', 'market': 'asian_handicap', 'phase': 'prematch',
-            'odds_format': 'hong_kong', 'perspective': 'home', 'window_id': 'first-valid-to-T-10',
+    return {'id': rec['matchId'], 'bookmaker': COMPANY, 'market': 'asian_handicap', 'phase': 'prematch',
+            'odds_format': 'hong_kong', 'perspective': 'home', 'window_id': f'first-valid-to-T-{STAGE}',
             'records': rec['records']}
 
 
@@ -106,21 +109,22 @@ def replay(index):
             'settlements': {'upper': {'result': cand['upperResult'], 'profit': cand['upperProfit']}}})
         pairs.append((index, j, verdict['group'], verdict['distance'], point['direction_score'],
                       bool(point['rankable']), point['relative_rmse']))
-    direction = score_company({'groups': groups}, parameters=configuration()['companies']['3'])
+    direction = score_company({'groups': groups}, parameters=configuration()['companies'][COMPANY])
     return index, {k: direction[k] for k in ('score', 'effectiveN', 'sampleCount', 'weightSum', 'groupConflict')}, \
         len(found), pairs
 
 
 def main():
-    global INPUTS, BUCKETS
+    global INPUTS, BUCKETS, COMPANY, STAGE
     parser = argparse.ArgumentParser()
-    parser.add_argument('--company', default='3')
+    parser.add_argument('--company', default='3', choices=sorted(configuration()['companies']))
+    parser.add_argument('--stage', type=int, default=10)
     parser.add_argument('--from', dest='start', default='2026-02-01')
     parser.add_argument('--limit', type=int, default=0, help='debug: only the first N targets')
     args = parser.parse_args()
-    if args.company != '3':
-        raise SystemExit('Only Royal (company 3) parameters are wired in this prototype.')
-    with open(CACHE / f'inputs-company{args.company}.pkl', 'rb') as stream:
+    COMPANY, STAGE = args.company, args.stage
+    tag = f'company{COMPANY}-T{STAGE}'
+    with open(CACHE / f'inputs-{tag}.pkl', 'rb') as stream:
         INPUTS = pickle.load(stream)
     pool = [i for i, r in enumerate(INPUTS) if 'score' in r and r['teamIds']]
     BUCKETS = build_buckets(pool)
@@ -142,9 +146,9 @@ def main():
             if n % 5000 == 0:
                 print(f'{n}/{len(targets)} targets, {len(pairs)} pairs', flush=True)
     suffix = f'-limit{args.limit}' if args.limit else ''
-    with open(CACHE / f'targets-company{args.company}{suffix}.pkl', 'wb') as stream:
+    with open(CACHE / f'targets-{tag}{suffix}.pkl', 'wb') as stream:
         pickle.dump(rows, stream, protocol=pickle.HIGHEST_PROTOCOL)
-    with open(CACHE / f'pairs-company{args.company}{suffix}.pkl', 'wb') as stream:
+    with open(CACHE / f'pairs-{tag}{suffix}.pkl', 'wb') as stream:
         pickle.dump(pairs, stream, protocol=pickle.HIGHEST_PROTOCOL)
     scored = [r for r in rows if r['score'] is not None]
     print(json.dumps({'targets': len(rows), 'withDirection': len(scored), 'pairs': len(pairs)}, indent=1))

@@ -42,10 +42,10 @@ DEV = ('2026-02-01', '2026-08-01')
 HOLDOUT = ('2026-08-01', '2026-10-13')
 
 
-def load():
-    inputs = pickle.load(open(CACHE / 'inputs-company3.pkl', 'rb'))
-    targets = pd.DataFrame(pickle.load(open(CACHE / 'targets-company3.pkl', 'rb')))
-    pairs = pd.DataFrame(pickle.load(open(CACHE / 'pairs-company3.pkl', 'rb')),
+def load(tag='company3-T10'):
+    inputs = pickle.load(open(CACHE / f'inputs-{tag}.pkl', 'rb'))
+    targets = pd.DataFrame(pickle.load(open(CACHE / f'targets-{tag}.pkl', 'rb')))
+    pairs = pd.DataFrame(pickle.load(open(CACHE / f'pairs-{tag}.pkl', 'rb')),
                          columns=['t', 'j', 'group', 'distance', 'S', 'rankable', 'rmse'])
     z = np.array([Z.get(r.get('upperResult'), 0) for r in inputs])
     kickoff = np.array([r['kickoff'] for r in inputs])

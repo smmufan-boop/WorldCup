@@ -1,0 +1,258 @@
+{
+ "stage": 10,
+ "royalTargets": 47781,
+ "withMacauAtCutoff": 18153,
+ "K_goalsPerProb": 4.631,
+ "medianMargin": {
+  "royal": 0.049,
+  "macau": 0.069
+ },
+ "bothBooks": {
+  "dev": 9418,
+  "holdout": 6617
+ },
+ "gapDistribution": {
+  "count": 18153.0,
+  "mean": 0.0008,
+  "std": 0.0956,
+  "min": -1.5592,
+  "5%": -0.1499,
+  "25%": -0.0518,
+  "50%": 0.0,
+  "75%": 0.0535,
+  "95%": 0.1501,
+  "max": 1.4943
+ },
+ "followMacauGap": {
+  "|gap|>0.00:dev": {
+   "N": 9301,
+   "roi": -0.0474,
+   "roiSE": 0.0092,
+   "winRate": 0.4825,
+   "marketImplied": 0.4915
+  },
+  "|gap|>0.00:holdout": {
+   "N": 6559,
+   "roi": -0.0359,
+   "roiSE": 0.011,
+   "winRate": 0.4883,
+   "marketImplied": 0.4917
+  },
+  "|gap|>0.05:dev": {
+   "N": 5134,
+   "roi": -0.0363,
+   "roiSE": 0.0125,
+   "winRate": 0.4839,
+   "marketImplied": 0.4873
+  },
+  "|gap|>0.05:holdout": {
+   "N": 3185,
+   "roi": -0.0543,
+   "roiSE": 0.0158,
+   "winRate": 0.4706,
+   "marketImplied": 0.4861
+  },
+  "|gap|>0.10:dev": {
+   "N": 2401,
+   "roi": -0.055,
+   "roiSE": 0.0185,
+   "winRate": 0.4691,
+   "marketImplied": 0.4834
+  },
+  "|gap|>0.10:holdout": {
+   "N": 1417,
+   "roi": -0.0814,
+   "roiSE": 0.0237,
+   "winRate": 0.448,
+   "marketImplied": 0.4821
+  },
+  "|gap|>0.20:dev": {
+   "N": 434,
+   "roi": -0.0548,
+   "roiSE": 0.044,
+   "winRate": 0.4642,
+   "marketImplied": 0.4779
+  },
+  "|gap|>0.20:holdout": {
+   "N": 197,
+   "roi": -0.1146,
+   "roiSE": 0.0651,
+   "winRate": 0.4167,
+   "marketImplied": 0.473
+  }
+ },
+ "macauFairPrice": {
+  "EV>0.00:dev": {
+   "N": 2836,
+   "roi": -0.0433,
+   "roiSE": 0.017,
+   "winRate": 0.4746,
+   "marketImplied": 0.4844
+  },
+  "EV>0.00:holdout": {
+   "N": 1687,
+   "roi": -0.0734,
+   "roiSE": 0.0218,
+   "winRate": 0.4512,
+   "marketImplied": 0.4833
+  },
+  "EV>0.02:dev": {
+   "N": 1275,
+   "roi": -0.0744,
+   "roiSE": 0.0254,
+   "winRate": 0.4508,
+   "marketImplied": 0.4801
+  },
+  "EV>0.02:holdout": {
+   "N": 683,
+   "roi": -0.0421,
+   "roiSE": 0.0347,
+   "winRate": 0.4602,
+   "marketImplied": 0.4789
+  },
+  "EV>0.04:dev": {
+   "N": 519,
+   "roi": -0.0722,
+   "roiSE": 0.0399,
+   "winRate": 0.4479,
+   "marketImplied": 0.4767
+  },
+  "EV>0.04:holdout": {
+   "N": 242,
+   "roi": -0.0555,
+   "roiSE": 0.0588,
+   "winRate": 0.448,
+   "marketImplied": 0.4743
+  },
+  "EV>0.06:dev": {
+   "N": 209,
+   "roi": -0.0329,
+   "roiSE": 0.0631,
+   "winRate": 0.4632,
+   "marketImplied": 0.4739
+  },
+  "EV>0.06:holdout": {
+   "N": 84,
+   "roi": -0.0983,
+   "roiSE": 0.104,
+   "winRate": 0.4177,
+   "marketImplied": 0.47
+  }
+ },
+ "followMacauMoveVsRoyal": {
+  "|dM60-dR60|>0.05:dev": {
+   "N": 5031,
+   "roi": -0.051,
+   "roiSE": 0.0126,
+   "winRate": 0.4838,
+   "marketImplied": 0.4915
+  },
+  "|dM60-dR60|>0.05:holdout": {
+   "N": 3254,
+   "roi": -0.0393,
+   "roiSE": 0.0156,
+   "winRate": 0.4857,
+   "marketImplied": 0.491
+  },
+  "|dM60-dR60|>0.10:dev": {
+   "N": 2650,
+   "roi": -0.0516,
+   "roiSE": 0.0174,
+   "winRate": 0.4824,
+   "marketImplied": 0.4894
+  },
+  "|dM60-dR60|>0.10:holdout": {
+   "N": 1556,
+   "roi": -0.0377,
+   "roiSE": 0.0227,
+   "winRate": 0.4839,
+   "marketImplied": 0.4887
+  },
+  "|dM60-dR60|>0.20:dev": {
+   "N": 623,
+   "roi": -0.0497,
+   "roiSE": 0.036,
+   "winRate": 0.4864,
+   "marketImplied": 0.4878
+  },
+  "|dM60-dR60|>0.20:holdout": {
+   "N": 298,
+   "roi": -0.1092,
+   "roiSE": 0.0524,
+   "winRate": 0.4327,
+   "marketImplied": 0.4817
+  }
+ },
+ "logistic": {
+  "marketOnly": {
+   "coef": {
+    "const": -0.023,
+    "logitR": 1.2947
+   },
+   "logLossDev": 0.69101,
+   "logLossHoldout": 0.68913
+  },
+  "market+cross": {
+   "coef": {
+    "const": -0.0291,
+    "logitR": 1.1886,
+    "gap": -0.2779,
+    "dR60": 0.0433,
+    "dM60": -0.1058,
+    "dRo": -0.0982,
+    "dMo": 0.1942,
+    "dR60_na": -0.5201,
+    "dM60_na": -0.2017,
+    "dMo_na": 0.0,
+    "ageM": 0.0014
+   },
+   "logLossDev": 0.69082,
+   "logLossHoldout": 0.68908,
+   "evFilter": {
+    "EV>0.00:dev": {
+     "N": 580,
+     "roi": -0.0325,
+     "roiSE": 0.0347,
+     "winRate": 0.5337,
+     "marketImplied": 0.5235
+    },
+    "EV>0.02:dev": {
+     "N": 66,
+     "roi": 0.1091,
+     "roiSE": 0.1009,
+     "winRate": 0.623,
+     "marketImplied": 0.509
+    },
+    "EV>0.04:dev": {
+     "N": 51,
+     "roi": 0.086,
+     "roiSE": 0.1135,
+     "winRate": 0.6087,
+     "marketImplied": 0.5029
+    },
+    "EV>0.00:holdout": {
+     "N": 460,
+     "roi": 0.0007,
+     "roiSE": 0.0388,
+     "winRate": 0.5524,
+     "marketImplied": 0.5254
+    },
+    "EV>0.02:holdout": {
+     "N": 50,
+     "roi": 0.1521,
+     "roiSE": 0.1215,
+     "winRate": 0.64,
+     "marketImplied": 0.5138
+    },
+    "EV>0.04:holdout": {
+     "N": 21,
+     "roi": 0.1988,
+     "roiSE": 0.188,
+     "winRate": 0.6667,
+     "marketImplied": 0.499
+    }
+   }
+  }
+ },
+ "holdoutLogLossGain": 5e-05
+}

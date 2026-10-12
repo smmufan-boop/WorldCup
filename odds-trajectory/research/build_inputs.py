@@ -1,10 +1,10 @@
-"""Build per-match T-10 inputs for the V1 walk-forward replay.
+"""Build per-match T-X inputs (default T-10) for the V1 walk-forward replay.
 
 Reads the published snapshot directly (no SQLite restore needed) and calls the
 unchanged V1 ``points``/``feature`` functions, so every match feature equals what
 V1 would compute from the same saved quotes. Output: one pickle per company.
 
-    python odds-trajectory/research/build_inputs.py [--company 3]
+    python odds-trajectory/research/build_inputs.py [--company 3] [--stage 10]
 """
 from __future__ import annotations
 
@@ -26,7 +26,6 @@ from matching_core import clock, feature, fixture_key, points  # noqa: E402
 
 SNAPSHOT = HERE.parent / 'snapshots' / '2026-10-13' / 'data'
 CACHE = HERE / 'cache'
-LEAD = 600  # T-10
 FIRST_TIER = set(json.loads((HERE.parent / 'v1' / 'rules' / 'first-tier-competitions.json').read_text('utf-8')))
 BLOCKED = re.compile(r'女|青年|少年|后备|後備|预备|預備|友谊|友誼|u\s*-?\s*\d{2}(?!\d)|women|youth|reserve|friendly')
 
@@ -75,7 +74,9 @@ def settle(line, home_water, away_water, sh, sa):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--company', default='3')
+    parser.add_argument('--stage', type=int, default=10, help='decision cutoff, minutes before kickoff')
     args = parser.parse_args()
+    lead = args.stage * 60
 
     matches = {m['match_id']: m for m in rows('matches')}
     alias = {a['alias_id']: a['source_id'] for a in rows('match_score_aliases')}
@@ -100,7 +101,7 @@ def main():
         # Earliest known kickoff: protects against postponements leaking in-play quotes.
         candidates = kickoffs[mid] + [t for t in (clock(meta['kickoff_local']),) if t is not None]
         kickoff = min(candidates)
-        cutoff = kickoff - LEAD
+        cutoff = kickoff - lead
         ticks, error = points(qs, kickoff, cutoff, order[mid])
         if error:
             skipped['points:' + error] += 1
@@ -119,6 +120,7 @@ def main():
             'fixtureKey': fixture_key(meta), 'sourceId': alias.get(mid, mid),
             'feature': feat,
             # V1 point scorer input: home perspective, home_handicap = -line.
+            'tickTimes': [p['ts'] for p in ticks],
             'records': [{'home_handicap': -p['line'], 'home_water': p['home'], 'away_water': p['away']}
                         for p in ticks],
             'line': last['line'], 'homeWater': last['home'], 'awayWater': last['away'],
@@ -130,10 +132,10 @@ def main():
         out.append(rec)
 
     CACHE.mkdir(exist_ok=True)
-    path = CACHE / f'inputs-company{args.company}.pkl'
+    path = CACHE / f'inputs-company{args.company}-T{args.stage}.pkl'
     with open(path, 'wb') as stream:
         pickle.dump(out, stream, protocol=pickle.HIGHEST_PROTOCOL)
-    print(json.dumps({'company': args.company, 'matches': len(out),
+    print(json.dumps({'company': args.company, 'stage': args.stage, 'matches': len(out),
                       'withResult': sum('score' in r for r in out), 'skipped': dict(skipped),
                       'output': str(path)}, ensure_ascii=False, indent=1))
 
