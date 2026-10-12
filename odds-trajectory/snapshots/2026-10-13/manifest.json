@@ -1,0 +1,372 @@
+{
+  "schema_version": 1,
+  "snapshot_at_bjt": "2026-10-13T02:47:02+08:00",
+  "source": "Pankou/live_dashboard/data/daqiu_odds/daqiu_odds.sqlite3",
+  "consistency": "one SQLite read transaction; includes committed WAL records",
+  "encoding": "UTF-8 without BOM",
+  "csv_dialect": "comma; quoted fields; LF",
+  "null_policy": "no SQL NULL allowed; empty CSV cell is empty text",
+  "row_hash_format": "SHA256 of each row as compact UTF-8 JSON array followed by LF, in file order",
+  "rows_per_part": 100000,
+  "tables": {
+    "matches": {
+      "columns": [
+        "match_id",
+        "cmp_type",
+        "competition_id",
+        "competition_name",
+        "team_A_id",
+        "team_A_name",
+        "team_B_id",
+        "team_B_name",
+        "kickoff_utc",
+        "kickoff_local",
+        "status",
+        "minute",
+        "score_home",
+        "score_away",
+        "fetched_at_utc",
+        "period",
+        "score_note",
+        "team_A_logo",
+        "team_B_logo"
+      ],
+      "primary_key": [
+        "match_id"
+      ],
+      "rows": 220936,
+      "row_sha256": "ad092f9cb7983e527c076da2d8d689ba078a5717d07ece32a5841237af10ebc3",
+      "empty_fields": {
+        "competition_id": 767,
+        "team_A_id": 767,
+        "team_B_id": 767,
+        "status": 767,
+        "minute": 1569,
+        "score_home": 2723,
+        "score_away": 2723,
+        "period": 3240,
+        "score_note": 216904,
+        "team_A_logo": 2658,
+        "team_B_logo": 2662,
+        "competition_name": 2
+      },
+      "ranges": {
+        "kickoff_local": {
+          "min": "2025-06-11T00:00:00+08:00",
+          "max": "2026-11-04T20:00:00+08:00"
+        },
+        "fetched_at_utc": {
+          "min": "2026-08-31T16:42:41+00:00",
+          "max": "2026-10-12T18:42:14+00:00"
+        }
+      },
+      "rows_with_replacement_character_in_name_or_line": 0
+    },
+    "odds_history": {
+      "columns": [
+        "dedupe_key",
+        "match_id",
+        "cmp_type",
+        "competition_name",
+        "home_team",
+        "away_team",
+        "kickoff_utc",
+        "kickoff_local",
+        "company_id",
+        "company_name",
+        "company_abbr",
+        "market_type",
+        "source_time",
+        "change_time_local",
+        "home_water",
+        "handicap_text",
+        "handicap_value",
+        "away_water",
+        "score",
+        "fetched_at_utc",
+        "source_url"
+      ],
+      "primary_key": [
+        "dedupe_key"
+      ],
+      "rows": 1808375,
+      "row_sha256": "f2e0c9f83f1864d4234b76f7a64400f32eb47d972197d9e0be8c33f832448a54",
+      "empty_fields": {
+        "score": 1543537,
+        "home_water": 10268,
+        "away_water": 10268
+      },
+      "ranges": {
+        "kickoff_local": {
+          "min": "2025-12-18T00:00:00+08:00",
+          "max": "2026-10-13T10:05:00+08:00"
+        },
+        "change_time_local": {
+          "min": "2025-08-14T23:48+08:00",
+          "max": "2026-10-13T02:41+08:00"
+        },
+        "fetched_at_utc": {
+          "min": "2026-08-31T16:43:16+00:00",
+          "max": "2026-10-12T18:43:40+00:00"
+        }
+      },
+      "rows_with_replacement_character_in_name_or_line": 0,
+      "unique_match_ids": 65375,
+      "company_market_counts": [
+        {
+          "company_id": "1",
+          "market_type": "asia",
+          "rows": 113541
+        },
+        {
+          "company_id": "3",
+          "market_type": "asia",
+          "rows": 1418204
+        },
+        {
+          "company_id": "8",
+          "market_type": "asia",
+          "rows": 276374
+        },
+        {
+          "company_id": "9998",
+          "market_type": "asia",
+          "rows": 256
+        }
+      ],
+      "orphan_match_ids": 0
+    },
+    "odds_minute_order": {
+      "columns": [
+        "match_id",
+        "company_id",
+        "market_type",
+        "change_time_local",
+        "sequence_hash",
+        "sequence_json",
+        "source_url",
+        "fetched_at_utc"
+      ],
+      "primary_key": [
+        "match_id",
+        "company_id",
+        "market_type",
+        "change_time_local",
+        "sequence_hash"
+      ],
+      "rows": 59693,
+      "row_sha256": "6f958cfc49b83dbfb7c72ef09a18cd4f37c18713afbdd891938819759223a2cc",
+      "empty_fields": {},
+      "ranges": {
+        "change_time_local": {
+          "min": "2025-08-26T02:04+08:00",
+          "max": "2026-10-13T02:19+08:00"
+        },
+        "fetched_at_utc": {
+          "min": "2026-08-31T18:45:36+00:00",
+          "max": "2026-10-12T18:35:58+00:00"
+        }
+      },
+      "rows_with_replacement_character_in_name_or_line": 0
+    },
+    "match_score_aliases": {
+      "columns": [
+        "alias_id",
+        "source_id",
+        "identity_json",
+        "first_verified_utc",
+        "last_verified_utc",
+        "original_json",
+        "source_json",
+        "basis"
+      ],
+      "primary_key": [
+        "alias_id"
+      ],
+      "rows": 11029,
+      "row_sha256": "af63f86fed0df7363951bbf415bb53b5054524ce4faf2a46effe85364f279da2",
+      "empty_fields": {},
+      "ranges": {},
+      "rows_with_replacement_character_in_name_or_line": 0
+    }
+  },
+  "files": [
+    {
+      "path": "data/matches-part-0001.csv.gz",
+      "bytes": 7627294,
+      "sha256": "c416dd275c69a66f0cda9db0a09680cc80a09ca2297e76947b4cdd577920ba0e",
+      "table": "matches",
+      "rows": 100000
+    },
+    {
+      "path": "data/matches-part-0002.csv.gz",
+      "bytes": 7641957,
+      "sha256": "95e4af7410ab9267000a0305d4182016142339ba3cadecfb92009055406cd8e3",
+      "table": "matches",
+      "rows": 100000
+    },
+    {
+      "path": "data/matches-part-0003.csv.gz",
+      "bytes": 1583694,
+      "sha256": "416f8f5ec3dcf3b6990fdf5501783d892e13427aa9edde8672a3b91dd0fdd827",
+      "table": "matches",
+      "rows": 20936
+    },
+    {
+      "path": "data/odds_history-part-0001.csv.gz",
+      "bytes": 4837018,
+      "sha256": "446c713fe6e41edc2ceb271e0cd59af6bc8cc8acb5d287692d8e768352c9694f",
+      "table": "odds_history",
+      "rows": 100000
+    },
+    {
+      "path": "data/odds_history-part-0002.csv.gz",
+      "bytes": 4838963,
+      "sha256": "554928238bc316e4da523aa3fd7b9e3d25fcd31918f4923addce35fa37dc5f16",
+      "table": "odds_history",
+      "rows": 100000
+    },
+    {
+      "path": "data/odds_history-part-0003.csv.gz",
+      "bytes": 5191127,
+      "sha256": "d5ec815038050d56fd02090d22ad637141c89070b46484ffa244dcee261c9d4b",
+      "table": "odds_history",
+      "rows": 100000
+    },
+    {
+      "path": "data/odds_history-part-0004.csv.gz",
+      "bytes": 5627492,
+      "sha256": "949818a79e080f8439681839a0d96853e45d7034404e2242fcd7535331e3892f",
+      "table": "odds_history",
+      "rows": 100000
+    },
+    {
+      "path": "data/odds_history-part-0005.csv.gz",
+      "bytes": 5515733,
+      "sha256": "735b5f5af3e82bfc75eabaa55016c02564874ea938c93edb713c4e6fadb890e7",
+      "table": "odds_history",
+      "rows": 100000
+    },
+    {
+      "path": "data/odds_history-part-0006.csv.gz",
+      "bytes": 5567478,
+      "sha256": "5a9aeda5b3a25719b06303565300f2ea8735948508d4f34f6dca4c20faf5cc4b",
+      "table": "odds_history",
+      "rows": 100000
+    },
+    {
+      "path": "data/odds_history-part-0007.csv.gz",
+      "bytes": 5515206,
+      "sha256": "2359bf8fcbe06f2c9bd11d41cc2794da573ad0a889e6c8fedcf89fe3a9e637b5",
+      "table": "odds_history",
+      "rows": 100000
+    },
+    {
+      "path": "data/odds_history-part-0008.csv.gz",
+      "bytes": 5255180,
+      "sha256": "67dfa373e7420a40f08bbb68f1a68fe2c03722da11bc7750ad66dead319ed8c6",
+      "table": "odds_history",
+      "rows": 100000
+    },
+    {
+      "path": "data/odds_history-part-0009.csv.gz",
+      "bytes": 5312752,
+      "sha256": "ba83f67e1e250cbddd1ed3134fed133d9d13f67ca9a17cb9d3024f9a4dd802d2",
+      "table": "odds_history",
+      "rows": 100000
+    },
+    {
+      "path": "data/odds_history-part-0010.csv.gz",
+      "bytes": 5416651,
+      "sha256": "4201f423ddbc7330254a1836b1a9cb817cde247d270b2ac9f0bb1c06048fca31",
+      "table": "odds_history",
+      "rows": 100000
+    },
+    {
+      "path": "data/odds_history-part-0011.csv.gz",
+      "bytes": 5341581,
+      "sha256": "9d01866cd7dbfbfa1584d611cb54fd0d4fabfa4827f6a0d845a99c45a563603b",
+      "table": "odds_history",
+      "rows": 100000
+    },
+    {
+      "path": "data/odds_history-part-0012.csv.gz",
+      "bytes": 5420420,
+      "sha256": "f96299498fd51c0bbbfb2184f8dfbc5a31ed4125efcfa00cc881008f34ef6810",
+      "table": "odds_history",
+      "rows": 100000
+    },
+    {
+      "path": "data/odds_history-part-0013.csv.gz",
+      "bytes": 5468870,
+      "sha256": "3c2cc301dfd7f5400f1a2f2b03ea7703a117a524a3f3b2d1f699bd5f9b724bc3",
+      "table": "odds_history",
+      "rows": 100000
+    },
+    {
+      "path": "data/odds_history-part-0014.csv.gz",
+      "bytes": 5468692,
+      "sha256": "dcf6cd9c610ad847a4a6f61a87107ea6691341c7890cded96f8b6d41a0dcf337",
+      "table": "odds_history",
+      "rows": 100000
+    },
+    {
+      "path": "data/odds_history-part-0015.csv.gz",
+      "bytes": 5524660,
+      "sha256": "e660f7f74a3e4fb22802500321a4723d2678589a4cbb351559a55196a8e2a69a",
+      "table": "odds_history",
+      "rows": 100000
+    },
+    {
+      "path": "data/odds_history-part-0016.csv.gz",
+      "bytes": 6268633,
+      "sha256": "62affe5cfa16b943aedd4020f4b5d6ccec14a6d9540ac8b5e2a4aa174347569c",
+      "table": "odds_history",
+      "rows": 100000
+    },
+    {
+      "path": "data/odds_history-part-0017.csv.gz",
+      "bytes": 6311913,
+      "sha256": "985823f1e0ea1d378652f2fb02d682f7253f0bf4b64c46ba2f31fed0f39e2f5c",
+      "table": "odds_history",
+      "rows": 100000
+    },
+    {
+      "path": "data/odds_history-part-0018.csv.gz",
+      "bytes": 6095889,
+      "sha256": "4f8ae1815566fd473caec23b89237e890feaa696cc50f7557dc1dc16861ef236",
+      "table": "odds_history",
+      "rows": 100000
+    },
+    {
+      "path": "data/odds_history-part-0019.csv.gz",
+      "bytes": 531008,
+      "sha256": "04759672c0c169a527fa4eafb40fab836aced43c5514efc0b25cc404170de3d5",
+      "table": "odds_history",
+      "rows": 8375
+    },
+    {
+      "path": "data/odds_minute_order-part-0001.csv.gz",
+      "bytes": 3416594,
+      "sha256": "8057ab13a7f5270d68bebc8c0d1d85c0a1840dffda70b1771ac66228f2f98ddb",
+      "table": "odds_minute_order",
+      "rows": 59693
+    },
+    {
+      "path": "data/match_score_aliases-part-0001.csv.gz",
+      "bytes": 1405724,
+      "sha256": "442e373c8f118d60e424de79477b5661d2f60d48aebc423501c9a85ee6b0f6de",
+      "table": "match_score_aliases",
+      "rows": 11029
+    }
+  ],
+  "support_files": [
+    {
+      "path": "schema.sql",
+      "bytes": 2783,
+      "sha256": "ada0094ed998ed5b64bcaafae81fc558f598d7a513f091f513b4cab090ca5584"
+    }
+  ],
+  "export_finished_at_bjt": "2026-10-13T02:49:35+08:00",
+  "total_compressed_bytes": 121184529
+}
