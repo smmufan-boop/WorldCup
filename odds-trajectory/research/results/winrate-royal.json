@@ -1,0 +1,1337 @@
+{
+ "definition": "(win+half_win)/(win+half_win+half_loss+loss), push excluded",
+ "baseline": "logit P(upper) ~ per line fraction intercept + slope on logit(de-margined upper prob), dev fit",
+ "trivialRules": {
+  "alwaysUpper": {
+   "dev": {
+    "N": 23717,
+    "winRate": 0.4864,
+    "baseline": 0.4864,
+    "lift": -0.0,
+    "liftSE": 0.0032
+   },
+   "devFirstTier": {
+    "N": 7023,
+    "winRate": 0.4789,
+    "baseline": 0.485,
+    "lift": -0.0062,
+    "liftSE": 0.0059
+   },
+   "holdout": {
+    "N": 15182,
+    "winRate": 0.4874,
+    "baseline": 0.4875,
+    "lift": -0.0001,
+    "liftSE": 0.004
+   },
+   "holdoutFirstTier": {
+    "N": 4619,
+    "winRate": 0.4798,
+    "baseline": 0.4859,
+    "lift": -0.0062,
+    "liftSE": 0.0073
+   }
+  },
+  "alwaysLower": {
+   "dev": {
+    "N": 23717,
+    "winRate": 0.5136,
+    "baseline": 0.5136,
+    "lift": 0.0,
+    "liftSE": 0.0032
+   },
+   "devFirstTier": {
+    "N": 7023,
+    "winRate": 0.5211,
+    "baseline": 0.515,
+    "lift": 0.0062,
+    "liftSE": 0.0059
+   },
+   "holdout": {
+    "N": 15182,
+    "winRate": 0.5126,
+    "baseline": 0.5125,
+    "lift": 0.0001,
+    "liftSE": 0.004
+   },
+   "holdoutFirstTier": {
+    "N": 4619,
+    "winRate": 0.5202,
+    "baseline": 0.5141,
+    "lift": 0.0062,
+    "liftSE": 0.0073
+   }
+  },
+  "lowerWaterSide": {
+   "dev": {
+    "N": 23717,
+    "winRate": 0.5254,
+    "baseline": 0.5286,
+    "lift": -0.0032,
+    "liftSE": 0.0032
+   },
+   "devFirstTier": {
+    "N": 7023,
+    "winRate": 0.518,
+    "baseline": 0.527,
+    "lift": -0.009,
+    "liftSE": 0.0059
+   },
+   "holdout": {
+    "N": 15182,
+    "winRate": 0.5364,
+    "baseline": 0.5301,
+    "lift": 0.0063,
+    "liftSE": 0.004
+   },
+   "holdoutFirstTier": {
+    "N": 4619,
+    "winRate": 0.525,
+    "baseline": 0.5276,
+    "lift": -0.0026,
+    "liftSE": 0.0073
+   }
+  },
+  "quarterHalfWinSide": {
+   "dev": {
+    "N": 23717,
+    "winRate": 0.5484,
+    "baseline": 0.5492,
+    "lift": -0.0008,
+    "liftSE": 0.0032
+   },
+   "devFirstTier": {
+    "N": 7023,
+    "winRate": 0.5566,
+    "baseline": 0.5484,
+    "lift": 0.0082,
+    "liftSE": 0.0059
+   },
+   "holdout": {
+    "N": 15182,
+    "winRate": 0.551,
+    "baseline": 0.5496,
+    "lift": 0.0015,
+    "liftSE": 0.004
+   },
+   "holdoutFirstTier": {
+    "N": 4619,
+    "winRate": 0.549,
+    "baseline": 0.5482,
+    "lift": 0.0009,
+    "liftSE": 0.0073
+   }
+  }
+ },
+ "V1_T10": {
+  "dev": {
+   "N": 6202,
+   "winRate": 0.5252,
+   "baseline": 0.5162,
+   "lift": 0.009,
+   "liftSE": 0.0063
+  },
+  "devFirstTier": {
+   "N": 1865,
+   "winRate": 0.5265,
+   "baseline": 0.5146,
+   "lift": 0.012,
+   "liftSE": 0.0115
+  },
+  "holdout": {
+   "N": 5258,
+   "winRate": 0.5223,
+   "baseline": 0.5214,
+   "lift": 0.0009,
+   "liftSE": 0.0068
+  },
+  "holdoutFirstTier": {
+   "N": 1634,
+   "winRate": 0.53,
+   "baseline": 0.5201,
+   "lift": 0.0099,
+   "liftSE": 0.0123
+  }
+ },
+ "instanceMarksSelectedByDevLift": {
+  "params": {
+   "prior": 20,
+   "gamma": 0.5,
+   "prune": false
+  },
+  "dev": {
+   "N": 6207,
+   "winRate": 0.5247,
+   "baseline": 0.5165,
+   "lift": 0.0083,
+   "liftSE": 0.0063
+  },
+  "devFirstTier": {
+   "N": 1866,
+   "winRate": 0.5236,
+   "baseline": 0.5148,
+   "lift": 0.0088,
+   "liftSE": 0.0115
+  },
+  "holdout": {
+   "N": 5261,
+   "winRate": 0.5246,
+   "baseline": 0.5228,
+   "lift": 0.0018,
+   "liftSE": 0.0068
+  },
+  "holdoutFirstTier": {
+   "N": 1635,
+   "winRate": 0.5297,
+   "baseline": 0.5217,
+   "lift": 0.008,
+   "liftSE": 0.0122
+  }
+ },
+ "instanceMarksGrid": [
+  {
+   "params": {
+    "prior": 5,
+    "gamma": 0.5,
+    "prune": false
+   },
+   "dev": {
+    "N": 6207,
+    "winRate": 0.5239,
+    "baseline": 0.5173,
+    "lift": 0.0066,
+    "liftSE": 0.0063
+   },
+   "devFirstTier": {
+    "N": 1866,
+    "winRate": 0.5193,
+    "baseline": 0.516,
+    "lift": 0.0033,
+    "liftSE": 0.0115
+   },
+   "holdout": {
+    "N": 5261,
+    "winRate": 0.5263,
+    "baseline": 0.524,
+    "lift": 0.0023,
+    "liftSE": 0.0068
+   },
+   "holdoutFirstTier": {
+    "N": 1635,
+    "winRate": 0.5303,
+    "baseline": 0.5224,
+    "lift": 0.0078,
+    "liftSE": 0.0122
+   }
+  },
+  {
+   "params": {
+    "prior": 5,
+    "gamma": 0.5,
+    "prune": true
+   },
+   "dev": {
+    "N": 6207,
+    "winRate": 0.5236,
+    "baseline": 0.5173,
+    "lift": 0.0063,
+    "liftSE": 0.0063
+   },
+   "devFirstTier": {
+    "N": 1866,
+    "winRate": 0.5193,
+    "baseline": 0.516,
+    "lift": 0.0033,
+    "liftSE": 0.0115
+   },
+   "holdout": {
+    "N": 5259,
+    "winRate": 0.5265,
+    "baseline": 0.5241,
+    "lift": 0.0025,
+    "liftSE": 0.0068
+   },
+   "holdoutFirstTier": {
+    "N": 1635,
+    "winRate": 0.5303,
+    "baseline": 0.5224,
+    "lift": 0.0078,
+    "liftSE": 0.0122
+   }
+  },
+  {
+   "params": {
+    "prior": 5,
+    "gamma": 1,
+    "prune": false
+   },
+   "dev": {
+    "N": 6207,
+    "winRate": 0.5252,
+    "baseline": 0.5181,
+    "lift": 0.0071,
+    "liftSE": 0.0063
+   },
+   "devFirstTier": {
+    "N": 1866,
+    "winRate": 0.5204,
+    "baseline": 0.5165,
+    "lift": 0.0038,
+    "liftSE": 0.0115
+   },
+   "holdout": {
+    "N": 5261,
+    "winRate": 0.5292,
+    "baseline": 0.5254,
+    "lift": 0.0038,
+    "liftSE": 0.0068
+   },
+   "holdoutFirstTier": {
+    "N": 1635,
+    "winRate": 0.5364,
+    "baseline": 0.5237,
+    "lift": 0.0127,
+    "liftSE": 0.0122
+   }
+  },
+  {
+   "params": {
+    "prior": 5,
+    "gamma": 1,
+    "prune": true
+   },
+   "dev": {
+    "N": 6207,
+    "winRate": 0.5251,
+    "baseline": 0.5181,
+    "lift": 0.0069,
+    "liftSE": 0.0063
+   },
+   "devFirstTier": {
+    "N": 1866,
+    "winRate": 0.5204,
+    "baseline": 0.5165,
+    "lift": 0.0038,
+    "liftSE": 0.0115
+   },
+   "holdout": {
+    "N": 5259,
+    "winRate": 0.5296,
+    "baseline": 0.5254,
+    "lift": 0.0041,
+    "liftSE": 0.0068
+   },
+   "holdoutFirstTier": {
+    "N": 1635,
+    "winRate": 0.5364,
+    "baseline": 0.5237,
+    "lift": 0.0127,
+    "liftSE": 0.0122
+   }
+  },
+  {
+   "params": {
+    "prior": 5,
+    "gamma": 2,
+    "prune": false
+   },
+   "dev": {
+    "N": 6207,
+    "winRate": 0.5223,
+    "baseline": 0.519,
+    "lift": 0.0033,
+    "liftSE": 0.0063
+   },
+   "devFirstTier": {
+    "N": 1866,
+    "winRate": 0.5188,
+    "baseline": 0.5179,
+    "lift": 0.0009,
+    "liftSE": 0.0115
+   },
+   "holdout": {
+    "N": 5261,
+    "winRate": 0.5277,
+    "baseline": 0.5265,
+    "lift": 0.0011,
+    "liftSE": 0.0068
+   },
+   "holdoutFirstTier": {
+    "N": 1635,
+    "winRate": 0.5339,
+    "baseline": 0.5252,
+    "lift": 0.0087,
+    "liftSE": 0.0122
+   }
+  },
+  {
+   "params": {
+    "prior": 5,
+    "gamma": 2,
+    "prune": true
+   },
+   "dev": {
+    "N": 6207,
+    "winRate": 0.5223,
+    "baseline": 0.519,
+    "lift": 0.0033,
+    "liftSE": 0.0063
+   },
+   "devFirstTier": {
+    "N": 1866,
+    "winRate": 0.5188,
+    "baseline": 0.5179,
+    "lift": 0.0009,
+    "liftSE": 0.0115
+   },
+   "holdout": {
+    "N": 5259,
+    "winRate": 0.5279,
+    "baseline": 0.5266,
+    "lift": 0.0013,
+    "liftSE": 0.0068
+   },
+   "holdoutFirstTier": {
+    "N": 1635,
+    "winRate": 0.5339,
+    "baseline": 0.5252,
+    "lift": 0.0087,
+    "liftSE": 0.0122
+   }
+  },
+  {
+   "params": {
+    "prior": 10,
+    "gamma": 0.5,
+    "prune": false
+   },
+   "dev": {
+    "N": 6207,
+    "winRate": 0.5231,
+    "baseline": 0.5167,
+    "lift": 0.0064,
+    "liftSE": 0.0063
+   },
+   "devFirstTier": {
+    "N": 1866,
+    "winRate": 0.5209,
+    "baseline": 0.5152,
+    "lift": 0.0057,
+    "liftSE": 0.0115
+   },
+   "holdout": {
+    "N": 5261,
+    "winRate": 0.5259,
+    "baseline": 0.5235,
+    "lift": 0.0025,
+    "liftSE": 0.0068
+   },
+   "holdoutFirstTier": {
+    "N": 1635,
+    "winRate": 0.5309,
+    "baseline": 0.5222,
+    "lift": 0.0087,
+    "liftSE": 0.0122
+   }
+  },
+  {
+   "params": {
+    "prior": 10,
+    "gamma": 0.5,
+    "prune": true
+   },
+   "dev": {
+    "N": 6207,
+    "winRate": 0.5231,
+    "baseline": 0.5168,
+    "lift": 0.0064,
+    "liftSE": 0.0063
+   },
+   "devFirstTier": {
+    "N": 1866,
+    "winRate": 0.5209,
+    "baseline": 0.5152,
+    "lift": 0.0057,
+    "liftSE": 0.0115
+   },
+   "holdout": {
+    "N": 5259,
+    "winRate": 0.5258,
+    "baseline": 0.5236,
+    "lift": 0.0022,
+    "liftSE": 0.0068
+   },
+   "holdoutFirstTier": {
+    "N": 1635,
+    "winRate": 0.5309,
+    "baseline": 0.5222,
+    "lift": 0.0087,
+    "liftSE": 0.0122
+   }
+  },
+  {
+   "params": {
+    "prior": 10,
+    "gamma": 1,
+    "prune": false
+   },
+   "dev": {
+    "N": 6207,
+    "winRate": 0.5255,
+    "baseline": 0.5175,
+    "lift": 0.008,
+    "liftSE": 0.0063
+   },
+   "devFirstTier": {
+    "N": 1866,
+    "winRate": 0.523,
+    "baseline": 0.5161,
+    "lift": 0.007,
+    "liftSE": 0.0115
+   },
+   "holdout": {
+    "N": 5261,
+    "winRate": 0.5284,
+    "baseline": 0.5245,
+    "lift": 0.0039,
+    "liftSE": 0.0068
+   },
+   "holdoutFirstTier": {
+    "N": 1635,
+    "winRate": 0.5297,
+    "baseline": 0.523,
+    "lift": 0.0067,
+    "liftSE": 0.0123
+   }
+  },
+  {
+   "params": {
+    "prior": 10,
+    "gamma": 1,
+    "prune": true
+   },
+   "dev": {
+    "N": 6207,
+    "winRate": 0.5255,
+    "baseline": 0.5175,
+    "lift": 0.008,
+    "liftSE": 0.0063
+   },
+   "devFirstTier": {
+    "N": 1866,
+    "winRate": 0.523,
+    "baseline": 0.5161,
+    "lift": 0.007,
+    "liftSE": 0.0115
+   },
+   "holdout": {
+    "N": 5259,
+    "winRate": 0.5288,
+    "baseline": 0.5247,
+    "lift": 0.0041,
+    "liftSE": 0.0068
+   },
+   "holdoutFirstTier": {
+    "N": 1635,
+    "winRate": 0.5309,
+    "baseline": 0.5232,
+    "lift": 0.0077,
+    "liftSE": 0.0122
+   }
+  },
+  {
+   "params": {
+    "prior": 10,
+    "gamma": 2,
+    "prune": false
+   },
+   "dev": {
+    "N": 6207,
+    "winRate": 0.5236,
+    "baseline": 0.5183,
+    "lift": 0.0053,
+    "liftSE": 0.0063
+   },
+   "devFirstTier": {
+    "N": 1866,
+    "winRate": 0.5198,
+    "baseline": 0.5165,
+    "lift": 0.0033,
+    "liftSE": 0.0115
+   },
+   "holdout": {
+    "N": 5261,
+    "winRate": 0.5309,
+    "baseline": 0.526,
+    "lift": 0.0049,
+    "liftSE": 0.0068
+   },
+   "holdoutFirstTier": {
+    "N": 1635,
+    "winRate": 0.5376,
+    "baseline": 0.5243,
+    "lift": 0.0133,
+    "liftSE": 0.0122
+   }
+  },
+  {
+   "params": {
+    "prior": 10,
+    "gamma": 2,
+    "prune": true
+   },
+   "dev": {
+    "N": 6207,
+    "winRate": 0.5234,
+    "baseline": 0.5183,
+    "lift": 0.0051,
+    "liftSE": 0.0063
+   },
+   "devFirstTier": {
+    "N": 1866,
+    "winRate": 0.5198,
+    "baseline": 0.5165,
+    "lift": 0.0033,
+    "liftSE": 0.0115
+   },
+   "holdout": {
+    "N": 5259,
+    "winRate": 0.5311,
+    "baseline": 0.5261,
+    "lift": 0.005,
+    "liftSE": 0.0068
+   },
+   "holdoutFirstTier": {
+    "N": 1635,
+    "winRate": 0.5376,
+    "baseline": 0.5243,
+    "lift": 0.0133,
+    "liftSE": 0.0122
+   }
+  },
+  {
+   "params": {
+    "prior": 20,
+    "gamma": 0.5,
+    "prune": false
+   },
+   "dev": {
+    "N": 6207,
+    "winRate": 0.5247,
+    "baseline": 0.5165,
+    "lift": 0.0083,
+    "liftSE": 0.0063
+   },
+   "devFirstTier": {
+    "N": 1866,
+    "winRate": 0.5236,
+    "baseline": 0.5148,
+    "lift": 0.0088,
+    "liftSE": 0.0115
+   },
+   "holdout": {
+    "N": 5261,
+    "winRate": 0.5246,
+    "baseline": 0.5228,
+    "lift": 0.0018,
+    "liftSE": 0.0068
+   },
+   "holdoutFirstTier": {
+    "N": 1635,
+    "winRate": 0.5297,
+    "baseline": 0.5217,
+    "lift": 0.008,
+    "liftSE": 0.0122
+   }
+  },
+  {
+   "params": {
+    "prior": 20,
+    "gamma": 0.5,
+    "prune": true
+   },
+   "dev": {
+    "N": 6207,
+    "winRate": 0.5242,
+    "baseline": 0.5165,
+    "lift": 0.0077,
+    "liftSE": 0.0063
+   },
+   "devFirstTier": {
+    "N": 1866,
+    "winRate": 0.523,
+    "baseline": 0.5149,
+    "lift": 0.0081,
+    "liftSE": 0.0115
+   },
+   "holdout": {
+    "N": 5259,
+    "winRate": 0.525,
+    "baseline": 0.523,
+    "lift": 0.002,
+    "liftSE": 0.0068
+   },
+   "holdoutFirstTier": {
+    "N": 1635,
+    "winRate": 0.5309,
+    "baseline": 0.5219,
+    "lift": 0.009,
+    "liftSE": 0.0122
+   }
+  },
+  {
+   "params": {
+    "prior": 20,
+    "gamma": 1,
+    "prune": false
+   },
+   "dev": {
+    "N": 6207,
+    "winRate": 0.523,
+    "baseline": 0.5169,
+    "lift": 0.0061,
+    "liftSE": 0.0063
+   },
+   "devFirstTier": {
+    "N": 1866,
+    "winRate": 0.5209,
+    "baseline": 0.5153,
+    "lift": 0.0056,
+    "liftSE": 0.0115
+   },
+   "holdout": {
+    "N": 5261,
+    "winRate": 0.5267,
+    "baseline": 0.5236,
+    "lift": 0.0031,
+    "liftSE": 0.0068
+   },
+   "holdoutFirstTier": {
+    "N": 1635,
+    "winRate": 0.5303,
+    "baseline": 0.5221,
+    "lift": 0.0081,
+    "liftSE": 0.0122
+   }
+  },
+  {
+   "params": {
+    "prior": 20,
+    "gamma": 1,
+    "prune": true
+   },
+   "dev": {
+    "N": 6207,
+    "winRate": 0.5228,
+    "baseline": 0.5169,
+    "lift": 0.0059,
+    "liftSE": 0.0063
+   },
+   "devFirstTier": {
+    "N": 1866,
+    "winRate": 0.5209,
+    "baseline": 0.5153,
+    "lift": 0.0056,
+    "liftSE": 0.0115
+   },
+   "holdout": {
+    "N": 5259,
+    "winRate": 0.5265,
+    "baseline": 0.5237,
+    "lift": 0.0028,
+    "liftSE": 0.0068
+   },
+   "holdoutFirstTier": {
+    "N": 1635,
+    "winRate": 0.5303,
+    "baseline": 0.5221,
+    "lift": 0.0081,
+    "liftSE": 0.0122
+   }
+  },
+  {
+   "params": {
+    "prior": 20,
+    "gamma": 2,
+    "prune": false
+   },
+   "dev": {
+    "N": 6207,
+    "winRate": 0.5257,
+    "baseline": 0.5176,
+    "lift": 0.0081,
+    "liftSE": 0.0063
+   },
+   "devFirstTier": {
+    "N": 1866,
+    "winRate": 0.5225,
+    "baseline": 0.5158,
+    "lift": 0.0067,
+    "liftSE": 0.0115
+   },
+   "holdout": {
+    "N": 5261,
+    "winRate": 0.5292,
+    "baseline": 0.5248,
+    "lift": 0.0044,
+    "liftSE": 0.0068
+   },
+   "holdoutFirstTier": {
+    "N": 1635,
+    "winRate": 0.5327,
+    "baseline": 0.5235,
+    "lift": 0.0092,
+    "liftSE": 0.0122
+   }
+  },
+  {
+   "params": {
+    "prior": 20,
+    "gamma": 2,
+    "prune": true
+   },
+   "dev": {
+    "N": 6207,
+    "winRate": 0.5255,
+    "baseline": 0.5176,
+    "lift": 0.008,
+    "liftSE": 0.0063
+   },
+   "devFirstTier": {
+    "N": 1866,
+    "winRate": 0.5225,
+    "baseline": 0.5158,
+    "lift": 0.0067,
+    "liftSE": 0.0115
+   },
+   "holdout": {
+    "N": 5259,
+    "winRate": 0.5296,
+    "baseline": 0.5249,
+    "lift": 0.0047,
+    "liftSE": 0.0068
+   },
+   "holdoutFirstTier": {
+    "N": 1635,
+    "winRate": 0.5327,
+    "baseline": 0.5235,
+    "lift": 0.0092,
+    "liftSE": 0.0122
+   }
+  }
+ ],
+ "patternGateSelectedByDevLift": {
+  "params": {
+   "gatePrior": 10,
+   "threshold": 0.58
+  },
+  "dev": {
+   "N": 373,
+   "winRate": 0.5469,
+   "baseline": 0.5289,
+   "lift": 0.018,
+   "liftSE": 0.0257
+  },
+  "devFirstTier": {
+   "N": 111,
+   "winRate": 0.5586,
+   "baseline": 0.5188,
+   "lift": 0.0397,
+   "liftSE": 0.0473
+  },
+  "holdout": {
+   "N": 412,
+   "winRate": 0.5388,
+   "baseline": 0.5445,
+   "lift": -0.0057,
+   "liftSE": 0.0242
+  },
+  "holdoutFirstTier": {
+   "N": 141,
+   "winRate": 0.5248,
+   "baseline": 0.5406,
+   "lift": -0.0158,
+   "liftSE": 0.0414
+  }
+ },
+ "patternGateGrid": [
+  {
+   "params": {
+    "gatePrior": 10,
+    "threshold": 0.52
+   },
+   "dev": {
+    "N": 2441,
+    "winRate": 0.5219,
+    "baseline": 0.5226,
+    "lift": -0.0007,
+    "liftSE": 0.0101
+   },
+   "devFirstTier": {
+    "N": 706,
+    "winRate": 0.5453,
+    "baseline": 0.5238,
+    "lift": 0.0216,
+    "liftSE": 0.0186
+   },
+   "holdout": {
+    "N": 2455,
+    "winRate": 0.5303,
+    "baseline": 0.5314,
+    "lift": -0.0011,
+    "liftSE": 0.01
+   },
+   "holdoutFirstTier": {
+    "N": 762,
+    "winRate": 0.5262,
+    "baseline": 0.5277,
+    "lift": -0.0015,
+    "liftSE": 0.0179
+   }
+  },
+  {
+   "params": {
+    "gatePrior": 10,
+    "threshold": 0.55
+   },
+   "dev": {
+    "N": 1026,
+    "winRate": 0.5234,
+    "baseline": 0.5282,
+    "lift": -0.0048,
+    "liftSE": 0.0155
+   },
+   "devFirstTier": {
+    "N": 297,
+    "winRate": 0.5522,
+    "baseline": 0.5264,
+    "lift": 0.0258,
+    "liftSE": 0.0288
+   },
+   "holdout": {
+    "N": 1053,
+    "winRate": 0.5356,
+    "baseline": 0.5387,
+    "lift": -0.003,
+    "liftSE": 0.0152
+   },
+   "holdoutFirstTier": {
+    "N": 355,
+    "winRate": 0.5211,
+    "baseline": 0.5288,
+    "lift": -0.0077,
+    "liftSE": 0.0263
+   }
+  },
+  {
+   "params": {
+    "gatePrior": 10,
+    "threshold": 0.58
+   },
+   "dev": {
+    "N": 373,
+    "winRate": 0.5469,
+    "baseline": 0.5289,
+    "lift": 0.018,
+    "liftSE": 0.0257
+   },
+   "devFirstTier": {
+    "N": 111,
+    "winRate": 0.5586,
+    "baseline": 0.5188,
+    "lift": 0.0397,
+    "liftSE": 0.0473
+   },
+   "holdout": {
+    "N": 412,
+    "winRate": 0.5388,
+    "baseline": 0.5445,
+    "lift": -0.0057,
+    "liftSE": 0.0242
+   },
+   "holdoutFirstTier": {
+    "N": 141,
+    "winRate": 0.5248,
+    "baseline": 0.5406,
+    "lift": -0.0158,
+    "liftSE": 0.0414
+   }
+  },
+  {
+   "params": {
+    "gatePrior": 30,
+    "threshold": 0.52
+   },
+   "dev": {
+    "N": 1529,
+    "winRate": 0.5219,
+    "baseline": 0.5287,
+    "lift": -0.0067,
+    "liftSE": 0.0127
+   },
+   "devFirstTier": {
+    "N": 426,
+    "winRate": 0.5657,
+    "baseline": 0.5289,
+    "lift": 0.0368,
+    "liftSE": 0.0239
+   },
+   "holdout": {
+    "N": 1911,
+    "winRate": 0.5374,
+    "baseline": 0.5373,
+    "lift": 0.0001,
+    "liftSE": 0.0112
+   },
+   "holdoutFirstTier": {
+    "N": 569,
+    "winRate": 0.5395,
+    "baseline": 0.5321,
+    "lift": 0.0074,
+    "liftSE": 0.0207
+   }
+  },
+  {
+   "params": {
+    "gatePrior": 30,
+    "threshold": 0.55
+   },
+   "dev": {
+    "N": 264,
+    "winRate": 0.5152,
+    "baseline": 0.536,
+    "lift": -0.0208,
+    "liftSE": 0.0304
+   },
+   "devFirstTier": {
+    "N": 78,
+    "winRate": 0.5,
+    "baseline": 0.5299,
+    "lift": -0.0299,
+    "liftSE": 0.0564
+   },
+   "holdout": {
+    "N": 525,
+    "winRate": 0.5371,
+    "baseline": 0.5561,
+    "lift": -0.019,
+    "liftSE": 0.0213
+   },
+   "holdoutFirstTier": {
+    "N": 160,
+    "winRate": 0.5,
+    "baseline": 0.5462,
+    "lift": -0.0462,
+    "liftSE": 0.039
+   }
+  },
+  {
+   "params": {
+    "gatePrior": 30,
+    "threshold": 0.58
+   },
+   "dev": {
+    "N": 42,
+    "winRate": 0.5714,
+    "baseline": 0.5776,
+    "lift": -0.0061,
+    "liftSE": 0.0766
+   },
+   "devFirstTier": {
+    "N": 15,
+    "winRate": 0.6667,
+    "baseline": 0.5625,
+    "lift": 0.1042,
+    "liftSE": 0.1268
+   },
+   "holdout": {
+    "N": 133,
+    "winRate": 0.5188,
+    "baseline": 0.5813,
+    "lift": -0.0625,
+    "liftSE": 0.0422
+   },
+   "holdoutFirstTier": {
+    "N": 41,
+    "winRate": 0.4878,
+    "baseline": 0.5724,
+    "lift": -0.0846,
+    "liftSE": 0.0763
+   }
+  }
+ ],
+ "crossCompanyT10": {
+  "followMacau|gap|>0.05": {
+   "dev": {
+    "N": 4817,
+    "winRate": 0.4839,
+    "baseline": 0.4816,
+    "lift": 0.0023,
+    "liftSE": 0.0071
+   },
+   "devFirstTier": {
+    "N": 2184,
+    "winRate": 0.4785,
+    "baseline": 0.4818,
+    "lift": -0.0034,
+    "liftSE": 0.0106
+   },
+   "holdout": {
+    "N": 2947,
+    "winRate": 0.4706,
+    "baseline": 0.4782,
+    "lift": -0.0076,
+    "liftSE": 0.0091
+   },
+   "holdoutFirstTier": {
+    "N": 1222,
+    "winRate": 0.4705,
+    "baseline": 0.4762,
+    "lift": -0.0056,
+    "liftSE": 0.0141
+   }
+  },
+  "fadeMacau|gap|>0.05": {
+   "dev": {
+    "N": 4817,
+    "winRate": 0.5161,
+    "baseline": 0.5184,
+    "lift": -0.0023,
+    "liftSE": 0.0071
+   },
+   "devFirstTier": {
+    "N": 2184,
+    "winRate": 0.5215,
+    "baseline": 0.5182,
+    "lift": 0.0034,
+    "liftSE": 0.0106
+   },
+   "holdout": {
+    "N": 2947,
+    "winRate": 0.5294,
+    "baseline": 0.5218,
+    "lift": 0.0076,
+    "liftSE": 0.0091
+   },
+   "holdoutFirstTier": {
+    "N": 1222,
+    "winRate": 0.5295,
+    "baseline": 0.5238,
+    "lift": 0.0056,
+    "liftSE": 0.0141
+   }
+  },
+  "followMacau|gap|>0.10": {
+   "dev": {
+    "N": 2251,
+    "winRate": 0.4691,
+    "baseline": 0.4753,
+    "lift": -0.0062,
+    "liftSE": 0.0104
+   },
+   "devFirstTier": {
+    "N": 973,
+    "winRate": 0.4707,
+    "baseline": 0.475,
+    "lift": -0.0043,
+    "liftSE": 0.0159
+   },
+   "holdout": {
+    "N": 1297,
+    "winRate": 0.448,
+    "baseline": 0.4715,
+    "lift": -0.0236,
+    "liftSE": 0.0137
+   },
+   "holdoutFirstTier": {
+    "N": 466,
+    "winRate": 0.4442,
+    "baseline": 0.4678,
+    "lift": -0.0235,
+    "liftSE": 0.0227
+   }
+  },
+  "fadeMacau|gap|>0.10": {
+   "dev": {
+    "N": 2251,
+    "winRate": 0.5309,
+    "baseline": 0.5247,
+    "lift": 0.0062,
+    "liftSE": 0.0104
+   },
+   "devFirstTier": {
+    "N": 973,
+    "winRate": 0.5293,
+    "baseline": 0.525,
+    "lift": 0.0043,
+    "liftSE": 0.0159
+   },
+   "holdout": {
+    "N": 1297,
+    "winRate": 0.552,
+    "baseline": 0.5285,
+    "lift": 0.0236,
+    "liftSE": 0.0137
+   },
+   "holdoutFirstTier": {
+    "N": 466,
+    "winRate": 0.5558,
+    "baseline": 0.5322,
+    "lift": 0.0235,
+    "liftSE": 0.0227
+   }
+  },
+  "followMacau|gap|>0.20": {
+   "dev": {
+    "N": 405,
+    "winRate": 0.4642,
+    "baseline": 0.4703,
+    "lift": -0.0061,
+    "liftSE": 0.0247
+   },
+   "devFirstTier": {
+    "N": 150,
+    "winRate": 0.4867,
+    "baseline": 0.4628,
+    "lift": 0.0238,
+    "liftSE": 0.0404
+   },
+   "holdout": {
+    "N": 180,
+    "winRate": 0.4167,
+    "baseline": 0.4587,
+    "lift": -0.042,
+    "liftSE": 0.0366
+   },
+   "holdoutFirstTier": {
+    "N": 50,
+    "winRate": 0.44,
+    "baseline": 0.4568,
+    "lift": -0.0168,
+    "liftSE": 0.0701
+   }
+  },
+  "fadeMacau|gap|>0.20": {
+   "dev": {
+    "N": 405,
+    "winRate": 0.5358,
+    "baseline": 0.5297,
+    "lift": 0.0061,
+    "liftSE": 0.0247
+   },
+   "devFirstTier": {
+    "N": 150,
+    "winRate": 0.5133,
+    "baseline": 0.5372,
+    "lift": -0.0238,
+    "liftSE": 0.0404
+   },
+   "holdout": {
+    "N": 180,
+    "winRate": 0.5833,
+    "baseline": 0.5413,
+    "lift": 0.042,
+    "liftSE": 0.0366
+   },
+   "holdoutFirstTier": {
+    "N": 50,
+    "winRate": 0.56,
+    "baseline": 0.5432,
+    "lift": 0.0168,
+    "liftSE": 0.0701
+   }
+  }
+ },
+ "earlierStages": {
+  "V1_T120": {
+   "dev": {
+    "N": 6876,
+    "winRate": 0.5257,
+    "baseline": 0.5218,
+    "lift": 0.004,
+    "liftSE": 0.006
+   },
+   "devFirstTier": {
+    "N": 2553,
+    "winRate": 0.5206,
+    "baseline": 0.5221,
+    "lift": -0.0016,
+    "liftSE": 0.0098
+   },
+   "holdout": {
+    "N": 5437,
+    "winRate": 0.5345,
+    "baseline": 0.5258,
+    "lift": 0.0086,
+    "liftSE": 0.0067
+   },
+   "holdoutFirstTier": {
+    "N": 1945,
+    "winRate": 0.5409,
+    "baseline": 0.5267,
+    "lift": 0.0142,
+    "liftSE": 0.0113
+   }
+  },
+  "V1_T60": {
+   "dev": {
+    "N": 6551,
+    "winRate": 0.5253,
+    "baseline": 0.5195,
+    "lift": 0.0058,
+    "liftSE": 0.0061
+   },
+   "devFirstTier": {
+    "N": 2241,
+    "winRate": 0.5252,
+    "baseline": 0.5212,
+    "lift": 0.004,
+    "liftSE": 0.0105
+   },
+   "holdout": {
+    "N": 5426,
+    "winRate": 0.5197,
+    "baseline": 0.5231,
+    "lift": -0.0034,
+    "liftSE": 0.0067
+   },
+   "holdoutFirstTier": {
+    "N": 1849,
+    "winRate": 0.5343,
+    "baseline": 0.5223,
+    "lift": 0.0121,
+    "liftSE": 0.0115
+   }
+  },
+  "V1_T30": {
+   "dev": {
+    "N": 6447,
+    "winRate": 0.521,
+    "baseline": 0.5166,
+    "lift": 0.0044,
+    "liftSE": 0.0062
+   },
+   "devFirstTier": {
+    "N": 2055,
+    "winRate": 0.5197,
+    "baseline": 0.5161,
+    "lift": 0.0036,
+    "liftSE": 0.011
+   },
+   "holdout": {
+    "N": 5402,
+    "winRate": 0.5194,
+    "baseline": 0.5211,
+    "lift": -0.0016,
+    "liftSE": 0.0067
+   },
+   "holdoutFirstTier": {
+    "N": 1746,
+    "winRate": 0.508,
+    "baseline": 0.5177,
+    "lift": -0.0097,
+    "liftSE": 0.0119
+   }
+  }
+ }
+}
