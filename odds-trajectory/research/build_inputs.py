@@ -71,72 +71,100 @@ def settle(line, home_water, away_water, sh, sa):
     return result, upper, lower
 
 
-def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--company', default='3')
-    parser.add_argument('--stage', type=int, default=10, help='decision cutoff, minutes before kickoff')
-    args = parser.parse_args()
-    lead = args.stage * 60
-
-    matches = {m['match_id']: m for m in rows('matches')}
-    alias = {a['alias_id']: a['source_id'] for a in rows('match_score_aliases')}
+def collect(matches_rows, alias_rows, quote_rows, order_rows, company):
+    """One pass over the four tables, keeping only ``company`` asia quotes."""
+    matches = {m['match_id']: m for m in matches_rows}
+    alias = {a['alias_id']: a['source_id'] for a in alias_rows}
     quotes, kickoffs = defaultdict(list), defaultdict(list)
-    for q in rows('odds_history'):
-        if q['company_id'] == args.company and q['market_type'] == 'asia':
+    for q in quote_rows:
+        if q['company_id'] == company and q['market_type'] == 'asia':
             quotes[q['match_id']].append(q)
             ts = clock(q['kickoff_local'])
             if ts is not None:
                 kickoffs[q['match_id']].append(ts)
     order = defaultdict(lambda: defaultdict(list))
-    for o in rows('odds_minute_order'):
-        if o['company_id'] == args.company and o['market_type'] == 'asia':
+    for o in order_rows:
+        if o['company_id'] == company and o['market_type'] == 'asia':
             order[o['match_id']][clock(o['change_time_local'])].append(o['sequence_json'])
+    return {'matches': matches, 'alias': alias, 'quotes': quotes, 'kickoffs': kickoffs, 'order': order}
 
+
+def kickoff_of(data, mid):
+    """Earliest known kickoff: protects against postponements leaking in-play quotes."""
+    meta = data['matches'].get(mid)
+    if meta is None:
+        return None
+    candidates = data['kickoffs'][mid] + [t for t in (clock(meta['kickoff_local']),) if t is not None]
+    return min(candidates) if candidates else None
+
+
+def result_of(data, mid):
+    meta = data['matches'][mid]
+    row = meta if verified_result(meta) else data['matches'].get(data['alias'].get(mid, ''), meta)
+    return verified_result(row)
+
+
+def build_record(data, mid, lead):
+    """V1 inputs for one match at cutoff = kickoff - lead; (record, None) or (None, reason)."""
+    meta = data['matches'].get(mid)
+    if meta is None:
+        return None, 'no_metadata'
+    kickoff = kickoff_of(data, mid)
+    cutoff = kickoff - lead
+    ticks, error = points(data['quotes'][mid], kickoff, cutoff, data['order'][mid])
+    if error:
+        return None, 'points:' + error
+    feat = feature(ticks, cutoff)
+    if feat is None:
+        return None, 'feature_none'
+    score = result_of(data, mid)
+    last = feat['last']
+    rec = {
+        'matchId': mid, 'kickoff': kickoff, 'cutoff': cutoff,
+        'competition': meta['competition_name'], 'firstTier': first_tier(meta['competition_name']),
+        'home': meta['team_A_name'], 'away': meta['team_B_name'],
+        'teamIds': bool(meta['team_A_id'] and meta['team_B_id']),
+        'fixtureKey': fixture_key(meta), 'sourceId': data['alias'].get(mid, mid),
+        'feature': feat,
+        # V1 point scorer input: home perspective, home_handicap = -line.
+        'tickTimes': [p['ts'] for p in ticks],
+        'records': [{'home_handicap': -p['line'], 'home_water': p['home'], 'away_water': p['away']}
+                    for p in ticks],
+        'line': last['line'], 'homeWater': last['home'], 'awayWater': last['away'],
+    }
+    if score is not None:
+        rec['score'] = score
+        rec['upperResult'], rec['upperProfit'], rec['lowerProfit'] = settle(
+            last['line'], last['home'], last['away'], *score)
+    return rec, None
+
+
+def build_records(data, lead, match_ids=None):
     out, skipped = [], defaultdict(int)
-    for mid, qs in quotes.items():
-        meta = matches.get(mid)
-        if meta is None:
-            skipped['no_metadata'] += 1
-            continue
-        # Earliest known kickoff: protects against postponements leaking in-play quotes.
-        candidates = kickoffs[mid] + [t for t in (clock(meta['kickoff_local']),) if t is not None]
-        kickoff = min(candidates)
-        cutoff = kickoff - lead
-        ticks, error = points(qs, kickoff, cutoff, order[mid])
-        if error:
-            skipped['points:' + error] += 1
-            continue
-        feat = feature(ticks, cutoff)
-        if feat is None:
-            skipped['feature_none'] += 1
-            continue
-        result_row = meta if verified_result(meta) else matches.get(alias.get(mid, ''), meta)
-        score = verified_result(result_row)
-        last = feat['last']
-        rec = {
-            'matchId': mid, 'kickoff': kickoff, 'cutoff': cutoff,
-            'competition': meta['competition_name'], 'firstTier': first_tier(meta['competition_name']),
-            'teamIds': bool(meta['team_A_id'] and meta['team_B_id']),
-            'fixtureKey': fixture_key(meta), 'sourceId': alias.get(mid, mid),
-            'feature': feat,
-            # V1 point scorer input: home perspective, home_handicap = -line.
-            'tickTimes': [p['ts'] for p in ticks],
-            'records': [{'home_handicap': -p['line'], 'home_water': p['home'], 'away_water': p['away']}
-                        for p in ticks],
-            'line': last['line'], 'homeWater': last['home'], 'awayWater': last['away'],
-        }
-        if score is not None:
-            rec['score'] = score
-            rec['upperResult'], rec['upperProfit'], rec['lowerProfit'] = settle(
-                last['line'], last['home'], last['away'], *score)
-        out.append(rec)
+    for mid in (data['quotes'] if match_ids is None else match_ids):
+        rec, reason = build_record(data, mid, lead)
+        if rec is None:
+            skipped[reason] += 1
+        else:
+            out.append(rec)
+    return out, dict(skipped)
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--company', default='3')
+    parser.add_argument('--stage', type=int, default=10, help='decision cutoff, minutes before kickoff')
+    args = parser.parse_args()
+    data = collect(rows('matches'), rows('match_score_aliases'), rows('odds_history'),
+                   rows('odds_minute_order'), args.company)
+    out, skipped = build_records(data, args.stage * 60)
 
     CACHE.mkdir(exist_ok=True)
     path = CACHE / f'inputs-company{args.company}-T{args.stage}.pkl'
     with open(path, 'wb') as stream:
         pickle.dump(out, stream, protocol=pickle.HIGHEST_PROTOCOL)
     print(json.dumps({'company': args.company, 'stage': args.stage, 'matches': len(out),
-                      'withResult': sum('score' in r for r in out), 'skipped': dict(skipped),
+                      'withResult': sum('score' in r for r in out), 'skipped': skipped,
                       'output': str(path)}, ensure_ascii=False, indent=1))
 
 

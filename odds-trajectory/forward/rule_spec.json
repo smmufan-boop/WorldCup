@@ -1,0 +1,57 @@
+{
+ "version": "forward-rule-v1",
+ "registeredAt": "2026-10-13",
+ "prospectiveFrom": "2026-10-13T12:00:00+08:00",
+ "status": "registered; parameters frozen; any change requires a new version",
+ "company": "3",
+ "market": "asia",
+ "stages": {
+  "decisionMinutesBeforeKickoff": 10,
+  "confirmationMinutesBeforeKickoff": 120
+ },
+ "v1": {
+  "directionVersion": "trajectory-direction-v1:e485690037a4",
+  "matchingVersion": "same-company-path-v2-source-order",
+  "pointScoreVersion": "odds-point-progress-v1.0.0:handicap-nodes-v1",
+  "parameters": {"power": 2.0, "shrinkage": 20.0},
+  "neutralTolerance": 1e-8,
+  "historyPool": "verified 90-minute result, both team IDs, kickoff + 5400 s before the stage cutoff, same company"
+ },
+ "rule": {
+  "quoteUsed": "last Royal asia quote at or before kickoff - 600 s (V1 points cleaning)",
+  "x.25 line": "receiving team (a draw is a half win)",
+  "x.75 line": "giving team (winning by exactly one is a half win)",
+  "whole, half or level line": "lower-water team; the giving team (home on a level line) on equal water"
+ },
+ "gates": {
+  "G_V1_T120": "V1 at T-120 is non-neutral and its team equals the rule team (team = giver at the T-120 line if D > 50, else the other team)",
+  "G_V1_T10": "V1 at T-10 is missing, neutral, or its team equals the rule team",
+  "G_LINE": "signed line move from the first valid prematch Royal quote to the T-10 quote is toward the rule team (it now gives more or receives less)"
+ },
+ "levels": {
+  "L0": "rule only (recorded for every eligible match as the comparison base)",
+  "L1": "L0 and G_V1_T120 and G_V1_T10",
+  "L2": "L1 and G_LINE"
+ },
+ "primaryLevel": "L2",
+ "eligibility": {
+  "competitions": "all; first-tier flag recorded for the secondary analysis",
+  "oneDecisionPerMatch": true,
+  "lateDecision": "generated at or after kickoff: recorded, flagged late, excluded from evaluation"
+ },
+ "settlement": "frozen team, line and that team's water from the T-10 quote; verified regular-time 90-minute score including stoppage time",
+ "winRate": "(win + half_win) / (win + half_win + half_loss + loss); push excluded",
+ "baseline": {
+  "purpose": "expected win rate from price and line type alone; lift = actual - expected",
+  "model": "logit P(upper wins) = sum over line fraction f in (0, .25, .5, .75) of [a_f + b_f * logit(de-margined upper probability)] * I(fraction = f)",
+  "coefficients": {"a": [0.047069, -0.281623, 0.015158, 0.210702], "b": [1.300388, 1.176811, 1.08165, 1.007114]},
+  "fittedOn": "Royal T-10, kickoff 2026-02-01 to 2026-07-31 (BJT)"
+ },
+ "evaluation": {
+  "primaryHypothesis": "L2 win rate exceeds L0 win rate on prospective, non-late decisions",
+  "secondary": ["L2 lift over baseline > 0", "L2 ROI at frozen quotes", "L1 versus L0", "first-tier subset"],
+  "checkpointsL2Settled": [150, 300],
+  "noParameterChangesBetweenCheckpoints": true
+ },
+ "historicalReference": "filled by forward_rule.py backtest; see RULES.md"
+}

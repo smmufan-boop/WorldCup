@@ -1,0 +1,388 @@
+"""forward-rule-v1: no-model quarter-line rule, V1 trajectory confirmation, line-move gate.
+
+The rule, gates and evaluation are fixed in rule_spec.json and RULES.md.
+V1 is called unchanged through the research builders (same cleaning, history
+pool and parameters as the published V1 package).
+
+Modes
+  backtest  check the frozen rule on the research replay caches (retrospective)
+  scan      freeze V1 at T-120 and issue T-10 decisions into a JSONL ledger
+  settle    score ledger decisions with verified 90-minute results
+
+Sources: ``--db trajectory.sqlite3`` (a restored snapshot or the live Pankou
+database with the same four tables) or ``--snapshot DIR`` (published CSV parts).
+
+    python odds-trajectory/forward/forward_rule.py backtest
+    python odds-trajectory/forward/forward_rule.py scan --db PATH --ledger ledger.jsonl [--now ISO]
+    python odds-trajectory/forward/forward_rule.py settle --db PATH --ledger ledger.jsonl
+"""
+from __future__ import annotations
+
+import argparse
+import csv
+import glob
+import gzip
+import json
+import math
+import pickle
+import sqlite3
+import sys
+import time
+from collections import defaultdict
+from datetime import datetime
+from pathlib import Path
+
+HERE = Path(__file__).resolve().parent
+RESEARCH = HERE.parent / 'research'
+sys.path.insert(0, str(RESEARCH))
+sys.path.insert(0, str(HERE.parent / 'v1' / 'code'))
+import replay_v1  # noqa: E402
+from build_inputs import build_record, build_records, collect, kickoff_of, result_of, settle  # noqa: E402
+from direction_v1 import configuration  # noqa: E402
+from matching_core import BJT, clock  # noqa: E402
+
+SPEC = json.loads((HERE / 'rule_spec.json').read_text('utf-8'))
+VERSION = SPEC['version']
+COMPANY = SPEC['company']
+DECISION = SPEC['stages']['decisionMinutesBeforeKickoff'] * 60
+CONFIRM = SPEC['stages']['confirmationMinutesBeforeKickoff'] * 60
+TOL = SPEC['v1']['neutralTolerance']
+FLIP = {'win': 'loss', 'half_win': 'half_loss', 'push': 'push', 'half_loss': 'half_win', 'loss': 'win'}
+WINS, LOSSES = ('win', 'half_win'), ('half_loss', 'loss')
+
+
+# ---------------------------------------------------------------- the rule
+def upper_team(line):
+    return 'home' if line >= 0 else 'away'
+
+
+def other(team):
+    return 'away' if team == 'home' else 'home'
+
+
+def rule_team(line, home_water, away_water):
+    fraction = round(abs(line) * 4) % 4
+    up = upper_team(line)
+    if fraction == 1:
+        return other(up)
+    if fraction == 3:
+        return up
+    up_water, low_water = (home_water, away_water) if up == 'home' else (away_water, home_water)
+    return up if up_water <= low_water else other(up)
+
+
+def v1_team(score, line):
+    if score is None or line is None or abs(score - 50) <= TOL:
+        return None
+    return upper_team(line) if score > 50 else other(upper_team(line))
+
+
+def line_move(team, line_open, line_now):
+    """Signed move of the local line (+ = home gives) from the team's view."""
+    delta = (1 if team == 'home' else -1) * (line_now - line_open)
+    return 'toward' if delta > 1e-9 else 'against' if delta < -1e-9 else 'unchanged'
+
+
+def decide(line, home_water, away_water, line_open, v1_t10, v1_t120):
+    """v1_t10 / v1_t120: {'score': D or None, 'line': stage line} or None."""
+    team = rule_team(line, home_water, away_water)
+    t120 = v1_team(*(v1_t120['score'], v1_t120['line'])) if v1_t120 else None
+    t10 = v1_team(*(v1_t10['score'], v1_t10['line'])) if v1_t10 else None
+    move = line_move(team, line_open, line)
+    gate120 = t120 == team
+    gate10 = t10 is None or t10 == team
+    gate_line = move == 'toward'
+    return {'team': team, 'v1TeamT120': t120, 'v1TeamT10': t10, 'lineMove': move,
+            'gates': {'G_V1_T120': gate120, 'G_V1_T10': gate10, 'G_LINE': gate_line},
+            'levels': {'L0': True, 'L1': gate120 and gate10, 'L2': gate120 and gate10 and gate_line}}
+
+
+def settle_team(team, line, home_water, away_water, score):
+    result, upper_profit, lower_profit = settle(line, home_water, away_water, *score)
+    if team == upper_team(line):
+        return result, upper_profit
+    return FLIP[result], lower_profit
+
+
+def baseline_expected(team, line, home_water, away_water):
+    ih, ia = 1 / (1 + home_water), 1 / (1 + away_water)
+    p_home = ih / (ih + ia)
+    p_up = p_home if line >= 0 else 1 - p_home
+    f = round(abs(line) * 4) % 4
+    c = SPEC['baseline']['coefficients']
+    p = 1 / (1 + math.exp(-(c['a'][f] + c['b'][f] * math.log(p_up / (1 - p_up)))))
+    return p if team == upper_team(line) else 1 - p
+
+
+# ---------------------------------------------------------------- summaries
+def summarise(rows):
+    """rows: dicts with result, profit, expected."""
+    counts = defaultdict(int)
+    for r in rows:
+        counts[r['result']] += 1
+    decided = [r for r in rows if r['result'] != 'push']
+    wins = sum(r['result'] in WINS for r in decided)
+    n = len(decided)
+    out = {'bets': len(rows), 'counts': {k: counts[k] for k in ('win', 'half_win', 'push', 'half_loss', 'loss')}}
+    if n:
+        w = wins / n
+        out.update(winRate=round(w, 4), winSE=round(math.sqrt(w * (1 - w) / n), 4),
+                   baseline=round(sum(r['expected'] for r in decided) / n, 4),
+                   lift=round(w - sum(r['expected'] for r in decided) / n, 4))
+    if rows:
+        out['roi'] = round(sum(r['profit'] for r in rows) / len(rows), 4)
+    return out
+
+
+def by_level(rows):
+    return {lv: summarise([r for r in rows if r['levels'][lv]]) for lv in ('L0', 'L1', 'L2')}
+
+
+def print_levels(title, block):
+    print(title)
+    for lv, s in block.items():
+        if s.get('winRate') is None:
+            print(f'  {lv}: no settled bets')
+            continue
+        print(f"  {lv}: bets {s['bets']:6d}  win rate {s['winRate']:.3f} ±{s['winSE']:.3f}  baseline {s['baseline']:.3f}"
+              f"  lift {s['lift']:+.3f}  ROI {s['roi']:+.3f}")
+
+
+# ---------------------------------------------------------------- backtest
+def backtest(args):
+    cache = RESEARCH / 'cache'
+    inputs = [r for r in pickle.load(open(cache / 'inputs-company3-T10.pkl', 'rb')) if 'score' in r]
+    v1 = {}
+    for stage in (10, 120):
+        for t in pickle.load(open(cache / f'targets-company3-T{stage}.pkl', 'rb')):
+            v1.setdefault(t['matchId'], {})[stage] = {'score': t['score'], 'line': t['line']}
+    start = datetime.fromisoformat('2026-02-01T00:00:00+08:00').timestamp()
+    rows = []
+    for r in inputs:
+        if r['kickoff'] < start:
+            continue
+        line_open = -r['records'][0]['home_handicap']
+        d = decide(r['line'], r['homeWater'], r['awayWater'], line_open,
+                   v1.get(r['matchId'], {}).get(10), v1.get(r['matchId'], {}).get(120))
+        result, profit = settle_team(d['team'], r['line'], r['homeWater'], r['awayWater'], r['score'])
+        rows.append({**d, 'kickoff': r['kickoff'], 'firstTier': r['firstTier'], 'result': result, 'profit': profit,
+                     'expected': baseline_expected(d['team'], r['line'], r['homeWater'], r['awayWater'])})
+    windows = {'dev 2026-02-01..07-31': ('2026-02-01', '2026-08-01'),
+               'holdout 2026-08-01..10-12': ('2026-08-01', '2026-10-13')}
+    report = {'version': VERSION, 'mode': 'retrospective backtest on research caches', 'windows': {}}
+    for name, (a, b) in windows.items():
+        lo = datetime.fromisoformat(a + 'T00:00:00+08:00').timestamp()
+        hi = datetime.fromisoformat(b + 'T00:00:00+08:00').timestamp()
+        part = [r for r in rows if lo <= r['kickoff'] < hi]
+        report['windows'][name] = {'all': by_level(part), 'firstTier': by_level([r for r in part if r['firstTier']])}
+        print_levels(f'== {name} (all competitions)', report['windows'][name]['all'])
+    months = defaultdict(list)
+    for r in rows:
+        months[datetime.fromtimestamp(r['kickoff'], BJT).strftime('%Y-%m')].append(r)
+    report['monthlyL2'] = {m: summarise([r for r in rs if r['levels']['L2']]) for m, rs in sorted(months.items())}
+    out = HERE / 'backtest-forward-rule-v1.json'
+    out.write_text(json.dumps(report, ensure_ascii=False, indent=1), 'utf-8')
+    print('written', out)
+
+
+# ---------------------------------------------------------------- sources
+def sqlite_rows(path, table, where='', params=()):
+    con = sqlite3.connect(f'file:{path}?mode=ro', uri=True)
+    try:
+        cur = con.execute(f'SELECT * FROM {table} {where}', params)
+        cols = [c[0] for c in cur.description]
+        for row in cur:
+            yield {c: ('' if v is None else str(v)) for c, v in zip(cols, row)}
+    finally:
+        con.close()
+
+
+def snapshot_rows(directory, table):
+    for part in sorted(glob.glob(str(Path(directory) / 'data' / f'{table}-part-*.csv.gz'))):
+        with gzip.open(part, 'rt', encoding='utf-8', newline='') as stream:
+            yield from csv.DictReader(stream)
+
+
+def load_source(args):
+    if args.db:
+        q = "WHERE company_id = ? AND market_type = 'asia'"
+        return collect(sqlite_rows(args.db, 'matches'), sqlite_rows(args.db, 'match_score_aliases'),
+                       sqlite_rows(args.db, 'odds_history', q, (COMPANY,)),
+                       sqlite_rows(args.db, 'odds_minute_order', q, (COMPANY,)), COMPANY)
+    return collect(snapshot_rows(args.snapshot, 'matches'), snapshot_rows(args.snapshot, 'match_score_aliases'),
+                   snapshot_rows(args.snapshot, 'odds_history'), snapshot_rows(args.snapshot, 'odds_minute_order'),
+                   COMPANY)
+
+
+# ---------------------------------------------------------------- V1 at a stage
+class StageScorer:
+    """V1 direction for targets at one stage, history pool built once per process."""
+
+    def __init__(self, data, lead):
+        self.lead = lead
+        history, _ = build_records(data, lead)
+        self.history = [r for r in history if 'score' in r]
+        self.pool_size = len(self.history)
+        replay_v1.COMPANY, replay_v1.STAGE = COMPANY, lead // 60
+        replay_v1.INPUTS = list(self.history)
+        self.buckets = replay_v1.build_buckets([i for i, r in enumerate(self.history) if r['teamIds']])
+
+    def score(self, rec):
+        replay_v1.COMPANY, replay_v1.STAGE = COMPANY, self.lead // 60
+        replay_v1.INPUTS = self.history + [rec]
+        replay_v1.BUCKETS = self.buckets
+        _, direction, candidates, _ = replay_v1.replay(len(self.history))
+        return {'score': direction['score'], 'effectiveN': direction['effectiveN'],
+                'sampleCount': direction['sampleCount'], 'candidates': candidates,
+                'line': rec['line'], 'featureHash': rec['feature']['hash'],
+                'lastQuote': {'ts': stamp(rec['feature']['last']['ts']),
+                              **{k: rec['feature']['last'][k] for k in ('line', 'home', 'away')}}}
+
+
+# ---------------------------------------------------------------- ledger
+def read_ledger(path):
+    entries = []
+    if Path(path).exists():
+        for line in Path(path).read_text('utf-8').splitlines():
+            if line.strip():
+                entries.append(json.loads(line))
+    return entries
+
+
+def stamp(ts):
+    return datetime.fromtimestamp(ts, BJT).isoformat(timespec='seconds')
+
+
+def scan_once(data, now, ledger, scorers):
+    entries = read_ledger(ledger)
+    frozen120 = {e['matchId']: e for e in entries if e['kind'] == 'v1_t120' and e['specVersion'] == VERSION}
+    decided = {e['matchId'] for e in entries if e['kind'] == 'decision' and e['specVersion'] == VERSION}
+    new = []
+    for mid in data['quotes']:
+        kickoff = kickoff_of(data, mid)
+        if kickoff is None:
+            continue
+        if kickoff - CONFIRM <= now < kickoff - DECISION and mid not in frozen120:
+            rec, reason = build_record(data, mid, CONFIRM)
+            entry = {'kind': 'v1_t120', 'specVersion': VERSION, 'matchId': mid, 'kickoff': stamp(kickoff),
+                     'generatedAt': stamp(now)}
+            entry.update(scorers[CONFIRM].score(rec) if rec else {'score': None, 'unavailable': reason})
+            new.append(entry)
+            frozen120[mid] = entry
+        if kickoff - DECISION <= now < kickoff + DECISION and mid not in decided:
+            rec, reason = build_record(data, mid, DECISION)
+            if rec is None:
+                continue  # no valid T-10 quote path: the rule cannot be applied
+            v10 = scorers[DECISION].score(rec)
+            if mid in frozen120:
+                v120, source = frozen120[mid], 'frozen'
+            else:
+                rec120, reason120 = build_record(data, mid, CONFIRM)
+                v120 = scorers[CONFIRM].score(rec120) if rec120 else {'score': None, 'line': None,
+                                                                       'unavailable': reason120}
+                source = 'recomputed_at_decision'
+            line_open = -rec['records'][0]['home_handicap']
+            d = decide(rec['line'], rec['homeWater'], rec['awayWater'], line_open,
+                       {'score': v10['score'], 'line': v10['line']},
+                       {'score': v120.get('score'), 'line': v120.get('line')} if v120.get('score') is not None else None)
+            new.append({'kind': 'decision', 'specVersion': VERSION, 'matchId': mid, 'kickoff': stamp(kickoff),
+                        'generatedAt': stamp(now), 'late': now >= kickoff,
+                        'competition': rec['competition'], 'firstTier': rec['firstTier'],
+                        'home': rec['home'], 'away': rec['away'],
+                        'teamName': rec['home'] if d['team'] == 'home' else rec['away'],
+                        'frozenQuote': {'ts': stamp(rec['feature']['last']['ts']), 'line': rec['line'],
+                                        'homeWater': rec['homeWater'], 'awayWater': rec['awayWater']},
+                        'lineOpen': line_open, 'v1T10': v10, 'v1T120': v120, 'v1T120Source': source, **d})
+            decided.add(mid)
+    if new:
+        with open(ledger, 'a', encoding='utf-8') as stream:
+            for e in new:
+                stream.write(json.dumps(e, ensure_ascii=False) + '\n')
+    return new
+
+
+def scan(args):
+    now = datetime.fromisoformat(args.now).timestamp() if args.now else time.time()
+    t0 = time.time()
+    data = load_source(args)
+    scorers = {lead: StageScorer(data, lead) for lead in (DECISION, CONFIRM)}
+    if args.until:
+        end = datetime.fromisoformat(args.until).timestamp()
+        steps = []
+        while now <= end:
+            steps.append(now)
+            now += args.step * 60
+    else:
+        steps = [now]
+    total = []
+    for at in steps:
+        total += scan_once(data, at, args.ledger, scorers)
+    decisions = [e for e in total if e['kind'] == 'decision']
+    print(json.dumps({'version': VERSION, 'scans': len(steps), 'newV1T120': len(total) - len(decisions),
+                      'newDecisions': len(decisions),
+                      'newL2': [f"{e['kickoff']} {e['competition']} {e['home']} v {e['away']}: {e['teamName']} "
+                                f"{e['frozenQuote']['line']:+g} @{e['frozenQuote']['homeWater'] if e['team'] == 'home' else e['frozenQuote']['awayWater']}"
+                                for e in decisions if e['levels']['L2']],
+                      'seconds': round(time.time() - t0, 1)}, ensure_ascii=False, indent=1))
+
+
+def settle_ledger(args):
+    data = load_source(args)
+    prospective_from = datetime.fromisoformat(SPEC['prospectiveFrom']).timestamp()
+    rows, pending, excluded = [], 0, defaultdict(int)
+    for e in read_ledger(args.ledger):
+        if e['kind'] != 'decision' or e['specVersion'] != VERSION:
+            continue
+        if e['late']:
+            excluded['late'] += 1
+            continue
+        if datetime.fromisoformat(e['kickoff']).timestamp() < prospective_from and not args.retrospective:
+            excluded['beforeProspectiveFrom'] += 1
+            continue
+        score = result_of(data, e['matchId']) if e['matchId'] in data['matches'] else None
+        if score is None:
+            pending += 1
+            continue
+        q = e['frozenQuote']
+        result, profit = settle_team(e['team'], q['line'], q['homeWater'], q['awayWater'], score)
+        rows.append({'levels': e['levels'], 'firstTier': e['firstTier'], 'result': result, 'profit': profit,
+                     'expected': baseline_expected(e['team'], q['line'], q['homeWater'], q['awayWater'])})
+    report = {'version': VERSION, 'settled': len(rows), 'pending': pending, 'excluded': dict(excluded),
+              'all': by_level(rows), 'firstTier': by_level([r for r in rows if r['firstTier']])}
+    l2 = report['all']['L2'].get('bets', 0)
+    report['nextCheckpoint'] = next((c for c in SPEC['evaluation']['checkpointsL2Settled'] if c > l2), None)
+    label = 'RETROSPECTIVE TEST, not evidence' if args.retrospective else 'prospective'
+    report['mode'] = label
+    print_levels(f"== {VERSION} {label} (settled {len(rows)}, pending {pending}, excluded {dict(excluded)})",
+                 report['all'])
+    print_levels('== first tier', report['firstTier'])
+    if args.output:
+        Path(args.output).write_text(json.dumps(report, ensure_ascii=False, indent=1), 'utf-8')
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    sub = parser.add_subparsers(dest='mode', required=True)
+    sub.add_parser('backtest')
+    for name in ('scan', 'settle'):
+        p = sub.add_parser(name)
+        src = p.add_mutually_exclusive_group(required=True)
+        src.add_argument('--db', help='SQLite with matches/odds_history/odds_minute_order/match_score_aliases')
+        src.add_argument('--snapshot', help='published snapshot directory with data/*.csv.gz')
+        p.add_argument('--ledger', required=True)
+        if name == 'scan':
+            p.add_argument('--now', help='ISO time with offset; default current time')
+            p.add_argument('--until', help='simulate repeated scans up to this ISO time (testing)')
+            p.add_argument('--step', type=float, default=5, help='minutes between simulated scans')
+        else:
+            p.add_argument('--output')
+            p.add_argument('--retrospective', action='store_true',
+                           help='also settle decisions before prospectiveFrom (testing only)')
+    args = parser.parse_args()
+    if configuration()['companies'][COMPANY] != SPEC['v1']['parameters']:
+        raise SystemExit('Published V1 parameters differ from the registered rule')
+    {'backtest': backtest, 'scan': scan, 'settle': settle_ledger}[args.mode](args)
+
+
+if __name__ == '__main__':
+    main()
