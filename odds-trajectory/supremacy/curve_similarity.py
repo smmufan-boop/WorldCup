@@ -59,6 +59,7 @@ KS = (50, 200, 800)
 POWERS = (2, 6)
 ALPHA = 10.
 CLIP = 4.
+LEVEL_BIN = .1
 MEASURES = ('euclid', 'shape', 'dtw', 'ddtw', 'sbd')
 
 
@@ -144,7 +145,7 @@ def _measures(T, P, cand, band):
             else:
                 zb = zb * 0.
             out[2, t, q] = _sbd(za, zb, band)
-    return out
+    return out, e_adj
 
 
 def neighbour_scores(rows, C):
@@ -154,12 +155,22 @@ def neighbour_scores(rows, C):
     outcome = {'mu': np.array([r['mu'] for r in rows]), 'line': np.array([r['lineE'] for r in rows])}
     days = np.floor((kick - ts(WINDOWS['dev'][0])) / 86400).astype(int)
     shape = C - C[:, -1:]
-    out = {(ms, k, p, o): np.full(len(rows), np.nan) for ms in MEASURES for k in KS for p in POWERS for o in outcome}
+    level = C[:, -1]
+    lbin = np.clip(np.floor(level / LEVEL_BIN).astype(int) + 20, 0, 80)
+    e_adj = np.full(len(rows), np.nan)
+    out = {(ms, k, p, o): np.full(len(rows), np.nan)
+           for ms in MEASURES for k in KS for p in POWERS for o in (*outcome, 'muAdj')}
     for day in range(days.max() + 1):
         tgt = np.nonzero(days == day)[0]
         if not len(tgt):
             continue
         pool = np.nonzero(kick + BUFFER < cut[tgt].min())[0]
+        # Level bias of the mu conversion, from the pool only: mean e per 0.1-goal bin of mu_up(T-10).
+        cnt = np.bincount(lbin[pool], minlength=81)
+        bias = np.bincount(lbin[pool], outcome['mu'][pool], minlength=81) / np.maximum(cnt, 1)
+        bias[cnt < 30] = 0
+        adj = outcome['mu'] - bias[lbin]
+        e_adj[tgt] = adj[tgt]
         T, P = C[tgt], C[pool]
         d2 = (T ** 2).sum(1)[:, None] + (P ** 2).sum(1)[None, :] - 2 * T @ P.T
         m = min(PREFILTER, len(pool))
@@ -177,20 +188,19 @@ def neighbour_scores(rows, C):
                 sim = np.clip(1 - nd[:, :kk] / ref, 0, 1)
                 for p in POWERS:
                     w = sim ** p
-                    for o, e in outcome.items():
+                    for o, e in (*outcome.items(), ('muAdj', adj)):
                         score = (w * e[near[:, :kk]]).sum(1) / (ALPHA + w.sum(1))
                         out[(ms, k, p, o)][tgt] = 50 + 12.5 * score
-    return out
+    return out, e_adj
 
 
 def main():
     rows, C = build()
     kick = np.array([r['kickoff'] for r in rows])
-    e = np.array([r['mu'] for r in rows])
     dev = (kick >= ts(WINDOWS['dev'][0])) & (kick < ts(WINDOWS['dev'][1]))
     hold = (kick >= ts(WINDOWS['holdout'][0])) & (kick < ts(WINDOWS['holdout'][1]))
     p_up = baseline_fit(rows, dev)
-    scores = neighbour_scores(rows, C)
+    scores, e = neighbour_scores(rows, C)
     dev_months = [(month_start(2026, m), month_start(2026, m + 1)) for m in range(2, 8)]
     hold_months = [(month_start(2026, m), month_start(2026, m + 1)) for m in (8, 9, 10)]
 
@@ -198,7 +208,7 @@ def main():
         return float(np.corrcoef(D[mask], e[mask])[0, 1])
 
     report = {'method': __doc__.split('\n\n')[1:6], 'configs': {}}
-    print('配置（度量 / k / 权重幂 / 结果口径）：开发段逐月相关均值（与"实际净胜球 − T-10 μ"）| 留出段相关（8/9/10 月）')
+    print('配置（度量 / k / 权重幂 / 结果口径）：开发段逐月相关均值（与"实际净胜球 − T-10 μ − 该 μ 水平的历史平均偏差"）| 留出段相关（8/9/10 月）')
     for key, D in scores.items():
         dm = [corr(D, (kick >= lo) & (kick < hi)) for lo, hi in dev_months]
         hm = [corr(D, (kick >= lo) & (kick < hi)) for lo, hi in hold_months]
