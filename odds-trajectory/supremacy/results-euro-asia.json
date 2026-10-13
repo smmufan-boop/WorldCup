@@ -1,0 +1,501 @@
+{
+ "matches": 19337,
+ "perWindow": {
+  "dev": 5069,
+  "holdout": 14268
+ },
+ "medianFitError": 0.0008024435571238268,
+ "gapQuantiles": {
+  "0.05": -0.226,
+  "0.25": -0.115,
+  "0.5": -0.041,
+  "0.75": 0.037,
+  "0.95": 0.168
+ },
+ "windows": {
+  "dev": {
+   "n": 5069,
+   "corrGapError": -0.0076,
+   "corrMoveGapError": -0.0369,
+   "nMove": 4958,
+   "mseAsian": 3.1765,
+   "mseEuro": 3.2159,
+   "mseBlend": 3.1883,
+   "meanErrorByGap": [
+    [
+     0.03,
+     754
+    ],
+    [
+     0.069,
+     1682
+    ],
+    [
+     0.053,
+     1312
+    ],
+    [
+     0.033,
+     830
+    ],
+    [
+     0.026,
+     491
+    ]
+   ]
+  },
+  "holdout": {
+   "n": 14268,
+   "corrGapError": -0.0206,
+   "corrMoveGapError": -0.0014,
+   "nMove": 13995,
+   "mseAsian": 2.922,
+   "mseEuro": 2.9568,
+   "mseBlend": 2.9333,
+   "meanErrorByGap": [
+    [
+     0.04,
+     1701
+    ],
+    [
+     0.042,
+     5156
+    ],
+    [
+     -0.036,
+     4261
+    ],
+    [
+     -0.029,
+     2367
+    ],
+    [
+     -0.089,
+     783
+    ]
+   ]
+  }
+ },
+ "rules": [
+  {
+   "signal": "gap",
+   "threshold": 0.03,
+   "mode": "follow euro",
+   "dev": {
+    "N": 4149,
+    "winRate": 0.5042,
+    "winSE": 0.0079,
+    "baseline": 0.5204,
+    "lift": -0.0162,
+    "roi": -0.047
+   },
+   "holdout": {
+    "N": 11312,
+    "winRate": 0.5004,
+    "winSE": 0.0048,
+    "baseline": 0.5187,
+    "lift": -0.0183,
+    "roi": -0.0536
+   }
+  },
+  {
+   "signal": "gap",
+   "threshold": 0.03,
+   "mode": "follow asian",
+   "dev": {
+    "N": 4149,
+    "winRate": 0.4958,
+    "winSE": 0.0079,
+    "baseline": 0.4796,
+    "lift": 0.0162,
+    "roi": -0.0573
+   },
+   "holdout": {
+    "N": 11312,
+    "winRate": 0.4996,
+    "winSE": 0.0048,
+    "baseline": 0.4813,
+    "lift": 0.0183,
+    "roi": -0.0421
+   }
+  },
+  {
+   "signal": "gap",
+   "threshold": 0.05,
+   "mode": "follow euro",
+   "dev": {
+    "N": 3757,
+    "winRate": 0.5022,
+    "winSE": 0.0083,
+    "baseline": 0.518,
+    "lift": -0.0158,
+    "roi": -0.0431
+   },
+   "holdout": {
+    "N": 10007,
+    "winRate": 0.4949,
+    "winSE": 0.0051,
+    "baseline": 0.5167,
+    "lift": -0.0218,
+    "roi": -0.0551
+   }
+  },
+  {
+   "signal": "gap",
+   "threshold": 0.05,
+   "mode": "follow asian",
+   "dev": {
+    "N": 3757,
+    "winRate": 0.4978,
+    "winSE": 0.0083,
+    "baseline": 0.482,
+    "lift": 0.0158,
+    "roi": -0.0612
+   },
+   "holdout": {
+    "N": 10007,
+    "winRate": 0.5051,
+    "winSE": 0.0051,
+    "baseline": 0.4833,
+    "lift": 0.0218,
+    "roi": -0.0411
+   }
+  },
+  {
+   "signal": "gap",
+   "threshold": 0.1,
+   "mode": "follow euro",
+   "dev": {
+    "N": 2597,
+    "winRate": 0.503,
+    "winSE": 0.01,
+    "baseline": 0.5157,
+    "lift": -0.0127,
+    "roi": -0.0361
+   },
+   "holdout": {
+    "N": 6336,
+    "winRate": 0.4851,
+    "winSE": 0.0064,
+    "baseline": 0.5107,
+    "lift": -0.0256,
+    "roi": -0.0604
+   }
+  },
+  {
+   "signal": "gap",
+   "threshold": 0.1,
+   "mode": "follow asian",
+   "dev": {
+    "N": 2597,
+    "winRate": 0.497,
+    "winSE": 0.01,
+    "baseline": 0.4843,
+    "lift": 0.0127,
+    "roi": -0.0737
+   },
+   "holdout": {
+    "N": 6336,
+    "winRate": 0.5149,
+    "winSE": 0.0064,
+    "baseline": 0.4893,
+    "lift": 0.0256,
+    "roi": -0.0424
+   }
+  },
+  {
+   "signal": "gap",
+   "threshold": 0.15,
+   "mode": "follow euro",
+   "dev": {
+    "N": 1245,
+    "winRate": 0.5054,
+    "winSE": 0.0145,
+    "baseline": 0.5086,
+    "lift": -0.0032,
+    "roi": -0.0266
+   },
+   "holdout": {
+    "N": 2484,
+    "winRate": 0.4839,
+    "winSE": 0.0102,
+    "baseline": 0.5035,
+    "lift": -0.0196,
+    "roi": -0.0594
+   }
+  },
+  {
+   "signal": "gap",
+   "threshold": 0.15,
+   "mode": "follow asian",
+   "dev": {
+    "N": 1245,
+    "winRate": 0.4946,
+    "winSE": 0.0145,
+    "baseline": 0.4914,
+    "lift": 0.0032,
+    "roi": -0.0903
+   },
+   "holdout": {
+    "N": 2484,
+    "winRate": 0.5161,
+    "winSE": 0.0102,
+    "baseline": 0.4965,
+    "lift": 0.0196,
+    "roi": -0.052
+   }
+  },
+  {
+   "signal": "moveGap",
+   "threshold": 0.03,
+   "mode": "follow euro",
+   "dev": {
+    "N": 1711,
+    "winRate": 0.4889,
+    "winSE": 0.0124,
+    "baseline": 0.4869,
+    "lift": 0.002,
+    "roi": -0.0523
+   },
+   "holdout": {
+    "N": 4921,
+    "winRate": 0.4913,
+    "winSE": 0.0074,
+    "baseline": 0.4919,
+    "lift": -0.0006,
+    "roi": -0.0516
+   }
+  },
+  {
+   "signal": "moveGap",
+   "threshold": 0.03,
+   "mode": "follow asian",
+   "dev": {
+    "N": 1711,
+    "winRate": 0.5111,
+    "winSE": 0.0124,
+    "baseline": 0.5131,
+    "lift": -0.002,
+    "roi": -0.0486
+   },
+   "holdout": {
+    "N": 4921,
+    "winRate": 0.5087,
+    "winSE": 0.0074,
+    "baseline": 0.5081,
+    "lift": 0.0006,
+    "roi": -0.0426
+   }
+  },
+  {
+   "signal": "moveGap",
+   "threshold": 0.05,
+   "mode": "follow euro",
+   "dev": {
+    "N": 1031,
+    "winRate": 0.4898,
+    "winSE": 0.016,
+    "baseline": 0.4854,
+    "lift": 0.0044,
+    "roi": -0.0537
+   },
+   "holdout": {
+    "N": 2776,
+    "winRate": 0.4894,
+    "winSE": 0.0098,
+    "baseline": 0.4893,
+    "lift": 0.0001,
+    "roi": -0.0524
+   }
+  },
+  {
+   "signal": "moveGap",
+   "threshold": 0.05,
+   "mode": "follow asian",
+   "dev": {
+    "N": 1031,
+    "winRate": 0.5102,
+    "winSE": 0.016,
+    "baseline": 0.5146,
+    "lift": -0.0044,
+    "roi": -0.0527
+   },
+   "holdout": {
+    "N": 2776,
+    "winRate": 0.5106,
+    "winSE": 0.0098,
+    "baseline": 0.5107,
+    "lift": -0.0001,
+    "roi": -0.0498
+   }
+  },
+  {
+   "signal": "moveGap",
+   "threshold": 0.1,
+   "mode": "follow euro",
+   "dev": {
+    "N": 282,
+    "winRate": 0.4222,
+    "winSE": 0.0301,
+    "baseline": 0.4747,
+    "lift": -0.0525,
+    "roi": -0.1775
+   },
+   "holdout": {
+    "N": 696,
+    "winRate": 0.4737,
+    "winSE": 0.0194,
+    "baseline": 0.4799,
+    "lift": -0.0063,
+    "roi": -0.0743
+   }
+  },
+  {
+   "signal": "moveGap",
+   "threshold": 0.1,
+   "mode": "follow asian",
+   "dev": {
+    "N": 282,
+    "winRate": 0.5778,
+    "winSE": 0.0301,
+    "baseline": 0.5253,
+    "lift": 0.0525,
+    "roi": 0.0546
+   },
+   "holdout": {
+    "N": 696,
+    "winRate": 0.5263,
+    "winSE": 0.0194,
+    "baseline": 0.5201,
+    "lift": 0.0063,
+    "roi": -0.0386
+   }
+  },
+  {
+   "signal": "moveGap",
+   "threshold": 0.15,
+   "mode": "follow euro",
+   "dev": {
+    "N": 90,
+    "winRate": 0.3953,
+    "winSE": 0.0527,
+    "baseline": 0.4651,
+    "lift": -0.0698,
+    "roi": -0.2302
+   },
+   "holdout": {
+    "N": 242,
+    "winRate": 0.5021,
+    "winSE": 0.0328,
+    "baseline": 0.474,
+    "lift": 0.0281,
+    "roi": -0.0205
+   }
+  },
+  {
+   "signal": "moveGap",
+   "threshold": 0.15,
+   "mode": "follow asian",
+   "dev": {
+    "N": 90,
+    "winRate": 0.6047,
+    "winSE": 0.0527,
+    "baseline": 0.5349,
+    "lift": 0.0698,
+    "roi": 0.0748
+   },
+   "holdout": {
+    "N": 242,
+    "winRate": 0.4979,
+    "winSE": 0.0328,
+    "baseline": 0.526,
+    "lift": -0.0281,
+    "roi": -0.1029
+   }
+  }
+ ],
+ "selected": {
+  "signal": "moveGap",
+  "threshold": 0.1,
+  "mode": "follow asian",
+  "dev": {
+   "N": 282,
+   "winRate": 0.5778,
+   "winSE": 0.0301,
+   "baseline": 0.5253,
+   "lift": 0.0525,
+   "roi": 0.0546
+  },
+  "holdout": {
+   "N": 696,
+   "winRate": 0.5263,
+   "winSE": 0.0194,
+   "baseline": 0.5201,
+   "lift": 0.0063,
+   "roi": -0.0386
+  }
+ },
+ "euroMarginMedian": 0.1193,
+ "euroBets": [
+  {
+   "threshold": 0.05,
+   "dev": {
+    "N": 3757,
+    "hitRate": 0.5989,
+    "roi": -0.065,
+    "roiSE": 0.0132
+   },
+   "holdout": {
+    "N": 10007,
+    "hitRate": 0.5864,
+    "roi": -0.0472,
+    "roiSE": 0.0085
+   }
+  },
+  {
+   "threshold": 0.1,
+   "dev": {
+    "N": 2597,
+    "hitRate": 0.6353,
+    "roi": -0.0644,
+    "roiSE": 0.0147
+   },
+   "holdout": {
+    "N": 6336,
+    "hitRate": 0.6297,
+    "roi": -0.0403,
+    "roiSE": 0.0098
+   }
+  },
+  {
+   "threshold": 0.15,
+   "dev": {
+    "N": 1245,
+    "hitRate": 0.7124,
+    "roi": -0.0632,
+    "roiSE": 0.0181
+   },
+   "holdout": {
+    "N": 2484,
+    "hitRate": 0.7158,
+    "roi": -0.0441,
+    "roiSE": 0.0132
+   }
+  },
+  {
+   "threshold": 0.2,
+   "dev": {
+    "N": 713,
+    "hitRate": 0.7742,
+    "roi": -0.0627,
+    "roiSE": 0.0203
+   },
+   "holdout": {
+    "N": 1247,
+    "hitRate": 0.7979,
+    "roi": -0.0315,
+    "roiSE": 0.0149
+   }
+  }
+ ]
+}

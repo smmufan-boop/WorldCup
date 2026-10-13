@@ -31,40 +31,53 @@ def _goal_difference(mu, total=TOTAL_GOALS, max_goals=20):
     return np.array([joint[diff == g].sum() for g in range(-max_goals, max_goals + 1)]), np.arange(-max_goals, max_goals + 1)
 
 
-def _fair_home_probability(line, prob, goals):
-    """De-margined home probability at which a home bet on ``line`` is fair.
+def _table(total=TOTAL_GOALS):
+    """Fair de-margined home probability for every (line, mu): p_home = W / (W + L).
 
-    With W the weight of winning outcomes and L of losing ones (pushes and half
-    results split), a fair price gives p_home = W / (W + L)."""
-    def weights(l):
-        margin = goals - l
-        return prob[margin > 1e-9].sum(), prob[margin < -1e-9].sum()
-    if abs(line * 4) % 2 == 1:  # quarter line: half stake on each neighbour
-        (w1, l1), (w2, l2) = weights(line - .25), weights(line + .25)
-        w, l = (w1 + w2) / 2, (l1 + l2) / 2
-    else:
-        w, l = weights(line)
-    return w / (w + l)
-
-
-def _table():
+    W and L are the weights of winning and losing outcomes for a home bet on
+    the line (pushes excluded; a quarter line splits the stake over its two
+    neighbours)."""
     table = np.empty((len(LINES), len(MU_GRID)))
+    halves = np.stack([LINES - .25, LINES + .25])
+    quarter = np.abs(LINES * 4) % 2 == 1
     for j, mu in enumerate(MU_GRID):
-        prob, goals = _goal_difference(mu)
-        for i, line in enumerate(LINES):
-            table[i, j] = _fair_home_probability(line, prob, goals)
+        prob, goals = _goal_difference(mu, total)
+        def wl(lines):
+            margin = goals[None, :] - lines[..., None]
+            return (prob * (margin > 1e-9)).sum(-1), (prob * (margin < -1e-9)).sum(-1)
+        w, l = wl(LINES)
+        wq, lq = wl(halves)
+        w = np.where(quarter, wq.mean(0), w)
+        l = np.where(quarter, lq.mean(0), l)
+        table[:, j] = w / (w + l)
     return table
 
 
 TABLE = _table()
+_TABLES = {round(TOTAL_GOALS, 2): TABLE}
 
 
-def supremacy(line, home_water, away_water):
-    """Implied mu for one quote (Hong Kong waters)."""
+def _row(table, line):
+    return table[min(max(int(round((line - LINES[0]) / .25)), 0), len(LINES) - 1)]
+
+
+def supremacy(line, home_water, away_water, total=None):
+    """Implied mu for one quote (Hong Kong waters); ``total`` defaults to TOTAL_GOALS.
+
+    Other totals use tables on a 0.2-goal grid, interpolated linearly."""
     ih, ia = 1 / (1 + home_water), 1 / (1 + away_water)
     p_home = ih / (ih + ia)
-    row = TABLE[min(max(int(round((line - LINES[0]) / .25)), 0), len(LINES) - 1)]
-    return float(np.interp(p_home, row, MU_GRID))
+    if total is None or abs(total - TOTAL_GOALS) < 1e-12:
+        return float(np.interp(p_home, _row(TABLE, line), MU_GRID))
+    lo = math.floor(total / .2) * .2
+    values = []
+    for t in (lo, lo + .2):
+        key = round(t, 2)
+        if key not in _TABLES:
+            _TABLES[key] = _table(key)
+        values.append(float(np.interp(p_home, _row(_TABLES[key], line), MU_GRID)))
+    frac = (total - lo) / .2
+    return values[0] * (1 - frac) + values[1] * frac
 
 
 def trajectory(record):
