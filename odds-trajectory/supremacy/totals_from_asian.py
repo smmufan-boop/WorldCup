@@ -20,8 +20,6 @@ the cross-match link between |mu| and goals (stronger favourites, more goals).
 """
 from __future__ import annotations
 
-import gzip
-import glob
 import json
 import math
 import pickle
@@ -32,21 +30,12 @@ import numpy as np
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
+from market_total import jsonl, market_lambda, settle_over  # noqa: E402,F401
 from supremacy import supremacy  # noqa: E402
 from v1style import WINDOWS, ts  # noqa: E402
 
 CACHE = HERE.parent / 'research' / 'cache'
-DATA = HERE.parent / 'euro-totals' / 'snapshots' / '2026-10-13-partial' / 'data'
-LAMBDA = np.round(np.arange(.5, 7.0001, .01), 3)
-GOALS = np.arange(0, 21)
 GAPS = (0., .1, .2, .3)
-
-
-def jsonl(table):
-    for part in sorted(glob.glob(str(DATA / f'{table}-part-*.jsonl.gz'))):
-        with gzip.open(part, 'rt', encoding='utf-8') as stream:
-            for line in stream:
-                yield json.loads(line)
 
 
 def royal_totals_t10(match_ids, kickoffs):
@@ -63,47 +52,6 @@ def royal_totals_t10(match_ids, kickoffs):
     return {m: v[1] for m, v in best.items()}
 
 
-def poisson(lam):
-    return np.exp(-lam) * lam ** GOALS / np.array([math.factorial(int(g)) for g in GOALS])
-
-
-def over_parts(line, goals):
-    """(win, loss) weight of an over bet on ``line`` for each goal count; quarter lines split."""
-    def one(l):
-        return (goals > l + 1e-9).astype(float), (goals < l - 1e-9).astype(float)
-    if abs(line * 4) % 2 == 1:
-        (w1, l1), (w2, l2) = one(line - .25), one(line + .25)
-        return (w1 + w2) / 2, (l1 + l2) / 2
-    return one(line)
-
-
-_TABLE = {}
-
-
-def market_lambda(line, over_hk, under_hk):
-    """Expected total that makes the de-margined over probability fair on ``line``."""
-    io, iu = 1 / (1 + over_hk), 1 / (1 + under_hk)
-    p_over = io / (io + iu)
-    if line not in _TABLE:
-        w, l = over_parts(line, GOALS)
-        probs = np.array([poisson(x) for x in LAMBDA])
-        W, L = probs @ w, probs @ l
-        _TABLE[line] = W / (W + L)
-    return float(np.interp(p_over, _TABLE[line], LAMBDA))
-
-
-def settle_over(line, over_hk, under_hk, goals):
-    """(result for over, profit of over, profit of under) per unit stake at HK water."""
-    def one(l):
-        return 1 if goals > l + 1e-9 else -1 if goals < l - 1e-9 else 0
-    parts = [one(line - .25), one(line + .25)] if abs(line * 4) % 2 == 1 else [one(line)] * 2
-    over = sum(over_hk / 2 if p > 0 else -.5 if p < 0 else 0 for p in parts)
-    under = sum(under_hk / 2 if p < 0 else -.5 if p > 0 else 0 for p in parts)
-    s = sum(parts)
-    result = {2: 'win', 1: 'half_win', 0: 'push', -1: 'half_loss', -2: 'loss'}[s]
-    return result, over, under
-
-
 def build():
     records = [r for r in pickle.load(open(CACHE / 'inputs-company3-T10.pkl', 'rb')) if 'score' in r]
     kept = {}
@@ -111,7 +59,7 @@ def build():
         kept.setdefault(tuple(r['fixtureKey']), r)
     rows = []
     for r in kept.values():
-        mu = supremacy(r['line'], r['homeWater'], r['awayWater'])
+        mu = supremacy(r['line'], r['homeWater'], r['awayWater'], 2.7)  # Asian price alone: fixed total
         rows.append({'matchId': r['matchId'], 'kickoff': r['kickoff'], 'mu': mu, 'goals': sum(r['score'])})
     return rows
 

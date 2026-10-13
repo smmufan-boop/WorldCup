@@ -29,7 +29,7 @@ import numpy as np
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
-from supremacy import _goal_difference, supremacy  # noqa: E402
+from supremacy import _goal_difference, final_total, record_mu  # noqa: E402
 from v1style import WINDOWS, ts  # noqa: E402
 
 CACHE = HERE.parent / 'research' / 'cache'
@@ -37,11 +37,11 @@ WEIGHT = {'win': (1, 1.), 'half_win': (1, .5), 'half_loss': (0, .5), 'loss': (0,
 _DIST = {}
 
 
-def implied_weighted_cover(mu, line):
+def implied_weighted_cover(mu, line, total):
     """Expected weighted cover rate of the upper side on ``line`` (local sign) at supremacy ``mu``."""
-    key = round(mu, 2)
+    key = (round(mu, 2), round(total, 1))
     if key not in _DIST:
-        _DIST[key] = _goal_difference(key)
+        _DIST[key] = _goal_difference(*key)
     prob, goals = _DIST[key]
     up_sign = 1 if line >= 0 else -1
     margin = up_sign * goals - abs(line)  # upper goal margin minus the handicap it gives
@@ -82,7 +82,7 @@ def build():
         recs = r['records']
         lines = np.array([-x['home_handicap'] for x in recs])
         up_water = np.array([x['home_water'] if s == 1 else x['away_water'] for x in recs])
-        mus = np.array([supremacy(l, x['home_water'], x['away_water']) for l, x in zip(lines, recs)])
+        mus = record_mu(r)
         times = np.array(r['tickTimes'])
         k = r['kickoff']
         final_start = len(lines) - 1
@@ -103,7 +103,7 @@ def build():
         rows.append({
             'kickoff': k, 'hit': hit, 'weight': weight, 'profit': r['upperProfit'],
             'rawWin': r['upperResult'] in ('win', 'half_win'),
-            'implied': implied_weighted_cover(mu10, line),
+            'implied': implied_weighted_cover(mu10, line, final_total(r)),
             'margin': s * (gd - mu10),
             '盘口变化': line_name,
             '末段水位(上盘)': water_name,

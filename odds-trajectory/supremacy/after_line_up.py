@@ -32,7 +32,7 @@ import numpy as np
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(HERE.parent / 'research'))
-from supremacy import supremacy  # noqa: E402
+from supremacy import record_mu  # noqa: E402
 from v1style import WINDOWS, baseline_fit, ts  # noqa: E402
 
 CACHE = HERE.parent / 'research' / 'cache'
@@ -62,7 +62,7 @@ def build():
         i = changes[-1] + 1  # first quote on the final line
         times = np.array(r['tickTimes'], float)
         up_water = np.array([x['home_water'] if s == 1 else x['away_water'] for x in recs])
-        mu = np.array([s * supremacy(l, x['home_water'], x['away_water']) for l, x in zip(lines, recs)])
+        mu = s * record_mu(r)
         water_move = up_water[-1] - up_water[i]
         rows.append({
             'kickoff': r['kickoff'], 'line': r['line'], 'homeWater': r['homeWater'], 'awayWater': r['awayWater'],

@@ -38,7 +38,7 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(HERE.parent / 'research'))
 from turning_points import CACHE, FLIP, PRICE_FEATURES, as_of, features, month_start  # noqa: E402
-from supremacy import supremacy  # noqa: E402
+from supremacy import record_mu  # noqa: E402
 from v1style import WINDOWS, baseline_fit, summarise, ts  # noqa: E402
 
 OFFSETS = (360, 240, 180, 120, 90, 60, 45, 30, 20, 15)
@@ -56,7 +56,7 @@ def build():
     for r in sorted(kept.values(), key=lambda r: r['kickoff']):
         f, s = features(r)
         times = np.array(r['tickTimes'], float)
-        mu = np.array([s * supremacy(-x['home_handicap'], x['home_water'], x['away_water']) for x in r['records']])
+        mu = s * record_mu(r)
         paths.append([as_of(times, mu, r['kickoff'] - m * 60) - mu[-1] for m in OFFSETS])
         rows.append({'kickoff': r['kickoff'], 'cutoff': r['cutoff'], 'line': r['line'], 'homeWater': r['homeWater'],
                      'awayWater': r['awayWater'], 'score': r['score'], 'upperResult': r['upperResult'],

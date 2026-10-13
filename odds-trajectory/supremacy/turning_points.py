@@ -43,7 +43,7 @@ from sklearn.preprocessing import StandardScaler
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(HERE.parent / 'research'))
-from supremacy import supremacy  # noqa: E402
+from supremacy import record_mu  # noqa: E402
 from v1style import WINDOWS, baseline_fit, summarise, ts  # noqa: E402
 
 CACHE = HERE.parent / 'research' / 'cache'
@@ -86,7 +86,7 @@ def features(r):
     recs = r['records']
     times = np.array(r['tickTimes'], float)
     lines = np.array([-x['home_handicap'] for x in recs])
-    mu = np.array([s * supremacy(l, x['home_water'], x['away_water']) for l, x in zip(lines, recs)])
+    mu = s * record_mu(r)
     up_water = np.array([x['home_water'] if s == 1 else x['away_water'] for x in recs])
     cutoff, end = r['cutoff'], mu[-1]
     minutes_before = lambda i: (r['kickoff'] - times[i]) / 60  # noqa: E731

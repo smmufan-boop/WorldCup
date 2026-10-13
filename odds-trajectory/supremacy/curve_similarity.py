@@ -54,7 +54,7 @@ from numba import njit, prange
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 from similar_score import BUFFER, grouped  # noqa: E402
-from supremacy import supremacy  # noqa: E402
+from supremacy import record_mu  # noqa: E402
 from turning_points import CACHE, as_of, month_start  # noqa: E402
 from v1style import WINDOWS, baseline_fit, ts  # noqa: E402
 
@@ -78,7 +78,7 @@ def build():
     for r in sorted(kept.values(), key=lambda r: r['kickoff']):
         s = 1 if r['line'] >= 0 else -1
         times = np.array(r['tickTimes'], float)
-        mu = np.array([s * supremacy(-x['home_handicap'], x['home_water'], x['away_water']) for x in r['records']])
+        mu = s * record_mu(r)
         curve = np.array([as_of(times, mu, r['kickoff'] - m * 60) for m in GRID])
         margin = s * (r['score'][0] - r['score'][1])
         rows.append({'kickoff': r['kickoff'], 'cutoff': r['cutoff'], 'line': r['line'],

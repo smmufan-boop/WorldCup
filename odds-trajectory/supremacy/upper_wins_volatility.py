@@ -28,7 +28,7 @@ import numpy as np
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
-from supremacy import supremacy  # noqa: E402
+from supremacy import record_mu  # noqa: E402
 from v1style import WINDOWS, ts  # noqa: E402
 
 CACHE = HERE.parent / 'research' / 'cache'
@@ -54,7 +54,7 @@ def build():
     for r in kept.values():
         s = 1 if r['line'] >= 0 else -1
         times = np.array(r['tickTimes'])
-        mus = np.array([s * supremacy(-x['home_handicap'], x['home_water'], x['away_water']) for x in r['records']])
+        mus = s * record_mu(r)
         path = []
         for _, minutes in POINTS:
             if minutes is None:

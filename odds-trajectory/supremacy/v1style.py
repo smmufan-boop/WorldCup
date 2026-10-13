@@ -40,7 +40,7 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(HERE.parent / 'research'))
 from build_inputs import settle  # noqa: E402
-from supremacy import supremacy  # noqa: E402
+from supremacy import record_mu  # noqa: E402
 
 CACHE = HERE.parent / 'research' / 'cache'
 SETTLED_AFTER, RECENT = 5400, 900
@@ -83,8 +83,7 @@ def direction_score(a, b):
 
 # ---------------------------------------------------------------- data
 def series(record):
-    lines = [-x['home_handicap'] for x in record['records']]
-    mus = [round(supremacy(l, x['home_water'], x['away_water']), 6) for l, x in zip(lines, record['records'])]
+    mus = [round(float(v), 6) for v in record_mu(record)]
     times = record['tickTimes']
     clean = [m for k, m in enumerate(mus) if k == 0 or m != mus[k - 1]]
     anchor = next((m for t, m in zip(reversed(times), reversed(mus)) if t <= record['cutoff'] - RECENT), None)

@@ -39,7 +39,7 @@ sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(HERE.parent / 'research'))
 from cross_company import macau_quotes  # noqa: E402
 from euro_asia import MU, PD, PH, TOT, euro_quotes  # noqa: E402
-from supremacy import supremacy  # noqa: E402
+from supremacy import quotes_mu, record_mu  # noqa: E402
 from turning_points import CLIP, PRICE_FEATURES, THRESHOLDS, as_of, features, zigzag  # noqa: E402
 from v1style import WINDOWS, baseline_fit, summarise, ts  # noqa: E402
 
@@ -83,7 +83,7 @@ def path_features(times, values, kickoff, cutoff, prefix):
 
 
 def royal_mu_up(r, s):
-    return np.array([s * supremacy(-x['home_handicap'], x['home_water'], x['away_water']) for x in r['records']])
+    return s * record_mu(r)
 
 
 def build():
@@ -116,7 +116,7 @@ def build():
         if m is not None and (m[0] <= r['cutoff']).sum() >= 2:
             keep = m[0] <= r['cutoff']
             t_m = m[0][keep]
-            mu_m = np.array([s * supremacy(*q) for q, k in zip(m[1], keep) if k])
+            mu_m = s * quotes_mu(r['matchId'], t_m, [q for q, k in zip(m[1], keep) if k])
             fm = path_features(t_m, mu_m, r['kickoff'], r['cutoff'], 'macau_')
             fm.update({'macau_has': 1., 'macau_gapT10': mu_m[-1] - mu_a[-1],
                        'macau_gapChange': (mu_m[-1] - mu_a[-1]) - (mu_m[0] - as_of(times_a, mu_a, t_m[0]))})

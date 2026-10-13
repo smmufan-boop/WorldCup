@@ -28,7 +28,7 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(HERE.parent / 'research'))
 from build_inputs import settle  # noqa: E402
-from supremacy import supremacy  # noqa: E402
+from supremacy import record_mu  # noqa: E402
 from v1style import WINDOWS, baseline_fit, build, summarise, ts  # noqa: E402
 
 POINTS = {'open': None, 'T-360': 360, 'T-120': 120, 'T-60': 60, 'T-30': 30, 'T-10': 10}
@@ -52,7 +52,7 @@ def features(rows):
     grids = {k: [] for k in KNN_SEGMENTS}
     for r in rows:
         times = np.array(r['tickTimes'])
-        mus = np.array([supremacy(-x['home_handicap'], x['home_water'], x['away_water']) for x in r['records']])
+        mus = record_mu(r)
         for k, minutes in POINTS.items():
             pts[k].append(mus[0] if minutes is None else as_of(times, mus, r['kickoff'] - minutes * 60))
         for k, grid in KNN_SEGMENTS.items():
