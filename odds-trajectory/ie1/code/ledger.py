@@ -6,6 +6,8 @@ Rules mirrored from the V1 Royal T-10 registration:
 * The pick locks the exact company quote (line + odds + quote time) used for EV.
 * Frozen inputs (book, parameters hash, evidence SHA-256s) are stored with each run.
 * Settlement uses the locked terms and a verified regular-90-minute score only.
+* Every on-time run also tracks its best stakeable candidate (registered pick or
+  not, gates ignored) for closing-line value, filled in after kickoff.
 """
 from __future__ import annotations
 
@@ -31,6 +33,12 @@ CREATE TABLE IF NOT EXISTS picks (
   tier TEXT NOT NULL, units REAL NOT NULL, company TEXT NOT NULL, market TEXT NOT NULL,
   side TEXT NOT NULL, line REAL, odds REAL NOT NULL, quote_ts REAL NOT NULL, ev REAL NOT NULL,
   locked_at REAL NOT NULL, score_home INTEGER, score_away INTEGER, profit REAL, settled_at REAL);
+CREATE TABLE IF NOT EXISTS clv (
+  run_id INTEGER PRIMARY KEY REFERENCES runs(id), kind TEXT NOT NULL, fixture_key TEXT NOT NULL,
+  match_id TEXT NOT NULL, kickoff REAL NOT NULL, company TEXT NOT NULL, market TEXT NOT NULL,
+  side TEXT NOT NULL, line REAL, odds REAL NOT NULL, ev REAL NOT NULL, age_minutes REAL,
+  fallback_total REAL, close_ts REAL, close_line REAL, close_home REAL, close_away REAL,
+  close_fair_p REAL, clv REAL, closed_at REAL, close_error TEXT);
 """
 
 
@@ -85,7 +93,40 @@ class Ledger:
                      meta["kickoff"], d["tier"], d["units"], pick["company"], pick["market"], pick["side"],
                      pick["line"], pick["odds"], pick["quoteTs"], pick["ev"], generated_at))
                 registered = True
+            cand = next((c for c in result.get("candidates") or []
+                         if c["market"] in result.get("stakeMarkets", ()) and c["company"] in
+                         result.get("stakeCompanies", ())), None)
+            if registered:
+                cand = pick
+            if cand and not late:
+                self.db.execute(
+                    "INSERT INTO clv (run_id,kind,fixture_key,match_id,kickoff,company,market,side,line,odds,ev,"
+                    "age_minutes,fallback_total) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
+                    (run_id, "pick" if registered else "candidate", key, meta["matchId"], meta["kickoff"],
+                     cand["company"], cand["market"], cand["side"], cand["line"], cand["odds"], cand["ev"],
+                     cand.get("ageMinutes"), (result.get("fairMarket") or {}).get("total")))
         return run_id, status, registered
+
+    def open_clv(self, t):
+        cur = self.db.execute("SELECT * FROM clv WHERE closed_at IS NULL AND kickoff <= ? ORDER BY kickoff", (t,))
+        cols = [c[0] for c in cur.description]
+        return [dict(zip(cols, r)) for r in cur]
+
+    def set_clv(self, run_id, data, when, error=None):
+        with self.db:
+            if data is None:
+                self.db.execute("UPDATE clv SET closed_at=?, close_error=? WHERE run_id=?", (when, error, run_id))
+                return
+            self.db.execute(
+                "UPDATE clv SET close_ts=?,close_line=?,close_home=?,close_away=?,close_fair_p=?,clv=?,closed_at=? "
+                "WHERE run_id=?", (data["closeTs"], data["closeLine"], data["closeHome"], data["closeAway"],
+                                   data["closeFairP"], data["clv"], when, run_id))
+
+    def clv_rows(self):
+        cur = self.db.execute("SELECT c.*, p.profit FROM clv c LEFT JOIN picks p ON p.run_id=c.run_id "
+                              "WHERE c.clv IS NOT NULL ORDER BY c.kickoff")
+        cols = [c[0] for c in cur.description]
+        return [dict(zip(cols, r)) for r in cur]
 
     def pending(self):
         cols = ("fixture_key", "match_id", "kickoff", "market", "side", "line", "odds")

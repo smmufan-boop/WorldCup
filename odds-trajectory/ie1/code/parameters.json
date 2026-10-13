@@ -1,5 +1,5 @@
 {
-  "version": "ie1-0.3.0",
+  "version": "ie1-0.3.1",
   "status": "experimental_retrospective_only",
   "warning": "Signals M1-M7 are report-only diagnostics: none passed the development test (joint |t|<2). Stake candidates come only from pricing another company's Asian quote with the Royal T-10 fair price. Backtests are retrospective (data collected after the matches); a forward record is required before real staking.",
   "cutoffSeconds": 600,
@@ -129,5 +129,9 @@
   "goLive": {
     "minSettled": 200,
     "minLowerBoundRoi": 0.0
+  },
+  "clv": {
+    "delaySeconds": 120,
+    "reference": "Royal last prematch Asian quote before kickoff (+ last totals quote)"
   }
 }

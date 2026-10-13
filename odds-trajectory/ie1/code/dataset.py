@@ -6,7 +6,10 @@ Builds, per real fixture, the IE1 market book at the T-10 cutoff:
     keeping only valid prematch rows whose source minute ends at or before the
     cutoff (t10 strict rule). A minute flagged same_minute_conflict at the latest
     usable minute makes that market unavailable (fail closed, no price picking).
-Settlement labels use the regular-90-minute rule in ../../DATA_DICTIONARY.md.
+Each fixture also carries ``close``: every company's last prematch Asian quote
+(ts < kickoff) and last totals quote whose source minute ends by kickoff, used
+for closing-line value. Settlement labels use the regular-90-minute rule in
+../../DATA_DICTIONARY.md.
 """
 from __future__ import annotations
 
@@ -86,7 +89,10 @@ def _et_path(rows, market):
 def build(cache=None):
     """Return a list of fixture dicts with book, meta and verified score."""
     if cache and Path(cache).exists():
-        return pickle.loads(Path(cache).read_bytes())
+        fixtures = pickle.loads(Path(cache).read_bytes())
+        if not fixtures or "close" in fixtures[0]:
+            return fixtures
+        # Cache written before closing quotes were stored: rebuild it.
     tasks, task_kick = {}, {}
     for r in _jsonl("tasks"):
         key = (r[2], r[3])
@@ -105,10 +111,10 @@ def build(cache=None):
             continue
         mid, market, company = task
         kickoff = task_kick[q[0]]
-        cutoff = kickoff - CUTOFF
-        if q[2] + 60 > cutoff:  # strict: whole source minute before the cutoff
+        if q[2] + 60 > kickoff:  # keep prematch minutes up to kickoff for the closing quote
             continue
-        row = {"ts": q[2], "order": q[1], "conflict": bool(q[16])}
+        # strict T-10: the whole source minute ends at or before the cutoff
+        row = {"ts": q[2], "order": q[1], "conflict": bool(q[16]), "t10": q[2] + 60 <= kickoff - CUTOFF}
         if market == "size":
             row.update(line=q[9], a=q[8], b=q[10])
         else:
@@ -135,12 +141,19 @@ def build(cache=None):
         if kickoff is None:
             continue
         cutoff = kickoff - CUTOFF
-        book = {}
+        book, close = {}, {}
         for company in ("3", "1"):
             path, error = asian_path(asia_rows.get((mid, company), []), kickoff, cutoff,
                                      order.get((mid, company)))
-            totals = _et_path(et_rows.get((mid, company, "size"), []), "size")
-            euro = _et_path(et_rows.get((mid, company, "euro"), []), "euro")
+            size_rows = et_rows.get((mid, company, "size"), [])
+            euro_rows = et_rows.get((mid, company, "euro"), [])
+            totals = _et_path([r for r in size_rows if r["t10"]], "size")
+            euro = _et_path([r for r in euro_rows if r["t10"]], "euro")
+            close_asian, _ = asian_path(asia_rows.get((mid, company), []), kickoff, kickoff,
+                                        order.get((mid, company)))
+            close_totals = _et_path(list(size_rows), "size")
+            if close_asian:
+                close[company] = {"asian": close_asian[-1:], "totals": (close_totals or [])[-1:]}
             if path or totals or euro:
                 book[company] = {"asian": path, "asianError": error,
                                  "totals": totals or [], "euro": euro or [],
@@ -150,7 +163,8 @@ def build(cache=None):
         seen.add(group)
         fixtures.append({"matchId": mid, "fixtureGroup": group, "kickoff": kickoff,
                          "competition": row["competition_name"], "home": row["team_A_name"],
-                         "away": row["team_B_name"], "score": regular_time_score(row), "book": book})
+                         "away": row["team_B_name"], "score": regular_time_score(row), "book": book,
+                         "close": close})
     if cache:
         Path(cache).write_bytes(pickle.dumps(fixtures))
     return fixtures

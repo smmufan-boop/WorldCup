@@ -14,7 +14,7 @@ import sys
 import urllib.request
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "v1" / "code"))
+sys.path.append(str(Path(__file__).resolve().parents[2] / "v1" / "code"))
 from matching_core import BJT, clock, daqiu_signed_line, points  # noqa: E402,F401
 
 ODDS_URL = ("https://www.daqiuxiaoqiu.com/sport-data/soccer/biz/dqd/v1/match/odds/"

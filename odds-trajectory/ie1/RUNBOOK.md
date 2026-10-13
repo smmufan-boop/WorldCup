@@ -52,7 +52,7 @@ python odds-trajectory/ie1/code/demo.py
 | --- | --- | --- |
 | 赛日开始前 | 确认赛程来源已更新（V1 采集库在运行，或 CSV 已写好） | — |
 | 开球前任意时间，**须早于 T−10** | 有伤停、轮换、战意等确定信息时录入 M6 | `note` |
-| 全天 | 后台持续扫描，到 T−10 的比赛自动计算并登记 | `run --loop` |
+| 全天 | 后台持续扫描，到 T−10 的比赛自动计算并登记；开球 2 分钟后自动补取 Royal 收盘价算 CLV | `run --loop` |
 | 次日 | 结算前一赛日 | `settle` |
 | 每周 | 复盘统计 | `stats` |
 
@@ -118,10 +118,20 @@ python odds-trajectory/ie1/code/demo.py
 ## 2. 每周复盘
 
 ```powershell
+& $IE1 close   # 只在没有常驻 run --loop 时需要：补取已开球场次的 Royal 收盘价
 & $IE1 stats
 ```
 
-输出各等级的注数、平注 ROI 及其 95% 下限、按单位盈亏，以及是否达到实盘门槛。另外人工核对以下几项，可直接查台账：
+输出各等级的注数、平注 ROI 及其 95% 下限、按单位盈亏、是否达到实盘门槛，以及**收盘价对比（CLV）**：
+
+| CLV 行 | 含义 | 怎么用 |
+| --- | --- | --- |
+| 已登记推荐 | 锁定价相对 Royal 收盘的平均期望收益、95% 下限、胜过收盘的比例 | 最主要的前瞻指标。几十注后 95% 下限仍 > 0，说明规则稳定拿到好于收盘的价格 |
+| 未登记·EV≥2%·报价过旧作废 | 被 120 分钟门槛挡掉的候选 | 如果它们的 CLV 与已登记推荐相当，且抽查多数能成交，可以考虑放宽门槛 |
+| 未登记·EV≥2%·其他原因 | 被阻断、降为 C 或被否决的候选 | 检查这些规则是否挡掉了好价格 |
+| 未登记·0≤EV<2% / EV<0 | 门槛以下的候选 | 应接近 −抽水；如果明显为正，说明 EV 门槛过严 |
+
+CLV 以 Royal 开球前最后一条报价为准，回测里它与 T−10 EV 几乎相同。前瞻阶段要特别注意 **CLV 明显低于登记时 EV** 的情况：这说明 Royal 在截点后朝澳彩方向移动，澳彩的“异常价”可能是信息而不是慢跟价。另外人工核对以下几项，可直接查台账：
 
 ```sql
 -- sqlite3 ie1-runtime/ledger.sqlite3
@@ -194,7 +204,8 @@ SELECT match_id, (generated_at-cutoff)/60.0 AS delay_min FROM runs ORDER BY dela
 1. 同一参数版本下已结算的前瞻登记 ≥ 200 注（`goLive.minSettled`）。
 2. 平注 ROI 的 95% 下限 > 0（`stats` 最后一行显示“已达到实盘门槛”）。
 3. 抽查“锁定价能否成交”的比例 ≥ 70%。
-4. 前瞻期每月 ROI 没有一个月低于 −15%；如果有，先查原因。
+4. 已登记推荐的平均 CLV 95% 下限 > 0（`stats` 的 CLV 部分）。CLV 稳定为正而 ROI 暂时为负时，通常是运气；反过来 ROI 为正而 CLV ≤ 0 时，不应转实盘。
+5. 前瞻期每月 ROI 没有一个月低于 −15%；如果有，先查原因。
 
 转实盘后如果连续 100 注的平注 ROI < 0，停回模拟，重新评估。
 
@@ -212,7 +223,9 @@ python odds-trajectory/ie1/code/backtest.py --cache fixtures.pkl --out odds-traj
 
 | 文件 | 作用 |
 | --- | --- |
-| `code/ie1.py` | 命令行入口：probe / run / note / settle / stats / offline / replay |
+| `code/ie1.py` | 命令行入口：probe / run / note / close / settle / stats / offline / replay |
+| `code/clv.py` | 收盘价对比（CLV）计算 |
+| `code/clv_backtest.py` | 历史 CLV 回测 |
 | `code/source.py` | 限速抓取、401/403/429 停机、原始报文存档、赛程读取 |
 | `code/parse.py` | 报文 → 统一行格式；中文盘口、进球线、无年份时间的解析 |
 | `code/quotes.py` | 接口和公司 ID、T−10 路径构建（亚盘用 V1 点序；大小球/欧指用严格分钟和同分钟冲突规则） |

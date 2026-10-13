@@ -31,7 +31,7 @@ def element(minute, a, mid, b, score=""):
 PAYLOADS = {
     ("3", "asia"): [("10:00", "0.92", "半球", "0.96"), ("15:00", "0.84", "半球", "1.04"),
                     ("18:00", "0.98", "半/一", "0.90"), ("19:40", "0.86", "半/一", "1.02"),
-                    ("20:05", "0.70", "一球", "1.20", "1-0")],
+                    ("19:55", "0.80", "半/一", "1.08"), ("20:05", "0.70", "一球", "1.20", "1-0")],
     ("3", "size"): [("10:00", "0.90", "2.5", "0.98"), ("19:40", "0.94", "2.5/3", "0.94")],
     ("3", "euro"): [("10:00", "2.02", "3.40", "3.55"), ("19:40", "1.88", "3.55", "3.95")],
     ("1", "asia"): [("10:00", "0.90", "半球", "0.95"), ("16:00", "0.88", "半球", "0.97"),
@@ -145,6 +145,28 @@ class RunAndLedger(unittest.TestCase):
                       book, params, manual=manual)
         self.assertIn("信息面录入时间缺失或晚于截点，未采用", res["cautions"])
         self.assertNotIn("M6", res["signals"])
+
+
+class ClosingLineValue(unittest.TestCase):
+    def test_close_fills_clv_for_pick(self):
+        params = load_parameters()
+        meta = {"matchId": "54580227", "competition": "英超", "home": "示例主队", "away": "示例客队",
+                "kickoff": KICKOFF}
+        with tempfile.TemporaryDirectory() as tmp:
+            ledger = Ledger(Path(tmp) / "ledger.sqlite3")
+            ie1.now = lambda: KICKOFF - 300
+            _, registered, _ = ie1.run_one(FakeFetcher(), ledger, meta, params, {}, Path(tmp))
+            self.assertTrue(registered)
+            self.assertEqual(ie1.close_due(FakeFetcher(), ledger, params, KICKOFF - 60), 0)  # not kicked off
+            ie1.now = lambda: KICKOFF + 300
+            self.assertEqual(ie1.close_due(FakeFetcher(), ledger, params, KICKOFF + 300), 1)
+            row = ledger.clv_rows()[0]
+            self.assertEqual(row["kind"], "pick")
+            # Close = Royal 19:55 (半/一 0.80/1.08), not the 20:05 in-play quote.
+            self.assertEqual((row["close_line"], row["close_home"]), (-0.75, 0.80))
+            # Royal moved further toward the home side after T-10, so the locked home bet beat the close.
+            self.assertGreater(row["clv"], 0)
+            ledger.close()
 
 
 class QuoteAgeGates(unittest.TestCase):

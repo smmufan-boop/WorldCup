@@ -1,0 +1,335 @@
+{
+  "rows": 19201,
+  "clvBuckets": {
+    "development": {
+      "[-1.00,-0.06)": {
+        "n": 11370,
+        "meanEV": -0.0738,
+        "meanCLV": -0.0846,
+        "clvSE": 0.0003,
+        "beatCloseRate": 0.0,
+        "roi": -0.0903,
+        "roiSE": 0.0081,
+        "winRate": 0.4839
+      },
+      "[-0.06,-0.03)": {
+        "n": 12489,
+        "meanEV": -0.0429,
+        "meanCLV": -0.0436,
+        "clvSE": 0.0001,
+        "beatCloseRate": 0.0,
+        "roi": -0.0359,
+        "roiSE": 0.0077,
+        "winRate": 0.5064
+      },
+      "[-0.03,+0.00)": {
+        "n": 5947,
+        "meanEV": -0.0309,
+        "meanCLV": -0.0191,
+        "clvSE": 0.0001,
+        "beatCloseRate": 0.0,
+        "roi": -0.0364,
+        "roiSE": 0.0112,
+        "winRate": 0.5053
+      },
+      "[+0.00,+0.03)": {
+        "n": 1092,
+        "meanEV": -0.0256,
+        "meanCLV": 0.0105,
+        "clvSE": 0.0002,
+        "beatCloseRate": 1.0,
+        "roi": 0.0266,
+        "roiSE": 0.0262,
+        "winRate": 0.5455
+      },
+      "[+0.03,+0.06)": {
+        "n": 224,
+        "meanEV": -0.016,
+        "meanCLV": 0.0424,
+        "clvSE": 0.0006,
+        "beatCloseRate": 1.0,
+        "roi": 0.0994,
+        "roiSE": 0.0572,
+        "winRate": 0.5735
+      },
+      "[+0.06,+1.00)": {
+        "n": 86,
+        "meanEV": 0.0047,
+        "meanCLV": 0.0961,
+        "clvSE": 0.005,
+        "beatCloseRate": 1.0,
+        "roi": 0.1955,
+        "roiSE": 0.0917,
+        "winRate": 0.642
+      }
+    },
+    "holdout": {
+      "[-1.00,-0.06)": {
+        "n": 7188,
+        "meanEV": -0.0745,
+        "meanCLV": -0.0796,
+        "clvSE": 0.0003,
+        "beatCloseRate": 0.0,
+        "roi": -0.0704,
+        "roiSE": 0.0102,
+        "winRate": 0.4968
+      },
+      "[-0.06,-0.03)": {
+        "n": 10252,
+        "meanEV": -0.0428,
+        "meanCLV": -0.0434,
+        "clvSE": 0.0001,
+        "beatCloseRate": 0.0,
+        "roi": -0.0445,
+        "roiSE": 0.0085,
+        "winRate": 0.5006
+      },
+      "[-0.03,+0.00)": {
+        "n": 4631,
+        "meanEV": -0.027,
+        "meanCLV": -0.0218,
+        "clvSE": 0.0001,
+        "beatCloseRate": 0.0,
+        "roi": -0.0338,
+        "roiSE": 0.0127,
+        "winRate": 0.5002
+      },
+      "[+0.00,+0.03)": {
+        "n": 425,
+        "meanEV": -0.0189,
+        "meanCLV": 0.0106,
+        "clvSE": 0.0004,
+        "beatCloseRate": 1.0,
+        "roi": -0.0079,
+        "roiSE": 0.0415,
+        "winRate": 0.5258
+      },
+      "[+0.03,+0.06)": {
+        "n": 73,
+        "meanEV": -0.0019,
+        "meanCLV": 0.043,
+        "clvSE": 0.001,
+        "beatCloseRate": 1.0,
+        "roi": 0.0334,
+        "roiSE": 0.0994,
+        "winRate": 0.5571
+      },
+      "[+0.06,+1.00)": {
+        "n": 25,
+        "meanEV": 0.069,
+        "meanCLV": 0.1298,
+        "clvSE": 0.0204,
+        "beatCloseRate": 1.0,
+        "roi": 0.0218,
+        "roiSE": 0.1804,
+        "winRate": 0.56
+      }
+    }
+  },
+  "rules": {
+    "development": {
+      "royalT10 (all sides)": {
+        "n": 22146,
+        "meanEV": -0.0465,
+        "meanCLV": -0.0465,
+        "clvSE": 0.0002,
+        "beatCloseRate": 0.0361,
+        "roi": -0.0478,
+        "roiSE": 0.0059,
+        "winRate": 0.5
+      },
+      "macauT10 (all sides)": {
+        "n": 9062,
+        "meanEV": -0.0619,
+        "meanCLV": -0.062,
+        "clvSE": 0.0005,
+        "beatCloseRate": 0.0665,
+        "roi": -0.0625,
+        "roiSE": 0.009,
+        "winRate": 0.5
+      },
+      "macau EV>=2%": {
+        "n": 126,
+        "meanEV": 0.0476,
+        "meanCLV": 0.048,
+        "clvSE": 0.0044,
+        "beatCloseRate": 0.9127,
+        "roi": 0.1146,
+        "roiSE": 0.0762,
+        "winRate": 0.6033
+      },
+      "macau EV>=2%, age<=120": {
+        "n": 45,
+        "meanEV": 0.0419,
+        "meanCLV": 0.0406,
+        "clvSE": 0.0059,
+        "beatCloseRate": 0.8889,
+        "roi": 0.1562,
+        "roiSE": 0.128,
+        "winRate": 0.6429
+      },
+      "macau EV>=2%, age>120": {
+        "n": 81,
+        "meanEV": 0.0507,
+        "meanCLV": 0.0521,
+        "clvSE": 0.0059,
+        "beatCloseRate": 0.9259,
+        "roi": 0.0915,
+        "roiSE": 0.0954,
+        "winRate": 0.5823
+      },
+      "macau EV>=4%, age<=120": {
+        "n": 20,
+        "meanEV": 0.0567,
+        "meanCLV": 0.0477,
+        "clvSE": 0.0061,
+        "beatCloseRate": 0.95,
+        "roi": 0.2135,
+        "roiSE": 0.1923,
+        "winRate": 0.6667
+      },
+      "engine picks (all competitions gate on)": {
+        "n": 10,
+        "meanEV": 0.0498,
+        "meanCLV": 0.0498,
+        "clvSE": 0.0083,
+        "beatCloseRate": 0.9,
+        "roi": 0.061,
+        "roiSE": 0.3036,
+        "winRate": 0.5556
+      },
+      "waterFollow @Royal": {
+        "n": 3395,
+        "meanEV": -0.0502,
+        "meanCLV": -0.0493,
+        "clvSE": 0.0005,
+        "beatCloseRate": 0.0283,
+        "roi": -0.0197,
+        "roiSE": 0.0141,
+        "winRate": 0.5453
+      },
+      "waterFollow @Macau": {
+        "n": 1074,
+        "meanEV": -0.0439,
+        "meanCLV": -0.0422,
+        "clvSE": 0.0012,
+        "beatCloseRate": 0.1127,
+        "roi": -0.002,
+        "roiSE": 0.0258,
+        "winRate": 0.5469
+      },
+      "waterFollow @Macau age<=120": {
+        "n": 372,
+        "meanEV": -0.0481,
+        "meanCLV": -0.0456,
+        "clvSE": 0.002,
+        "beatCloseRate": 0.1102,
+        "roi": -0.0501,
+        "roiSE": 0.0439,
+        "winRate": 0.5231
+      }
+    },
+    "holdout": {
+      "royalT10 (all sides)": {
+        "n": 16256,
+        "meanEV": -0.0459,
+        "meanCLV": -0.0459,
+        "clvSE": 0.0002,
+        "beatCloseRate": 0.0151,
+        "roi": -0.0471,
+        "roiSE": 0.0068,
+        "winRate": 0.5
+      },
+      "macauT10 (all sides)": {
+        "n": 6338,
+        "meanEV": -0.0567,
+        "meanCLV": -0.0567,
+        "clvSE": 0.0005,
+        "beatCloseRate": 0.0437,
+        "roi": -0.0559,
+        "roiSE": 0.0108,
+        "winRate": 0.5
+      },
+      "macau EV>=2%": {
+        "n": 73,
+        "meanEV": 0.0563,
+        "meanCLV": 0.056,
+        "clvSE": 0.0081,
+        "beatCloseRate": 0.9863,
+        "roi": 0.1984,
+        "roiSE": 0.0978,
+        "winRate": 0.6571
+      },
+      "macau EV>=2%, age<=120": {
+        "n": 29,
+        "meanEV": 0.0749,
+        "meanCLV": 0.0743,
+        "clvSE": 0.0192,
+        "beatCloseRate": 0.9655,
+        "roi": 0.1959,
+        "roiSE": 0.1564,
+        "winRate": 0.6429
+      },
+      "macau EV>=2%, age>120": {
+        "n": 44,
+        "meanEV": 0.0441,
+        "meanCLV": 0.0439,
+        "clvSE": 0.0041,
+        "beatCloseRate": 1.0,
+        "roi": 0.2001,
+        "roiSE": 0.1267,
+        "winRate": 0.6667
+      },
+      "macau EV>=4%, age<=120": {
+        "n": 16,
+        "meanEV": 0.1109,
+        "meanCLV": 0.1096,
+        "clvSE": 0.0323,
+        "beatCloseRate": 1.0,
+        "roi": 0.445,
+        "roiSE": 0.1738,
+        "winRate": 0.8
+      },
+      "engine picks (all competitions gate on)": {
+        "n": 5,
+        "meanEV": 0.037,
+        "meanCLV": 0.0387,
+        "clvSE": 0.0069,
+        "beatCloseRate": 1.0,
+        "roi": 0.05,
+        "roiSE": 0.3728,
+        "winRate": 0.5
+      },
+      "waterFollow @Royal": {
+        "n": 2275,
+        "meanEV": -0.0499,
+        "meanCLV": -0.049,
+        "clvSE": 0.0005,
+        "beatCloseRate": 0.0132,
+        "roi": -0.0032,
+        "roiSE": 0.017,
+        "winRate": 0.5585
+      },
+      "waterFollow @Macau": {
+        "n": 680,
+        "meanEV": -0.0482,
+        "meanCLV": -0.0484,
+        "clvSE": 0.0016,
+        "beatCloseRate": 0.0588,
+        "roi": 0.0341,
+        "roiSE": 0.032,
+        "winRate": 0.564
+      },
+      "waterFollow @Macau age<=120": {
+        "n": 416,
+        "meanEV": -0.0558,
+        "meanCLV": -0.0556,
+        "clvSE": 0.0023,
+        "beatCloseRate": 0.0337,
+        "roi": 0.0584,
+        "roiSE": 0.0405,
+        "winRate": 0.5758
+      }
+    }
+  }
+}

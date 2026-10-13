@@ -6,6 +6,7 @@ Run from the repository root, e.g.:
   python odds-trajectory/ie1/code/ie1.py run --fixtures fixtures.csv --loop
   python odds-trajectory/ie1/code/ie1.py note --match-id 54580227 --supremacy -0.05 --notes "主力前锋伤缺"
   python odds-trajectory/ie1/code/ie1.py settle --results results.csv
+  python odds-trajectory/ie1/code/ie1.py close
   python odds-trajectory/ie1/code/ie1.py stats
   python odds-trajectory/ie1/code/ie1.py offline --input match.json
   python odds-trajectory/ie1/code/ie1.py replay --match-id 54569678 --cache fixtures.pkl
@@ -24,6 +25,7 @@ from pathlib import Path
 
 from engine import load_parameters, predict, render
 from ledger import Ledger
+from clv import clv
 from parse import minute_order_evidence, rows_from_payload
 from quotes import BJT, clock, market_book
 from settle import pick_profit
@@ -137,6 +139,47 @@ def run_one(fetcher, ledger, meta, params, notes, out_dir):
     return status, registered, result["decision"]["text"]
 
 
+def close_due(fetcher, ledger, params, t):
+    """Fill closing-line value for tracked bets whose match has kicked off."""
+    from clv import closing_book, closing_model
+    done = 0
+    for row in ledger.open_clv(t - params["clv"]["delaySeconds"]):
+        rows, order = {}, {}
+        ref = params["referenceCompany"]
+        meta = {"matchId": row["match_id"], "kickoff": row["kickoff"]}
+        for market in ("asia", "size"):
+            payload, _ = fetcher.market(row["match_id"], ref, market)
+            if payload is not None:
+                parsed, _ = rows_from_payload(payload, market, row["match_id"], ref, row["kickoff"],
+                                              params.get("payload"))
+                rows.setdefault(ref, []).extend(parsed)
+        order[ref] = minute_order_evidence(rows.get(ref, []))
+        book = closing_book(rows, meta["kickoff"], order)
+        model = closing_model(book.get(ref) or {}, params["rho"], row["fallback_total"])
+        if model is None:
+            ledger.set_clv(row["run_id"], None, now(), (book.get(ref) or {}).get("asianError") or "无收盘亚盘")
+        else:
+            data = clv({"market": row["market"], "side": row["side"], "line": row["line"], "odds": row["odds"]},
+                       model)
+            ledger.set_clv(row["run_id"], data, now())
+        done += 1
+    return done
+
+
+def cmd_close(args):
+    params = load_parameters()
+    wd = workdir(args)
+    ledger = Ledger(wd / "ledger.sqlite3")
+    fetcher = Fetcher(wd / "evidence", params["fetch"]["minIntervalSeconds"], params["fetch"]["timeoutSeconds"])
+    try:
+        print(f"已补 {close_due(fetcher, ledger, params, now())} 场收盘价。")
+    except SourceBlocked as exc:
+        print(f"数据源拒绝访问，已停止：{exc}")
+        return 2
+    finally:
+        ledger.close()
+
+
 def cmd_run(args):
     params = load_parameters()
     wd = workdir(args)
@@ -161,6 +204,13 @@ def cmd_run(args):
                     continue
                 print(f"{stamp(now())} {meta['home']} vs {meta['away']}：{text}"
                       + ("｜已登记" if registered else "") + (f"｜{status}" if status != "ok" else ""), flush=True)
+            try:
+                close_due(fetcher, ledger, params, now())
+            except SourceBlocked as exc:
+                print(f"{stamp(now())} 数据源拒绝访问，已停止：{exc}", flush=True)
+                return 2
+            except (RuntimeError, ValueError) as exc:
+                print(f"{stamp(now())} 收盘价补取失败：{exc}", flush=True)
             if not args.loop:
                 return 0
             time.sleep(params["fetch"]["scanSeconds"])
@@ -220,6 +270,7 @@ def cmd_stats(args):
     wd = workdir(args)
     ledger = Ledger(wd / "ledger.sqlite3")
     picks = ledger.picks()
+    clv_rows = ledger.clv_rows()
     ledger.close()
     settled = [p for p in picks if p["settled_at"] is not None]
     print(f"登记 {len(picks)} 注，已结算 {len(settled)} 注。")
@@ -243,6 +294,33 @@ def cmd_stats(args):
         ok = n >= gate["minSettled"] and mean - 1.96 * sd / math.sqrt(n) > gate["minLowerBoundRoi"]
         print(("已" if ok else "未") + f"达到实盘门槛（≥{gate['minSettled']} 注且平注 ROI 95% 下限 > "
               f"{gate['minLowerBoundRoi']:.0%}）。")
+    print_clv(clv_rows, params)
+
+
+def _clv_line(label, rows):
+    if not rows:
+        return
+    c = [r["clv"] for r in rows]
+    n, mean = len(c), sum(c) / len(c)
+    sd = math.sqrt(sum((x - mean) ** 2 for x in c) / max(n - 1, 1))
+    print(f"  {label}：{n} 场，平均 CLV {mean:+.2%}（95% 下限 {mean - 1.96 * sd / math.sqrt(n):+.2%}），"
+          f"胜过收盘 {sum(x > 0 for x in c) / n:.0%}")
+
+
+def print_clv(rows, params):
+    print("收盘价对比（CLV，参考 Royal 开球前最后报价）：")
+    if not rows:
+        print("  暂无已收盘的记录。")
+        return
+    gate = params["gates"]
+    _clv_line("已登记推荐", [r for r in rows if r["kind"] == "pick"])
+    cand = [r for r in rows if r["kind"] == "candidate"]
+    _clv_line(f"未登记·EV≥{gate['evTierB']:.0%}·报价过旧作废",
+              [r for r in cand if r["ev"] >= gate["evTierB"] and (r["age_minutes"] or 0) > gate["maxStakeQuoteAgeMinutes"]])
+    _clv_line(f"未登记·EV≥{gate['evTierB']:.0%}·其他原因（阻断/降为C/否决）",
+              [r for r in cand if r["ev"] >= gate["evTierB"] and (r["age_minutes"] or 0) <= gate["maxStakeQuoteAgeMinutes"]])
+    _clv_line(f"未登记·0≤EV<{gate['evTierB']:.0%}", [r for r in cand if 0 <= r["ev"] < gate["evTierB"]])
+    _clv_line("未登记·EV<0", [r for r in cand if r["ev"] < 0])
 
 
 def _rows_from_manual(match_id, company, kickoff, quotes):
@@ -331,7 +409,9 @@ def main(argv=None):
     src.add_argument("--results", help="CSV: match_id,score_home,score_away（常规 90 分钟）")
     src.add_argument("--db", help="V1 结构的 SQLite（按核验规则取比分）")
     p.set_defaults(func=cmd_settle)
-    p = sub.add_parser("stats", help="前瞻台账统计与实盘门槛")
+    p = sub.add_parser("close", help="开球后补取 Royal 收盘价并计算 CLV（run --loop 会自动执行）")
+    p.set_defaults(func=cmd_close)
+    p = sub.add_parser("stats", help="前瞻台账统计、实盘门槛与 CLV")
     p.set_defaults(func=cmd_stats)
     p = sub.add_parser("offline", help="手工录入赔率生成报告（不登记）")
     p.add_argument("--input", required=True)
