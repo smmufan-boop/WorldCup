@@ -1,81 +1,230 @@
 {
  "method": "Carries the V1 pipeline over from per-line water channels to one continuous\nchannel, mu (supremacy.py), so no line segmentation is needed:",
+ "sigma": 1.6879309723404723,
  "windows": {
   "dev": {
    "targets": 25346,
-   "withDirection": 19672,
-   "medianCandidates": 13.0,
-   "medianEffectiveN": 11.56350810860977,
-   "all": {
-    "N": 19672,
-    "winRate": 0.5238,
-    "winSE": 0.0037,
-    "baseline": 0.5228,
-    "lift": 0.001,
-    "roi": -0.0404
+   "binary": {
+    "withDirection": 19672,
+    "corrWithMarketError": -0.0075,
+    "all": {
+     "N": 19672,
+     "winRate": 0.5238,
+     "winSE": 0.0037,
+     "baseline": 0.5228,
+     "lift": 0.001,
+     "roi": -0.0404
+    },
+    "green": {
+     "N": 6827,
+     "winRate": 0.5088,
+     "winSE": 0.0063,
+     "baseline": 0.5062,
+     "lift": 0.0026,
+     "roi": -0.0362
+    },
+    "orange": {
+     "N": 7052,
+     "winRate": 0.5177,
+     "winSE": 0.0062,
+     "baseline": 0.5194,
+     "lift": -0.0017,
+     "roi": -0.0452
+    },
+    "red": {
+     "N": 5793,
+     "winRate": 0.5484,
+     "winSE": 0.0067,
+     "baseline": 0.5461,
+     "lift": 0.0022,
+     "roi": -0.0395
+    }
    },
-   "green": {
-    "N": 6827,
-    "winRate": 0.5088,
-    "winSE": 0.0063,
-    "baseline": 0.5062,
-    "lift": 0.0026,
-    "roi": -0.0362
+   "margin": {
+    "withDirection": 19679,
+    "corrWithMarketError": -0.0008,
+    "all": {
+     "N": 19679,
+     "winRate": 0.502,
+     "winSE": 0.0037,
+     "baseline": 0.507,
+     "lift": -0.005,
+     "roi": -0.0488
+    },
+    "green": {
+     "N": 7769,
+     "winRate": 0.4969,
+     "winSE": 0.0058,
+     "baseline": 0.5052,
+     "lift": -0.0084,
+     "roi": -0.0535
+    },
+    "orange": {
+     "N": 7393,
+     "winRate": 0.5028,
+     "winSE": 0.006,
+     "baseline": 0.5074,
+     "lift": -0.0047,
+     "roi": -0.0474
+    },
+    "red": {
+     "N": 4517,
+     "winRate": 0.5097,
+     "winSE": 0.0077,
+     "baseline": 0.5094,
+     "lift": 0.0003,
+     "roi": -0.043
+    }
    },
-   "orange": {
-    "N": 7052,
-    "winRate": 0.5177,
-    "winSE": 0.0062,
-    "baseline": 0.5194,
-    "lift": -0.0017,
-    "roi": -0.0452
+   "residual": {
+    "withDirection": 19805,
+    "corrWithMarketError": -0.0033,
+    "all": {
+     "N": 19805,
+     "winRate": 0.4967,
+     "winSE": 0.0037,
+     "baseline": 0.5014,
+     "lift": -0.0047,
+     "roi": -0.0477
+    },
+    "green": {
+     "N": 8168,
+     "winRate": 0.4972,
+     "winSE": 0.0057,
+     "baseline": 0.5017,
+     "lift": -0.0046,
+     "roi": -0.0478
+    },
+    "orange": {
+     "N": 7491,
+     "winRate": 0.4988,
+     "winSE": 0.006,
+     "baseline": 0.5029,
+     "lift": -0.0041,
+     "roi": -0.0453
+    },
+    "red": {
+     "N": 4146,
+     "winRate": 0.4918,
+     "winSE": 0.008,
+     "baseline": 0.498,
+     "lift": -0.0062,
+     "roi": -0.0518
+    }
    },
-   "red": {
-    "N": 5793,
-    "winRate": 0.5484,
-    "winSE": 0.0067,
-    "baseline": 0.5461,
-    "lift": 0.0022,
-    "roi": -0.0395
-   }
+   "medianCandidates": 13.0
   },
   "holdout": {
    "targets": 14941,
-   "withDirection": 12381,
-   "medianCandidates": 36.0,
-   "medianEffectiveN": 26.878725877265175,
-   "all": {
-    "N": 12381,
-    "winRate": 0.5272,
-    "winSE": 0.0046,
-    "baseline": 0.5254,
-    "lift": 0.0018,
-    "roi": -0.044
+   "binary": {
+    "withDirection": 12381,
+    "corrWithMarketError": 0.0032,
+    "all": {
+     "N": 12381,
+     "winRate": 0.5272,
+     "winSE": 0.0046,
+     "baseline": 0.5254,
+     "lift": 0.0018,
+     "roi": -0.044
+    },
+    "green": {
+     "N": 3316,
+     "winRate": 0.5034,
+     "winSE": 0.009,
+     "baseline": 0.5049,
+     "lift": -0.0015,
+     "roi": -0.0435
+    },
+    "orange": {
+     "N": 4137,
+     "winRate": 0.5063,
+     "winSE": 0.0081,
+     "baseline": 0.5156,
+     "lift": -0.0093,
+     "roi": -0.0631
+    },
+    "red": {
+     "N": 4928,
+     "winRate": 0.5601,
+     "winSE": 0.0073,
+     "baseline": 0.5469,
+     "lift": 0.0132,
+     "roi": -0.0282
+    }
    },
-   "green": {
-    "N": 3316,
-    "winRate": 0.5034,
-    "winSE": 0.009,
-    "baseline": 0.5049,
-    "lift": -0.0015,
-    "roi": -0.0435
+   "margin": {
+    "withDirection": 12381,
+    "corrWithMarketError": 0.0079,
+    "all": {
+     "N": 12381,
+     "winRate": 0.5115,
+     "winSE": 0.0047,
+     "baseline": 0.5055,
+     "lift": 0.006,
+     "roi": -0.0353
+    },
+    "green": {
+     "N": 3749,
+     "winRate": 0.5036,
+     "winSE": 0.0084,
+     "baseline": 0.5017,
+     "lift": 0.0019,
+     "roi": -0.0368
+    },
+    "orange": {
+     "N": 4489,
+     "winRate": 0.5154,
+     "winSE": 0.0078,
+     "baseline": 0.5033,
+     "lift": 0.0121,
+     "roi": -0.0264
+    },
+    "red": {
+     "N": 4143,
+     "winRate": 0.5146,
+     "winSE": 0.008,
+     "baseline": 0.5113,
+     "lift": 0.0033,
+     "roi": -0.0435
+    }
    },
-   "orange": {
-    "N": 4137,
-    "winRate": 0.5063,
-    "winSE": 0.0081,
-    "baseline": 0.5156,
-    "lift": -0.0093,
-    "roi": -0.0631
+   "residual": {
+    "withDirection": 12415,
+    "corrWithMarketError": -0.0088,
+    "all": {
+     "N": 12415,
+     "winRate": 0.4973,
+     "winSE": 0.0047,
+     "baseline": 0.4974,
+     "lift": -0.0001,
+     "roi": -0.0445
+    },
+    "green": {
+     "N": 4202,
+     "winRate": 0.5044,
+     "winSE": 0.008,
+     "baseline": 0.499,
+     "lift": 0.0053,
+     "roi": -0.0323
+    },
+    "orange": {
+     "N": 4835,
+     "winRate": 0.4979,
+     "winSE": 0.0075,
+     "baseline": 0.4971,
+     "lift": 0.0008,
+     "roi": -0.0427
+    },
+    "red": {
+     "N": 3378,
+     "winRate": 0.4879,
+     "winSE": 0.0089,
+     "baseline": 0.4958,
+     "lift": -0.0079,
+     "roi": -0.0622
+    }
    },
-   "red": {
-    "N": 4928,
-    "winRate": 0.5601,
-    "winSE": 0.0073,
-    "baseline": 0.5469,
-    "lift": 0.0132,
-    "roi": -0.0282
-   }
+   "medianCandidates": 36.0
   }
  }
 }

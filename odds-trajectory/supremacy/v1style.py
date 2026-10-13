@@ -10,9 +10,13 @@ channel, mu (supremacy.py), so no line segmentation is needed:
   similarity   V1 point-progress direction agreement S (0-100) on the mu
                series, consecutive duplicates removed, >= 5 points to rank
   direction    V1 aggregation D = 50 + 50 * sum(w z) / (alpha + sum w),
-               w = (S/100)^2, alpha = 20; z = how the neighbour's actual score
-               settles on the target's T-10 line for the home side (+1 win or
-               half win, -1 loss or half loss, push excluded)
+               w = (S/100)^2, alpha = 20, with three outcome values z per neighbour:
+                 binary   how its actual score settles on the target's T-10 line
+                          for the home side (+1 win or half win, -1 loss or half
+                          loss, push excluded)
+                 margin   (its goal difference - target's T-10 line) / sigma
+                 residual (its goal difference - its own T-10 mu) / sigma
+               sigma = dev standard deviation of (goal difference - mu)
   bands        E = 50 + 50 tanh((D - 50) / 5); green |E-50| < 10, orange 10-25, red >= 25
 
 Time order: neighbours only from matches with kickoff + 5400 s before the
@@ -45,6 +49,7 @@ POWER, ALPHA = 2.0, 20.0
 WINDOWS = {'dev': ('2026-02-01', '2026-08-01'), 'holdout': ('2026-08-01', '2026-10-13')}
 EPS = 1e-9
 
+MODES = ('binary', 'margin', 'residual')
 DATA = None  # shared with forked workers
 
 
@@ -134,7 +139,7 @@ def score_target(i):
     cand = np.nonzero(ok)[0]
     target = paths[i]
     line = rows[i]['line']
-    weights, zs, strict = [], [], 0
+    weights, zs, strict = [], {m: [] for m in MODES}, 0
     rankable_target = len(target) >= 5
     for j in cand:
         if not rankable_target or len(paths[j]) < 5:
@@ -142,19 +147,23 @@ def score_target(i):
         s = direction_score(target, paths[j])
         if s is None:
             continue
-        z = home_z(a['gd'][j], line)
-        if z == 0:
-            continue
         weights.append((s / 100) ** POWER)
-        zs.append(z)
+        zs['binary'].append(home_z(a['gd'][j], line))
+        zs['margin'].append((a['gd'][j] - line) / a['sigma'])
+        zs['residual'].append((a['gd'][j] - a['end'][j]) / a['sigma'])
         strict += gap[j] <= STRICT + 1e-9
     if not weights:
-        return i, {'candidates': int(len(cand)), 'D': None}
-    w, z = np.array(weights), np.array(zs)
-    total = w.sum()
-    d = 50 + 50 * (w * z).sum() / (ALPHA + total) if total else None
-    return i, {'candidates': int(len(cand)), 'used': int(len(w)), 'strict': int(strict), 'D': d,
-               'effectiveN': float(total ** 2 / (w ** 2).sum()) if total else 0.}
+        return i, {'candidates': int(len(cand)), **{m: None for m in MODES}}
+    w = np.array(weights)
+    out = {'candidates': int(len(cand)), 'used': int(len(w)), 'strict': int(strict)}
+    for m in MODES:
+        z = np.array(zs[m])
+        keep = z != 0 if m == 'binary' else np.ones(len(z), bool)  # push excluded from binary weights
+        total = w[keep].sum()
+        out[m] = 50 + 50 * (w[keep] * z[keep]).sum() / (ALPHA + total) if total else None
+        if m == 'binary':
+            out['effectiveN'] = float(total ** 2 / (w[keep] ** 2).sum()) if total else 0.
+    return i, out
 
 
 def band(d):
@@ -196,6 +205,8 @@ def summarise(items):
 def main():
     global DATA
     rows, paths, arr = build()
+    dev = (arr['kickoff'] >= ts(WINDOWS['dev'][0])) & (arr['kickoff'] < ts(WINDOWS['dev'][1]))
+    arr['sigma'] = float(np.std(arr['gd'][dev] - arr['end'][dev]))
     DATA = (rows, paths, arr)
     targets = [i for i, r in enumerate(rows) if r['kickoff'] >= ts(WINDOWS['dev'][0])]
     out = {}
@@ -204,40 +215,43 @@ def main():
             out[i] = res
     kick = arr['kickoff']
     p_up = baseline_fit(rows, (kick >= ts(WINDOWS['dev'][0])) & (kick < ts(WINDOWS['dev'][1])))
-    report = {'method': __doc__.split('\n\n')[1], 'windows': {}}
+    report = {'method': __doc__.split('\n\n')[1], 'sigma': arr['sigma'], 'windows': {}}
+    flip = {'win': 'loss', 'half_win': 'half_loss', 'push': 'push', 'half_loss': 'half_win', 'loss': 'win'}
     for name, (lo, hi) in WINDOWS.items():
         idx = [i for i in targets if ts(lo) <= kick[i] < ts(hi)]
-        scored = [i for i in idx if out[i] and out[i]['D'] is not None and abs(out[i]['D'] - 50) > 1e-8]
-        items = {'all': [], 'green': [], 'orange': [], 'red': []}
-        for i in scored:
-            r = rows[i]
-            home = out[i]['D'] > 50
-            upper_is_home = r['line'] >= 0
-            take_upper = home == upper_is_home
-            res, up_profit, low_profit = settle(r['line'], r['homeWater'], r['awayWater'], *r['score'])
-            flip = {'win': 'loss', 'half_win': 'half_loss', 'push': 'push', 'half_loss': 'half_win', 'loss': 'win'}
-            item = {'result': res if take_upper else flip[res], 'profit': up_profit if take_upper else low_profit,
-                    'expected': p_up[i] if take_upper else 1 - p_up[i]}
-            items['all'].append(item)
-            items[band(out[i]['D'])].append(item)
+        block = {'targets': len(idx)}
+        for m in MODES:
+            scored = [i for i in idx if out[i] and out[i][m] is not None and abs(out[i][m] - 50) > 1e-8]
+            items = {'all': [], 'green': [], 'orange': [], 'red': []}
+            for i in scored:
+                r = rows[i]
+                home = out[i][m] > 50
+                take_upper = home == (r['line'] >= 0)
+                res, up_profit, low_profit = settle(r['line'], r['homeWater'], r['awayWater'], *r['score'])
+                item = {'result': res if take_upper else flip[res], 'profit': up_profit if take_upper else low_profit,
+                        'expected': p_up[i] if take_upper else 1 - p_up[i]}
+                items['all'].append(item)
+                items[band(out[i][m])].append(item)
+            market_error = np.array([arr['gd'][i] - arr['end'][i] for i in scored])
+            block[m] = {'withDirection': len(scored),
+                        'corrWithMarketError': round(float(np.corrcoef([out[i][m] for i in scored], market_error)[0, 1]), 4),
+                        **{k: summarise(v) for k, v in items.items()}}
         cands = [out[i]['candidates'] for i in idx if out[i]]
-        report['windows'][name] = {
-            'targets': len(idx), 'withDirection': len(scored),
-            'medianCandidates': float(np.median(cands)) if cands else 0,
-            'medianEffectiveN': float(np.median([out[i]['effectiveN'] for i in scored])) if scored else 0,
-            **{k: summarise(v) for k, v in items.items()}}
+        block['medianCandidates'] = float(np.median(cands)) if cands else 0
+        report['windows'][name] = block
     (HERE / 'results-v1style.json').write_text(json.dumps(report, ensure_ascii=False, indent=1), 'utf-8')
     with open(CACHE / 'v1style-scores.pkl', 'wb') as stream:
         pickle.dump({'matchIds': [r['matchId'] for r in rows], 'scores': out}, stream)
+    print(f"sigma = {arr['sigma']:.3f} goals")
     for name, w in report['windows'].items():
-        print(f"== {name}: targets {w['targets']}, with direction {w['withDirection']}, "
-              f"median candidates {w['medianCandidates']}, median effectiveN {w['medianEffectiveN']:.1f}")
-        for k in ('all', 'green', 'orange', 'red'):
-            s = w[k]
-            if 'winRate' in s:
-                print(f"  {k:7s} N={s['N']:6d}  win {s['winRate']:.3f}±{s['winSE']:.3f}  baseline {s['baseline']:.3f}  "
-                      f"lift {s['lift']:+.3f}  ROI {s['roi']:+.3f}")
-
+        print(f"== {name}: targets {w['targets']}, median candidates {w['medianCandidates']}")
+        for m in MODES:
+            print(f"  [{m}] with direction {w[m]['withDirection']}, corr with market error {w[m]['corrWithMarketError']:+.4f}")
+            for k in ('all', 'green', 'orange', 'red'):
+                s_ = w[m][k]
+                if 'winRate' in s_:
+                    print(f"    {k:7s} N={s_['N']:6d}  win {s_['winRate']:.3f}±{s_['winSE']:.3f}  baseline {s_['baseline']:.3f}  "
+                          f"lift {s_['lift']:+.3f}  ROI {s_['roi']:+.3f}")
 
 if __name__ == '__main__':
     main()
