@@ -1,0 +1,99 @@
+{
+  "version": "ie1-0.2.0",
+  "status": "experimental_retrospective_only",
+  "warning": "Signals M1-M7 are report-only diagnostics: none passed the development test (joint |t|<2). Stake candidates come only from pricing another company's Asian quote with the Royal T-10 fair price. Backtests are retrospective (data collected after the matches); a forward record is required before real staking.",
+  "cutoffSeconds": 600,
+  "lateWindowSeconds": 3600,
+  "referenceCompany": "3",
+  "companies": {
+    "1": "澳彩",
+    "3": "Royal",
+    "8": "Bet365"
+  },
+  "rho": -0.05,
+  "priorTotal": 2.6,
+  "signals": {
+    "M1": {
+      "name": "欧亚盘赔背离",
+      "scale": 0.15,
+      "betaSupremacy": 0.0,
+      "betaTotal": 0.0
+    },
+    "M2": {
+      "name": "全程盘路移动",
+      "scale": 0.25,
+      "betaSupremacy": 0.0,
+      "betaTotal": 0.0
+    },
+    "M3": {
+      "name": "大小线移动",
+      "scale": 0.25,
+      "betaSupremacy": 0.0,
+      "betaTotal": 0.0
+    },
+    "M4": {
+      "name": "跨公司分歧",
+      "scale": 0.15,
+      "betaSupremacy": 0.0,
+      "betaTotal": 0.0
+    },
+    "M5": {
+      "name": "临场一致移动",
+      "scale": 0.15,
+      "betaSupremacy": 0.0,
+      "betaTotal": 0.0
+    },
+    "M6": {
+      "name": "信息面人工输入",
+      "capSupremacy": 0.15,
+      "capTotal": 0.15
+    },
+    "M7": {
+      "name": "V1历史同轨方向",
+      "betaSupremacy": 0.0,
+      "effectiveNFull": 5
+    }
+  },
+  "caps": {
+    "supremacy": 0.25,
+    "total": 0.25
+  },
+  "gates": {
+    "minAsianQuotes": 3,
+    "maxFitError": 0.0001,
+    "signalThreshold": 0.2,
+    "conflictThreshold": 0.5,
+    "evTierA": 0.04,
+    "evTierB": 0.02,
+    "maxDataAgeMinutes": 30,
+    "requireFirstTier": true,
+    "blockedLabelRegex": "女|青年|少年|后备|後備|预备|預備|友谊|友誼|u\\s*-?\\s*\\d{2}(?!\\d)|women|youth|reserve|friendly",
+    "cautionLabelRegex": "杯|欧国联|欧联|欧冠|欧协联|预选|国际|洲际",
+    "units": {
+      "A": 1.0,
+      "B": 0.5,
+      "C": 0.0
+    },
+    "maxEuroAsianGap": 0.25,
+    "stakeMarkets": [
+      "asian"
+    ],
+    "stakeCompanies": [
+      "1"
+    ]
+  },
+  "sourceIds": {
+    "asia": {
+      "1": "1",
+      "3": "3"
+    },
+    "size": {
+      "1": "1",
+      "3": "3"
+    },
+    "euro": {
+      "1": "80",
+      "3": "545"
+    }
+  }
+}
