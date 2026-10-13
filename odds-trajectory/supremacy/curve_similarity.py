@@ -28,8 +28,14 @@ w = S^p (higher similarity counts much more for larger p),
 D > 50 backs the upper side at the T-10 quote, D < 50 the lower side.
 Pool for a target: matches with kickoff + 90 min before the target's day.
 
-Selection: measure x k {50, 200, 800} x p {2, 6} x outcome {mu, line} on dev
-(02-01..07-31) by the mean monthly correlation of the score with e (vs mu);
+Level bias: the Poisson conversion itself is biased by level (deep favourites
+score about 0.1 goal below their implied mu), so absolute-curve neighbours
+pick up that bias, which the line already prices. Third outcome muAdj = e (vs
+mu) minus the mean e of the pool in the target's 0.1-goal bin of mu_up(T-10).
+
+Selection: measure x k {50, 200, 800} x p {2, 6} x outcome {mu, line, muAdj} on
+dev (02-01..07-31) by the mean monthly correlation of the score with the
+level-adjusted e of the target (bias from its pool, so out of sample);
 the chosen one is grouped by deciles and green / orange / red bands with dev
 cut points (similar_score.grouped) and evaluated once on holdout (08-01..10-12).
 
@@ -145,7 +151,7 @@ def _measures(T, P, cand, band):
             else:
                 zb = zb * 0.
             out[2, t, q] = _sbd(za, zb, band)
-    return out, e_adj
+    return out
 
 
 def neighbour_scores(rows, C):
@@ -200,6 +206,7 @@ def main():
     dev = (kick >= ts(WINDOWS['dev'][0])) & (kick < ts(WINDOWS['dev'][1]))
     hold = (kick >= ts(WINDOWS['holdout'][0])) & (kick < ts(WINDOWS['holdout'][1]))
     p_up = baseline_fit(rows, dev)
+    z = np.array([(r['upperProfit'] - r['lowerProfit']) / 2 for r in rows])
     scores, e = neighbour_scores(rows, C)
     dev_months = [(month_start(2026, m), month_start(2026, m + 1)) for m in range(2, 8)]
     hold_months = [(month_start(2026, m), month_start(2026, m + 1)) for m in (8, 9, 10)]
@@ -220,7 +227,10 @@ def main():
     for ms in MEASURES:
         k = max((k for k in scores if k[0] == ms), key=lambda k: report['configs']['/'.join(map(str, k))]['devMean'])
         c = report['configs']['/'.join(map(str, k))]
-        print(f"  {ms:6s} {'/'.join(map(str, k))}: 开发 {c['devMean']:+.4f}，留出 {c['holdout']:+.4f}")
+        pc = [float(np.corrcoef(scores[k][m], z[m])[0, 1]) for m in (dev, hold)]
+        c['profitCorr'] = {'dev': round(pc[0], 4), 'holdout': round(pc[1], 4)}
+        print(f"  {ms:6s} {'/'.join(map(str, k))}: 开发 {c['devMean']:+.4f}，留出 {c['holdout']:+.4f}"
+              f" | 与下注回报 (上盘−下盘)/2 的相关：开发 {pc[0]:+.4f}，留出 {pc[1]:+.4f}")
     best = max(scores, key=lambda k: report['configs']['/'.join(map(str, k))]['devMean'])
     report['chosen'] = '/'.join(map(str, best))
     print(f"\n开发段选出：{report['chosen']}")
