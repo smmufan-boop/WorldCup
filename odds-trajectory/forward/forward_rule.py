@@ -42,7 +42,7 @@ sys.path.insert(0, str(HERE.parent / 'v1' / 'code'))
 import replay_v1  # noqa: E402
 from build_inputs import build_record, build_records, collect, kickoff_of, result_of, settle  # noqa: E402
 from direction_v1 import configuration  # noqa: E402
-from matching_core import BJT, clock  # noqa: E402
+from matching_core import BJT  # noqa: E402
 
 SPEC = json.loads((HERE / 'rule_spec.json').read_text('utf-8'))
 SHADOW = json.loads((HERE / 'shadow_spec.json').read_text('utf-8'))

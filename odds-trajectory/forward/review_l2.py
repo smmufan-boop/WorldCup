@@ -13,9 +13,9 @@ from __future__ import annotations
 
 import argparse
 import csv
+import math
 import pickle
 import sys
-from collections import defaultdict
 from datetime import datetime
 from pathlib import Path
 
@@ -58,7 +58,7 @@ def categories(team, line, hw, aw, line_open, d120, d10):
     tv = team_line(team, line)
     water = hw if team == 'home' else aw
     steps = round(abs(line - line_open) / .25)
-    strength = abs(50 + 50 * __import__('math').tanh((d120 - 50) / 5) - 50) if d120 is not None else None
+    strength = abs(50 + 50 * math.tanh((d120 - 50) / 5) - 50) if d120 is not None else None
     return {'盘口类型': line_type(tv),
             '水位': water_band(water),
             '初盘到T-10升盘档数': f'{steps}档' if steps < 2 else '≥2档',

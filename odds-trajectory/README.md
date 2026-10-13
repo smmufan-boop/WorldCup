@@ -6,6 +6,20 @@
 
 配套算法见 [V1 轨迹比对、评分与 T−10 规则](v1/README.md)，包含纯 Python 核心、固定参数和合成示例。
 
+## 目录与代码
+
+| 目录 | 内容 | 入口 |
+| --- | --- | --- |
+| `snapshots/` | 冻结的数据快照（gzip CSV + 清单） | [字段说明](DATA_DICTIONARY.md) |
+| `tools/` | 快照校验、还原、导出；欧指/大小球接口探测（`probe_markets.py`） | 本页"校验与还原" |
+| `v1/` | 你的 V1 比对与评分算法（原样发布，不修改） | [v1/README.md](v1/README.md) |
+| `research/` | 基于 V1 的研究：时间前向回放、标记加权、跨公司、多阶段、赢盘率、门控、改进探索 | [research/README.md](research/README.md) |
+| `forward/` | 前瞻规则 forward-rule-v1 与影子版本 V1-四分之一、V1-多阶段：出信号、台账、结算、复盘 | [使用说明](forward/README.md)、[规则全文](forward/RULES.md) |
+
+依赖关系：`forward/` → `research/`（输入构建与 V1 回放）→ `v1/code/`（V1 算法本体）→ `snapshots/` 或本地采集库。`snapshots/`、`tools/`、`v1/` 只需 Python 标准库；`research/` 和 `forward/` 还需要 numpy、pandas（`pip install -r odds-trajectory/requirements.txt`）。
+
+建议阅读顺序：先看 [forward/README.md](forward/README.md) 了解日常怎么用，再看 [forward/RULES.md](forward/RULES.md) 了解规则，需要了解规则的由来时再看 [research/README.md](research/README.md)。全部研究结果可以用 `bash odds-trajectory/research/run_all.sh` 从快照重新生成（约 15–20 分钟）。
+
 ## 数据规模
 
 | 数据表 | 行数 | 用途 |

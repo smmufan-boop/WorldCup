@@ -1,0 +1,3 @@
+# research/ and forward/ only; snapshot tools and v1/code use the standard library
+numpy>=2.0
+pandas>=2.2

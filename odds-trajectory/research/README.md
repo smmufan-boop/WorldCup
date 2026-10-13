@@ -1,44 +1,47 @@
-# V1 之上的"相似比赛标记加权"研究（Royal T−10）
+# V1 轨迹比对研究：从标记加权到前瞻规则（Royal）
 
-研究问题：把历史比赛按"与相似比赛结果是否一致"打标记、写入权重，低质量的降权或剔除，高质量的加权，能否提高 V1 的方向胜率和 ROI？
+本目录记录了基于 [V1 比对与评分](../v1/) 的全部研究，从最初的"相似比赛标记加权"一直到前瞻规则 [forward-rule-v1](../forward/RULES.md) 和两个影子版本的由来。全部计算直接调用 `v1/code` 中未修改的函数，参数为已发布的 Royal `p=2, α=20`。数据为 [2026-10-13 快照](../snapshots/2026-10-13/)。
 
-全部计算以 [V1 比对与评分](../v1/) 为准：特征、严格/近似分组、点序/盘段相似分、方向聚合都直接调用 `v1/code` 中未修改的函数，参数为已发布的 Royal `p=2, α=20`。数据为 [2026-10-13 快照](../snapshots/2026-10-13/)。
+## 研究脉络（一句话结论）
+
+| 步骤 | 问题 | 结论 | 详见 |
+|---|---|---|---|
+| 1 | 按相似比赛结果是否一致打标记、加权或剔除，能否提高 V1？ | 标记有信息，但与 V1 多数票重复，赢盘率和 ROI 都不提高 | 方法、结果 |
+| 2 | 澳彩与 Royal 的差异能否利用？ | Royal 领先、澳彩滞后，按 Royal 价格下注没有稳定优势 | 跨公司 |
+| 3 | 更早决策（T−120/T−60/T−30）是否更好？ | 单独用 V1 都不能扣除抽水后盈利 | 更早阶段 |
+| 4 | 以赢盘率（赢半算赢）为标准怎么评价？ | 四分之一盘天然抬高赢盘率，必须和"价格 + 盘口类型"基准比较 | 按赢盘率评价 |
+| 5 | 无模型规则 + V1 确认 | V1 不能用来改方向，只适合用来确认；T−120 同向时赢盘率提高 | 以无模型规则为基础 |
+| 6 | 人工分析中的门 | V1 确认 + 盘口朝所选球队移动，两段都有效，形成 L2 | 借鉴人工分析的"门" |
+| 7 | 还能怎样提高 | 只保留四分之一盘、多阶段 V1 确认，登记为影子版本；只追求赢盘率会落入"买低水"陷阱 | 还能怎样提高赢盘率 |
+
+研究阶段的数字没有按真实比赛去重，约有 2.8% 的重复记录（同一场比赛有多个来源 ID）。正式规则的回测（`forward/backtest-*.json`）已去重，以那里的数字为准。
 
 ## 运行
 
-需要 Python 3.10+、numpy、pandas。在仓库根目录依次执行（合计约 3 分钟，4 核）：
+需要 Python 3.10+、numpy、pandas（`pip install -r odds-trajectory/requirements.txt`）。在仓库根目录**一条命令重建全部结果**（4 核约 15–20 分钟）：
 
 ```bash
-python odds-trajectory/research/build_inputs.py      # 每场 T−10 的 V1 特征、点序、赛果（约 1 分钟）
-python odds-trajectory/research/replay_v1.py         # 时间前向 V1 回放 + 全部近邻对日志（约 2 分钟）
-python odds-trajectory/research/reliability.py       # 标记加权 / 形态门槛，开发段选参，留出段报告
-python odds-trajectory/research/diagnostics.py       # 标记是否带来新信息、价格对照
-
-# 跨公司（澳彩 vs Royal）
-python odds-trajectory/research/build_inputs.py --company 1
-python odds-trajectory/research/replay_v1.py --company 1      # 澳彩 V1（α=50）
-python odds-trajectory/research/cross_company.py [--stage 10]
-
-# 更早阶段
-for s in 30 60 120; do
-  python odds-trajectory/research/build_inputs.py --stage $s
-  python odds-trajectory/research/replay_v1.py --stage $s
-done
-python odds-trajectory/research/stages.py
-
-# 按赢盘率重新评价全部方案（需先运行以上全部）
-python odds-trajectory/research/winrate.py
-
-# 以无模型规则为基础方向，用 V1 轨迹比对确认方向
-python odds-trajectory/research/rule_calibration.py
-
-# 人工分析中可量化的"门"（盘口走势、水位、多公司、赛事类型）
-python odds-trajectory/research/gates.py
+bash odds-trajectory/research/run_all.sh
 ```
 
-两个脚本的参数 `--company`（1=澳彩，3=Royal，默认 3）和 `--stage`（决策截点距开赛的分钟数，默认 10）都可以调整。
+[`run_all.sh`](run_all.sh) 按依赖顺序运行下表全部脚本。中间数据写入 `research/cache/`（不入库，可随时删除重建），结论数据写入 [`results/`](results/)；前瞻规则的回测写入 `forward/backtest-*.json`。所有脚本都是确定性的，重建后结果文件应与仓库中的完全一致。
 
-中间数据写入 `research/cache/`（不入库），结论数据写入 [`results/`](results/)。
+## 文件一览
+
+| 脚本 | 作用 | 主要输出 | 依赖 |
+|---|---|---|---|
+| [`build_inputs.py`](build_inputs.py) | 用 V1 原版 `points`/`feature` 生成每场比赛在某截点的特征、点序、盘口和已核验赛果。`--company 1/3`，`--stage` 为截点（开球前分钟数） | `cache/inputs-company{c}-T{s}.pkl` | 快照 |
+| [`replay_v1.py`](replay_v1.py) | 时间前向 V1 回放：历史池只用当时已结束的比赛，记录每个目标的方向原分和全部近邻对 | `cache/targets-…`、`cache/pairs-…` | build_inputs |
+| [`reliability.py`](reliability.py) | 单场标记加权与形态门槛（你最初的方案），开发段选参，留出段报告 | `results/reliability-royal-t10.json` | replay T−10 |
+| [`diagnostics.py`](diagnostics.py) | 标记是否带来 V1 以外的新信息；V1 强度相对市场价格的增量 | `results/diagnostics-royal-t10.json` | replay T−10 |
+| [`cross_company.py`](cross_company.py) | 澳彩与 Royal 的价差、走势差、澳彩公允价、逻辑回归 | `results/cross-company-T{s}.json`、`cache/cross-T{s}.pkl` | build_inputs |
+| [`stages.py`](stages.py) | T−120/T−60/T−30/T−10 的 V1 对比：ROI、收盘线价值、价格信息量 | `results/stages-royal.json` | 各阶段 replay |
+| [`winrate.py`](winrate.py) | 按赢盘率（赢半算赢）重新评价全部方案，并与"价格 + 盘口类型"基准比较 | `results/winrate-royal.json` | 以上全部 |
+| [`rule_calibration.py`](rule_calibration.py) | 无模型规则 + V1 确认/跳过/改向 | `results/rule-calibration.json` | replay T−10、T−120 |
+| [`gates.py`](gates.py) | 人工分析中可量化的门（盘口走势、水位、澳彩/Bet365、赛事类型） | `results/gates.json` | rule_calibration、快照 |
+| [`improve.py`](improve.py) | 进一步改进探索：多阶段 V1、升盘时间、水位、数据新鲜度、排序模型 | 屏幕输出、`cache/improve-features.pkl` | 各阶段 replay、cross-T10 |
+
+`build_inputs.py` 和 `replay_v1.py` 的 `--company`（1=澳彩，3=Royal，默认 3）和 `--stage`（默认 10）可以单独调整，用来研究别的公司或截点。
 
 ## 方法
 
@@ -203,7 +206,7 @@ python odds-trajectory/research/gates.py
 
 **欧指和大小球的门**：采集接口的 URL 带有 `type=asia` 参数，同一接口可能也支持 `euro`（胜平负）和 `size`（大小球）。如果开始同时采集这两个市场，就可以检验"亚欧一致性"和"让球 + 大小球双线组合"这两类门。
 
-## 还能怎样提高赢盘率（探索，未登记）
+## 还能怎样提高赢盘率（探索；其中两项已登记为影子版本）
 
 [`improve.py`](improve.py) 在 L2 的基础上检验了更多改进方向。三个时段：开发段 02-01…07-31（用来发现），留出段 08-01…10-09（用来确认），近期 10-09…10-12（只有约 20 场，仅供参考）。只有在开发段和留出段都成立的改进才算有效。
 
@@ -221,19 +224,16 @@ python odds-trajectory/research/gates.py
 
 ## 结论与下一步
 
-- 在这份数据上，"按相似比赛结果一致性给历史比赛打标记"能识别出邻居的一致性，但这些信息与 V1 自身的多数票高度重复，**没有提高 ROI**。不建议用它删除库里的比赛。
-- 瓶颈不在历史库的质量，而在 **Royal 的价格已经包含了水位路径的信息**。
-- **跨公司（澳彩）**：Royal 领先，澳彩滞后。按 Royal 价格下注，跟随或反向都没有稳定优势。
-- **更早阶段**：T−120 到 T−10 都没有正 ROI，V1 的收盘线价值为负，Royal 的价格在两小时前就已基本定型。
-- 后续值得尝试的方向，都是 Royal 价格之外的信息或更好的价格：
-  1. **Bet365**：它是快照里第三家公司，赛前报价同样稀疏，但可能比澳彩更领先，可以用同一个脚本检验（需要先过滤滚球记录）。
-  2. **更好的执行价格**：反过来利用"澳彩滞后"，在澳彩买 Royal 已经移动过去的一方。前提是澳彩确实可以下注；需要用澳彩的水位重新结算。
-  3. **非赔率信息**：首发、伤停、赛程密度等，Royal 价格可能还没完全反映。
-  4. 继续把"该阶段的去水概率"作为必须超过的基准。
+- **单场标记加权**能识别邻居的一致性，但与 V1 自身的多数票高度重复，不提高赢盘率或 ROI，不建议用它删除库里的比赛。
+- **Royal 的价格已经包含了水位路径的大部分信息**：单独用 V1、跨公司差异或更早阶段，都不能扣除抽水后盈利。
+- **有效的组合**是"无模型方向规则（四分之一盘的赢半结构）+ V1 确认 + 盘口朝所选球队移动"，已登记为前瞻规则 [forward-rule-v1](../forward/RULES.md)（L2）。在此基础上又登记了两个影子版本 **V1-四分之一** 和 **V1-多阶段**，从 2026-10-14 12:00 起并行前瞻检验。
+- **评价原则**：赢盘率必须同时和"价格 + 盘口类型"基准比较，并看 ROI；只有开发段和留出段都成立的改进才登记；登记后不再改参数，用前瞻数据确认。
+- **需要新数据的方向**：欧指、大小球（可先用 `tools/probe_markets.py` 检查接口），Bet365 赛前数据的积累，首发和伤停信息。
 
 ## 局限
 
 - 这是回顾重算：快照里的报价是后来采集的历史，不能证明当时已能拿到。历史池没有检查"元数据观察时间早于截点"，因为快照里的采集时间都晚于 2026-08-31。
 - V1 已发布参数的训练截止是 2026-09-28，与开发段重叠，因此开发段的 V1 结果可能略偏乐观；留出段中 09-28 之后只有约 2 周。
 - 下注和结算都按 Royal 价格。澳彩的 V1 已经接入（`--company 1`，α=50），但因为报价稀疏，只用于覆盖率统计。
+- 研究过程中比较了很多分类和组合，存在多重检验的风险。所以研究结论只用来提出候选规则，最终以前瞻结果为准。
 - 半赢/半输按 V1 口径记 ±1 参与标记；ROI 按实际利润计。
