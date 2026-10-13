@@ -1,0 +1,35 @@
+{
+  "version": "ENN-euro-size-backfill-v1-20261013",
+  "markets": [
+    "euro",
+    "size"
+  ],
+  "companies": {
+    "Royal": {
+      "euro": "545",
+      "size": "3"
+    },
+    "Macau": {
+      "euro": "80",
+      "size": "1"
+    }
+  },
+  "scope": "all verified past soccer IDs in local inventory, retain API aliases separately; no other bookmakers",
+  "workers": 4,
+  "global_min_request_interval_seconds": 0.5,
+  "max_requests_per_second": 2,
+  "timeout_seconds": 12,
+  "max_attempts": 3,
+  "retry_delays_seconds": [
+    10,
+    60
+  ],
+  "http_401_403_429": "stop new dispatch; save all returned evidence; require review before resume",
+  "raw": "single atomic gzip http-evidence-v1 envelope, UTC request/response metadata and base64 of captured HTTP body; SHA is decoded body bytes; truncation explicit",
+  "storage_budget_bytes": 107374182400,
+  "min_disk_free_bytes": 10737418240,
+  "private_memory_budget_bytes": 536870912,
+  "prediction_stage": "T-10 archive flags and strict minute boundary flags, no training or live model change",
+  "availability": "actual UTC fetch time today, never backdated to kickoff; same-minute source order unverified",
+  "database": "separate ENN SQLite, single writer; production DB only used read-only during inventory"
+}

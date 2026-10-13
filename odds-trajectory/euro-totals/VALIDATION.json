@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "verified_at_bjt": "2026-10-13T16:54:47+08:00",
+  "snapshot_at_bjt": "2026-10-13T16:36:45+08:00",
+  "manifest_sha256": "7bdbc41a47f217ee6739c84914b403bd8e82ba83f599371823b200588421986e",
+  "command": "restore",
+  "ok": true,
+  "data_files_verified": 83,
+  "support_files_verified": 5,
+  "tables": {
+    "matches": 219519,
+    "tasks": 878076,
+    "attempts": 80253,
+    "quotes": 6800062,
+    "meta": 6
+  },
+  "row_sha256": "ok",
+  "native_sql_values_and_null": "ok",
+  "integrity_check": "ok",
+  "foreign_key_check": "ok",
+  "scope": "Published snapshot preservation and full roundtrip; source backfill remains incomplete"
+}

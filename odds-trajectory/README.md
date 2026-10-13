@@ -6,11 +6,14 @@
 
 配套算法见 [V1 轨迹比对、评分与 T−10 规则](v1/README.md)，包含纯 Python 核心、固定参数和合成示例。
 
+后续欧指／大小球补采单独发布于 [欧指与大小球阶段数据](euro-totals/README.md)，与本页的亚盘快照分别说明覆盖及时间。
+
 ## 目录与代码
 
 | 目录 | 内容 | 入口 |
 | --- | --- | --- |
-| `snapshots/` | 冻结的数据快照（gzip CSV + 清单） | [字段说明](DATA_DICTIONARY.md) |
+| `snapshots/` | 冻结的亚盘数据快照（gzip CSV + 清单） | [字段说明](DATA_DICTIONARY.md) |
+| `euro-totals/` | Royal、澳彩欧指与大小球的阶段快照（采集未完成） | [euro-totals/README.md](euro-totals/README.md) |
 | `tools/` | 快照校验、还原、导出；欧指/大小球接口探测（`probe_markets.py`） | 本页"校验与还原" |
 | `v1/` | 你的 V1 比对与评分算法（原样发布，不修改） | [v1/README.md](v1/README.md) |
 | `research/` | 基于 V1 的研究：时间前向回放、标记加权、跨公司、多阶段、赢盘率、门控、改进探索 | [research/README.md](research/README.md) |

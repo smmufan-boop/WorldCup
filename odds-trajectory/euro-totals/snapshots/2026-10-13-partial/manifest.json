@@ -1,0 +1,978 @@
+{
+  "schema_version": 1,
+  "snapshot_at_bjt": "2026-10-13T16:36:45+08:00",
+  "source_run": "Pankou/ENN/market_backfill/run_20261013_045725_1f74d9",
+  "source_database": "markets.sqlite3",
+  "snapshot_kind": "in-progress partial backfill",
+  "consistency": "single read-only SQLite transaction, including committed WAL",
+  "data_format": "UTF-8 gzip JSON Lines; one native row array per line, no header",
+  "null_policy": "SQL NULL maps to JSON null; empty TEXT stays empty string",
+  "row_hash_format": "compact UTF-8 JSON array with ensure_ascii=False, allow_nan=False, followed by LF, in primary-key order",
+  "rows_per_part": 100000,
+  "tables": {
+    "matches": {
+      "columns": [
+        "match_id",
+        "kickoff",
+        "priority",
+        "metadata_json"
+      ],
+      "column_types": [
+        "TEXT",
+        "REAL",
+        "INTEGER",
+        "TEXT"
+      ],
+      "primary_key": [
+        "match_id"
+      ],
+      "order_by": [
+        "match_id"
+      ],
+      "rows": 219519,
+      "row_sha256": "17a6b960ce5ecd0db7214defa015c6433f4fbd3420595441f8fc3d7554d487fb",
+      "null_fields": {},
+      "ranges": {
+        "kickoff": {
+          "min": 1749571200.0,
+          "max": 1791831600.0
+        }
+      }
+    },
+    "tasks": {
+      "columns": [
+        "id",
+        "match_id",
+        "market",
+        "source_cid",
+        "company",
+        "kickoff",
+        "priority",
+        "state",
+        "attempts",
+        "next_retry",
+        "last_error",
+        "latest_attempt",
+        "raw_rows",
+        "valid_rows",
+        "t10_rows",
+        "t10_strict_rows",
+        "summary_json",
+        "updated_at"
+      ],
+      "column_types": [
+        "INTEGER",
+        "TEXT",
+        "TEXT",
+        "TEXT",
+        "TEXT",
+        "REAL",
+        "INTEGER",
+        "TEXT",
+        "INTEGER",
+        "REAL",
+        "TEXT",
+        "INTEGER",
+        "INTEGER",
+        "INTEGER",
+        "INTEGER",
+        "INTEGER",
+        "TEXT",
+        "TEXT"
+      ],
+      "primary_key": [
+        "id"
+      ],
+      "order_by": [
+        "id"
+      ],
+      "rows": 878076,
+      "row_sha256": "0ff74837f3e58e99b2b8e755b7f2287793f90a86a5d367151dec2fa4cecd94de",
+      "null_fields": {
+        "last_error": 854007,
+        "latest_attempt": 797848,
+        "summary_json": 797848,
+        "updated_at": 797844
+      },
+      "ranges": {
+        "kickoff": {
+          "min": 1749571200.0,
+          "max": 1791831600.0
+        },
+        "updated_at": {
+          "min": "2026-10-12T21:02:18+00:00",
+          "max": "2026-10-13T08:36:44+00:00"
+        }
+      }
+    },
+    "attempts": {
+      "columns": [
+        "task_id",
+        "attempt_no",
+        "requested_at",
+        "response_at",
+        "source_url",
+        "http_status",
+        "final_url",
+        "content_type",
+        "raw_path",
+        "raw_sha256",
+        "body_bytes",
+        "body_truncated",
+        "elapsed_seconds",
+        "status",
+        "reason"
+      ],
+      "column_types": [
+        "INTEGER",
+        "INTEGER",
+        "TEXT",
+        "TEXT",
+        "TEXT",
+        "INTEGER",
+        "TEXT",
+        "TEXT",
+        "TEXT",
+        "TEXT",
+        "INTEGER",
+        "INTEGER",
+        "REAL",
+        "TEXT",
+        "TEXT"
+      ],
+      "primary_key": [
+        "task_id",
+        "attempt_no"
+      ],
+      "order_by": [
+        "task_id",
+        "attempt_no"
+      ],
+      "rows": 80253,
+      "row_sha256": "d16f663dab61357753cfaa3f5f584c2e38482be61ca08fde9fd8f2f304dcf80b",
+      "null_fields": {
+        "reason": 56163,
+        "http_status": 25,
+        "content_type": 25,
+        "raw_path": 25,
+        "raw_sha256": 25,
+        "body_bytes": 25,
+        "response_at": 4,
+        "final_url": 4,
+        "elapsed_seconds": 4
+      },
+      "ranges": {
+        "requested_at": {
+          "min": "2026-10-12T21:02:17+00:00",
+          "max": "2026-10-13T08:36:44+00:00"
+        },
+        "response_at": {
+          "min": "2026-10-12T21:02:18+00:00",
+          "max": "2026-10-13T08:36:44+00:00"
+        }
+      }
+    },
+    "quotes": {
+      "columns": [
+        "task_id",
+        "source_order",
+        "changed_at",
+        "source_time",
+        "source_score",
+        "home_decimal",
+        "draw_decimal",
+        "away_decimal",
+        "over_hk",
+        "total_line",
+        "under_hk",
+        "quote_valid",
+        "prematch",
+        "t10_eligible",
+        "t10_strict_eligible",
+        "t10_cutoff_minute_ambiguous",
+        "same_minute_conflict",
+        "consecutive_duplicate",
+        "invalid_reason",
+        "home_source",
+        "draw_source",
+        "away_source"
+      ],
+      "column_types": [
+        "INTEGER",
+        "INTEGER",
+        "REAL",
+        "TEXT",
+        "TEXT",
+        "REAL",
+        "REAL",
+        "REAL",
+        "REAL",
+        "REAL",
+        "REAL",
+        "INTEGER",
+        "INTEGER",
+        "INTEGER",
+        "INTEGER",
+        "INTEGER",
+        "INTEGER",
+        "INTEGER",
+        "TEXT",
+        "TEXT",
+        "TEXT",
+        "TEXT"
+      ],
+      "primary_key": [
+        "task_id",
+        "source_order"
+      ],
+      "order_by": [
+        "task_id",
+        "source_order"
+      ],
+      "rows": 6800062,
+      "row_sha256": "1bce34ca921f41a51cfab673fbf635b0b46a88d42bbe036673baf9c4064669a9",
+      "null_fields": {
+        "over_hk": 2751305,
+        "total_line": 2751305,
+        "under_hk": 2751305,
+        "invalid_reason": 6532142,
+        "home_decimal": 4316677,
+        "draw_decimal": 4316677,
+        "away_decimal": 4316677
+      },
+      "ranges": {
+        "changed_at": {
+          "min": 1769346780.0,
+          "max": 1791763860.0
+        }
+      },
+      "flag_counts": {
+        "quote_valid": 6532142,
+        "prematch": 721764,
+        "t10_eligible": 685812,
+        "t10_strict_eligible": 682409,
+        "t10_cutoff_minute_ambiguous": 3403,
+        "same_minute_conflict": 4920985,
+        "consecutive_duplicate": 10358
+      }
+    },
+    "meta": {
+      "columns": [
+        "key",
+        "value_json"
+      ],
+      "column_types": [
+        "TEXT",
+        "TEXT"
+      ],
+      "primary_key": [
+        "key"
+      ],
+      "order_by": [
+        "key"
+      ],
+      "rows": 6,
+      "row_sha256": "e752defa9825526b7cb84781949adc25cecc7eb9cff804a298c5ce81cd37e5c0",
+      "null_fields": {},
+      "ranges": {}
+    }
+  },
+  "files": [
+    {
+      "path": "data/matches-part-0001.jsonl.gz",
+      "bytes": 9758015,
+      "sha256": "c0092608c3bd000302c8a45a8ae381791043d5c7378333c95b3e7e64adb7d6fe",
+      "table": "matches",
+      "rows": 100000
+    },
+    {
+      "path": "data/matches-part-0002.jsonl.gz",
+      "bytes": 11140051,
+      "sha256": "09315ae8102d30055040780e4dbe6a5e37ad16bfcb78a6e6874e8274fcbe4563",
+      "table": "matches",
+      "rows": 100000
+    },
+    {
+      "path": "data/matches-part-0003.jsonl.gz",
+      "bytes": 2198404,
+      "sha256": "839d442c123700c767fab61099899b8979030512f535700f7859a4e05995cb40",
+      "table": "matches",
+      "rows": 19519
+    },
+    {
+      "path": "data/tasks-part-0001.jsonl.gz",
+      "bytes": 1743979,
+      "sha256": "43e0ff7f92e85d04576f56e6d1f8f25104b565398e92f1f2e7720100234c979e",
+      "table": "tasks",
+      "rows": 100000
+    },
+    {
+      "path": "data/tasks-part-0002.jsonl.gz",
+      "bytes": 1882423,
+      "sha256": "dd4f8bd19963a92df8284785d365473aaa625faa0e503ae1bb1b7a0128e7b9d2",
+      "table": "tasks",
+      "rows": 100000
+    },
+    {
+      "path": "data/tasks-part-0003.jsonl.gz",
+      "bytes": 1768511,
+      "sha256": "f1a04e47733adcfeafb18171f459f44c177a0b6d7db6585d6b1649cc149fd707",
+      "table": "tasks",
+      "rows": 100000
+    },
+    {
+      "path": "data/tasks-part-0004.jsonl.gz",
+      "bytes": 686022,
+      "sha256": "be694e8200a1d053f341e33846b7a36d54776a0370f3c3bd30cbc46f9912754e",
+      "table": "tasks",
+      "rows": 100000
+    },
+    {
+      "path": "data/tasks-part-0005.jsonl.gz",
+      "bytes": 684285,
+      "sha256": "ec421674d97e8d31f3008955ba7b6c361f2676b4c002dbbc70cb6dfe100f2e4f",
+      "table": "tasks",
+      "rows": 100000
+    },
+    {
+      "path": "data/tasks-part-0006.jsonl.gz",
+      "bytes": 676468,
+      "sha256": "a11c5047ce312bcc94e4831f0887436d1e05dd6a861fc65bd79f27cdfe18a716",
+      "table": "tasks",
+      "rows": 100000
+    },
+    {
+      "path": "data/tasks-part-0007.jsonl.gz",
+      "bytes": 648676,
+      "sha256": "1ae39a5d3f9b22df051daf27c4e126ddcc83dfb9b53c591d65766e56e114f330",
+      "table": "tasks",
+      "rows": 100000
+    },
+    {
+      "path": "data/tasks-part-0008.jsonl.gz",
+      "bytes": 645442,
+      "sha256": "88ba33d20596730232783fa217d4c965d80c4c18262d5dca937d00b4650dee70",
+      "table": "tasks",
+      "rows": 100000
+    },
+    {
+      "path": "data/tasks-part-0009.jsonl.gz",
+      "bytes": 513161,
+      "sha256": "b7c86891a27aa89b1c05a37aa36fe4dccfea885a79083157b4fa585b81bd1595",
+      "table": "tasks",
+      "rows": 78076
+    },
+    {
+      "path": "data/attempts-part-0001.jsonl.gz",
+      "bytes": 4607777,
+      "sha256": "0459220b8683eb65632d4405b06380131c4a9a62fc19e8cf2e693e493b860f16",
+      "table": "attempts",
+      "rows": 80253
+    },
+    {
+      "path": "data/quotes-part-0001.jsonl.gz",
+      "bytes": 1481725,
+      "sha256": "3c0319f0a971c776d2e2df955ab51d7b57731adfadeb51d0906e85a8d8084761",
+      "table": "quotes",
+      "rows": 100000
+    },
+    {
+      "path": "data/quotes-part-0002.jsonl.gz",
+      "bytes": 1488995,
+      "sha256": "accc84b4af1724e8c748b0a200fde7a7a8ab77d23ee93cb3d1d64cdea7a4b9f6",
+      "table": "quotes",
+      "rows": 100000
+    },
+    {
+      "path": "data/quotes-part-0003.jsonl.gz",
+      "bytes": 1461316,
+      "sha256": "a91eeed3b22c45de6e72f8ee99d819160e1fdde582f0c01bcd58f24a31363717",
+      "table": "quotes",
+      "rows": 100000
+    },
+    {
+      "path": "data/quotes-part-0004.jsonl.gz",
+      "bytes": 1474832,
+      "sha256": "f2a26df2e22372cebbce9bfad178c2988a3a5bb800ac79fd4f65c486a626557e",
+      "table": "quotes",
+      "rows": 100000
+    },
+    {
+      "path": "data/quotes-part-0005.jsonl.gz",
+      "bytes": 1493348,
+      "sha256": "bd812001fff6aa1dbba0da1ef429d9432b8e89e70a1deeb35bb53c593c67eb45",
+      "table": "quotes",
+      "rows": 100000
+    },
+    {
+      "path": "data/quotes-part-0006.jsonl.gz",
+      "bytes": 1485187,
+      "sha256": "a7a0f9570109f441ba4f8ac947239e65b0d8362cc9264542b7e6aea2902513c0",
+      "table": "quotes",
+      "rows": 100000
+    },
+    {
+      "path": "data/quotes-part-0007.jsonl.gz",
+      "bytes": 1465951,
+      "sha256": "de4c8b3ca7baf8c9af57a3f61de5d8d6b0c151e12f6a71ca531ccca438210fce",
+      "table": "quotes",
+      "rows": 100000
+    },
+    {
+      "path": "data/quotes-part-0008.jsonl.gz",
+      "bytes": 1472958,
+      "sha256": "5aedc9899504de65a1f1112f60c101858afa0d887eb957d308b9a17f2ae95220",
+      "table": "quotes",
+      "rows": 100000
+    },
+    {
+      "path": "data/quotes-part-0009.jsonl.gz",
+      "bytes": 1475734,
+      "sha256": "51b1eebb70b3612ce8927c66f72acebe17dd2090b2846925fe664f352bda6682",
+      "table": "quotes",
+      "rows": 100000
+    },
+    {
+      "path": "data/quotes-part-0010.jsonl.gz",
+      "bytes": 1466795,
+      "sha256": "7ba1dc16ff00aa6d3be01fb2b074b356bec3fc63684d933ef8e3906d0505b0dc",
+      "table": "quotes",
+      "rows": 100000
+    },
+    {
+      "path": "data/quotes-part-0011.jsonl.gz",
+      "bytes": 1447685,
+      "sha256": "80f0129f19e68c6b04a609a5ca7ae6246bbf622fd6f92735585841396049d496",
+      "table": "quotes",
+      "rows": 100000
+    },
+    {
+      "path": "data/quotes-part-0012.jsonl.gz",
+      "bytes": 1455662,
+      "sha256": "6ae213dcfdb83ade46339bf14f249cfcb9282412e56183574df0a64f9b7906de",
+      "table": "quotes",
+      "rows": 100000
+    },
+    {
+      "path": "data/quotes-part-0013.jsonl.gz",
+      "bytes": 1482673,
+      "sha256": "12989ef292044fe4e75b2883fd076caf3e6e86b9839a99c8091ef44f5a974513",
+      "table": "quotes",
+      "rows": 100000
+    },
+    {
+      "path": "data/quotes-part-0014.jsonl.gz",
+      "bytes": 1460253,
+      "sha256": "8c52b5e884d85374f5235d2be2ba28bc4b6a1e1d70d6388971cd462cc59dad0c",
+      "table": "quotes",
+      "rows": 100000
+    },
+    {
+      "path": "data/quotes-part-0015.jsonl.gz",
+      "bytes": 1455859,
+      "sha256": "a492d181fa8f3464bb562b9ad6a2591a26561245aa35d2676feb14d2aed51d3a",
+      "table": "quotes",
+      "rows": 100000
+    },
+    {
+      "path": "data/quotes-part-0016.jsonl.gz",
+      "bytes": 1444417,
+      "sha256": "2179cfe924fa118eb3b5699498e6e450537e5442e705fe58989a89893cec3a4a",
+      "table": "quotes",
+      "rows": 100000
+    },
+    {
+      "path": "data/quotes-part-0017.jsonl.gz",
+      "bytes": 1450315,
+      "sha256": "abaf34866f330cd7b0ae3d7e055801cd8596f870c8737ce7a8706d8d4c9afd11",
+      "table": "quotes",
+      "rows": 100000
+    },
+    {
+      "path": "data/quotes-part-0018.jsonl.gz",
+      "bytes": 1461405,
+      "sha256": "07627323fdbaf6c8152f13ca77d140f80738d4c5398e1a2af934a1f136d1c653",
+      "table": "quotes",
+      "rows": 100000
+    },
+    {
+      "path": "data/quotes-part-0019.jsonl.gz",
+      "bytes": 1478071,
+      "sha256": "a180e8c6005973e573c9669ed54965c2cd001f524298e8d5f17ea3117d78cba1",
+      "table": "quotes",
+      "rows": 100000
+    },
+    {
+      "path": "data/quotes-part-0020.jsonl.gz",
+      "bytes": 1425394,
+      "sha256": "fb31987c160b6e3e168d85352c84a8529970e639821b86a54c364ccc4f02ce8a",
+      "table": "quotes",
+      "rows": 100000
+    },
+    {
+      "path": "data/quotes-part-0021.jsonl.gz",
+      "bytes": 1417019,
+      "sha256": "abdc38458152d1030698ff4ea9b2cce4a12db423115fd1e9c6158aed739ca3c1",
+      "table": "quotes",
+      "rows": 100000
+    },
+    {
+      "path": "data/quotes-part-0022.jsonl.gz",
+      "bytes": 1393525,
+      "sha256": "ee93b18abca592688ca1a61af2e2f59f9317d0152d1251fd0badae4b633b8fac",
+      "table": "quotes",
+      "rows": 100000
+    },
+    {
+      "path": "data/quotes-part-0023.jsonl.gz",
+      "bytes": 1462627,
+      "sha256": "ecee78376e36b560ff0288f69e29dae41cff958bc6bed9bd204339d05da17054",
+      "table": "quotes",
+      "rows": 100000
+    },
+    {
+      "path": "data/quotes-part-0024.jsonl.gz",
+      "bytes": 1457773,
+      "sha256": "ba16a5f6d404cab5a3ec2fc46d4adecda05567b4719651633f47470ecee45621",
+      "table": "quotes",
+      "rows": 100000
+    },
+    {
+      "path": "data/quotes-part-0025.jsonl.gz",
+      "bytes": 1510146,
+      "sha256": "c8dd2c634cba014eb9d2b86b6240810e177fe93e5b226f23da46b12baa9e2ae2",
+      "table": "quotes",
+      "rows": 100000
+    },
+    {
+      "path": "data/quotes-part-0026.jsonl.gz",
+      "bytes": 1501319,
+      "sha256": "86d398a9634b2819d40d3544e5acb92d292286140e861f81c03342731761fe9a",
+      "table": "quotes",
+      "rows": 100000
+    },
+    {
+      "path": "data/quotes-part-0027.jsonl.gz",
+      "bytes": 1497518,
+      "sha256": "b3d7701e3015c1412d522f0a3b1ff36110ac6adb72adab2da042b7275b4d098b",
+      "table": "quotes",
+      "rows": 100000
+    },
+    {
+      "path": "data/quotes-part-0028.jsonl.gz",
+      "bytes": 1513283,
+      "sha256": "2b0038f5b7f2ad9a09482d702cd5dec289264cbfe5fd677b576de45c5d6cc2a9",
+      "table": "quotes",
+      "rows": 100000
+    },
+    {
+      "path": "data/quotes-part-0029.jsonl.gz",
+      "bytes": 1492878,
+      "sha256": "924255e200d9ce60838e32ecb6a2238cef1bc772c0536c760eed0183915f8cbb",
+      "table": "quotes",
+      "rows": 100000
+    },
+    {
+      "path": "data/quotes-part-0030.jsonl.gz",
+      "bytes": 1493773,
+      "sha256": "12d601afe7a769207c36f6d1a0bc35a9c0a63fee119aa359117cfcf6d9ff668f",
+      "table": "quotes",
+      "rows": 100000
+    },
+    {
+      "path": "data/quotes-part-0031.jsonl.gz",
+      "bytes": 1496899,
+      "sha256": "4348a819767e18f16c814528a1ebec049efaf848445da6f5f98e58177626e8b4",
+      "table": "quotes",
+      "rows": 100000
+    },
+    {
+      "path": "data/quotes-part-0032.jsonl.gz",
+      "bytes": 1481729,
+      "sha256": "f5321fa6d254e3fc0c2cefa0fa29925574a9ffa3eb23a13bbcc392d272243511",
+      "table": "quotes",
+      "rows": 100000
+    },
+    {
+      "path": "data/quotes-part-0033.jsonl.gz",
+      "bytes": 1483340,
+      "sha256": "9e887c079fb19bfd5498b60f202089ad51166832a1fa98e2d51405ae23aef091",
+      "table": "quotes",
+      "rows": 100000
+    },
+    {
+      "path": "data/quotes-part-0034.jsonl.gz",
+      "bytes": 1491460,
+      "sha256": "07f5dbb91cbd2d8d979713cc8945456eb76a24d4313ff1bf2796fdc0c0788241",
+      "table": "quotes",
+      "rows": 100000
+    },
+    {
+      "path": "data/quotes-part-0035.jsonl.gz",
+      "bytes": 1489817,
+      "sha256": "66970b8cde9b6b85a61a67558d68d429e54e3be22e3c664e76700d2ad7073db8",
+      "table": "quotes",
+      "rows": 100000
+    },
+    {
+      "path": "data/quotes-part-0036.jsonl.gz",
+      "bytes": 1492132,
+      "sha256": "e2345ab5be3a9c2c8e597ac8640784d29e3124b636d7fa4c101fa7d988c7df19",
+      "table": "quotes",
+      "rows": 100000
+    },
+    {
+      "path": "data/quotes-part-0037.jsonl.gz",
+      "bytes": 1491081,
+      "sha256": "3dc776c5537026607bbc8e2d7e38d13808c3ea31b3971fce64fbf4f8c16dd018",
+      "table": "quotes",
+      "rows": 100000
+    },
+    {
+      "path": "data/quotes-part-0038.jsonl.gz",
+      "bytes": 1476795,
+      "sha256": "57c0d820b0f89f01735312704301f1187ec0c1f40f771295d0220a38e4c2a095",
+      "table": "quotes",
+      "rows": 100000
+    },
+    {
+      "path": "data/quotes-part-0039.jsonl.gz",
+      "bytes": 1487561,
+      "sha256": "fc9ad11838bf97bfa110a80079e6782aaa230a533176c9556d4851dcfb6f0b4e",
+      "table": "quotes",
+      "rows": 100000
+    },
+    {
+      "path": "data/quotes-part-0040.jsonl.gz",
+      "bytes": 1484991,
+      "sha256": "df193a9b82823e970125fde5f89005f4a6615e8029dca202743810d44407ca86",
+      "table": "quotes",
+      "rows": 100000
+    },
+    {
+      "path": "data/quotes-part-0041.jsonl.gz",
+      "bytes": 1483594,
+      "sha256": "4c024d303a00cd45fc60eb81b5b55202ff689fa6085f9a29ad8b59cc5552949a",
+      "table": "quotes",
+      "rows": 100000
+    },
+    {
+      "path": "data/quotes-part-0042.jsonl.gz",
+      "bytes": 1491801,
+      "sha256": "bd5cb15a077013dda9f4a8398256125fc41dd80145828083b7d4438cb6977c7a",
+      "table": "quotes",
+      "rows": 100000
+    },
+    {
+      "path": "data/quotes-part-0043.jsonl.gz",
+      "bytes": 1479631,
+      "sha256": "12030d2a1902aa5b8077683a80f85f06a7ce6bc3cf6934fc70129a4f7b382b2d",
+      "table": "quotes",
+      "rows": 100000
+    },
+    {
+      "path": "data/quotes-part-0044.jsonl.gz",
+      "bytes": 1490223,
+      "sha256": "2b7558e06af1476059771778d029d49aba90f80aaffa1fcf5315153f5eafa3f5",
+      "table": "quotes",
+      "rows": 100000
+    },
+    {
+      "path": "data/quotes-part-0045.jsonl.gz",
+      "bytes": 1459101,
+      "sha256": "1df303a4a5550228f09c9f864ef10f25b8bf2f5ceaa816a0e1d9b006bab74f9a",
+      "table": "quotes",
+      "rows": 100000
+    },
+    {
+      "path": "data/quotes-part-0046.jsonl.gz",
+      "bytes": 1475098,
+      "sha256": "07d8311e486b51fa81dbc9b3d88ea48e51cc49865d405dfa8c4492d0c8c6edf2",
+      "table": "quotes",
+      "rows": 100000
+    },
+    {
+      "path": "data/quotes-part-0047.jsonl.gz",
+      "bytes": 1480266,
+      "sha256": "d7920e20d238f4f05d2befefe8526eb58d201102223caae7847a693c29983515",
+      "table": "quotes",
+      "rows": 100000
+    },
+    {
+      "path": "data/quotes-part-0048.jsonl.gz",
+      "bytes": 1491596,
+      "sha256": "c7a92c8add7ed281285ef504feecc5b1290e3063ff288ba1b09e8dae97144851",
+      "table": "quotes",
+      "rows": 100000
+    },
+    {
+      "path": "data/quotes-part-0049.jsonl.gz",
+      "bytes": 1486983,
+      "sha256": "a50bb6036b3061b8e7fe5ccb8b578cc23a06f5d582e801c6b7dd1fd9421e8daf",
+      "table": "quotes",
+      "rows": 100000
+    },
+    {
+      "path": "data/quotes-part-0050.jsonl.gz",
+      "bytes": 1470728,
+      "sha256": "b908568ce607eda6ced0346ffcd891166ead232419a8280a3201f19f85057faa",
+      "table": "quotes",
+      "rows": 100000
+    },
+    {
+      "path": "data/quotes-part-0051.jsonl.gz",
+      "bytes": 1471146,
+      "sha256": "bfab8576b9f978782e6daf6048c690f9fe0568e86ddc6d8d09e8d851d734f3e0",
+      "table": "quotes",
+      "rows": 100000
+    },
+    {
+      "path": "data/quotes-part-0052.jsonl.gz",
+      "bytes": 1487216,
+      "sha256": "083a760841ebe532f028abe920204cb3b08c2f0d8e50df74427a26667921dd79",
+      "table": "quotes",
+      "rows": 100000
+    },
+    {
+      "path": "data/quotes-part-0053.jsonl.gz",
+      "bytes": 1489308,
+      "sha256": "4f1741f130a16f9936934770e94506f65ab2e724fa0f26b56ad8d4625b89f3a5",
+      "table": "quotes",
+      "rows": 100000
+    },
+    {
+      "path": "data/quotes-part-0054.jsonl.gz",
+      "bytes": 1475267,
+      "sha256": "bd963ff276d6b934f6bec6aa57ff9ddabead75bd307c5f93399576ca13820d25",
+      "table": "quotes",
+      "rows": 100000
+    },
+    {
+      "path": "data/quotes-part-0055.jsonl.gz",
+      "bytes": 1481657,
+      "sha256": "c42d288dfb8921d1ddc7b4c08782f20df23f319a4d17985aa4a2a4aa14adcf76",
+      "table": "quotes",
+      "rows": 100000
+    },
+    {
+      "path": "data/quotes-part-0056.jsonl.gz",
+      "bytes": 1466125,
+      "sha256": "b89d2a411bb9650f5f226952d7265e640715d3bacff7c93826a671eef0536629",
+      "table": "quotes",
+      "rows": 100000
+    },
+    {
+      "path": "data/quotes-part-0057.jsonl.gz",
+      "bytes": 1477410,
+      "sha256": "0e69c668dbd78064c9d05e63fca1b60114d656cc6d7b2d31450b9a1ae247662f",
+      "table": "quotes",
+      "rows": 100000
+    },
+    {
+      "path": "data/quotes-part-0058.jsonl.gz",
+      "bytes": 1480939,
+      "sha256": "137d18c0fff5586044e4e90d3b57bb8fbcdfaf65c8e2bb04413a745b1a5cf108",
+      "table": "quotes",
+      "rows": 100000
+    },
+    {
+      "path": "data/quotes-part-0059.jsonl.gz",
+      "bytes": 1473035,
+      "sha256": "09df79139919288858a141694035cad3e9149c79277e2d2b7ce82e388fb930b8",
+      "table": "quotes",
+      "rows": 100000
+    },
+    {
+      "path": "data/quotes-part-0060.jsonl.gz",
+      "bytes": 1470745,
+      "sha256": "9f2767f275b05696244f1ccf240ebcfa88c29c496bc0ab6d6e948d0c28a7fffd",
+      "table": "quotes",
+      "rows": 100000
+    },
+    {
+      "path": "data/quotes-part-0061.jsonl.gz",
+      "bytes": 1481167,
+      "sha256": "24e87491e33d6c42fa6904655756b891679c45267650419c4737008d132382e7",
+      "table": "quotes",
+      "rows": 100000
+    },
+    {
+      "path": "data/quotes-part-0062.jsonl.gz",
+      "bytes": 1466416,
+      "sha256": "5bfb2f83721957625aa802b71be2257b1028539c4d576fe04f5a59a958b371b8",
+      "table": "quotes",
+      "rows": 100000
+    },
+    {
+      "path": "data/quotes-part-0063.jsonl.gz",
+      "bytes": 1454258,
+      "sha256": "8652b877555cccb80f527159a2c3270eb90e13c67355f2dffb297c05955a191c",
+      "table": "quotes",
+      "rows": 100000
+    },
+    {
+      "path": "data/quotes-part-0064.jsonl.gz",
+      "bytes": 1479282,
+      "sha256": "6d2163f889a1482cb903ba9decce756d4fbbb7c75986e7eac2542cf39856bb27",
+      "table": "quotes",
+      "rows": 100000
+    },
+    {
+      "path": "data/quotes-part-0065.jsonl.gz",
+      "bytes": 1463759,
+      "sha256": "17d0d4961d7551c94b2a0e5aa3ca60ac3a864998d9869612b5b731e47076a114",
+      "table": "quotes",
+      "rows": 100000
+    },
+    {
+      "path": "data/quotes-part-0066.jsonl.gz",
+      "bytes": 1475536,
+      "sha256": "1942fedf733fe3e5aefd0f7d661b14ae0730f6428adc3cddaa0331e432d4b55b",
+      "table": "quotes",
+      "rows": 100000
+    },
+    {
+      "path": "data/quotes-part-0067.jsonl.gz",
+      "bytes": 1465027,
+      "sha256": "f7c1c9eb519dd3dc5182c185335ec23ef1702c16b6ce10d536068ad838515495",
+      "table": "quotes",
+      "rows": 100000
+    },
+    {
+      "path": "data/quotes-part-0068.jsonl.gz",
+      "bytes": 1479871,
+      "sha256": "5ea26f472896e93d46775c050ce309a688eeae5c51a60cf300eb82ff39b21b5a",
+      "table": "quotes",
+      "rows": 100000
+    },
+    {
+      "path": "data/quotes-part-0069.jsonl.gz",
+      "bytes": 1199,
+      "sha256": "89b8eed4568042bc5c649ea0aa25d03e859e7fb94e3aff9274d675829120667c",
+      "table": "quotes",
+      "rows": 62
+    },
+    {
+      "path": "data/meta-part-0001.jsonl.gz",
+      "bytes": 150,
+      "sha256": "47e0bd1e4f8cda2256a5f65e2b16f190dd5eca2175ff07719f65bd6a54f28514",
+      "table": "meta",
+      "rows": 6
+    }
+  ],
+  "support_files": [
+    {
+      "path": "schema.sql",
+      "bytes": 2046,
+      "sha256": "0cfdec92e08e3a09d45d7c41b0da02b1503f4d4a1a9ccf23a9c855c7bec782da"
+    },
+    {
+      "path": "source-evidence/protocol.json",
+      "bytes": 1297,
+      "sha256": "423edb05bdbf1e876e7b80bfa27c2eb4582a801be317713a03f87153f93b3ecb"
+    },
+    {
+      "path": "source-evidence/progress.json",
+      "bytes": 4488,
+      "sha256": "d35f159fd560637240b78392e8a4a77c115bf78f03db45e2b72101f1b62fae83"
+    },
+    {
+      "path": "source-evidence/progress.md",
+      "bytes": 1307,
+      "sha256": "d1457b0a97adab8c2ee08781638d75f37e85f41989bde326e6ad1809bfbfce1c"
+    },
+    {
+      "path": "source-evidence/audit/inventory.json",
+      "bytes": 10598,
+      "sha256": "b8f508ed7470a3e33473282063b17a25e8d829992022d12ace2cc480f2a53f93"
+    }
+  ],
+  "collection": {
+    "state": "running",
+    "complete": false,
+    "match_ids": 219519,
+    "fixture_groups": 212764,
+    "metadata_status_counts": {
+      "Played": 218752,
+      "": 767
+    },
+    "total_tasks": 878076,
+    "task_state_counts": {
+      "pending": 797844,
+      "ok": 56159,
+      "missing_company": 24067,
+      "empty_detail": 2,
+      "running": 4
+    },
+    "terminal_processed": 80228,
+    "remaining": 797848,
+    "processed_percent": 9.136794537147127,
+    "groups": [
+      {
+        "company": "Macau",
+        "market": "euro",
+        "tasks": 219519,
+        "state:pending": 199461,
+        "raw_rows": 94997,
+        "valid_rows": 92012,
+        "t10_rows": 88480,
+        "t10_strict_rows": 88162,
+        "tasks_with_t10": 8116,
+        "tasks_with_t10_strict": 8116,
+        "state:missing_company": 11941,
+        "state:ok": 8116,
+        "state:running": 1
+      },
+      {
+        "company": "Macau",
+        "market": "size",
+        "tasks": 219519,
+        "state:pending": 199461,
+        "raw_rows": 317494,
+        "valid_rows": 311159,
+        "t10_rows": 50005,
+        "t10_strict_rows": 49826,
+        "tasks_with_t10": 8142,
+        "tasks_with_t10_strict": 8142,
+        "state:missing_company": 11914,
+        "state:ok": 8143,
+        "state:running": 1
+      },
+      {
+        "company": "Royal",
+        "market": "euro",
+        "tasks": 219519,
+        "state:pending": 199461,
+        "raw_rows": 2512394,
+        "valid_rows": 2391373,
+        "t10_rows": 239934,
+        "t10_strict_rows": 238683,
+        "tasks_with_t10": 19931,
+        "tasks_with_t10_strict": 19931,
+        "state:ok": 19934,
+        "state:missing_company": 122,
+        "state:empty_detail": 1,
+        "state:running": 1
+      },
+      {
+        "company": "Royal",
+        "market": "size",
+        "tasks": 219519,
+        "state:pending": 199461,
+        "raw_rows": 3875177,
+        "valid_rows": 3737598,
+        "t10_rows": 307393,
+        "t10_strict_rows": 305738,
+        "tasks_with_t10": 19963,
+        "tasks_with_t10_strict": 19963,
+        "state:ok": 19966,
+        "state:missing_company": 90,
+        "state:empty_detail": 1,
+        "state:running": 1
+      }
+    ],
+    "completion_basis": "Partial export only; does not substitute for source final audit or completion.json"
+  },
+  "export_finished_at_bjt": "2026-10-13T16:43:54+08:00",
+  "total_compressed_bytes": 137245989
+}
