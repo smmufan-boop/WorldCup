@@ -2,3 +2,4 @@
 numpy>=2.0
 pandas>=2.2
 scikit-learn>=1.4  # supremacy/turning_points.py
+numba>=0.60  # curve_similarity.py (DTW, SBD)
