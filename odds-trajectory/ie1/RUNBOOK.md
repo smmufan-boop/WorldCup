@@ -154,6 +154,14 @@ SELECT match_id, (generated_at-cutoff)/60.0 AS delay_min FROM runs ORDER BY dela
 
 输出与自动模式相同的报告，但**不写入台账**。手工抄录无法证明时间点，不能计入前瞻统计。
 
+## 4.1 用快照回看任意一场
+
+```powershell
+& $IE1 replay --match-id 54569678 --cache fixtures.pkl
+```
+
+从仓库里的两份快照重建该场 T−10 盘口簿，输出完整报告和按锁定条款的结算。结果是赛后回看，不计入前瞻统计。完整示例见 [examples/report_54569678.md](examples/report_54569678.md)。
+
 ## 5. 每场计算的内容（与报告各节对应）
 
 1. **市场公允价**：Royal 截点时的亚盘和大小球去水后，反解出 (总进球 T, 净胜球 S)，再用 Dixon–Coles（ρ = −0.05）生成比分矩阵。
@@ -200,7 +208,7 @@ python odds-trajectory/ie1/code/backtest.py --cache fixtures.pkl --out odds-traj
 
 | 文件 | 作用 |
 | --- | --- |
-| `code/ie1.py` | 命令行入口：probe / run / note / settle / stats / offline |
+| `code/ie1.py` | 命令行入口：probe / run / note / settle / stats / offline / replay |
 | `code/source.py` | 限速抓取、401/403/429 停机、原始报文存档、赛程读取 |
 | `code/parse.py` | 报文 → 统一行格式；中文盘口、进球线、无年份时间的解析 |
 | `code/quotes.py` | 接口和公司 ID、T−10 路径构建（亚盘用 V1 点序；大小球/欧指用严格分钟和同分钟冲突规则） |

@@ -177,6 +177,10 @@ def describe_pick(c, meta):
     return f"{dict(home='主胜', draw='平', away='客胜')[c['side']]} @{c['odds']:.2f}（{c['companyName']}）"
 
 
+def result_cutoff_seconds(result):
+    return result["match"]["kickoff"] - datetime.fromisoformat(result["cutoff"]).timestamp()
+
+
 def render(result):
     """Chinese text report in the 庄家意图/模型/结论/推荐 layout."""
     m = result["match"]
@@ -204,7 +208,8 @@ def render(result):
               "比分参考：" + "，".join(f"{i}-{j}（{p:.1%}）" for (i, j), p in result["topScores"]),
               "", "四、价值（各公司截点报价 EV 前四）"]
     for c in result["candidates"][:4]:
-        lines.append(f"  {describe_pick(c, m)}  EV {c['ev']:+.1%}"
+        age = (m["kickoff"] - result_cutoff_seconds(result) - c["quoteTs"]) / 60
+        lines.append(f"  {describe_pick(c, m)}  EV {c['ev']:+.1%}｜报价距截点 {age:.0f} 分钟"
                      + ("" if c["market"] in result["stakeMarkets"] and c["company"] in result["stakeCompanies"]
                         else "（仅观察）"))
     d = result["decision"]

@@ -127,7 +127,7 @@ ie1/
   RUNBOOK.md              执行手册
   BACKTEST_REPORT.json    回测输出
   code/
-    ie1.py                命令行：probe / run / note / settle / stats / offline
+    ie1.py                命令行：probe / run / note / settle / stats / offline / replay
     source.py             限速抓取、停机规则、原始报文存档、赛程读取
     parse.py              报文解析（中文盘口、进球线、无年份时间）
     quotes.py             接口与公司 ID 映射、T−10 路径
@@ -140,7 +140,7 @@ ie1/
     backtest.py           校准、信号研究、跨公司价值、留出期整套回测
     demo.py               合成数据示例
     parameters.json       版本、截点、系数、门槛、抓取与报文字段、实盘门槛
-  examples/               赛程 CSV、比分 CSV、手工赔率 JSON 样例
+  examples/               赛程 CSV、比分 CSV、手工赔率 JSON 样例、完整报告示例
   tests/test_ie1.py       单元与端到端测试（模拟接口）
 ```
 

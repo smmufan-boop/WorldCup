@@ -8,6 +8,7 @@ Run from the repository root, e.g.:
   python odds-trajectory/ie1/code/ie1.py settle --results results.csv
   python odds-trajectory/ie1/code/ie1.py stats
   python odds-trajectory/ie1/code/ie1.py offline --input match.json
+  python odds-trajectory/ie1/code/ie1.py replay --match-id 54569678 --cache fixtures.pkl
 See ../RUNBOOK.md for the full operating procedure.
 """
 from __future__ import annotations
@@ -283,6 +284,25 @@ def cmd_offline(args):
     print(render(predict(meta, book, params, manual=manual)))
 
 
+def cmd_replay(args):
+    """Rebuild one snapshot match at T-10 and print the report plus its settlement."""
+    import dataset
+    params = load_parameters()
+    fixtures = dataset.build(args.cache)
+    f = next((x for x in fixtures if x["matchId"] == args.match_id), None)
+    if f is None:
+        sys.exit("快照中没有这场比赛（需同时有 Royal 亚盘与欧指/大小球任务）")
+    meta = {k: f[k] for k in ("matchId", "competition", "home", "away", "kickoff")}
+    result = predict(meta, f["book"], params)
+    print(render(result))
+    pick, score = result.get("pick"), f["score"]
+    print(f"\n回看：常规 90 分钟比分 {score[0]}-{score[1]}" if score else "\n回看：比分未核验")
+    if score and pick and result["decision"]["tier"]:
+        profit = pick_profit(pick["market"], pick["side"], pick["line"], pick["odds"], score)
+        print(f"按锁定条款结算：平注 {profit:+.3f}，按 {result['decision']['units']:g} 单位 "
+              f"{profit * result['decision']['units']:+.3f}（赛后回看，非当时前瞻记录）")
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="IE1 盘赔意图–价值方案执行工具")
     ap.add_argument("--workdir", default="ie1-runtime", help="台账、证据、报告与人工信息的目录")
@@ -316,6 +336,10 @@ def main(argv=None):
     p = sub.add_parser("offline", help="手工录入赔率生成报告（不登记）")
     p.add_argument("--input", required=True)
     p.set_defaults(func=cmd_offline)
+    p = sub.add_parser("replay", help="用仓库快照回看一场比赛的 T−10 报告与结算")
+    p.add_argument("--match-id", required=True)
+    p.add_argument("--cache", help="dataset 缓存文件（首次约 1–2 分钟）")
+    p.set_defaults(func=cmd_replay)
     args = ap.parse_args(argv)
     return args.func(args)
 
