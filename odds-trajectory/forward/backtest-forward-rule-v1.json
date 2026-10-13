@@ -101,96 +101,96 @@
   "holdout 2026-08-01..10-12": {
    "all": {
     "L0": {
-     "bets": 16284,
+     "bets": 14941,
      "counts": {
-      "win": 6233,
-      "half_win": 2133,
-      "push": 1102,
+      "win": 5712,
+      "half_win": 1964,
+      "push": 1019,
       "half_loss": 0,
-      "loss": 6816
+      "loss": 6246
      },
-     "winRate": 0.551,
-     "winSE": 0.004,
+     "winRate": 0.5514,
+     "winSE": 0.0042,
      "baseline": 0.5496,
-     "lift": 0.0015,
-     "roi": -0.0406
+     "lift": 0.0017,
+     "roi": -0.0401
     },
     "L1": {
-     "bets": 2868,
+     "bets": 2639,
      "counts": {
-      "win": 1109,
-      "half_win": 458,
-      "push": 151,
+      "win": 1013,
+      "half_win": 418,
+      "push": 140,
       "half_loss": 0,
-      "loss": 1150
+      "loss": 1068
      },
-     "winRate": 0.5767,
-     "winSE": 0.0095,
-     "baseline": 0.5551,
-     "lift": 0.0216,
-     "roi": -0.0047
+     "winRate": 0.5726,
+     "winSE": 0.0099,
+     "baseline": 0.5554,
+     "lift": 0.0172,
+     "roi": -0.0111
     },
     "L2": {
-     "bets": 380,
+     "bets": 353,
      "counts": {
-      "win": 161,
-      "half_win": 60,
-      "push": 19,
+      "win": 148,
+      "half_win": 55,
+      "push": 17,
       "half_loss": 0,
-      "loss": 140
+      "loss": 133
      },
-     "winRate": 0.6122,
-     "winSE": 0.0256,
+     "winRate": 0.6042,
+     "winSE": 0.0267,
      "baseline": 0.5504,
-     "lift": 0.0618,
-     "roi": 0.0577
+     "lift": 0.0538,
+     "roi": 0.0444
     }
    },
    "firstTier": {
     "L0": {
-     "bets": 5008,
+     "bets": 4660,
      "counts": {
-      "win": 1844,
-      "half_win": 692,
-      "push": 389,
+      "win": 1709,
+      "half_win": 654,
+      "push": 360,
       "half_loss": 0,
-      "loss": 2083
+      "loss": 1937
      },
-     "winRate": 0.549,
-     "winSE": 0.0073,
+     "winRate": 0.5495,
+     "winSE": 0.0076,
      "baseline": 0.5482,
-     "lift": 0.0009,
-     "roi": -0.0332
+     "lift": 0.0013,
+     "roi": -0.033
     },
     "L1": {
-     "bets": 1023,
+     "bets": 963,
      "counts": {
-      "win": 389,
-      "half_win": 175,
-      "push": 53,
+      "win": 365,
+      "half_win": 162,
+      "push": 48,
       "half_loss": 0,
-      "loss": 406
+      "loss": 388
      },
-     "winRate": 0.5814,
-     "winSE": 0.0158,
-     "baseline": 0.553,
-     "lift": 0.0285,
-     "roi": 0.0124
+     "winRate": 0.576,
+     "winSE": 0.0163,
+     "baseline": 0.5529,
+     "lift": 0.0231,
+     "roi": 0.0048
     },
     "L2": {
-     "bets": 128,
+     "bets": 120,
      "counts": {
-      "win": 50,
-      "half_win": 24,
-      "push": 6,
+      "win": 45,
+      "half_win": 23,
+      "push": 5,
       "half_loss": 0,
-      "loss": 48
+      "loss": 47
      },
-     "winRate": 0.6066,
-     "winSE": 0.0442,
-     "baseline": 0.5482,
-     "lift": 0.0584,
-     "roi": 0.0638
+     "winRate": 0.5913,
+     "winSE": 0.0458,
+     "baseline": 0.5472,
+     "lift": 0.0441,
+     "roi": 0.0388
     }
    }
   }
@@ -302,34 +302,34 @@
    "roi": 0.0837
   },
   "2026-09": {
-   "bets": 159,
+   "bets": 141,
    "counts": {
-    "win": 62,
-    "half_win": 28,
-    "push": 9,
+    "win": 55,
+    "half_win": 24,
+    "push": 8,
     "half_loss": 0,
-    "loss": 60
+    "loss": 54
    },
-   "winRate": 0.6,
-   "winSE": 0.04,
-   "baseline": 0.5536,
-   "lift": 0.0464,
-   "roi": 0.0226
+   "winRate": 0.594,
+   "winSE": 0.0426,
+   "baseline": 0.5534,
+   "lift": 0.0406,
+   "roi": 0.0146
   },
   "2026-10": {
-   "bets": 68,
+   "bets": 59,
    "counts": {
-    "win": 31,
-    "half_win": 8,
-    "push": 3,
+    "win": 25,
+    "half_win": 7,
+    "push": 2,
     "half_loss": 0,
-    "loss": 26
+    "loss": 25
    },
-   "winRate": 0.6,
-   "winSE": 0.0608,
-   "baseline": 0.5429,
-   "lift": 0.0571,
-   "roi": 0.0654
+   "winRate": 0.5614,
+   "winSE": 0.0657,
+   "baseline": 0.5435,
+   "lift": 0.0179,
+   "roi": -0.0047
   }
  }
 }

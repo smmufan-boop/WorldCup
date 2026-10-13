@@ -114,6 +114,14 @@ def baseline_expected(team, line, home_water, away_water):
     return p if team == upper_team(line) else 1 - p
 
 
+def dedupe_fixtures(records):
+    """One record per real match (V1 fixture key); the smallest source match ID wins."""
+    kept = {}
+    for r in sorted(records, key=lambda r: r['matchId']):
+        kept.setdefault(tuple(r['fixtureKey']), r)
+    return list(kept.values())
+
+
 # ---------------------------------------------------------------- summaries
 def summarise(rows):
     """rows: dicts with result, profit, expected."""
@@ -151,7 +159,7 @@ def print_levels(title, block):
 # ---------------------------------------------------------------- backtest
 def backtest(args):
     cache = RESEARCH / 'cache'
-    inputs = [r for r in pickle.load(open(cache / 'inputs-company3-T10.pkl', 'rb')) if 'score' in r]
+    inputs = dedupe_fixtures(r for r in pickle.load(open(cache / 'inputs-company3-T10.pkl', 'rb')) if 'score' in r)
     v1 = {}
     for stage in (10, 120):
         for t in pickle.load(open(cache / f'targets-company3-T{stage}.pkl', 'rb')):
@@ -257,8 +265,10 @@ def scan_once(data, now, ledger, scorers):
     entries = read_ledger(ledger)
     frozen120 = {e['matchId']: e for e in entries if e['kind'] == 'v1_t120' and e['specVersion'] == VERSION}
     decided = {e['matchId'] for e in entries if e['kind'] == 'decision' and e['specVersion'] == VERSION}
+    decided_fixtures = {tuple(e['fixtureKey']) for e in entries
+                        if e['kind'] == 'decision' and e['specVersion'] == VERSION and 'fixtureKey' in e}
     new = []
-    for mid in data['quotes']:
+    for mid in sorted(data['quotes']):  # smallest source ID first, as in backtest
         kickoff = kickoff_of(data, mid)
         if kickoff is None:
             continue
@@ -273,6 +283,8 @@ def scan_once(data, now, ledger, scorers):
             rec, reason = build_record(data, mid, DECISION)
             if rec is None:
                 continue  # no valid T-10 quote path: the rule cannot be applied
+            if tuple(rec['fixtureKey']) in decided_fixtures:
+                continue  # same real match already decided under another source ID
             v10 = scorers[DECISION].score(rec)
             if mid in frozen120:
                 v120, source = frozen120[mid], 'frozen'
@@ -285,7 +297,8 @@ def scan_once(data, now, ledger, scorers):
             d = decide(rec['line'], rec['homeWater'], rec['awayWater'], line_open,
                        {'score': v10['score'], 'line': v10['line']},
                        {'score': v120.get('score'), 'line': v120.get('line')} if v120.get('score') is not None else None)
-            new.append({'kind': 'decision', 'specVersion': VERSION, 'matchId': mid, 'kickoff': stamp(kickoff),
+            new.append({'kind': 'decision', 'specVersion': VERSION, 'matchId': mid, 'fixtureKey': rec['fixtureKey'],
+                        'kickoff': stamp(kickoff),
                         'generatedAt': stamp(now), 'late': now >= kickoff,
                         'competition': rec['competition'], 'firstTier': rec['firstTier'],
                         'home': rec['home'], 'away': rec['away'],
@@ -294,6 +307,7 @@ def scan_once(data, now, ledger, scorers):
                                         'homeWater': rec['homeWater'], 'awayWater': rec['awayWater']},
                         'lineOpen': line_open, 'v1T10': v10, 'v1T120': v120, 'v1T120Source': source, **d})
             decided.add(mid)
+            decided_fixtures.add(tuple(rec['fixtureKey']))
     if new:
         with open(ledger, 'a', encoding='utf-8') as stream:
             for e in new:
@@ -321,7 +335,8 @@ def scan(args):
     print(json.dumps({'version': VERSION, 'scans': len(steps), 'newV1T120': len(total) - len(decisions),
                       'newDecisions': len(decisions),
                       'newL2': [f"{e['kickoff']} {e['competition']} {e['home']} v {e['away']}: {e['teamName']} "
-                                f"{e['frozenQuote']['line']:+g} @{e['frozenQuote']['homeWater'] if e['team'] == 'home' else e['frozenQuote']['awayWater']}"
+                                f"{(-1 if e['team'] == 'home' else 1) * e['frozenQuote']['line']:+g} "
+                                f"@{e['frozenQuote']['homeWater'] if e['team'] == 'home' else e['frozenQuote']['awayWater']}"
                                 for e in decisions if e['levels']['L2']],
                       'seconds': round(time.time() - t0, 1)}, ensure_ascii=False, indent=1))
 
@@ -329,7 +344,7 @@ def scan(args):
 def settle_ledger(args):
     data = load_source(args)
     prospective_from = datetime.fromisoformat(SPEC['prospectiveFrom']).timestamp()
-    rows, pending, excluded = [], 0, defaultdict(int)
+    rows, pending, excluded, listed = [], 0, defaultdict(int), []
     for e in read_ledger(args.ledger):
         if e['kind'] != 'decision' or e['specVersion'] != VERSION:
             continue
@@ -340,10 +355,13 @@ def settle_ledger(args):
             excluded['beforeProspectiveFrom'] += 1
             continue
         score = result_of(data, e['matchId']) if e['matchId'] in data['matches'] else None
+        q = e['frozenQuote']
+        if args.list and e['levels'][args.list]:
+            listed.append((e, score, settle_team(e['team'], q['line'], q['homeWater'], q['awayWater'], score)
+                           if score else (None, None)))
         if score is None:
             pending += 1
             continue
-        q = e['frozenQuote']
         result, profit = settle_team(e['team'], q['line'], q['homeWater'], q['awayWater'], score)
         rows.append({'levels': e['levels'], 'firstTier': e['firstTier'], 'result': result, 'profit': profit,
                      'expected': baseline_expected(e['team'], q['line'], q['homeWater'], q['awayWater'])})
@@ -358,6 +376,37 @@ def settle_ledger(args):
     print_levels('== first tier', report['firstTier'])
     if args.output:
         Path(args.output).write_text(json.dumps(report, ensure_ascii=False, indent=1), 'utf-8')
+    if args.list:
+        print_matches(listed, args.list, args.list_csv)
+
+
+RESULT_ZH = {'win': '全赢', 'half_win': '赢半', 'push': '走盘', 'half_loss': '输半', 'loss': '全输', None: '待结算'}
+
+
+def print_matches(listed, level, csv_path=None):
+    """One line per decision at ``level``: team-perspective handicap (- gives, + receives)."""
+    header = ['开球(北京时间)', '赛事', '主队', '客队', '选择', '盘口', '水位', '初盘', 'V1 T-120', 'V1 T-10',
+              '比分', '结果', '盈亏']
+    lines = []
+    for e, score, (result, profit) in sorted(listed, key=lambda x: (x[0]['kickoff'], x[0]['matchId'])):
+        q = e['frozenQuote']
+        sign = -1 if e['team'] == 'home' else 1  # local line + = home gives
+        water = q['homeWater'] if e['team'] == 'home' else q['awayWater']
+        d120, d10 = e['v1T120'].get('score'), e['v1T10'].get('score')
+        lines.append([e['kickoff'][5:16].replace('T', ' '), e['competition'], e['home'], e['away'], e['teamName'],
+                      f"{sign * q['line'] + 0.0:+g}", f'{water:.2f}', f"{sign * e['lineOpen'] + 0.0:+g}",
+                      '-' if d120 is None else f'{d120:.1f}', '-' if d10 is None else f'{d10:.1f}',
+                      '-' if score is None else f'{score[0]}-{score[1]}', RESULT_ZH[result],
+                      '' if profit is None else f'{profit:+.3f}'])
+    print(f'\n{level} 比赛（{len(lines)} 场；盘口为所选球队视角，负数为让球）')
+    print(' | '.join(header))
+    for row in lines:
+        print(' | '.join(row))
+    if csv_path:
+        with open(csv_path, 'w', encoding='utf-8-sig', newline='') as stream:
+            writer = csv.writer(stream)
+            writer.writerow(header)
+            writer.writerows(lines)
 
 
 def main():
@@ -378,6 +427,8 @@ def main():
             p.add_argument('--output')
             p.add_argument('--retrospective', action='store_true',
                            help='also settle decisions before prospectiveFrom (testing only)')
+            p.add_argument('--list', choices=('L0', 'L1', 'L2'), help='print every decision at this level')
+            p.add_argument('--list-csv', help='also write the listed decisions to this CSV')
     args = parser.parse_args()
     if configuration()['companies'][COMPANY] != SPEC['v1']['parameters']:
         raise SystemExit('Published V1 parameters differ from the registered rule')
