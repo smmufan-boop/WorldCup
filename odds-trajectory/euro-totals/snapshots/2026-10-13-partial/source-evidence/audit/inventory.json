@@ -1,0 +1,277 @@
+{
+  "inventory_path": "G:\\weixin\\Pankou\\ENN\\market_backfill\\run_20261013_045725_1f74d9\\inventory.csv",
+  "completed": true,
+  "snapshot_now_utc": "2026-10-12T20:57:25.806065+00:00",
+  "source_match_ids": 220936,
+  "all_discovered_match_ids": 220936,
+  "source_status_counts": {
+    "": 767,
+    "Played": 218752,
+    "Postponed": 853,
+    "Cancelled": 54,
+    "Uncertain": 134,
+    "Fixture": 326,
+    "Suspended": 20,
+    "Playing": 30
+  },
+  "numeric_dqd_ids": 220936,
+  "kickoff_before_snapshot_ids": 220750,
+  "eligible_match_ids": 219519,
+  "fixture_groups": 212764,
+  "tasks_per_match_id": 4,
+  "total_tasks": 878076,
+  "markets": [
+    {
+      "company": "Royal",
+      "company_id": "545",
+      "market_type": "euro"
+    },
+    {
+      "company": "Royal",
+      "company_id": "3",
+      "market_type": "size"
+    },
+    {
+      "company": "Macau",
+      "company_id": "80",
+      "market_type": "euro"
+    },
+    {
+      "company": "Macau",
+      "company_id": "1",
+      "market_type": "size"
+    }
+  ],
+  "eligibility_counts": {
+    "past_kickoff_unconfirmed_final": 767,
+    "source_played_status": 218752
+  },
+  "exclusion_counts": {
+    "source_status_postponed": 834,
+    "source_status_cancelled": 54,
+    "source_status_uncertain": 130,
+    "source_status_fixture": 163,
+    "future_or_not_started": 186,
+    "source_status_suspended": 20,
+    "source_status_playing": 30
+  },
+  "include_unconfirmed_final": true,
+  "past_grace_seconds": 10800,
+  "kickoff_range_utc": [
+    "2025-06-10T16:00:00+00:00",
+    "2026-10-12T19:00:00+00:00"
+  ],
+  "asia_coverage_source_ids": {
+    "3": 55637,
+    "1": 19773
+  },
+  "asia_coverage_eligible_ids": {
+    "3": 55533,
+    "1": 19742
+  },
+  "aliases": {
+    "links": 11029,
+    "verified_links": 10544,
+    "rejected_links": {
+      "alias_identity_inconsistent": 485
+    },
+    "policy": "Every API ID collected separately; fixture group is an annotation only"
+  },
+  "catalog": {
+    "path": "G:\\weixin\\Pankou\\ENN\\runs\\enn_T10_sim_v5_p2_20261013_023845_21683c\\bank\\catalog.csv",
+    "exists": true,
+    "rows": 56495,
+    "unique_dqd_ids": 46512,
+    "company_rows": {
+      "3": 46090,
+      "1": 10405
+    },
+    "eligible_unique_ids": 46512,
+    "catalog_ids_absent_from_discovered_source": 0
+  },
+  "csv_sources": [
+    {
+      "path": "G:\\weixin\\Pankou\\live_dashboard\\data\\daqiu_odds\\matches.csv",
+      "exists": true,
+      "kind": "dqd_fixture_export",
+      "rows": 196725,
+      "unique_ids": 196725,
+      "new_dqd_ids": 0,
+      "rejected": {}
+    },
+    {
+      "path": "G:\\weixin\\Pankou\\live_dashboard\\data\\daqiu_odds\\odds_history.csv",
+      "exists": true,
+      "kind": "dqd_quote_source_url",
+      "rows": 253254,
+      "unique_ids": 852,
+      "new_dqd_ids": 0,
+      "rejected": {}
+    },
+    {
+      "path": "G:\\weixin\\Pankou\\backfill_discovery_prev_probe\\matches.csv",
+      "exists": true,
+      "kind": "dqd_fixture_export",
+      "rows": 72,
+      "unique_ids": 72,
+      "new_dqd_ids": 0,
+      "rejected": {}
+    },
+    {
+      "path": "G:\\weixin\\Pankou\\backfill_discovery_probe\\matches.csv",
+      "exists": true,
+      "kind": "dqd_fixture_export",
+      "rows": 813,
+      "unique_ids": 813,
+      "new_dqd_ids": 0,
+      "rejected": {}
+    },
+    {
+      "path": "G:\\weixin\\Pankou\\backfill_probe\\odds_history.csv",
+      "exists": true,
+      "kind": "dqd_quote_source_url",
+      "rows": 359,
+      "unique_ids": 1,
+      "new_dqd_ids": 0,
+      "rejected": {}
+    },
+    {
+      "path": "G:\\weixin\\Pankou\\current_match_refresh\\odds_history.csv",
+      "exists": true,
+      "kind": "dqd_quote_source_url",
+      "rows": 7,
+      "unique_ids": 1,
+      "new_dqd_ids": 0,
+      "rejected": {}
+    },
+    {
+      "path": "G:\\weixin\\Pankou\\all_dates_matches.csv",
+      "exists": true,
+      "kind": "old_site_id_not_dqd_verified",
+      "rows": 3625,
+      "unique_ids": 3625,
+      "new_dqd_ids": 0,
+      "rejected": {}
+    },
+    {
+      "path": "G:\\weixin\\Pankou\\local_match_index.csv",
+      "exists": true,
+      "kind": "no_verifiable_dqd_id",
+      "rows": 700,
+      "unique_ids": 0,
+      "new_dqd_ids": 0,
+      "rejected": {
+        "no_verifiable_dqd_id": 700
+      }
+    }
+  ],
+  "unverified_old_site_id_rows": 2858,
+  "historical_schedule_disagreements": 285,
+  "source_snapshot": {
+    "source": "G:\\weixin\\Pankou\\live_dashboard\\data\\daqiu_odds\\daqiu_odds.sqlite3",
+    "read_started_at_utc": "2026-10-12T20:57:25.806065+00:00",
+    "read_finished_at_utc": "2026-10-12T20:57:27.228837+00:00",
+    "consistent_sqlite_transaction": true,
+    "read_mode": "uri mode=ro; PRAGMA query_only=ON; BEGIN; ROLLBACK; close",
+    "schema": {
+      "matches": "CREATE TABLE matches (\"match_id\" TEXT NOT NULL DEFAULT '',\"cmp_type\" TEXT NOT NULL DEFAULT '',\"competition_id\" TEXT NOT NULL DEFAULT '',\"competition_name\" TEXT NOT NULL DEFAULT '',\"team_A_id\" TEXT NOT NULL DEFAULT '',\"team_A_name\" TEXT NOT NULL DEFAULT '',\"team_B_id\" TEXT NOT NULL DEFAULT '',\"team_B_name\" TEXT NOT NULL DEFAULT '',\"kickoff_utc\" TEXT NOT NULL DEFAULT '',\"kickoff_local\" TEXT NOT NULL DEFAULT '',\"status\" TEXT NOT NULL DEFAULT '',\"minute\" TEXT NOT NULL DEFAULT '',\"score_home\" TEXT NOT NULL DEFAULT '',\"score_away\" TEXT NOT NULL DEFAULT '',\"fetched_at_utc\" TEXT NOT NULL DEFAULT '', \"period\" TEXT NOT NULL DEFAULT '', \"score_note\" TEXT NOT NULL DEFAULT '', \"team_A_logo\" TEXT NOT NULL DEFAULT '', \"team_B_logo\" TEXT NOT NULL DEFAULT '', PRIMARY KEY (match_id))",
+      "odds_history": "CREATE TABLE odds_history (dedupe_key TEXT PRIMARY KEY,\"match_id\" TEXT NOT NULL DEFAULT '',\"cmp_type\" TEXT NOT NULL DEFAULT '',\"competition_name\" TEXT NOT NULL DEFAULT '',\"home_team\" TEXT NOT NULL DEFAULT '',\"away_team\" TEXT NOT NULL DEFAULT '',\"kickoff_utc\" TEXT NOT NULL DEFAULT '',\"kickoff_local\" TEXT NOT NULL DEFAULT '',\"company_id\" TEXT NOT NULL DEFAULT '',\"company_name\" TEXT NOT NULL DEFAULT '',\"company_abbr\" TEXT NOT NULL DEFAULT '',\"market_type\" TEXT NOT NULL DEFAULT '',\"source_time\" TEXT NOT NULL DEFAULT '',\"change_time_local\" TEXT NOT NULL DEFAULT '',\"home_water\" TEXT NOT NULL DEFAULT '',\"handicap_text\" TEXT NOT NULL DEFAULT '',\"handicap_value\" TEXT NOT NULL DEFAULT '',\"away_water\" TEXT NOT NULL DEFAULT '',\"score\" TEXT NOT NULL DEFAULT '',\"fetched_at_utc\" TEXT NOT NULL DEFAULT '',\"source_url\" TEXT NOT NULL DEFAULT '')",
+      "odds_minute_order": "CREATE TABLE odds_minute_order (\n        match_id TEXT NOT NULL, company_id TEXT NOT NULL, market_type TEXT NOT NULL,\n        change_time_local TEXT NOT NULL, sequence_hash TEXT NOT NULL,\n        sequence_json TEXT NOT NULL, source_url TEXT NOT NULL, fetched_at_utc TEXT NOT NULL,\n        PRIMARY KEY(match_id,company_id,market_type,change_time_local,sequence_hash))",
+      "similarity_revision_clock": "CREATE TABLE similarity_revision_clock(id INTEGER PRIMARY KEY CHECK(id=1), epoch TEXT NOT NULL, revision INTEGER NOT NULL)",
+      "similarity_source_versions": "CREATE TABLE similarity_source_versions(mid TEXT NOT NULL,channel TEXT NOT NULL,revision INTEGER NOT NULL,PRIMARY KEY(mid,channel))",
+      "match_score_aliases": "CREATE TABLE match_score_aliases(\n        alias_id TEXT PRIMARY KEY, source_id TEXT NOT NULL, identity_json TEXT NOT NULL,\n        first_verified_utc TEXT NOT NULL, last_verified_utc TEXT NOT NULL,\n        original_json TEXT NOT NULL, source_json TEXT NOT NULL, basis TEXT NOT NULL DEFAULT 'exact-sport-league-team-ids-kickoff',\n        CHECK(alias_id<>source_id))",
+      "odds_collection_state": "CREATE TABLE odds_collection_state (\n        match_id TEXT NOT NULL, company_id TEXT NOT NULL, market_type TEXT NOT NULL,\n        status TEXT NOT NULL, last_attempt REAL NOT NULL, last_finished REAL,\n        last_success REAL, next_retry REAL NOT NULL, failures INTEGER NOT NULL DEFAULT 0,\n        error_type TEXT NOT NULL DEFAULT '', error TEXT NOT NULL DEFAULT '',\n        history_rows INTEGER NOT NULL DEFAULT 0,\n        PRIMARY KEY(match_id, company_id, market_type))"
+    },
+    "collection_state_counts": [
+      {
+        "market_type": "asia",
+        "company_id": "1",
+        "status": "error",
+        "n": 24
+      },
+      {
+        "market_type": "asia",
+        "company_id": "1",
+        "status": "no_data",
+        "n": 11229
+      },
+      {
+        "market_type": "asia",
+        "company_id": "1",
+        "status": "ok",
+        "n": 1855
+      },
+      {
+        "market_type": "asia",
+        "company_id": "1",
+        "status": "running",
+        "n": 2
+      },
+      {
+        "market_type": "asia",
+        "company_id": "3",
+        "status": "error",
+        "n": 30
+      },
+      {
+        "market_type": "asia",
+        "company_id": "3",
+        "status": "no_data",
+        "n": 8106
+      },
+      {
+        "market_type": "asia",
+        "company_id": "3",
+        "status": "ok",
+        "n": 4972
+      },
+      {
+        "market_type": "asia",
+        "company_id": "3",
+        "status": "running",
+        "n": 2
+      },
+      {
+        "market_type": "asia",
+        "company_id": "8",
+        "status": "error",
+        "n": 11
+      },
+      {
+        "market_type": "asia",
+        "company_id": "8",
+        "status": "no_data",
+        "n": 4611
+      },
+      {
+        "market_type": "asia",
+        "company_id": "8",
+        "status": "ok",
+        "n": 8480
+      },
+      {
+        "market_type": "asia",
+        "company_id": "8",
+        "status": "running",
+        "n": 1
+      }
+    ],
+    "source_versions": {
+      "revision_clock": [
+        {
+          "id": 1,
+          "epoch": "e5df754a0680417abd3ac547f60c2154",
+          "revision": 114521426
+        }
+      ]
+    }
+  },
+  "inventory_sha256": "6ad8a94ee994884eae42928b4628210d7117f3e89948b0b86b7d934c209c75d8",
+  "limitations": [
+    "Played means source status, not independently verified 90-minute result.",
+    "Past kickoff with blank status is a collection candidate, never a verified final label.",
+    "Historical exports do not override the current live-source fixture snapshot.",
+    "Old dongqiu.org site IDs absent from the DQD source are quarantined rather than inferred.",
+    "Historical market collection does not establish that these observations were available before kickoff."
+  ]
+}

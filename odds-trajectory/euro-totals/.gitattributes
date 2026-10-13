@@ -1,0 +1,2 @@
+*.jsonl.gz binary
+snapshots/**/source-evidence/** -text whitespace=cr-at-eol

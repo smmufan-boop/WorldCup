@@ -1,0 +1,200 @@
+{
+  "at": "2026-10-13T08:43:50+00:00",
+  "state": "running",
+  "complete": false,
+  "matches": 219519,
+  "tasks": 878076,
+  "counts": {
+    "pending": 797014,
+    "running": 3,
+    "retry": 0,
+    "ok": 56723,
+    "missing_company": 24334,
+    "empty_detail": 2,
+    "failed": 0
+  },
+  "terminal_processed": 81059,
+  "remaining": 797017,
+  "processed_percent": 9.231433270013074,
+  "groups": [
+    {
+      "company": "Macau",
+      "market": "euro",
+      "state": "missing_company",
+      "n": 12075,
+      "t10_tasks": 0,
+      "t10_strict_tasks": 0,
+      "raw_rows": 0,
+      "t10_rows": 0
+    },
+    {
+      "company": "Macau",
+      "market": "euro",
+      "state": "ok",
+      "n": 8190,
+      "t10_tasks": 8190,
+      "t10_strict_tasks": 8190,
+      "raw_rows": 95311,
+      "t10_rows": 88743
+    },
+    {
+      "company": "Macau",
+      "market": "euro",
+      "state": "pending",
+      "n": 199254,
+      "t10_tasks": 0,
+      "t10_strict_tasks": 0,
+      "raw_rows": 0,
+      "t10_rows": 0
+    },
+    {
+      "company": "Macau",
+      "market": "size",
+      "state": "missing_company",
+      "n": 12047,
+      "t10_tasks": 0,
+      "t10_strict_tasks": 0,
+      "raw_rows": 0,
+      "t10_rows": 0
+    },
+    {
+      "company": "Macau",
+      "market": "size",
+      "state": "ok",
+      "n": 8217,
+      "t10_tasks": 8216,
+      "t10_strict_tasks": 8216,
+      "raw_rows": 321078,
+      "t10_rows": 50279
+    },
+    {
+      "company": "Macau",
+      "market": "size",
+      "state": "pending",
+      "n": 199254,
+      "t10_tasks": 0,
+      "t10_strict_tasks": 0,
+      "raw_rows": 0,
+      "t10_rows": 0
+    },
+    {
+      "company": "Macau",
+      "market": "size",
+      "state": "running",
+      "n": 1,
+      "t10_tasks": 0,
+      "t10_strict_tasks": 0,
+      "raw_rows": 0,
+      "t10_rows": 0
+    },
+    {
+      "company": "Royal",
+      "market": "euro",
+      "state": "empty_detail",
+      "n": 1,
+      "t10_tasks": 0,
+      "t10_strict_tasks": 0,
+      "raw_rows": 0,
+      "t10_rows": 0
+    },
+    {
+      "company": "Royal",
+      "market": "euro",
+      "state": "missing_company",
+      "n": 122,
+      "t10_tasks": 0,
+      "t10_strict_tasks": 0,
+      "raw_rows": 0,
+      "t10_rows": 0
+    },
+    {
+      "company": "Royal",
+      "market": "euro",
+      "state": "ok",
+      "n": 20142,
+      "t10_tasks": 20139,
+      "t10_strict_tasks": 20139,
+      "raw_rows": 2542894,
+      "t10_rows": 242736
+    },
+    {
+      "company": "Royal",
+      "market": "euro",
+      "state": "pending",
+      "n": 199253,
+      "t10_tasks": 0,
+      "t10_strict_tasks": 0,
+      "raw_rows": 0,
+      "t10_rows": 0
+    },
+    {
+      "company": "Royal",
+      "market": "euro",
+      "state": "running",
+      "n": 1,
+      "t10_tasks": 0,
+      "t10_strict_tasks": 0,
+      "raw_rows": 0,
+      "t10_rows": 0
+    },
+    {
+      "company": "Royal",
+      "market": "size",
+      "state": "empty_detail",
+      "n": 1,
+      "t10_tasks": 0,
+      "t10_strict_tasks": 0,
+      "raw_rows": 0,
+      "t10_rows": 0
+    },
+    {
+      "company": "Royal",
+      "market": "size",
+      "state": "missing_company",
+      "n": 90,
+      "t10_tasks": 0,
+      "t10_strict_tasks": 0,
+      "raw_rows": 0,
+      "t10_rows": 0
+    },
+    {
+      "company": "Royal",
+      "market": "size",
+      "state": "ok",
+      "n": 20174,
+      "t10_tasks": 20171,
+      "t10_strict_tasks": 20171,
+      "raw_rows": 3918617,
+      "t10_rows": 310772
+    },
+    {
+      "company": "Royal",
+      "market": "size",
+      "state": "pending",
+      "n": 199253,
+      "t10_tasks": 0,
+      "t10_strict_tasks": 0,
+      "raw_rows": 0,
+      "t10_rows": 0
+    },
+    {
+      "company": "Royal",
+      "market": "size",
+      "state": "running",
+      "n": 1,
+      "t10_tasks": 0,
+      "t10_strict_tasks": 0,
+      "raw_rows": 0,
+      "t10_rows": 0
+    }
+  ],
+  "fetched_coverage_note": "ok includes stored invalid/inplay rows; actual usable T-10 task coverage is separate",
+  "max_requests_per_second": 2,
+  "minimum_remaining_seconds_at_rate_cap": 398508.5,
+  "session_requests": 81040,
+  "session_elapsed_seconds": 41918.03099999999,
+  "measured_session_rps": 1.9332969146379997,
+  "estimated_remaining_seconds_at_session_rate": 412257.9382221988,
+  "reporting_pid": 39080,
+  "worker_pid": 39080
+}
