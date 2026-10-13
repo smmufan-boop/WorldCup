@@ -1,0 +1,62 @@
+{
+ "final": {
+  "n": 183,
+  "corrModel": 0.437,
+  "corrMarket": 0.465,
+  "maeModel": 1.315,
+  "maeMarket": 1.282,
+  "corrGapMarketError": 0.027,
+  "byGap": {
+   "0.0": {
+    "n": 183,
+    "winRate": 0.491,
+    "roi": -0.043
+   },
+   "0.1": {
+    "n": 129,
+    "winRate": 0.487,
+    "roi": -0.05
+   },
+   "0.2": {
+    "n": 93,
+    "winRate": 0.463,
+    "roi": -0.093
+   },
+   "0.3": {
+    "n": 62,
+    "winRate": 0.491,
+    "roi": -0.032
+   }
+  }
+ },
+ "local": {
+  "n": 183,
+  "corrModel": 0.387,
+  "corrMarket": 0.465,
+  "maeModel": 1.352,
+  "maeMarket": 1.282,
+  "corrGapMarketError": 0.023,
+  "byGap": {
+   "0.0": {
+    "n": 183,
+    "winRate": 0.515,
+    "roi": -0.006
+   },
+   "0.1": {
+    "n": 146,
+    "winRate": 0.511,
+    "roi": -0.01
+   },
+   "0.2": {
+    "n": 112,
+    "winRate": 0.48,
+    "roi": -0.065
+   },
+   "0.3": {
+    "n": 86,
+    "winRate": 0.421,
+    "roi": -0.166
+   }
+  }
+ }
+}
