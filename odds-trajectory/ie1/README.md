@@ -65,6 +65,8 @@
 
 M6 是唯一会实际改变模型的信号，人工录入就会生效，并参与否决：如果信息面方向与候选相反，该候选不出。
 
+进一步的方向探索（不看 EV、只跟 M 信号的方向）见 [SIGNAL_EXPLORATION.md](SIGNAL_EXPLORATION.md)：信号有方向信息（胜率 52–56%），但扣除抽水后基本不赚钱。
+
 ## 5. 决策规则
 
 1. **阻断**：Royal 亚盘有效赛前报价少于 3 条；**Royal 亚盘末报价距截点超过 360 分钟**（公允价过旧）；目标赛事属女足/青年/预备/友谊；赛事不在 V1 [一级赛事名单](../v1/rules/first-tier-competitions.json)。
@@ -145,6 +147,7 @@ ie1/
     settle.py             锁定条款结算
     dataset.py            连接两份快照，构建每场 T−10 盘口簿与 90 分钟赛果
     backtest.py           校准、信号研究、跨公司价值、留出期整套回测
+    explore_signals.py    M 信号方向探索（不看 EV）
     demo.py               合成数据示例
     parameters.json       版本、截点、系数、门槛（含报价年龄硬门槛）、抓取与报文字段、实盘门槛
   examples/               赛程 CSV、比分 CSV、手工赔率 JSON 样例、完整报告示例

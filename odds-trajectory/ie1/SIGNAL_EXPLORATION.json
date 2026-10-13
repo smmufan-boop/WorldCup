@@ -1,0 +1,3558 @@
+{
+  "rows": 19201,
+  "split": "development < 2026-09-01 BJT <= holdout",
+  "baseline": {
+    "development": {
+      "ahHome": {
+        "n": 11073,
+        "winRate": 0.5025,
+        "roi": -0.0394,
+        "se": 0.0083,
+        "profit": -435.89
+      },
+      "ahAway": {
+        "n": 11073,
+        "winRate": 0.4975,
+        "roi": -0.0562,
+        "se": 0.0083,
+        "profit": -621.85
+      },
+      "over": {
+        "n": 11073,
+        "winRate": 0.4971,
+        "roi": -0.0592,
+        "se": 0.0083,
+        "profit": -655.0
+      },
+      "under": {
+        "n": 11073,
+        "winRate": 0.5029,
+        "roi": -0.0396,
+        "se": 0.0084,
+        "profit": -438.62
+      }
+    },
+    "holdout": {
+      "ahHome": {
+        "n": 8128,
+        "winRate": 0.4935,
+        "roi": -0.0569,
+        "se": 0.0096,
+        "profit": -462.68
+      },
+      "ahAway": {
+        "n": 8128,
+        "winRate": 0.5065,
+        "roi": -0.0372,
+        "se": 0.0096,
+        "profit": -302.21
+      },
+      "over": {
+        "n": 8128,
+        "winRate": 0.5006,
+        "roi": -0.0485,
+        "se": 0.0097,
+        "profit": -394.25
+      },
+      "under": {
+        "n": 8128,
+        "winRate": 0.4994,
+        "roi": -0.0501,
+        "se": 0.0098,
+        "profit": -406.91
+      }
+    }
+  },
+  "extremes": {
+    "M1": {
+      "rule": "follow",
+      "low": -0.0506,
+      "high": 0.0651,
+      "development": {
+        "n": 4354,
+        "winRate": 0.5098,
+        "roi": -0.0332,
+        "se": 0.0133,
+        "profit": -144.74
+      },
+      "holdout": {
+        "n": 2977,
+        "winRate": 0.5206,
+        "roi": -0.0196,
+        "se": 0.016,
+        "profit": -58.3
+      },
+      "holdoutMacau": {
+        "n": 1158,
+        "winRate": 0.5059,
+        "roi": -0.0566,
+        "se": 0.0253,
+        "profit": -65.53
+      },
+      "holdoutFirstTier": {
+        "n": 873,
+        "winRate": 0.5207,
+        "roi": 0.0031,
+        "se": 0.0298,
+        "profit": 2.71
+      }
+    },
+    "M2": {
+      "rule": "follow",
+      "low": -0.169,
+      "high": 0.1819,
+      "development": {
+        "n": 4430,
+        "winRate": 0.5284,
+        "roi": -0.0327,
+        "se": 0.0126,
+        "profit": -144.97
+      },
+      "holdout": {
+        "n": 3261,
+        "winRate": 0.5194,
+        "roi": -0.0464,
+        "se": 0.0146,
+        "profit": -151.28
+      },
+      "holdoutMacau": {
+        "n": 1283,
+        "winRate": 0.4946,
+        "roi": -0.0797,
+        "se": 0.0235,
+        "profit": -102.27
+      },
+      "holdoutFirstTier": {
+        "n": 930,
+        "winRate": 0.4907,
+        "roi": -0.0632,
+        "se": 0.028,
+        "profit": -58.76
+      }
+    },
+    "M4": {
+      "rule": "follow",
+      "low": -0.0657,
+      "high": 0.0626,
+      "development": {
+        "n": 1814,
+        "winRate": 0.5155,
+        "roi": -0.0322,
+        "se": 0.0202,
+        "profit": -58.46
+      },
+      "holdout": {
+        "n": 922,
+        "winRate": 0.5134,
+        "roi": -0.0398,
+        "se": 0.0283,
+        "profit": -36.66
+      },
+      "holdoutMacau": {
+        "n": 922,
+        "winRate": 0.54,
+        "roi": 0.0003,
+        "se": 0.028,
+        "profit": 0.29
+      },
+      "holdoutFirstTier": {
+        "n": 327,
+        "winRate": 0.5119,
+        "roi": -0.0396,
+        "se": 0.0472,
+        "profit": -12.95
+      }
+    },
+    "M5": {
+      "rule": "follow",
+      "low": -0.0892,
+      "high": 0.0892,
+      "development": {
+        "n": 4386,
+        "winRate": 0.5168,
+        "roi": -0.0467,
+        "se": 0.0128,
+        "profit": -204.83
+      },
+      "holdout": {
+        "n": 2961,
+        "winRate": 0.5242,
+        "roi": -0.0357,
+        "se": 0.0155,
+        "profit": -105.73
+      },
+      "holdoutMacau": {
+        "n": 1199,
+        "winRate": 0.5292,
+        "roi": -0.0181,
+        "se": 0.0246,
+        "profit": -21.75
+      },
+      "holdoutFirstTier": {
+        "n": 882,
+        "winRate": 0.4828,
+        "roi": -0.0785,
+        "se": 0.0291,
+        "profit": -69.25
+      }
+    },
+    "lineSteps": {
+      "rule": "fade",
+      "low": 0.0,
+      "high": 1.0,
+      "development": {
+        "n": 11073,
+        "winRate": 0.5018,
+        "roi": -0.0407,
+        "se": 0.0083,
+        "profit": -450.9
+      },
+      "holdout": {
+        "n": 8128,
+        "winRate": 0.496,
+        "roi": -0.0533,
+        "se": 0.0096,
+        "profit": -433.26
+      },
+      "holdoutMacau": {
+        "n": 3169,
+        "winRate": 0.4986,
+        "roi": -0.0549,
+        "se": 0.0153,
+        "profit": -174.06
+      },
+      "holdoutFirstTier": {
+        "n": 2430,
+        "winRate": 0.5027,
+        "roi": -0.0358,
+        "se": 0.0176,
+        "profit": -86.97
+      }
+    },
+    "lastSegWaterHome": {
+      "rule": "follow",
+      "low": -0.1,
+      "high": 0.08,
+      "development": {
+        "n": 4515,
+        "winRate": 0.5344,
+        "roi": -0.0394,
+        "se": 0.0122,
+        "profit": -177.94
+      },
+      "holdout": {
+        "n": 3217,
+        "winRate": 0.5415,
+        "roi": -0.0277,
+        "se": 0.0143,
+        "profit": -88.96
+      },
+      "holdoutMacau": {
+        "n": 1184,
+        "winRate": 0.5142,
+        "roi": -0.0436,
+        "se": 0.0244,
+        "profit": -51.65
+      },
+      "holdoutFirstTier": {
+        "n": 912,
+        "winRate": 0.5103,
+        "roi": -0.0434,
+        "se": 0.0274,
+        "profit": -39.59
+      }
+    },
+    "lateLineSteps": null,
+    "euroHomeShift": {
+      "rule": "follow",
+      "low": -0.0662,
+      "high": 0.0684,
+      "development": {
+        "n": 4430,
+        "winRate": 0.5252,
+        "roi": -0.0349,
+        "se": 0.0127,
+        "profit": -154.69
+      },
+      "holdout": {
+        "n": 3297,
+        "winRate": 0.5216,
+        "roi": -0.0389,
+        "se": 0.0145,
+        "profit": -128.11
+      },
+      "holdoutMacau": {
+        "n": 1267,
+        "winRate": 0.5055,
+        "roi": -0.061,
+        "se": 0.0235,
+        "profit": -77.26
+      },
+      "holdoutFirstTier": {
+        "n": 953,
+        "winRate": 0.5052,
+        "roi": -0.0373,
+        "se": 0.0274,
+        "profit": -35.55
+      }
+    },
+    "euroDrawShift": {
+      "rule": "follow",
+      "low": -0.0114,
+      "high": 0.0118,
+      "development": {
+        "n": 4430,
+        "winRate": 0.4952,
+        "roi": -0.04,
+        "se": 0.0132,
+        "profit": -177.0
+      },
+      "holdout": {
+        "n": 3278,
+        "winRate": 0.4895,
+        "roi": -0.0561,
+        "se": 0.0152,
+        "profit": -183.78
+      },
+      "holdoutMacau": {
+        "n": 1386,
+        "winRate": 0.4764,
+        "roi": -0.0774,
+        "se": 0.0231,
+        "profit": -107.23
+      },
+      "holdoutFirstTier": {
+        "n": 1110,
+        "winRate": 0.4886,
+        "roi": -0.0501,
+        "se": 0.026,
+        "profit": -55.62
+      }
+    },
+    "total:M3": {
+      "rule": "fade",
+      "low": -0.0789,
+      "high": 0.1811,
+      "development": {
+        "n": 4302,
+        "winRate": 0.4872,
+        "roi": -0.0391,
+        "se": 0.0139,
+        "profit": -168.24
+      },
+      "holdout": {
+        "n": 3174,
+        "winRate": 0.4992,
+        "roi": -0.0228,
+        "se": 0.0161,
+        "profit": -72.36
+      }
+    },
+    "total:totLineSteps": null,
+    "total:lastSegOverWater": {
+      "rule": "follow",
+      "low": -0.06,
+      "high": 0.08,
+      "development": {
+        "n": 4634,
+        "winRate": 0.5287,
+        "roi": -0.0505,
+        "se": 0.0122,
+        "profit": -233.83
+      },
+      "holdout": {
+        "n": 3155,
+        "winRate": 0.5186,
+        "roi": -0.064,
+        "se": 0.0149,
+        "profit": -201.83
+      }
+    },
+    "total:euroDrawShift": {
+      "rule": "fade",
+      "low": -0.0114,
+      "high": 0.0118,
+      "development": {
+        "n": 4430,
+        "winRate": 0.513,
+        "roi": -0.0442,
+        "se": 0.013,
+        "profit": -195.74
+      },
+      "holdout": {
+        "n": 3278,
+        "winRate": 0.5095,
+        "roi": -0.0486,
+        "se": 0.0151,
+        "profit": -159.24
+      }
+    }
+  },
+  "quintiles": {
+    "M1": {
+      "cuts": [
+        -0.0506,
+        -0.012,
+        0.0175,
+        0.0651
+      ],
+      "buckets": [
+        {
+          "bucket": 1,
+          "development": {
+            "home_or_over": {
+              "n": 2177,
+              "winRate": 0.4909,
+              "roi": -0.0619,
+              "se": 0.0191,
+              "profit": -134.81
+            },
+            "away_or_under": {
+              "n": 2177,
+              "winRate": 0.5091,
+              "roi": -0.0374,
+              "se": 0.0189,
+              "profit": -81.34
+            }
+          },
+          "holdout": {
+            "home_or_over": {
+              "n": 1511,
+              "winRate": 0.4755,
+              "roi": -0.0893,
+              "se": 0.0227,
+              "profit": -134.98
+            },
+            "away_or_under": {
+              "n": 1511,
+              "winRate": 0.5245,
+              "roi": -0.0111,
+              "se": 0.0225,
+              "profit": -16.72
+            }
+          }
+        },
+        {
+          "bucket": 2,
+          "development": {
+            "home_or_over": {
+              "n": 2177,
+              "winRate": 0.48,
+              "roi": -0.0548,
+              "se": 0.0188,
+              "profit": -119.35
+            },
+            "away_or_under": {
+              "n": 2177,
+              "winRate": 0.52,
+              "roi": -0.0359,
+              "se": 0.0187,
+              "profit": -78.16
+            }
+          },
+          "holdout": {
+            "home_or_over": {
+              "n": 1649,
+              "winRate": 0.4673,
+              "roi": -0.0771,
+              "se": 0.0214,
+              "profit": -127.14
+            },
+            "away_or_under": {
+              "n": 1649,
+              "winRate": 0.5327,
+              "roi": -0.0179,
+              "se": 0.0213,
+              "profit": -29.53
+            }
+          }
+        },
+        {
+          "bucket": 3,
+          "development": {
+            "home_or_over": {
+              "n": 2176,
+              "winRate": 0.5071,
+              "roi": -0.0276,
+              "se": 0.0181,
+              "profit": -60.07
+            },
+            "away_or_under": {
+              "n": 2176,
+              "winRate": 0.4929,
+              "roi": -0.0629,
+              "se": 0.0182,
+              "profit": -136.84
+            }
+          },
+          "holdout": {
+            "home_or_over": {
+              "n": 1624,
+              "winRate": 0.4962,
+              "roi": -0.0427,
+              "se": 0.0208,
+              "profit": -69.3
+            },
+            "away_or_under": {
+              "n": 1624,
+              "winRate": 0.5038,
+              "roi": -0.0443,
+              "se": 0.0209,
+              "profit": -71.95
+            }
+          }
+        },
+        {
+          "bucket": 4,
+          "development": {
+            "home_or_over": {
+              "n": 2177,
+              "winRate": 0.5265,
+              "roi": -0.0192,
+              "se": 0.0186,
+              "profit": -41.78
+            },
+            "away_or_under": {
+              "n": 2177,
+              "winRate": 0.4735,
+              "roi": -0.076,
+              "se": 0.0187,
+              "profit": -165.41
+            }
+          },
+          "holdout": {
+            "home_or_over": {
+              "n": 1618,
+              "winRate": 0.5144,
+              "roi": -0.0476,
+              "se": 0.0212,
+              "profit": -77.09
+            },
+            "away_or_under": {
+              "n": 1618,
+              "winRate": 0.4856,
+              "roi": -0.0438,
+              "se": 0.0215,
+              "profit": -70.88
+            }
+          }
+        },
+        {
+          "bucket": 5,
+          "development": {
+            "home_or_over": {
+              "n": 2176,
+              "winRate": 0.5105,
+              "roi": -0.0291,
+              "se": 0.0187,
+              "profit": -63.4
+            },
+            "away_or_under": {
+              "n": 2176,
+              "winRate": 0.4895,
+              "roi": -0.0714,
+              "se": 0.0189,
+              "profit": -155.44
+            }
+          },
+          "holdout": {
+            "home_or_over": {
+              "n": 1466,
+              "winRate": 0.5164,
+              "roi": -0.0284,
+              "se": 0.0226,
+              "profit": -41.59
+            },
+            "away_or_under": {
+              "n": 1466,
+              "winRate": 0.4836,
+              "roi": -0.0699,
+              "se": 0.0231,
+              "profit": -102.47
+            }
+          }
+        }
+      ]
+    },
+    "M2": {
+      "cuts": [
+        -0.169,
+        -0.0404,
+        0.0496,
+        0.1819
+      ],
+      "buckets": [
+        {
+          "bucket": 1,
+          "development": {
+            "home_or_over": {
+              "n": 2215,
+              "winRate": 0.4769,
+              "roi": -0.0579,
+              "se": 0.0191,
+              "profit": -128.32
+            },
+            "away_or_under": {
+              "n": 2215,
+              "winRate": 0.5231,
+              "roi": -0.0423,
+              "se": 0.0177,
+              "profit": -93.7
+            }
+          },
+          "holdout": {
+            "home_or_over": {
+              "n": 1569,
+              "winRate": 0.4752,
+              "roi": -0.0632,
+              "se": 0.0227,
+              "profit": -99.15
+            },
+            "away_or_under": {
+              "n": 1569,
+              "winRate": 0.5248,
+              "roi": -0.0379,
+              "se": 0.0211,
+              "profit": -59.46
+            }
+          }
+        },
+        {
+          "bucket": 2,
+          "development": {
+            "home_or_over": {
+              "n": 2215,
+              "winRate": 0.4788,
+              "roi": -0.0562,
+              "se": 0.0188,
+              "profit": -124.48
+            },
+            "away_or_under": {
+              "n": 2215,
+              "winRate": 0.5212,
+              "roi": -0.0369,
+              "se": 0.0182,
+              "profit": -81.77
+            }
+          },
+          "holdout": {
+            "home_or_over": {
+              "n": 1618,
+              "winRate": 0.4717,
+              "roi": -0.0736,
+              "se": 0.0218,
+              "profit": -119.09
+            },
+            "away_or_under": {
+              "n": 1618,
+              "winRate": 0.5283,
+              "roi": -0.0165,
+              "se": 0.0212,
+              "profit": -26.69
+            }
+          }
+        },
+        {
+          "bucket": 3,
+          "development": {
+            "home_or_over": {
+              "n": 2214,
+              "winRate": 0.5063,
+              "roi": -0.0329,
+              "se": 0.0185,
+              "profit": -72.83
+            },
+            "away_or_under": {
+              "n": 2214,
+              "winRate": 0.4937,
+              "roi": -0.061,
+              "se": 0.0186,
+              "profit": -135.12
+            }
+          },
+          "holdout": {
+            "home_or_over": {
+              "n": 1621,
+              "winRate": 0.4873,
+              "roi": -0.0674,
+              "se": 0.0215,
+              "profit": -109.18
+            },
+            "away_or_under": {
+              "n": 1621,
+              "winRate": 0.5127,
+              "roi": -0.0206,
+              "se": 0.0214,
+              "profit": -33.33
+            }
+          }
+        },
+        {
+          "bucket": 4,
+          "development": {
+            "home_or_over": {
+              "n": 2215,
+              "winRate": 0.5168,
+              "roi": -0.0263,
+              "se": 0.018,
+              "profit": -58.19
+            },
+            "away_or_under": {
+              "n": 2215,
+              "winRate": 0.4832,
+              "roi": -0.0662,
+              "se": 0.0187,
+              "profit": -146.64
+            }
+          },
+          "holdout": {
+            "home_or_over": {
+              "n": 1628,
+              "winRate": 0.5171,
+              "roi": -0.0267,
+              "se": 0.021,
+              "profit": -43.44
+            },
+            "away_or_under": {
+              "n": 1628,
+              "winRate": 0.4829,
+              "roi": -0.0651,
+              "se": 0.0218,
+              "profit": -106.0
+            }
+          }
+        },
+        {
+          "bucket": 5,
+          "development": {
+            "home_or_over": {
+              "n": 2214,
+              "winRate": 0.5335,
+              "roi": -0.0235,
+              "se": 0.018,
+              "profit": -52.08
+            },
+            "away_or_under": {
+              "n": 2214,
+              "winRate": 0.4665,
+              "roi": -0.0744,
+              "se": 0.0194,
+              "profit": -164.62
+            }
+          },
+          "holdout": {
+            "home_or_over": {
+              "n": 1692,
+              "winRate": 0.5143,
+              "roi": -0.0543,
+              "se": 0.0203,
+              "profit": -91.82
+            },
+            "away_or_under": {
+              "n": 1692,
+              "winRate": 0.4857,
+              "roi": -0.0453,
+              "se": 0.0219,
+              "profit": -76.72
+            }
+          }
+        }
+      ]
+    },
+    "M4": {
+      "cuts": [
+        -0.0657,
+        -0.0161,
+        0.0134,
+        0.0626
+      ],
+      "buckets": [
+        {
+          "bucket": 1,
+          "development": {
+            "home_or_over": {
+              "n": 907,
+              "winRate": 0.4766,
+              "roi": -0.0593,
+              "se": 0.0299,
+              "profit": -53.77
+            },
+            "away_or_under": {
+              "n": 907,
+              "winRate": 0.5234,
+              "roi": -0.0217,
+              "se": 0.0286,
+              "profit": -19.64
+            }
+          },
+          "holdout": {
+            "home_or_over": {
+              "n": 445,
+              "winRate": 0.4743,
+              "roi": -0.0658,
+              "se": 0.0415,
+              "profit": -29.3
+            },
+            "away_or_under": {
+              "n": 445,
+              "winRate": 0.5257,
+              "roi": -0.0191,
+              "se": 0.0404,
+              "profit": -8.5
+            }
+          }
+        },
+        {
+          "bucket": 2,
+          "development": {
+            "home_or_over": {
+              "n": 906,
+              "winRate": 0.4917,
+              "roi": -0.0319,
+              "se": 0.0295,
+              "profit": -28.93
+            },
+            "away_or_under": {
+              "n": 906,
+              "winRate": 0.5083,
+              "roi": -0.0428,
+              "se": 0.029,
+              "profit": -38.82
+            }
+          },
+          "holdout": {
+            "home_or_over": {
+              "n": 768,
+              "winRate": 0.4881,
+              "roi": -0.0455,
+              "se": 0.0321,
+              "profit": -34.92
+            },
+            "away_or_under": {
+              "n": 768,
+              "winRate": 0.5119,
+              "roi": -0.023,
+              "se": 0.0318,
+              "profit": -17.7
+            }
+          }
+        },
+        {
+          "bucket": 3,
+          "development": {
+            "home_or_over": {
+              "n": 906,
+              "winRate": 0.5024,
+              "roi": -0.0334,
+              "se": 0.0292,
+              "profit": -30.25
+            },
+            "away_or_under": {
+              "n": 906,
+              "winRate": 0.4976,
+              "roi": -0.0433,
+              "se": 0.0291,
+              "profit": -39.19
+            }
+          },
+          "holdout": {
+            "home_or_over": {
+              "n": 716,
+              "winRate": 0.4872,
+              "roi": -0.0521,
+              "se": 0.0327,
+              "profit": -37.28
+            },
+            "away_or_under": {
+              "n": 716,
+              "winRate": 0.5128,
+              "roi": -0.0164,
+              "se": 0.0326,
+              "profit": -11.75
+            }
+          }
+        },
+        {
+          "bucket": 4,
+          "development": {
+            "home_or_over": {
+              "n": 906,
+              "winRate": 0.4982,
+              "roi": -0.0451,
+              "se": 0.0291,
+              "profit": -40.9
+            },
+            "away_or_under": {
+              "n": 906,
+              "winRate": 0.5018,
+              "roi": -0.0268,
+              "se": 0.0296,
+              "profit": -24.27
+            }
+          },
+          "holdout": {
+            "home_or_over": {
+              "n": 763,
+              "winRate": 0.4979,
+              "roi": -0.0443,
+              "se": 0.0314,
+              "profit": -33.84
+            },
+            "away_or_under": {
+              "n": 763,
+              "winRate": 0.5021,
+              "roi": -0.0244,
+              "se": 0.0319,
+              "profit": -18.61
+            }
+          }
+        },
+        {
+          "bucket": 5,
+          "development": {
+            "home_or_over": {
+              "n": 906,
+              "winRate": 0.5082,
+              "roi": -0.0417,
+              "se": 0.0286,
+              "profit": -37.82
+            },
+            "away_or_under": {
+              "n": 906,
+              "winRate": 0.4918,
+              "roi": -0.0339,
+              "se": 0.0298,
+              "profit": -30.67
+            }
+          },
+          "holdout": {
+            "home_or_over": {
+              "n": 477,
+              "winRate": 0.5022,
+              "roi": -0.059,
+              "se": 0.0397,
+              "profit": -28.16
+            },
+            "away_or_under": {
+              "n": 477,
+              "winRate": 0.4978,
+              "roi": -0.0273,
+              "se": 0.0408,
+              "profit": -13.03
+            }
+          }
+        }
+      ]
+    },
+    "M5": {
+      "cuts": [
+        -0.0892,
+        -0.0003,
+        0.0008,
+        0.0892
+      ],
+      "buckets": [
+        {
+          "bucket": 1,
+          "development": {
+            "home_or_over": {
+              "n": 2193,
+              "winRate": 0.501,
+              "roi": -0.0162,
+              "se": 0.0192,
+              "profit": -35.61
+            },
+            "away_or_under": {
+              "n": 2193,
+              "winRate": 0.499,
+              "roi": -0.0783,
+              "se": 0.0181,
+              "profit": -171.6
+            }
+          },
+          "holdout": {
+            "home_or_over": {
+              "n": 1409,
+              "winRate": 0.4608,
+              "roi": -0.0836,
+              "se": 0.0239,
+              "profit": -117.75
+            },
+            "away_or_under": {
+              "n": 1409,
+              "winRate": 0.5392,
+              "roi": -0.0127,
+              "se": 0.0225,
+              "profit": -17.96
+            }
+          }
+        },
+        {
+          "bucket": 2,
+          "development": {
+            "home_or_over": {
+              "n": 2193,
+              "winRate": 0.4803,
+              "roi": -0.0637,
+              "se": 0.0188,
+              "profit": -139.66
+            },
+            "away_or_under": {
+              "n": 2193,
+              "winRate": 0.5197,
+              "roi": -0.0218,
+              "se": 0.0185,
+              "profit": -47.72
+            }
+          },
+          "holdout": {
+            "home_or_over": {
+              "n": 1749,
+              "winRate": 0.5003,
+              "roi": -0.0351,
+              "se": 0.0209,
+              "profit": -61.35
+            },
+            "away_or_under": {
+              "n": 1749,
+              "winRate": 0.4997,
+              "roi": -0.0485,
+              "se": 0.0205,
+              "profit": -84.86
+            }
+          }
+        },
+        {
+          "bucket": 3,
+          "development": {
+            "home_or_over": {
+              "n": 2192,
+              "winRate": 0.4914,
+              "roi": -0.0645,
+              "se": 0.0184,
+              "profit": -141.42
+            },
+            "away_or_under": {
+              "n": 2192,
+              "winRate": 0.5086,
+              "roi": -0.045,
+              "se": 0.0185,
+              "profit": -98.67
+            }
+          },
+          "holdout": {
+            "home_or_over": {
+              "n": 1770,
+              "winRate": 0.5039,
+              "roi": -0.0441,
+              "se": 0.0203,
+              "profit": -78.06
+            },
+            "away_or_under": {
+              "n": 1770,
+              "winRate": 0.4961,
+              "roi": -0.0664,
+              "se": 0.0204,
+              "profit": -117.54
+            }
+          }
+        },
+        {
+          "bucket": 4,
+          "development": {
+            "home_or_over": {
+              "n": 2193,
+              "winRate": 0.5081,
+              "roi": -0.032,
+              "se": 0.0184,
+              "profit": -70.28
+            },
+            "away_or_under": {
+              "n": 2193,
+              "winRate": 0.4919,
+              "roi": -0.0552,
+              "se": 0.0187,
+              "profit": -121.12
+            }
+          },
+          "holdout": {
+            "home_or_over": {
+              "n": 1593,
+              "winRate": 0.488,
+              "roi": -0.0672,
+              "se": 0.0214,
+              "profit": -107.0
+            },
+            "away_or_under": {
+              "n": 1593,
+              "winRate": 0.512,
+              "roi": -0.0171,
+              "se": 0.0218,
+              "profit": -27.25
+            }
+          }
+        },
+        {
+          "bucket": 5,
+          "development": {
+            "home_or_over": {
+              "n": 2192,
+              "winRate": 0.5348,
+              "roi": -0.0147,
+              "se": 0.0181,
+              "profit": -32.23
+            },
+            "away_or_under": {
+              "n": 2192,
+              "winRate": 0.4652,
+              "roi": -0.0845,
+              "se": 0.0193,
+              "profit": -185.12
+            }
+          },
+          "holdout": {
+            "home_or_over": {
+              "n": 1552,
+              "winRate": 0.5107,
+              "roi": -0.0566,
+              "se": 0.0214,
+              "profit": -87.78
+            },
+            "away_or_under": {
+              "n": 1552,
+              "winRate": 0.4893,
+              "roi": -0.0364,
+              "se": 0.0228,
+              "profit": -56.47
+            }
+          }
+        }
+      ]
+    },
+    "lineSteps": {
+      "cuts": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "buckets": [
+        {
+          "bucket": 1,
+          "development": {
+            "home_or_over": {
+              "n": 8670,
+              "winRate": 0.5027,
+              "roi": -0.0391,
+              "se": 0.0093,
+              "profit": -339.06
+            },
+            "away_or_under": {
+              "n": 8670,
+              "winRate": 0.4973,
+              "roi": -0.0588,
+              "se": 0.0093,
+              "profit": -510.01
+            }
+          },
+          "holdout": {
+            "home_or_over": {
+              "n": 6253,
+              "winRate": 0.4931,
+              "roi": -0.0584,
+              "se": 0.0109,
+              "profit": -365.23
+            },
+            "away_or_under": {
+              "n": 6253,
+              "winRate": 0.5069,
+              "roi": -0.0375,
+              "se": 0.0109,
+              "profit": -234.18
+            }
+          }
+        },
+        {
+          "bucket": 2,
+          "development": {
+            "home_or_over": {
+              "n": 0
+            },
+            "away_or_under": {
+              "n": 0
+            }
+          },
+          "holdout": {
+            "home_or_over": {
+              "n": 0
+            },
+            "away_or_under": {
+              "n": 0
+            }
+          }
+        },
+        {
+          "bucket": 3,
+          "development": {
+            "home_or_over": {
+              "n": 0
+            },
+            "away_or_under": {
+              "n": 0
+            }
+          },
+          "holdout": {
+            "home_or_over": {
+              "n": 0
+            },
+            "away_or_under": {
+              "n": 0
+            }
+          }
+        },
+        {
+          "bucket": 4,
+          "development": {
+            "home_or_over": {
+              "n": 2024,
+              "winRate": 0.4926,
+              "roi": -0.0534,
+              "se": 0.0194,
+              "profit": -108.12
+            },
+            "away_or_under": {
+              "n": 2024,
+              "winRate": 0.5074,
+              "roi": -0.0325,
+              "se": 0.0195,
+              "profit": -65.78
+            }
+          },
+          "holdout": {
+            "home_or_over": {
+              "n": 1580,
+              "winRate": 0.5061,
+              "roi": -0.029,
+              "se": 0.0216,
+              "profit": -45.89
+            },
+            "away_or_under": {
+              "n": 1580,
+              "winRate": 0.4939,
+              "roi": -0.0605,
+              "se": 0.0218,
+              "profit": -95.56
+            }
+          }
+        },
+        {
+          "bucket": 5,
+          "development": {
+            "home_or_over": {
+              "n": 379,
+              "winRate": 0.5499,
+              "roi": 0.0298,
+              "se": 0.0445,
+              "profit": 11.29
+            },
+            "away_or_under": {
+              "n": 379,
+              "winRate": 0.4501,
+              "roi": -0.1215,
+              "se": 0.0453,
+              "profit": -46.06
+            }
+          },
+          "holdout": {
+            "home_or_over": {
+              "n": 295,
+              "winRate": 0.4317,
+              "roi": -0.1748,
+              "se": 0.0503,
+              "profit": -51.56
+            },
+            "away_or_under": {
+              "n": 295,
+              "winRate": 0.5683,
+              "roi": 0.0933,
+              "se": 0.052,
+              "profit": 27.53
+            }
+          }
+        }
+      ]
+    },
+    "lastSegWaterHome": {
+      "cuts": [
+        -0.1,
+        -0.03,
+        -0.0,
+        0.08
+      ],
+      "buckets": [
+        {
+          "bucket": 1,
+          "development": {
+            "home_or_over": {
+              "n": 2256,
+              "winRate": 0.4658,
+              "roi": -0.054,
+              "se": 0.0193,
+              "profit": -121.93
+            },
+            "away_or_under": {
+              "n": 2256,
+              "winRate": 0.5342,
+              "roi": -0.0419,
+              "se": 0.0172,
+              "profit": -94.42
+            }
+          },
+          "holdout": {
+            "home_or_over": {
+              "n": 1563,
+              "winRate": 0.4548,
+              "roi": -0.0764,
+              "se": 0.0231,
+              "profit": -119.41
+            },
+            "away_or_under": {
+              "n": 1563,
+              "winRate": 0.5452,
+              "roi": -0.0209,
+              "se": 0.0207,
+              "profit": -32.69
+            }
+          }
+        },
+        {
+          "bucket": 2,
+          "development": {
+            "home_or_over": {
+              "n": 2190,
+              "winRate": 0.4906,
+              "roi": -0.0458,
+              "se": 0.0189,
+              "profit": -100.3
+            },
+            "away_or_under": {
+              "n": 2190,
+              "winRate": 0.5094,
+              "roi": -0.0449,
+              "se": 0.0185,
+              "profit": -98.36
+            }
+          },
+          "holdout": {
+            "home_or_over": {
+              "n": 1621,
+              "winRate": 0.47,
+              "roi": -0.0826,
+              "se": 0.0217,
+              "profit": -133.93
+            },
+            "away_or_under": {
+              "n": 1621,
+              "winRate": 0.53,
+              "roi": -0.0047,
+              "se": 0.0213,
+              "profit": -7.55
+            }
+          }
+        },
+        {
+          "bucket": 3,
+          "development": {
+            "home_or_over": {
+              "n": 2301,
+              "winRate": 0.5124,
+              "roi": -0.0226,
+              "se": 0.018,
+              "profit": -51.94
+            },
+            "away_or_under": {
+              "n": 2301,
+              "winRate": 0.4876,
+              "roi": -0.0721,
+              "se": 0.0181,
+              "profit": -165.8
+            }
+          },
+          "holdout": {
+            "home_or_over": {
+              "n": 1764,
+              "winRate": 0.4893,
+              "roi": -0.0616,
+              "se": 0.0206,
+              "profit": -108.67
+            },
+            "away_or_under": {
+              "n": 1764,
+              "winRate": 0.5107,
+              "roi": -0.0321,
+              "se": 0.0207,
+              "profit": -56.62
+            }
+          }
+        },
+        {
+          "bucket": 4,
+          "development": {
+            "home_or_over": {
+              "n": 2208,
+              "winRate": 0.5041,
+              "roi": -0.0471,
+              "se": 0.0184,
+              "profit": -104.07
+            },
+            "away_or_under": {
+              "n": 2208,
+              "winRate": 0.4959,
+              "roi": -0.0437,
+              "se": 0.0189,
+              "profit": -96.53
+            }
+          },
+          "holdout": {
+            "home_or_over": {
+              "n": 1640,
+              "winRate": 0.5198,
+              "roi": -0.0225,
+              "se": 0.0212,
+              "profit": -36.96
+            },
+            "away_or_under": {
+              "n": 1640,
+              "winRate": 0.4802,
+              "roi": -0.0668,
+              "se": 0.0218,
+              "profit": -109.53
+            }
+          }
+        },
+        {
+          "bucket": 5,
+          "development": {
+            "home_or_over": {
+              "n": 2118,
+              "winRate": 0.5408,
+              "roi": -0.0272,
+              "se": 0.0178,
+              "profit": -57.66
+            },
+            "away_or_under": {
+              "n": 2118,
+              "winRate": 0.4592,
+              "roi": -0.0787,
+              "se": 0.02,
+              "profit": -166.75
+            }
+          },
+          "holdout": {
+            "home_or_over": {
+              "n": 1540,
+              "winRate": 0.5341,
+              "roi": -0.0414,
+              "se": 0.0204,
+              "profit": -63.72
+            },
+            "away_or_under": {
+              "n": 1540,
+              "winRate": 0.4659,
+              "roi": -0.0622,
+              "se": 0.023,
+              "profit": -95.81
+            }
+          }
+        }
+      ]
+    },
+    "lateLineSteps": {
+      "cuts": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "buckets": [
+        {
+          "bucket": 1,
+          "development": {
+            "home_or_over": {
+              "n": 9750,
+              "winRate": 0.5004,
+              "roi": -0.043,
+              "se": 0.0088,
+              "profit": -419.67
+            },
+            "away_or_under": {
+              "n": 9750,
+              "winRate": 0.4996,
+              "roi": -0.0541,
+              "se": 0.0088,
+              "profit": -527.48
+            }
+          },
+          "holdout": {
+            "home_or_over": {
+              "n": 7166,
+              "winRate": 0.4946,
+              "roi": -0.0554,
+              "se": 0.0102,
+              "profit": -397.16
+            },
+            "away_or_under": {
+              "n": 7166,
+              "winRate": 0.5054,
+              "roi": -0.0397,
+              "se": 0.0102,
+              "profit": -284.36
+            }
+          }
+        },
+        {
+          "bucket": 2,
+          "development": {
+            "home_or_over": {
+              "n": 0
+            },
+            "away_or_under": {
+              "n": 0
+            }
+          },
+          "holdout": {
+            "home_or_over": {
+              "n": 0
+            },
+            "away_or_under": {
+              "n": 0
+            }
+          }
+        },
+        {
+          "bucket": 3,
+          "development": {
+            "home_or_over": {
+              "n": 0
+            },
+            "away_or_under": {
+              "n": 0
+            }
+          },
+          "holdout": {
+            "home_or_over": {
+              "n": 0
+            },
+            "away_or_under": {
+              "n": 0
+            }
+          }
+        },
+        {
+          "bucket": 4,
+          "development": {
+            "home_or_over": {
+              "n": 0
+            },
+            "away_or_under": {
+              "n": 0
+            }
+          },
+          "holdout": {
+            "home_or_over": {
+              "n": 0
+            },
+            "away_or_under": {
+              "n": 0
+            }
+          }
+        },
+        {
+          "bucket": 5,
+          "development": {
+            "home_or_over": {
+              "n": 1323,
+              "winRate": 0.5175,
+              "roi": -0.0123,
+              "se": 0.0242,
+              "profit": -16.23
+            },
+            "away_or_under": {
+              "n": 1323,
+              "winRate": 0.4825,
+              "roi": -0.0713,
+              "se": 0.024,
+              "profit": -94.38
+            }
+          },
+          "holdout": {
+            "home_or_over": {
+              "n": 962,
+              "winRate": 0.4849,
+              "roi": -0.0681,
+              "se": 0.0282,
+              "profit": -65.53
+            },
+            "away_or_under": {
+              "n": 962,
+              "winRate": 0.5151,
+              "roi": -0.0186,
+              "se": 0.028,
+              "profit": -17.86
+            }
+          }
+        }
+      ]
+    },
+    "euroHomeShift": {
+      "cuts": [
+        -0.0662,
+        -0.0149,
+        0.0157,
+        0.0684
+      ],
+      "buckets": [
+        {
+          "bucket": 1,
+          "development": {
+            "home_or_over": {
+              "n": 2215,
+              "winRate": 0.4815,
+              "roi": -0.0485,
+              "se": 0.0191,
+              "profit": -107.48
+            },
+            "away_or_under": {
+              "n": 2215,
+              "winRate": 0.5185,
+              "roi": -0.0482,
+              "se": 0.0178,
+              "profit": -106.66
+            }
+          },
+          "holdout": {
+            "home_or_over": {
+              "n": 1624,
+              "winRate": 0.4779,
+              "roi": -0.0608,
+              "se": 0.0222,
+              "profit": -98.66
+            },
+            "away_or_under": {
+              "n": 1624,
+              "winRate": 0.5221,
+              "roi": -0.0387,
+              "se": 0.0208,
+              "profit": -62.78
+            }
+          }
+        },
+        {
+          "bucket": 2,
+          "development": {
+            "home_or_over": {
+              "n": 2215,
+              "winRate": 0.4726,
+              "roi": -0.072,
+              "se": 0.0188,
+              "profit": -159.38
+            },
+            "away_or_under": {
+              "n": 2215,
+              "winRate": 0.5274,
+              "roi": -0.0211,
+              "se": 0.0183,
+              "profit": -46.69
+            }
+          },
+          "holdout": {
+            "home_or_over": {
+              "n": 1549,
+              "winRate": 0.4557,
+              "roi": -0.1054,
+              "se": 0.0221,
+              "profit": -163.22
+            },
+            "away_or_under": {
+              "n": 1549,
+              "winRate": 0.5443,
+              "roi": 0.0127,
+              "se": 0.0216,
+              "profit": 19.71
+            }
+          }
+        },
+        {
+          "bucket": 3,
+          "development": {
+            "home_or_over": {
+              "n": 2214,
+              "winRate": 0.5084,
+              "roi": -0.028,
+              "se": 0.0185,
+              "profit": -61.97
+            },
+            "away_or_under": {
+              "n": 2214,
+              "winRate": 0.4916,
+              "roi": -0.0716,
+              "se": 0.0186,
+              "profit": -158.52
+            }
+          },
+          "holdout": {
+            "home_or_over": {
+              "n": 1693,
+              "winRate": 0.5003,
+              "roi": -0.0457,
+              "se": 0.0211,
+              "profit": -77.44
+            },
+            "away_or_under": {
+              "n": 1693,
+              "winRate": 0.4997,
+              "roi": -0.0452,
+              "se": 0.0211,
+              "profit": -76.56
+            }
+          }
+        },
+        {
+          "bucket": 4,
+          "development": {
+            "home_or_over": {
+              "n": 2215,
+              "winRate": 0.5182,
+              "roi": -0.0263,
+              "se": 0.018,
+              "profit": -58.35
+            },
+            "away_or_under": {
+              "n": 2215,
+              "winRate": 0.4818,
+              "roi": -0.0686,
+              "se": 0.0186,
+              "profit": -151.85
+            }
+          },
+          "holdout": {
+            "home_or_over": {
+              "n": 1589,
+              "winRate": 0.5101,
+              "roi": -0.0365,
+              "se": 0.0214,
+              "profit": -58.04
+            },
+            "away_or_under": {
+              "n": 1589,
+              "winRate": 0.4899,
+              "roi": -0.0548,
+              "se": 0.0221,
+              "profit": -87.04
+            }
+          }
+        },
+        {
+          "bucket": 5,
+          "development": {
+            "home_or_over": {
+              "n": 2214,
+              "winRate": 0.5317,
+              "roi": -0.022,
+              "se": 0.018,
+              "profit": -48.72
+            },
+            "away_or_under": {
+              "n": 2214,
+              "winRate": 0.4683,
+              "roi": -0.0714,
+              "se": 0.0193,
+              "profit": -158.15
+            }
+          },
+          "holdout": {
+            "home_or_over": {
+              "n": 1673,
+              "winRate": 0.5211,
+              "roi": -0.039,
+              "se": 0.0202,
+              "profit": -65.33
+            },
+            "away_or_under": {
+              "n": 1673,
+              "winRate": 0.4789,
+              "roi": -0.0571,
+              "se": 0.0217,
+              "profit": -95.55
+            }
+          }
+        }
+      ]
+    },
+    "euroDrawShift": {
+      "cuts": [
+        -0.0114,
+        -0.0015,
+        0.003,
+        0.0118
+      ],
+      "buckets": [
+        {
+          "bucket": 1,
+          "development": {
+            "home_or_over": {
+              "n": 2215,
+              "winRate": 0.514,
+              "roi": -0.043,
+              "se": 0.0183,
+              "profit": -95.27
+            },
+            "away_or_under": {
+              "n": 2215,
+              "winRate": 0.486,
+              "roi": -0.0585,
+              "se": 0.0187,
+              "profit": -129.67
+            }
+          },
+          "holdout": {
+            "home_or_over": {
+              "n": 1789,
+              "winRate": 0.514,
+              "roi": -0.0386,
+              "se": 0.02,
+              "profit": -69.02
+            },
+            "away_or_under": {
+              "n": 1789,
+              "winRate": 0.486,
+              "roi": -0.061,
+              "se": 0.0204,
+              "profit": -109.18
+            }
+          }
+        },
+        {
+          "bucket": 2,
+          "development": {
+            "home_or_over": {
+              "n": 2215,
+              "winRate": 0.4895,
+              "roi": -0.0621,
+              "se": 0.0185,
+              "profit": -137.47
+            },
+            "away_or_under": {
+              "n": 2215,
+              "winRate": 0.5105,
+              "roi": -0.0388,
+              "se": 0.0186,
+              "profit": -86.0
+            }
+          },
+          "holdout": {
+            "home_or_over": {
+              "n": 1710,
+              "winRate": 0.4962,
+              "roi": -0.0596,
+              "se": 0.0208,
+              "profit": -101.88
+            },
+            "away_or_under": {
+              "n": 1710,
+              "winRate": 0.5038,
+              "roi": -0.0375,
+              "se": 0.021,
+              "profit": -64.05
+            }
+          }
+        },
+        {
+          "bucket": 3,
+          "development": {
+            "home_or_over": {
+              "n": 2214,
+              "winRate": 0.5075,
+              "roi": -0.0327,
+              "se": 0.0184,
+              "profit": -72.45
+            },
+            "away_or_under": {
+              "n": 2214,
+              "winRate": 0.4925,
+              "roi": -0.0683,
+              "se": 0.0184,
+              "profit": -151.24
+            }
+          },
+          "holdout": {
+            "home_or_over": {
+              "n": 1630,
+              "winRate": 0.4947,
+              "roi": -0.052,
+              "se": 0.0214,
+              "profit": -84.73
+            },
+            "away_or_under": {
+              "n": 1630,
+              "winRate": 0.5053,
+              "roi": -0.0438,
+              "se": 0.0214,
+              "profit": -71.32
+            }
+          }
+        },
+        {
+          "bucket": 4,
+          "development": {
+            "home_or_over": {
+              "n": 2215,
+              "winRate": 0.4969,
+              "roi": -0.0381,
+              "se": 0.0186,
+              "profit": -84.39
+            },
+            "away_or_under": {
+              "n": 2215,
+              "winRate": 0.5031,
+              "roi": -0.0489,
+              "se": 0.0185,
+              "profit": -108.42
+            }
+          },
+          "holdout": {
+            "home_or_over": {
+              "n": 1510,
+              "winRate": 0.4651,
+              "roi": -0.0877,
+              "se": 0.0225,
+              "profit": -132.44
+            },
+            "away_or_under": {
+              "n": 1510,
+              "winRate": 0.5349,
+              "roi": -0.0005,
+              "se": 0.0224,
+              "profit": -0.68
+            }
+          }
+        },
+        {
+          "bucket": 5,
+          "development": {
+            "home_or_over": {
+              "n": 2214,
+              "winRate": 0.5046,
+              "roi": -0.0209,
+              "se": 0.0186,
+              "profit": -46.33
+            },
+            "away_or_under": {
+              "n": 2214,
+              "winRate": 0.4954,
+              "roi": -0.0662,
+              "se": 0.0184,
+              "profit": -146.52
+            }
+          },
+          "holdout": {
+            "home_or_over": {
+              "n": 1489,
+              "winRate": 0.4935,
+              "roi": -0.0501,
+              "se": 0.0226,
+              "profit": -74.61
+            },
+            "away_or_under": {
+              "n": 1489,
+              "winRate": 0.5065,
+              "roi": -0.0383,
+              "se": 0.0224,
+              "profit": -56.98
+            }
+          }
+        }
+      ]
+    },
+    "total:M3": {
+      "cuts": [
+        -0.0789,
+        -0.0002,
+        0.0641,
+        0.1811
+      ],
+      "buckets": [
+        {
+          "bucket": 1,
+          "development": {
+            "home_or_over": {
+              "n": 2151,
+              "winRate": 0.4772,
+              "roi": -0.0627,
+              "se": 0.0194,
+              "profit": -134.93
+            },
+            "away_or_under": {
+              "n": 2151,
+              "winRate": 0.5228,
+              "roi": -0.0321,
+              "se": 0.0185,
+              "profit": -69.0
+            }
+          },
+          "holdout": {
+            "home_or_over": {
+              "n": 1501,
+              "winRate": 0.4912,
+              "roi": -0.0381,
+              "se": 0.0232,
+              "profit": -57.12
+            },
+            "away_or_under": {
+              "n": 1501,
+              "winRate": 0.5088,
+              "roi": -0.0536,
+              "se": 0.0223,
+              "profit": -80.43
+            }
+          }
+        },
+        {
+          "bucket": 2,
+          "development": {
+            "home_or_over": {
+              "n": 2151,
+              "winRate": 0.4933,
+              "roi": -0.0417,
+              "se": 0.0189,
+              "profit": -89.8
+            },
+            "away_or_under": {
+              "n": 2151,
+              "winRate": 0.5067,
+              "roi": -0.0506,
+              "se": 0.0187,
+              "profit": -108.82
+            }
+          },
+          "holdout": {
+            "home_or_over": {
+              "n": 1449,
+              "winRate": 0.4912,
+              "roi": -0.0401,
+              "se": 0.0231,
+              "profit": -58.18
+            },
+            "away_or_under": {
+              "n": 1449,
+              "winRate": 0.5088,
+              "roi": -0.0555,
+              "se": 0.0228,
+              "profit": -80.48
+            }
+          }
+        },
+        {
+          "bucket": 3,
+          "development": {
+            "home_or_over": {
+              "n": 2150,
+              "winRate": 0.4906,
+              "roi": -0.0624,
+              "se": 0.0189,
+              "profit": -134.09
+            },
+            "away_or_under": {
+              "n": 2150,
+              "winRate": 0.5094,
+              "roi": -0.0338,
+              "se": 0.0189,
+              "profit": -72.58
+            }
+          },
+          "holdout": {
+            "home_or_over": {
+              "n": 1701,
+              "winRate": 0.5195,
+              "roi": -0.0125,
+              "se": 0.0211,
+              "profit": -21.33
+            },
+            "away_or_under": {
+              "n": 1701,
+              "winRate": 0.4805,
+              "roi": -0.0839,
+              "se": 0.0212,
+              "profit": -142.64
+            }
+          }
+        },
+        {
+          "bucket": 4,
+          "development": {
+            "home_or_over": {
+              "n": 2151,
+              "winRate": 0.5169,
+              "roi": -0.0465,
+              "se": 0.0187,
+              "profit": -100.0
+            },
+            "away_or_under": {
+              "n": 2151,
+              "winRate": 0.4831,
+              "roi": -0.0557,
+              "se": 0.0195,
+              "profit": -119.89
+            }
+          },
+          "holdout": {
+            "home_or_over": {
+              "n": 1599,
+              "winRate": 0.5056,
+              "roi": -0.0531,
+              "se": 0.0217,
+              "profit": -84.93
+            },
+            "away_or_under": {
+              "n": 1599,
+              "winRate": 0.4944,
+              "roi": -0.0466,
+              "se": 0.0226,
+              "profit": -74.59
+            }
+          }
+        },
+        {
+          "bucket": 5,
+          "development": {
+            "home_or_over": {
+              "n": 2150,
+              "winRate": 0.5025,
+              "roi": -0.089,
+              "se": 0.0181,
+              "profit": -191.38
+            },
+            "away_or_under": {
+              "n": 2150,
+              "winRate": 0.4975,
+              "roi": -0.015,
+              "se": 0.0198,
+              "profit": -32.32
+            }
+          },
+          "holdout": {
+            "home_or_over": {
+              "n": 1673,
+              "winRate": 0.4937,
+              "roi": -0.0948,
+              "se": 0.0206,
+              "profit": -158.58
+            },
+            "away_or_under": {
+              "n": 1673,
+              "winRate": 0.5063,
+              "roi": -0.0091,
+              "se": 0.0223,
+              "profit": -15.24
+            }
+          }
+        }
+      ]
+    },
+    "total:totLineSteps": {
+      "cuts": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "buckets": [
+        {
+          "bucket": 1,
+          "development": {
+            "home_or_over": {
+              "n": 8905,
+              "winRate": 0.5001,
+              "roi": -0.0544,
+              "se": 0.0092,
+              "profit": -484.24
+            },
+            "away_or_under": {
+              "n": 8905,
+              "winRate": 0.4999,
+              "roi": -0.0456,
+              "se": 0.0094,
+              "profit": -406.45
+            }
+          },
+          "holdout": {
+            "home_or_over": {
+              "n": 6181,
+              "winRate": 0.5081,
+              "roi": -0.0349,
+              "se": 0.0111,
+              "profit": -215.75
+            },
+            "away_or_under": {
+              "n": 6181,
+              "winRate": 0.4919,
+              "roi": -0.0652,
+              "se": 0.0113,
+              "profit": -402.76
+            }
+          }
+        },
+        {
+          "bucket": 2,
+          "development": {
+            "home_or_over": {
+              "n": 0
+            },
+            "away_or_under": {
+              "n": 0
+            }
+          },
+          "holdout": {
+            "home_or_over": {
+              "n": 0
+            },
+            "away_or_under": {
+              "n": 0
+            }
+          }
+        },
+        {
+          "bucket": 3,
+          "development": {
+            "home_or_over": {
+              "n": 0
+            },
+            "away_or_under": {
+              "n": 0
+            }
+          },
+          "holdout": {
+            "home_or_over": {
+              "n": 0
+            },
+            "away_or_under": {
+              "n": 0
+            }
+          }
+        },
+        {
+          "bucket": 4,
+          "development": {
+            "home_or_over": {
+              "n": 0
+            },
+            "away_or_under": {
+              "n": 0
+            }
+          },
+          "holdout": {
+            "home_or_over": {
+              "n": 0
+            },
+            "away_or_under": {
+              "n": 0
+            }
+          }
+        },
+        {
+          "bucket": 5,
+          "development": {
+            "home_or_over": {
+              "n": 2168,
+              "winRate": 0.4848,
+              "roi": -0.0788,
+              "se": 0.0188,
+              "profit": -170.76
+            },
+            "away_or_under": {
+              "n": 2168,
+              "winRate": 0.5152,
+              "roi": -0.0148,
+              "se": 0.0189,
+              "profit": -32.16
+            }
+          },
+          "holdout": {
+            "home_or_over": {
+              "n": 1947,
+              "winRate": 0.4765,
+              "roi": -0.0917,
+              "se": 0.0199,
+              "profit": -178.5
+            },
+            "away_or_under": {
+              "n": 1947,
+              "winRate": 0.5235,
+              "roi": -0.0021,
+              "se": 0.0201,
+              "profit": -4.15
+            }
+          }
+        }
+      ]
+    },
+    "total:lastSegOverWater": {
+      "cuts": [
+        -0.06,
+        -0.01,
+        0.02,
+        0.08
+      ],
+      "buckets": [
+        {
+          "bucket": 1,
+          "development": {
+            "home_or_over": {
+              "n": 2350,
+              "winRate": 0.4726,
+              "roi": -0.0499,
+              "se": 0.0187,
+              "profit": -117.23
+            },
+            "away_or_under": {
+              "n": 2350,
+              "winRate": 0.5274,
+              "roi": -0.0432,
+              "se": 0.0174,
+              "profit": -101.52
+            }
+          },
+          "holdout": {
+            "home_or_over": {
+              "n": 1605,
+              "winRate": 0.4812,
+              "roi": -0.036,
+              "se": 0.0229,
+              "profit": -57.71
+            },
+            "away_or_under": {
+              "n": 1605,
+              "winRate": 0.5188,
+              "roi": -0.0546,
+              "se": 0.0213,
+              "profit": -87.7
+            }
+          }
+        },
+        {
+          "bucket": 2,
+          "development": {
+            "home_or_over": {
+              "n": 2221,
+              "winRate": 0.4948,
+              "roi": -0.0475,
+              "se": 0.0188,
+              "profit": -105.61
+            },
+            "away_or_under": {
+              "n": 2221,
+              "winRate": 0.5052,
+              "roi": -0.0451,
+              "se": 0.0187,
+              "profit": -100.26
+            }
+          },
+          "holdout": {
+            "home_or_over": {
+              "n": 1642,
+              "winRate": 0.4984,
+              "roi": -0.0353,
+              "se": 0.0216,
+              "profit": -58.02
+            },
+            "away_or_under": {
+              "n": 1642,
+              "winRate": 0.5016,
+              "roi": -0.0545,
+              "se": 0.0215,
+              "profit": -89.42
+            }
+          }
+        },
+        {
+          "bucket": 3,
+          "development": {
+            "home_or_over": {
+              "n": 2090,
+              "winRate": 0.4964,
+              "roi": -0.0624,
+              "se": 0.0192,
+              "profit": -130.44
+            },
+            "away_or_under": {
+              "n": 2090,
+              "winRate": 0.5036,
+              "roi": -0.0417,
+              "se": 0.0192,
+              "profit": -87.11
+            }
+          },
+          "holdout": {
+            "home_or_over": {
+              "n": 1617,
+              "winRate": 0.4967,
+              "roi": -0.0553,
+              "se": 0.0216,
+              "profit": -89.46
+            },
+            "away_or_under": {
+              "n": 1617,
+              "winRate": 0.5033,
+              "roi": -0.0485,
+              "se": 0.0217,
+              "profit": -78.47
+            }
+          }
+        },
+        {
+          "bucket": 4,
+          "development": {
+            "home_or_over": {
+              "n": 2254,
+              "winRate": 0.4984,
+              "roi": -0.0714,
+              "se": 0.0181,
+              "profit": -160.97
+            },
+            "away_or_under": {
+              "n": 2254,
+              "winRate": 0.5016,
+              "roi": -0.0226,
+              "se": 0.0188,
+              "profit": -50.88
+            }
+          },
+          "holdout": {
+            "home_or_over": {
+              "n": 1825,
+              "winRate": 0.5051,
+              "roi": -0.0505,
+              "se": 0.0203,
+              "profit": -92.22
+            },
+            "away_or_under": {
+              "n": 1825,
+              "winRate": 0.4949,
+              "roi": -0.0488,
+              "se": 0.021,
+              "profit": -88.98
+            }
+          }
+        },
+        {
+          "bucket": 5,
+          "development": {
+            "home_or_over": {
+              "n": 2158,
+              "winRate": 0.5257,
+              "roi": -0.0652,
+              "se": 0.0177,
+              "profit": -140.75
+            },
+            "away_or_under": {
+              "n": 2158,
+              "winRate": 0.4743,
+              "roi": -0.0458,
+              "se": 0.0201,
+              "profit": -98.85
+            }
+          },
+          "holdout": {
+            "home_or_over": {
+              "n": 1439,
+              "winRate": 0.5232,
+              "roi": -0.0673,
+              "se": 0.0217,
+              "profit": -96.83
+            },
+            "away_or_under": {
+              "n": 1439,
+              "winRate": 0.4768,
+              "roi": -0.0433,
+              "se": 0.0246,
+              "profit": -62.34
+            }
+          }
+        }
+      ]
+    },
+    "total:euroDrawShift": {
+      "cuts": [
+        -0.0114,
+        -0.0015,
+        0.003,
+        0.0118
+      ],
+      "buckets": [
+        {
+          "bucket": 1,
+          "development": {
+            "home_or_over": {
+              "n": 2215,
+              "winRate": 0.5184,
+              "roi": -0.0405,
+              "se": 0.0182,
+              "profit": -89.71
+            },
+            "away_or_under": {
+              "n": 2215,
+              "winRate": 0.4816,
+              "roi": -0.0604,
+              "se": 0.0192,
+              "profit": -133.82
+            }
+          },
+          "holdout": {
+            "home_or_over": {
+              "n": 1789,
+              "winRate": 0.5036,
+              "roi": -0.0614,
+              "se": 0.0203,
+              "profit": -109.9
+            },
+            "away_or_under": {
+              "n": 1789,
+              "winRate": 0.4964,
+              "roi": -0.0437,
+              "se": 0.0213,
+              "profit": -78.26
+            }
+          }
+        },
+        {
+          "bucket": 2,
+          "development": {
+            "home_or_over": {
+              "n": 2215,
+              "winRate": 0.4899,
+              "roi": -0.0881,
+              "se": 0.0182,
+              "profit": -195.06
+            },
+            "away_or_under": {
+              "n": 2215,
+              "winRate": 0.5101,
+              "roi": -0.0141,
+              "se": 0.0189,
+              "profit": -31.2
+            }
+          },
+          "holdout": {
+            "home_or_over": {
+              "n": 1710,
+              "winRate": 0.5117,
+              "roi": -0.0446,
+              "se": 0.021,
+              "profit": -76.25
+            },
+            "away_or_under": {
+              "n": 1710,
+              "winRate": 0.4883,
+              "roi": -0.0583,
+              "se": 0.0217,
+              "profit": -99.68
+            }
+          }
+        },
+        {
+          "bucket": 3,
+          "development": {
+            "home_or_over": {
+              "n": 2214,
+              "winRate": 0.5053,
+              "roi": -0.0468,
+              "se": 0.0184,
+              "profit": -103.52
+            },
+            "away_or_under": {
+              "n": 2214,
+              "winRate": 0.4947,
+              "roi": -0.0554,
+              "se": 0.0186,
+              "profit": -122.77
+            }
+          },
+          "holdout": {
+            "home_or_over": {
+              "n": 1630,
+              "winRate": 0.4997,
+              "roi": -0.0421,
+              "se": 0.0216,
+              "profit": -68.65
+            },
+            "away_or_under": {
+              "n": 1630,
+              "winRate": 0.5003,
+              "roi": -0.0582,
+              "se": 0.0218,
+              "profit": -94.85
+            }
+          }
+        },
+        {
+          "bucket": 4,
+          "development": {
+            "home_or_over": {
+              "n": 2215,
+              "winRate": 0.4798,
+              "roi": -0.0752,
+              "se": 0.0188,
+              "profit": -166.66
+            },
+            "away_or_under": {
+              "n": 2215,
+              "winRate": 0.5202,
+              "roi": -0.0199,
+              "se": 0.0186,
+              "profit": -44.0
+            }
+          },
+          "holdout": {
+            "home_or_over": {
+              "n": 1510,
+              "winRate": 0.5024,
+              "roi": -0.0333,
+              "se": 0.0227,
+              "profit": -50.23
+            },
+            "away_or_under": {
+              "n": 1510,
+              "winRate": 0.4976,
+              "roi": -0.0561,
+              "se": 0.0226,
+              "profit": -84.78
+            }
+          }
+        },
+        {
+          "bucket": 5,
+          "development": {
+            "home_or_over": {
+              "n": 2214,
+              "winRate": 0.4926,
+              "roi": -0.0452,
+              "se": 0.0189,
+              "profit": -100.05
+            },
+            "away_or_under": {
+              "n": 2214,
+              "winRate": 0.5074,
+              "roi": -0.0482,
+              "se": 0.0186,
+              "profit": -106.83
+            }
+          },
+          "holdout": {
+            "home_or_over": {
+              "n": 1489,
+              "winRate": 0.4833,
+              "roi": -0.0599,
+              "se": 0.0229,
+              "profit": -89.23
+            },
+            "away_or_under": {
+              "n": 1489,
+              "winRate": 0.5167,
+              "roi": -0.0331,
+              "se": 0.0225,
+              "profit": -49.34
+            }
+          }
+        }
+      ]
+    }
+  },
+  "patterns": {
+    "升盘·升水": {
+      "development": {
+        "favourite": {
+          "n": 487,
+          "winRate": 0.4837,
+          "roi": -0.0223,
+          "se": 0.041,
+          "profit": -10.85
+        },
+        "underdog": {
+          "n": 487,
+          "winRate": 0.5163,
+          "roi": -0.0652,
+          "se": 0.0383,
+          "profit": -31.77
+        }
+      },
+      "holdout": {
+        "favourite": {
+          "n": 358,
+          "winRate": 0.5324,
+          "roi": 0.0521,
+          "se": 0.0475,
+          "profit": 18.65
+        },
+        "underdog": {
+          "n": 358,
+          "winRate": 0.4676,
+          "roi": -0.132,
+          "se": 0.0447,
+          "profit": -47.27
+        }
+      }
+    },
+    "升盘·水平": {
+      "development": {
+        "favourite": {
+          "n": 915,
+          "winRate": 0.4872,
+          "roi": -0.0381,
+          "se": 0.0291,
+          "profit": -34.84
+        },
+        "underdog": {
+          "n": 915,
+          "winRate": 0.5128,
+          "roi": -0.0537,
+          "se": 0.0285,
+          "profit": -49.17
+        }
+      },
+      "holdout": {
+        "favourite": {
+          "n": 744,
+          "winRate": 0.4658,
+          "roi": -0.0746,
+          "se": 0.0323,
+          "profit": -55.52
+        },
+        "underdog": {
+          "n": 744,
+          "winRate": 0.5342,
+          "roi": -0.0135,
+          "se": 0.0315,
+          "profit": -10.03
+        }
+      }
+    },
+    "升盘·降水": {
+      "development": {
+        "favourite": {
+          "n": 1389,
+          "winRate": 0.4911,
+          "roi": -0.0738,
+          "se": 0.0227,
+          "profit": -102.52
+        },
+        "underdog": {
+          "n": 1389,
+          "winRate": 0.5089,
+          "roi": -0.0129,
+          "se": 0.0243,
+          "profit": -17.91
+        }
+      },
+      "holdout": {
+        "favourite": {
+          "n": 1187,
+          "winRate": 0.4991,
+          "roi": -0.0605,
+          "se": 0.0244,
+          "profit": -71.76
+        },
+        "underdog": {
+          "n": 1187,
+          "winRate": 0.5009,
+          "roi": -0.027,
+          "se": 0.026,
+          "profit": -32.01
+        }
+      }
+    },
+    "盘不变·升水": {
+      "development": {
+        "favourite": {
+          "n": 2674,
+          "winRate": 0.4562,
+          "roi": -0.0702,
+          "se": 0.0175,
+          "profit": -187.63
+        },
+        "underdog": {
+          "n": 2674,
+          "winRate": 0.5438,
+          "roi": -0.0265,
+          "se": 0.0164,
+          "profit": -70.87
+        }
+      },
+      "holdout": {
+        "favourite": {
+          "n": 1755,
+          "winRate": 0.4447,
+          "roi": -0.0802,
+          "se": 0.0213,
+          "profit": -140.81
+        },
+        "underdog": {
+          "n": 1755,
+          "winRate": 0.5553,
+          "roi": -0.0125,
+          "se": 0.0201,
+          "profit": -21.9
+        }
+      }
+    },
+    "盘不变·水平": {
+      "development": {
+        "favourite": {
+          "n": 1488,
+          "winRate": 0.5104,
+          "roi": -0.015,
+          "se": 0.0224,
+          "profit": -22.31
+        },
+        "underdog": {
+          "n": 1488,
+          "winRate": 0.4896,
+          "roi": -0.0815,
+          "se": 0.0227,
+          "profit": -121.25
+        }
+      },
+      "holdout": {
+        "favourite": {
+          "n": 1137,
+          "winRate": 0.492,
+          "roi": -0.0385,
+          "se": 0.0254,
+          "profit": -43.78
+        },
+        "underdog": {
+          "n": 1137,
+          "winRate": 0.508,
+          "roi": -0.0552,
+          "se": 0.0258,
+          "profit": -62.8
+        }
+      }
+    },
+    "盘不变·降水": {
+      "development": {
+        "favourite": {
+          "n": 2314,
+          "winRate": 0.532,
+          "roi": -0.0186,
+          "se": 0.017,
+          "profit": -42.98
+        },
+        "underdog": {
+          "n": 2314,
+          "winRate": 0.468,
+          "roi": -0.0886,
+          "se": 0.0187,
+          "profit": -205.07
+        }
+      },
+      "holdout": {
+        "favourite": {
+          "n": 1713,
+          "winRate": 0.5529,
+          "roi": 0.0091,
+          "se": 0.0197,
+          "profit": 15.57
+        },
+        "underdog": {
+          "n": 1713,
+          "winRate": 0.4471,
+          "roi": -0.1161,
+          "se": 0.0217,
+          "profit": -198.79
+        }
+      }
+    },
+    "降盘·升水": {
+      "development": {
+        "favourite": {
+          "n": 852,
+          "winRate": 0.4739,
+          "roi": -0.0401,
+          "se": 0.0308,
+          "profit": -34.15
+        },
+        "underdog": {
+          "n": 852,
+          "winRate": 0.5261,
+          "roi": -0.047,
+          "se": 0.0291,
+          "profit": -40.03
+        }
+      },
+      "holdout": {
+        "favourite": {
+          "n": 574,
+          "winRate": 0.4794,
+          "roi": -0.0478,
+          "se": 0.0369,
+          "profit": -27.46
+        },
+        "underdog": {
+          "n": 574,
+          "winRate": 0.5206,
+          "roi": -0.0449,
+          "se": 0.0353,
+          "profit": -25.75
+        }
+      }
+    },
+    "降盘·水平": {
+      "development": {
+        "favourite": {
+          "n": 628,
+          "winRate": 0.4956,
+          "roi": -0.0478,
+          "se": 0.0335,
+          "profit": -30.05
+        },
+        "underdog": {
+          "n": 628,
+          "winRate": 0.5044,
+          "roi": -0.0425,
+          "se": 0.0351,
+          "profit": -26.69
+        }
+      },
+      "holdout": {
+        "favourite": {
+          "n": 448,
+          "winRate": 0.4887,
+          "roi": -0.0612,
+          "se": 0.0395,
+          "profit": -27.4
+        },
+        "underdog": {
+          "n": 448,
+          "winRate": 0.5113,
+          "roi": -0.0318,
+          "se": 0.0412,
+          "profit": -14.22
+        }
+      }
+    },
+    "降盘·降水": {
+      "development": {
+        "favourite": {
+          "n": 326,
+          "winRate": 0.5188,
+          "roi": -0.0257,
+          "se": 0.0452,
+          "profit": -8.37
+        },
+        "underdog": {
+          "n": 326,
+          "winRate": 0.4812,
+          "roi": -0.0653,
+          "se": 0.0492,
+          "profit": -21.29
+        }
+      },
+      "holdout": {
+        "favourite": {
+          "n": 212,
+          "winRate": 0.5851,
+          "roi": 0.0682,
+          "se": 0.0545,
+          "profit": 14.45
+        },
+        "underdog": {
+          "n": 212,
+          "winRate": 0.4149,
+          "roi": -0.1607,
+          "se": 0.0595,
+          "profit": -34.08
+        }
+      }
+    }
+  },
+  "consensus": {
+    ">=2 agree, none against": {
+      "development": {
+        "n": 4692,
+        "winRate": 0.5278,
+        "roi": -0.0265,
+        "se": 0.0123,
+        "profit": -124.48
+      },
+      "developmentMacau": {
+        "n": 2170,
+        "winRate": 0.5341,
+        "roi": -0.0238,
+        "se": 0.0181,
+        "profit": -51.74
+      },
+      "holdout": {
+        "n": 3296,
+        "winRate": 0.5211,
+        "roi": -0.0418,
+        "se": 0.0145,
+        "profit": -137.74
+      },
+      "holdoutMacau": {
+        "n": 1412,
+        "winRate": 0.5257,
+        "roi": -0.0311,
+        "se": 0.0225,
+        "profit": -43.89
+      }
+    },
+    ">=3 agree, none against": {
+      "development": {
+        "n": 1881,
+        "winRate": 0.5292,
+        "roi": -0.0254,
+        "se": 0.0195,
+        "profit": -47.78
+      },
+      "developmentMacau": {
+        "n": 1208,
+        "winRate": 0.5499,
+        "roi": 0.0022,
+        "se": 0.0241,
+        "profit": 2.63
+      },
+      "holdout": {
+        "n": 1113,
+        "winRate": 0.5231,
+        "roi": -0.0425,
+        "se": 0.0251,
+        "profit": -47.3
+      },
+      "holdoutMacau": {
+        "n": 631,
+        "winRate": 0.5151,
+        "roi": -0.0473,
+        "se": 0.0336,
+        "profit": -29.85
+      }
+    },
+    ">=4 agree, none against": {
+      "development": {
+        "n": 259,
+        "winRate": 0.5605,
+        "roi": 0.0425,
+        "se": 0.0538,
+        "profit": 11.0
+      },
+      "developmentMacau": {
+        "n": 259,
+        "winRate": 0.5813,
+        "roi": 0.0715,
+        "se": 0.0521,
+        "profit": 18.51
+      },
+      "holdout": {
+        "n": 145,
+        "winRate": 0.5255,
+        "roi": -0.045,
+        "se": 0.0715,
+        "profit": -6.52
+      },
+      "holdoutMacau": {
+        "n": 145,
+        "winRate": 0.5461,
+        "roi": -0.0177,
+        "se": 0.0713,
+        "profit": -2.56
+      }
+    }
+  },
+  "waterFollow": {
+    "anyLinePath|water>=0.03": {
+      "development": {
+        "royal": {
+          "n": 8139,
+          "winRate": 0.5228,
+          "roi": -0.0415,
+          "se": 0.0093,
+          "profit": -337.4
+        },
+        "macau": {
+          "n": 3368,
+          "winRate": 0.5207,
+          "roi": -0.0381,
+          "se": 0.0146,
+          "profit": -128.36
+        },
+        "macauFresh120": {
+          "n": 1693,
+          "winRate": 0.5167,
+          "roi": -0.0515,
+          "se": 0.0206,
+          "profit": -87.23
+        }
+      },
+      "holdout": {
+        "royal": {
+          "n": 5915,
+          "winRate": 0.5345,
+          "roi": -0.021,
+          "se": 0.0108,
+          "profit": -123.95
+        },
+        "macau": {
+          "n": 2322,
+          "winRate": 0.5171,
+          "roi": -0.0334,
+          "se": 0.0176,
+          "profit": -77.6
+        },
+        "macauFresh120": {
+          "n": 1640,
+          "winRate": 0.5079,
+          "roi": -0.044,
+          "se": 0.0208,
+          "profit": -72.2
+        }
+      }
+    },
+    "anyLinePath|water>=0.05": {
+      "development": {
+        "royal": {
+          "n": 6793,
+          "winRate": 0.5269,
+          "roi": -0.0402,
+          "se": 0.0101,
+          "profit": -272.75
+        },
+        "macau": {
+          "n": 2749,
+          "winRate": 0.5221,
+          "roi": -0.0393,
+          "se": 0.0161,
+          "profit": -108.17
+        },
+        "macauFresh120": {
+          "n": 1431,
+          "winRate": 0.5131,
+          "roi": -0.0607,
+          "se": 0.0224,
+          "profit": -86.92
+        }
+      },
+      "holdout": {
+        "royal": {
+          "n": 4895,
+          "winRate": 0.539,
+          "roi": -0.0203,
+          "se": 0.0118,
+          "profit": -99.13
+        },
+        "macau": {
+          "n": 1855,
+          "winRate": 0.52,
+          "roi": -0.0322,
+          "se": 0.0197,
+          "profit": -59.74
+        },
+        "macauFresh120": {
+          "n": 1338,
+          "winRate": 0.5105,
+          "roi": -0.0429,
+          "se": 0.0231,
+          "profit": -57.4
+        }
+      }
+    },
+    "anyLinePath|water>=0.08": {
+      "development": {
+        "royal": {
+          "n": 5037,
+          "winRate": 0.5344,
+          "roi": -0.0377,
+          "se": 0.0116,
+          "profit": -190.15
+        },
+        "macau": {
+          "n": 2005,
+          "winRate": 0.5284,
+          "roi": -0.0328,
+          "se": 0.0188,
+          "profit": -65.69
+        },
+        "macauFresh120": {
+          "n": 1126,
+          "winRate": 0.5113,
+          "roi": -0.0654,
+          "se": 0.0252,
+          "profit": -73.66
+        }
+      },
+      "holdout": {
+        "royal": {
+          "n": 3606,
+          "winRate": 0.5417,
+          "roi": -0.0241,
+          "se": 0.0136,
+          "profit": -86.95
+        },
+        "macau": {
+          "n": 1330,
+          "winRate": 0.5171,
+          "roi": -0.0398,
+          "se": 0.023,
+          "profit": -52.92
+        },
+        "macauFresh120": {
+          "n": 974,
+          "winRate": 0.515,
+          "roi": -0.0388,
+          "se": 0.0267,
+          "profit": -37.83
+        }
+      }
+    },
+    "anyLinePath|water>=0.12": {
+      "development": {
+        "royal": {
+          "n": 3259,
+          "winRate": 0.5447,
+          "roi": -0.0302,
+          "se": 0.0142,
+          "profit": -98.35
+        },
+        "macau": {
+          "n": 1294,
+          "winRate": 0.5405,
+          "roi": -0.0169,
+          "se": 0.0233,
+          "profit": -21.87
+        },
+        "macauFresh120": {
+          "n": 774,
+          "winRate": 0.5309,
+          "roi": -0.0393,
+          "se": 0.0302,
+          "profit": -30.4
+        }
+      },
+      "holdout": {
+        "royal": {
+          "n": 2283,
+          "winRate": 0.5436,
+          "roi": -0.0343,
+          "se": 0.0168,
+          "profit": -78.41
+        },
+        "macau": {
+          "n": 852,
+          "winRate": 0.5209,
+          "roi": -0.0404,
+          "se": 0.0287,
+          "profit": -34.43
+        },
+        "macauFresh120": {
+          "n": 638,
+          "winRate": 0.5261,
+          "roi": -0.0304,
+          "se": 0.0329,
+          "profit": -19.38
+        }
+      }
+    },
+    "lineNeverChanged|water>=0.03": {
+      "development": {
+        "royal": {
+          "n": 4000,
+          "winRate": 0.5398,
+          "roi": -0.0244,
+          "se": 0.0131,
+          "profit": -97.52
+        },
+        "macau": {
+          "n": 1298,
+          "winRate": 0.5379,
+          "roi": -0.0151,
+          "se": 0.0236,
+          "profit": -19.66
+        },
+        "macauFresh120": {
+          "n": 416,
+          "winRate": 0.5232,
+          "roi": -0.0493,
+          "se": 0.0417,
+          "profit": -20.49
+        }
+      },
+      "holdout": {
+        "royal": {
+          "n": 2672,
+          "winRate": 0.5585,
+          "roi": 0.0022,
+          "se": 0.0159,
+          "profit": 5.97
+        },
+        "macau": {
+          "n": 810,
+          "winRate": 0.5613,
+          "roi": 0.0274,
+          "se": 0.0294,
+          "profit": 22.19
+        },
+        "macauFresh120": {
+          "n": 476,
+          "winRate": 0.5608,
+          "roi": 0.0319,
+          "se": 0.0381,
+          "profit": 15.21
+        }
+      }
+    },
+    "lineNeverChanged|water>=0.05": {
+      "development": {
+        "royal": {
+          "n": 3395,
+          "winRate": 0.5453,
+          "roi": -0.0197,
+          "se": 0.0141,
+          "profit": -67.0
+        },
+        "macau": {
+          "n": 1074,
+          "winRate": 0.5469,
+          "roi": -0.002,
+          "se": 0.0258,
+          "profit": -2.14
+        },
+        "macauFresh120": {
+          "n": 372,
+          "winRate": 0.5231,
+          "roi": -0.0501,
+          "se": 0.0439,
+          "profit": -18.63
+        }
+      },
+      "holdout": {
+        "royal": {
+          "n": 2275,
+          "winRate": 0.5585,
+          "roi": -0.0032,
+          "se": 0.017,
+          "profit": -7.29
+        },
+        "macau": {
+          "n": 680,
+          "winRate": 0.564,
+          "roi": 0.0341,
+          "se": 0.032,
+          "profit": 23.16
+        },
+        "macauFresh120": {
+          "n": 416,
+          "winRate": 0.5758,
+          "roi": 0.0584,
+          "se": 0.0405,
+          "profit": 24.3
+        }
+      }
+    },
+    "lineNeverChanged|water>=0.08": {
+      "development": {
+        "royal": {
+          "n": 2583,
+          "winRate": 0.5493,
+          "roi": -0.0234,
+          "se": 0.0161,
+          "profit": -60.34
+        },
+        "macau": {
+          "n": 827,
+          "winRate": 0.5474,
+          "roi": -0.005,
+          "se": 0.0294,
+          "profit": -4.17
+        },
+        "macauFresh120": {
+          "n": 317,
+          "winRate": 0.5118,
+          "roi": -0.0711,
+          "se": 0.048,
+          "profit": -22.54
+        }
+      },
+      "holdout": {
+        "royal": {
+          "n": 1729,
+          "winRate": 0.5622,
+          "roi": -0.006,
+          "se": 0.0193,
+          "profit": -10.38
+        },
+        "macau": {
+          "n": 513,
+          "winRate": 0.5464,
+          "roi": 0.0031,
+          "se": 0.0367,
+          "profit": 1.57
+        },
+        "macauFresh120": {
+          "n": 318,
+          "winRate": 0.5743,
+          "roi": 0.0536,
+          "se": 0.0458,
+          "profit": 17.05
+        }
+      }
+    },
+    "lineNeverChanged|water>=0.12": {
+      "development": {
+        "royal": {
+          "n": 1685,
+          "winRate": 0.5568,
+          "roi": -0.0213,
+          "se": 0.0195,
+          "profit": -35.87
+        },
+        "macau": {
+          "n": 530,
+          "winRate": 0.5522,
+          "roi": -0.0026,
+          "se": 0.0365,
+          "profit": -1.37
+        },
+        "macauFresh120": {
+          "n": 225,
+          "winRate": 0.4929,
+          "roi": -0.1112,
+          "se": 0.0563,
+          "profit": -25.02
+        }
+      },
+      "holdout": {
+        "royal": {
+          "n": 1150,
+          "winRate": 0.571,
+          "roi": -0.004,
+          "se": 0.0233,
+          "profit": -4.58
+        },
+        "macau": {
+          "n": 340,
+          "winRate": 0.5478,
+          "roi": -0.002,
+          "se": 0.0451,
+          "profit": -0.67
+        },
+        "macauFresh120": {
+          "n": 219,
+          "winRate": 0.5971,
+          "roi": 0.0791,
+          "se": 0.0554,
+          "profit": 17.32
+        }
+      }
+    }
+  },
+  "combinedSupremacy": {
+    "coefficients": {
+      "M1": {
+        "beta": 0.016,
+        "t": 1.07
+      },
+      "M2": {
+        "beta": 0.0837,
+        "t": 1.4
+      },
+      "M4": {
+        "beta": 0.0211,
+        "t": 1.18
+      },
+      "M5": {
+        "beta": -0.0332,
+        "t": -1.19
+      },
+      "lineSteps": {
+        "beta": -0.1052,
+        "t": -2.7
+      },
+      "lastSegWaterHome": {
+        "beta": 0.0033,
+        "t": 0.15
+      },
+      "lateLineSteps": {
+        "beta": 0.0263,
+        "t": 1.03
+      },
+      "euroHomeShift": {
+        "beta": 0.0172,
+        "t": 0.38
+      },
+      "euroDrawShift": {
+        "beta": -0.0085,
+        "t": -0.56
+      }
+    },
+    "developmentTop/BottomDecile": {
+      "n": 888,
+      "winRate": 0.5398,
+      "roi": -0.0229,
+      "se": 0.028,
+      "profit": -20.38
+    },
+    "developmentMacau": {
+      "n": 888,
+      "winRate": 0.5363,
+      "roi": -0.0177,
+      "se": 0.0284,
+      "profit": -15.72
+    },
+    "holdoutTop/BottomDecile": {
+      "n": 576,
+      "winRate": 0.5461,
+      "roi": -0.015,
+      "se": 0.0345,
+      "profit": -8.66
+    },
+    "holdoutMacau": {
+      "n": 576,
+      "winRate": 0.5333,
+      "roi": -0.0217,
+      "se": 0.0352,
+      "profit": -12.52
+    }
+  },
+  "combinedTotal": {
+    "coefficients": {
+      "M3": {
+        "beta": 0.0422,
+        "t": 1.6
+      },
+      "totLineSteps": {
+        "beta": -0.0421,
+        "t": -2.07
+      },
+      "lastSegOverWater": {
+        "beta": 0.0141,
+        "t": 0.88
+      },
+      "euroDrawShift": {
+        "beta": -0.0064,
+        "t": -0.54
+      }
+    },
+    "developmentTop/BottomDecile": {
+      "n": 2152,
+      "winRate": 0.5328,
+      "roi": -0.0622,
+      "se": 0.0177,
+      "profit": -133.78
+    },
+    "holdoutTop/BottomDecile": {
+      "n": 1457,
+      "winRate": 0.5313,
+      "roi": -0.068,
+      "se": 0.0214,
+      "profit": -99.12
+    }
+  }
+}
