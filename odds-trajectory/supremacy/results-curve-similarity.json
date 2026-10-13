@@ -1,0 +1,2167 @@
+{
+ "method": [
+  "The line is already inside the curve: every Royal quote becomes the upper\nside's implied supremacy mu_up (supremacy.py), so a line change is a step of\nthe same curve, not a break. Curve = mu_up sampled every 10 minutes from T-360\nto T-10 (36 points, last quote before each point), absolute level kept.",
+  "Outcome of a past match (upper side = giving team at its T-10 line):\n  vs mu     e = upper goal margin - mu_up(T-10)   (actual minus implied prediction)\n  vs line   e = upper goal margin - |line|          (actual minus the handicap)\nclipped to +/-4 goals. e > 0: the upper side beat the prediction, so the\nupper side was \"right\"; e < 0: the lower side was right.",
+  "Similarity measures (time-series literature):\n  euclid    Euclidean distance on the absolute curve\n  shape     Euclidean on the curve minus its T-10 value (shape only)\n  dtw       dynamic time warping, Sakoe-Chiba band 3 points (+/-30 min), absolute curve\n  ddtw      derivative DTW (Keogh & Pazzani 2001): DTW on the slope estimate, plus the\n            T-10 level difference so the level is not lost\n  sbd       shape-based distance of k-Shape (Paparrizos & Gravano 2015):\n            1 - max normalised cross-correlation, shifts up to +/-3 points\nCandidates: the 2,000 nearest past matches by euclid (prefilter, like\nLB-based pruning), then each measure re-ranks them.",
+  "Score: k nearest by the measure, similarity S = 1 - d / d_(k+1), weight\nw = S^p (higher similarity counts much more for larger p),\n  score = sum(w e) / (alpha + sum(w)), alpha = 10;  D = 50 + 12.5 * score.\nD > 50 backs the upper side at the T-10 quote, D < 50 the lower side.\nPool for a target: matches with kickoff + 90 min before the target's day.",
+  "Level bias: the Poisson conversion itself is biased by level (deep favourites\nscore about 0.1 goal below their implied mu), so absolute-curve neighbours\npick up that bias, which the line already prices. Third outcome muAdj = e (vs\nmu) minus the mean e of the pool in the target's 0.1-goal bin of mu_up(T-10)."
+ ],
+ "configs": {
+  "euclid/50/2/mu": {
+   "devMonthly": [
+    -0.001,
+    0.0032,
+    -0.0044,
+    0.013,
+    -0.0043,
+    -0.0145
+   ],
+   "devMean": -0.0013,
+   "holdout": -0.0011,
+   "holdoutMonthly": [
+    0.0065,
+    0.0026,
+    -0.0259
+   ]
+  },
+  "euclid/50/2/line": {
+   "devMonthly": [
+    -0.0016,
+    0.001,
+    -0.0074,
+    0.0117,
+    0.0002,
+    -0.0104
+   ],
+   "devMean": -0.0011,
+   "holdout": 0.0006,
+   "holdoutMonthly": [
+    0.0089,
+    0.0035,
+    -0.0245
+   ]
+  },
+  "euclid/50/2/muAdj": {
+   "devMonthly": [
+    0.0083,
+    0.0041,
+    -0.0018,
+    0.0199,
+    -0.0016,
+    -0.0131
+   ],
+   "devMean": 0.0026,
+   "holdout": 0.0035,
+   "holdoutMonthly": [
+    0.0122,
+    0.0057,
+    -0.0204
+   ]
+  },
+  "euclid/50/6/mu": {
+   "devMonthly": [
+    -0.0062,
+    -0.0005,
+    0.0075,
+    -0.0108,
+    0.0034,
+    -0.0152
+   ],
+   "devMean": -0.0036,
+   "holdout": 0.0038,
+   "holdoutMonthly": [
+    0.0026,
+    0.0145,
+    -0.0157
+   ]
+  },
+  "euclid/50/6/line": {
+   "devMonthly": [
+    -0.0067,
+    -0.0044,
+    0.0065,
+    -0.0074,
+    0.0041,
+    -0.0121
+   ],
+   "devMean": -0.0033,
+   "holdout": 0.005,
+   "holdoutMonthly": [
+    0.0059,
+    0.014,
+    -0.0159
+   ]
+  },
+  "euclid/50/6/muAdj": {
+   "devMonthly": [
+    -0.0036,
+    -0.0013,
+    0.0067,
+    -0.008,
+    0.0036,
+    -0.0149
+   ],
+   "devMean": -0.0029,
+   "holdout": 0.0052,
+   "holdoutMonthly": [
+    0.0042,
+    0.015,
+    -0.0126
+   ]
+  },
+  "euclid/200/2/mu": {
+   "devMonthly": [
+    -0.0139,
+    -0.0037,
+    -0.019,
+    0.0342,
+    0.0043,
+    -0.0316
+   ],
+   "devMean": -0.0049,
+   "holdout": -0.0038,
+   "holdoutMonthly": [
+    0.0012,
+    -0.003,
+    -0.0173
+   ]
+  },
+  "euclid/200/2/line": {
+   "devMonthly": [
+    -0.0153,
+    -0.0069,
+    -0.0236,
+    0.0257,
+    0.0118,
+    -0.0299
+   ],
+   "devMean": -0.0064,
+   "holdout": 0.0011,
+   "holdoutMonthly": [
+    0.0073,
+    0.0008,
+    -0.0123
+   ]
+  },
+  "euclid/200/2/muAdj": {
+   "devMonthly": [
+    0.0005,
+    -0.0009,
+    -0.0094,
+    0.0428,
+    0.0106,
+    -0.0276
+   ],
+   "devMean": 0.0027,
+   "holdout": 0.0044,
+   "holdoutMonthly": [
+    0.0107,
+    0.0044,
+    -0.0098
+   ],
+   "profitCorr": {
+    "dev": -0.0067,
+    "holdout": 0.0042
+   }
+  },
+  "euclid/200/6/mu": {
+   "devMonthly": [
+    -0.0091,
+    0.0021,
+    0.0062,
+    0.0022,
+    -0.0022,
+    -0.0229
+   ],
+   "devMean": -0.0039,
+   "holdout": -0.0016,
+   "holdoutMonthly": [
+    0.0058,
+    0.0031,
+    -0.0272
+   ]
+  },
+  "euclid/200/6/line": {
+   "devMonthly": [
+    -0.0092,
+    0.001,
+    0.0022,
+    0.0014,
+    0.0016,
+    -0.0179
+   ],
+   "devMean": -0.0035,
+   "holdout": -0.0014,
+   "holdoutMonthly": [
+    0.0073,
+    0.0017,
+    -0.0272
+   ]
+  },
+  "euclid/200/6/muAdj": {
+   "devMonthly": [
+    0.0006,
+    0.0025,
+    0.0084,
+    0.0101,
+    0.0016,
+    -0.0226
+   ],
+   "devMean": 0.0001,
+   "holdout": 0.0035,
+   "holdoutMonthly": [
+    0.0124,
+    0.0061,
+    -0.0205
+   ]
+  },
+  "euclid/800/2/mu": {
+   "devMonthly": [
+    -0.0175,
+    -0.0177,
+    -0.0109,
+    0.0044,
+    0.011,
+    -0.0312
+   ],
+   "devMean": -0.0103,
+   "holdout": -0.0047,
+   "holdoutMonthly": [
+    -0.0045,
+    -0.0048,
+    -0.0057
+   ]
+  },
+  "euclid/800/2/line": {
+   "devMonthly": [
+    -0.0192,
+    -0.0207,
+    -0.0188,
+    -0.0046,
+    0.0237,
+    -0.0352
+   ],
+   "devMean": -0.0125,
+   "holdout": 0.0081,
+   "holdoutMonthly": [
+    0.0147,
+    0.0029,
+    0.0053
+   ]
+  },
+  "euclid/800/2/muAdj": {
+   "devMonthly": [
+    -0.0028,
+    -0.0135,
+    0.0028,
+    0.0127,
+    0.017,
+    -0.029
+   ],
+   "devMean": -0.0021,
+   "holdout": 0.0044,
+   "holdoutMonthly": [
+    0.0055,
+    0.0031,
+    0.0034
+   ]
+  },
+  "euclid/800/6/mu": {
+   "devMonthly": [
+    -0.0227,
+    -0.0065,
+    -0.0239,
+    0.0225,
+    0.0052,
+    -0.0334
+   ],
+   "devMean": -0.0098,
+   "holdout": -0.0023,
+   "holdoutMonthly": [
+    -0.0024,
+    0.0047,
+    -0.0174
+   ]
+  },
+  "euclid/800/6/line": {
+   "devMonthly": [
+    -0.0246,
+    -0.0075,
+    -0.0283,
+    0.0092,
+    0.0151,
+    -0.0306
+   ],
+   "devMean": -0.0111,
+   "holdout": 0.0009,
+   "holdoutMonthly": [
+    0.0033,
+    0.0057,
+    -0.0156
+   ]
+  },
+  "euclid/800/6/muAdj": {
+   "devMonthly": [
+    -0.0067,
+    -0.0043,
+    -0.0097,
+    0.0346,
+    0.012,
+    -0.029
+   ],
+   "devMean": -0.0005,
+   "holdout": 0.0077,
+   "holdoutMonthly": [
+    0.0083,
+    0.0142,
+    -0.0084
+   ]
+  },
+  "shape/50/2/mu": {
+   "devMonthly": [
+    0.0012,
+    0.0219,
+    -0.0059,
+    0.0123,
+    0.0347,
+    -0.0385
+   ],
+   "devMean": 0.0043,
+   "holdout": -0.0237,
+   "holdoutMonthly": [
+    -0.018,
+    -0.0115,
+    -0.0604
+   ]
+  },
+  "shape/50/2/line": {
+   "devMonthly": [
+    0.0017,
+    0.0225,
+    -0.0101,
+    0.0098,
+    0.0436,
+    -0.0379
+   ],
+   "devMean": 0.0049,
+   "holdout": -0.0192,
+   "holdoutMonthly": [
+    -0.0118,
+    -0.0091,
+    -0.055
+   ]
+  },
+  "shape/50/2/muAdj": {
+   "devMonthly": [
+    0.0018,
+    0.0237,
+    -0.0055,
+    0.0162,
+    0.0336,
+    -0.0374
+   ],
+   "devMean": 0.0054,
+   "holdout": -0.0221,
+   "holdoutMonthly": [
+    -0.0172,
+    -0.0092,
+    -0.0584
+   ]
+  },
+  "shape/50/6/mu": {
+   "devMonthly": [
+    -0.0092,
+    0.017,
+    0.0165,
+    0.0127,
+    0.016,
+    -0.0152
+   ],
+   "devMean": 0.0063,
+   "holdout": -0.0094,
+   "holdoutMonthly": [
+    -0.011,
+    -0.0013,
+    -0.0225
+   ]
+  },
+  "shape/50/6/line": {
+   "devMonthly": [
+    -0.0123,
+    0.0182,
+    0.0176,
+    0.0132,
+    0.023,
+    -0.0139
+   ],
+   "devMean": 0.0076,
+   "holdout": -0.0068,
+   "holdoutMonthly": [
+    -0.0065,
+    -0.0009,
+    -0.019
+   ]
+  },
+  "shape/50/6/muAdj": {
+   "devMonthly": [
+    -0.0068,
+    0.0165,
+    0.0148,
+    0.0145,
+    0.0129,
+    -0.016
+   ],
+   "devMean": 0.006,
+   "holdout": -0.0089,
+   "holdoutMonthly": [
+    -0.0117,
+    0.0004,
+    -0.022
+   ]
+  },
+  "shape/200/2/mu": {
+   "devMonthly": [
+    0.0092,
+    0.0126,
+    -0.0134,
+    0.016,
+    0.0252,
+    -0.0274
+   ],
+   "devMean": 0.0037,
+   "holdout": -0.0264,
+   "holdoutMonthly": [
+    -0.0232,
+    -0.0108,
+    -0.0666
+   ]
+  },
+  "shape/200/2/line": {
+   "devMonthly": [
+    0.0108,
+    0.0103,
+    -0.0213,
+    0.0079,
+    0.0386,
+    -0.0266
+   ],
+   "devMean": 0.0033,
+   "holdout": -0.0162,
+   "holdoutMonthly": [
+    -0.0114,
+    -0.0048,
+    -0.051
+   ]
+  },
+  "shape/200/2/muAdj": {
+   "devMonthly": [
+    0.0102,
+    0.0167,
+    -0.0098,
+    0.0225,
+    0.0267,
+    -0.0237
+   ],
+   "devMean": 0.0071,
+   "holdout": -0.0232,
+   "holdoutMonthly": [
+    -0.0206,
+    -0.0075,
+    -0.063
+   ]
+  },
+  "shape/200/6/mu": {
+   "devMonthly": [
+    -0.0014,
+    0.0345,
+    -0.0188,
+    0.0033,
+    0.0326,
+    -0.0182
+   ],
+   "devMean": 0.0053,
+   "holdout": -0.0136,
+   "holdoutMonthly": [
+    -0.0124,
+    -0.0063,
+    -0.0315
+   ]
+  },
+  "shape/200/6/line": {
+   "devMonthly": [
+    -0.0026,
+    0.0358,
+    -0.0249,
+    0.0006,
+    0.0461,
+    -0.0168
+   ],
+   "devMean": 0.0064,
+   "holdout": -0.0084,
+   "holdoutMonthly": [
+    -0.0065,
+    -0.0027,
+    -0.024
+   ]
+  },
+  "shape/200/6/muAdj": {
+   "devMonthly": [
+    0.0002,
+    0.0355,
+    -0.0176,
+    0.0076,
+    0.0319,
+    -0.0168
+   ],
+   "devMean": 0.0068,
+   "holdout": -0.0125,
+   "holdoutMonthly": [
+    -0.0125,
+    -0.0043,
+    -0.0296
+   ]
+  },
+  "shape/800/2/mu": {
+   "devMonthly": [
+    0.0023,
+    -0.0034,
+    -0.0084,
+    0.0181,
+    0.0101,
+    -0.0319
+   ],
+   "devMean": -0.0022,
+   "holdout": -0.0189,
+   "holdoutMonthly": [
+    -0.0179,
+    -0.009,
+    -0.0443
+   ]
+  },
+  "shape/800/2/line": {
+   "devMonthly": [
+    0.0019,
+    -0.0088,
+    -0.0189,
+    0.0028,
+    0.0293,
+    -0.0366
+   ],
+   "devMean": -0.005,
+   "holdout": 0.0,
+   "holdoutMonthly": [
+    0.0052,
+    0.0023,
+    -0.0157
+   ]
+  },
+  "shape/800/2/muAdj": {
+   "devMonthly": [
+    0.0066,
+    0.0035,
+    -0.001,
+    0.028,
+    0.0168,
+    -0.0264
+   ],
+   "devMean": 0.0046,
+   "holdout": -0.0128,
+   "holdoutMonthly": [
+    -0.0113,
+    -0.0043,
+    -0.0368
+   ]
+  },
+  "shape/800/6/mu": {
+   "devMonthly": [
+    0.0065,
+    0.0186,
+    -0.0137,
+    0.0129,
+    0.0272,
+    -0.0257
+   ],
+   "devMean": 0.0043,
+   "holdout": -0.0253,
+   "holdoutMonthly": [
+    -0.0249,
+    -0.0119,
+    -0.0537
+   ]
+  },
+  "shape/800/6/line": {
+   "devMonthly": [
+    0.0057,
+    0.015,
+    -0.0222,
+    0.0009,
+    0.0399,
+    -0.0233
+   ],
+   "devMean": 0.0027,
+   "holdout": -0.0117,
+   "holdoutMonthly": [
+    -0.0126,
+    -0.0002,
+    -0.0331
+   ]
+  },
+  "shape/800/6/muAdj": {
+   "devMonthly": [
+    0.0088,
+    0.023,
+    -0.0097,
+    0.0202,
+    0.0285,
+    -0.0224
+   ],
+   "devMean": 0.0081,
+   "holdout": -0.0216,
+   "holdoutMonthly": [
+    -0.0216,
+    -0.0079,
+    -0.0504
+   ],
+   "profitCorr": {
+    "dev": 0.0005,
+    "holdout": -0.022
+   }
+  },
+  "dtw/50/2/mu": {
+   "devMonthly": [
+    -0.0042,
+    -0.0023,
+    -0.0178,
+    0.0138,
+    -0.0086,
+    -0.0156
+   ],
+   "devMean": -0.0058,
+   "holdout": -0.0053,
+   "holdoutMonthly": [
+    0.0001,
+    -0.0027,
+    -0.023
+   ]
+  },
+  "dtw/50/2/line": {
+   "devMonthly": [
+    -0.0048,
+    -0.0059,
+    -0.0218,
+    0.0121,
+    -0.0032,
+    -0.0127
+   ],
+   "devMean": -0.0061,
+   "holdout": -0.0035,
+   "holdoutMonthly": [
+    0.0022,
+    -0.0015,
+    -0.021
+   ]
+  },
+  "dtw/50/2/muAdj": {
+   "devMonthly": [
+    0.0056,
+    -0.0008,
+    -0.015,
+    0.0198,
+    -0.0061,
+    -0.013
+   ],
+   "devMean": -0.0016,
+   "holdout": -0.0007,
+   "holdoutMonthly": [
+    0.0058,
+    0.0003,
+    -0.0177
+   ]
+  },
+  "dtw/50/6/mu": {
+   "devMonthly": [
+    -0.0073,
+    -0.0051,
+    -0.003,
+    -0.0148,
+    0.0044,
+    -0.0072
+   ],
+   "devMean": -0.0055,
+   "holdout": 0.0025,
+   "holdoutMonthly": [
+    0.0003,
+    0.0141,
+    -0.0174
+   ]
+  },
+  "dtw/50/6/line": {
+   "devMonthly": [
+    -0.0075,
+    -0.0094,
+    -0.0041,
+    -0.0115,
+    0.0056,
+    -0.0046
+   ],
+   "devMean": -0.0053,
+   "holdout": 0.0037,
+   "holdoutMonthly": [
+    0.0038,
+    0.0133,
+    -0.0177
+   ]
+  },
+  "dtw/50/6/muAdj": {
+   "devMonthly": [
+    -0.0041,
+    -0.0057,
+    -0.0036,
+    -0.0119,
+    0.0045,
+    -0.0066
+   ],
+   "devMean": -0.0046,
+   "holdout": 0.0041,
+   "holdoutMonthly": [
+    0.0025,
+    0.0146,
+    -0.0143
+   ]
+  },
+  "dtw/200/2/mu": {
+   "devMonthly": [
+    -0.0163,
+    -0.0059,
+    -0.0259,
+    0.0312,
+    0.0011,
+    -0.0336
+   ],
+   "devMean": -0.0082,
+   "holdout": -0.0098,
+   "holdoutMonthly": [
+    -0.0042,
+    -0.0107,
+    -0.0204
+   ]
+  },
+  "dtw/200/2/line": {
+   "devMonthly": [
+    -0.0176,
+    -0.0099,
+    -0.0305,
+    0.023,
+    0.0087,
+    -0.0324
+   ],
+   "devMean": -0.0098,
+   "holdout": -0.0042,
+   "holdoutMonthly": [
+    0.0021,
+    -0.006,
+    -0.0146
+   ]
+  },
+  "dtw/200/2/muAdj": {
+   "devMonthly": [
+    -0.0019,
+    -0.0023,
+    -0.0166,
+    0.0389,
+    0.0069,
+    -0.0285
+   ],
+   "devMean": -0.0006,
+   "holdout": -0.0016,
+   "holdoutMonthly": [
+    0.0054,
+    -0.0037,
+    -0.0132
+   ],
+   "profitCorr": {
+    "dev": -0.0076,
+    "holdout": -0.0017
+   }
+  },
+  "dtw/200/6/mu": {
+   "devMonthly": [
+    -0.01,
+    -0.0036,
+    -0.0081,
+    0.0042,
+    -0.0053,
+    -0.0142
+   ],
+   "devMean": -0.0062,
+   "holdout": -0.0038,
+   "holdoutMonthly": [
+    -0.0001,
+    0.0025,
+    -0.0255
+   ]
+  },
+  "dtw/200/6/line": {
+   "devMonthly": [
+    -0.0104,
+    -0.0055,
+    -0.0122,
+    0.0032,
+    -0.0008,
+    -0.0097
+   ],
+   "devMean": -0.0059,
+   "holdout": -0.0036,
+   "holdoutMonthly": [
+    0.0014,
+    0.0015,
+    -0.0258
+   ]
+  },
+  "dtw/200/6/muAdj": {
+   "devMonthly": [
+    0.0007,
+    -0.0028,
+    -0.0053,
+    0.0119,
+    -0.0016,
+    -0.0131
+   ],
+   "devMean": -0.0017,
+   "holdout": 0.0015,
+   "holdoutMonthly": [
+    0.0071,
+    0.0054,
+    -0.0191
+   ]
+  },
+  "dtw/800/2/mu": {
+   "devMonthly": [
+    -0.0171,
+    -0.0198,
+    -0.0142,
+    0.0072,
+    0.0013,
+    -0.0349
+   ],
+   "devMean": -0.0129,
+   "holdout": -0.011,
+   "holdoutMonthly": [
+    -0.0077,
+    -0.0136,
+    -0.0133
+   ]
+  },
+  "dtw/800/2/line": {
+   "devMonthly": [
+    -0.0183,
+    -0.0232,
+    -0.0221,
+    -0.0029,
+    0.0156,
+    -0.0384
+   ],
+   "devMean": -0.0149,
+   "holdout": 0.0033,
+   "holdoutMonthly": [
+    0.0119,
+    -0.004,
+    0.0007
+   ]
+  },
+  "dtw/800/2/muAdj": {
+   "devMonthly": [
+    -0.0022,
+    -0.0155,
+    -0.0011,
+    0.0153,
+    0.0077,
+    -0.0317
+   ],
+   "devMean": -0.0046,
+   "holdout": -0.0017,
+   "holdoutMonthly": [
+    0.0029,
+    -0.0056,
+    -0.0047
+   ]
+  },
+  "dtw/800/6/mu": {
+   "devMonthly": [
+    -0.0236,
+    -0.0092,
+    -0.0293,
+    0.0214,
+    0.0002,
+    -0.0303
+   ],
+   "devMean": -0.0118,
+   "holdout": -0.0072,
+   "holdoutMonthly": [
+    -0.0091,
+    -0.0009,
+    -0.0176
+   ]
+  },
+  "dtw/800/6/line": {
+   "devMonthly": [
+    -0.0257,
+    -0.0114,
+    -0.0336,
+    0.009,
+    0.0103,
+    -0.0287
+   ],
+   "devMean": -0.0133,
+   "holdout": -0.0031,
+   "holdoutMonthly": [
+    -0.0027,
+    0.0012,
+    -0.0148
+   ]
+  },
+  "dtw/800/6/muAdj": {
+   "devMonthly": [
+    -0.0075,
+    -0.0064,
+    -0.0161,
+    0.0323,
+    0.0065,
+    -0.0253
+   ],
+   "devMean": -0.0027,
+   "holdout": 0.0024,
+   "holdoutMonthly": [
+    0.0017,
+    0.0079,
+    -0.0093
+   ]
+  },
+  "ddtw/50/2/mu": {
+   "devMonthly": [
+    -0.0184,
+    -0.0091,
+    -0.0166,
+    -0.0186,
+    0.0141,
+    -0.0175
+   ],
+   "devMean": -0.011,
+   "holdout": -0.005,
+   "holdoutMonthly": [
+    0.0025,
+    0.003,
+    -0.0381
+   ]
+  },
+  "ddtw/50/2/line": {
+   "devMonthly": [
+    -0.0172,
+    -0.0124,
+    -0.0207,
+    -0.018,
+    0.0211,
+    -0.0154
+   ],
+   "devMean": -0.0104,
+   "holdout": -0.0037,
+   "holdoutMonthly": [
+    0.0044,
+    0.0034,
+    -0.0367
+   ]
+  },
+  "ddtw/50/2/muAdj": {
+   "devMonthly": [
+    -0.0084,
+    -0.007,
+    -0.0137,
+    -0.0115,
+    0.018,
+    -0.013
+   ],
+   "devMean": -0.0059,
+   "holdout": -0.0011,
+   "holdoutMonthly": [
+    0.0076,
+    0.0059,
+    -0.034
+   ]
+  },
+  "ddtw/50/6/mu": {
+   "devMonthly": [
+    -0.0107,
+    -0.0114,
+    -0.0065,
+    -0.0104,
+    0.0119,
+    -0.0213
+   ],
+   "devMean": -0.0081,
+   "holdout": -0.0024,
+   "holdoutMonthly": [
+    -0.0014,
+    0.0072,
+    -0.0233
+   ]
+  },
+  "ddtw/50/6/line": {
+   "devMonthly": [
+    -0.0117,
+    -0.0144,
+    -0.0068,
+    -0.0065,
+    0.0151,
+    -0.0187
+   ],
+   "devMean": -0.0072,
+   "holdout": -0.0014,
+   "holdoutMonthly": [
+    0.0013,
+    0.0058,
+    -0.0222
+   ]
+  },
+  "ddtw/50/6/muAdj": {
+   "devMonthly": [
+    -0.0091,
+    -0.0129,
+    -0.0068,
+    -0.0086,
+    0.0111,
+    -0.0199
+   ],
+   "devMean": -0.0077,
+   "holdout": -0.0009,
+   "holdoutMonthly": [
+    -0.0003,
+    0.0086,
+    -0.0209
+   ]
+  },
+  "ddtw/200/2/mu": {
+   "devMonthly": [
+    -0.0309,
+    -0.0034,
+    -0.0258,
+    -0.0011,
+    0.0044,
+    -0.0179
+   ],
+   "devMean": -0.0125,
+   "holdout": -0.0134,
+   "holdoutMonthly": [
+    -0.0142,
+    -0.0044,
+    -0.0309
+   ]
+  },
+  "ddtw/200/2/line": {
+   "devMonthly": [
+    -0.0273,
+    -0.0051,
+    -0.0336,
+    -0.0074,
+    0.0156,
+    -0.0168
+   ],
+   "devMean": -0.0124,
+   "holdout": -0.0083,
+   "holdoutMonthly": [
+    -0.0083,
+    -0.0012,
+    -0.0233
+   ]
+  },
+  "ddtw/200/2/muAdj": {
+   "devMonthly": [
+    -0.0117,
+    0.0029,
+    -0.0148,
+    0.013,
+    0.0151,
+    -0.0096
+   ],
+   "devMean": -0.0009,
+   "holdout": -0.0052,
+   "holdoutMonthly": [
+    -0.002,
+    0.0009,
+    -0.0249
+   ]
+  },
+  "ddtw/200/6/mu": {
+   "devMonthly": [
+    -0.0182,
+    -0.0129,
+    -0.0006,
+    -0.0103,
+    0.0137,
+    -0.0154
+   ],
+   "devMean": -0.0073,
+   "holdout": -0.0052,
+   "holdoutMonthly": [
+    0.0029,
+    -0.0037,
+    -0.0262
+   ]
+  },
+  "ddtw/200/6/line": {
+   "devMonthly": [
+    -0.0164,
+    -0.0141,
+    -0.0049,
+    -0.0072,
+    0.0201,
+    -0.0111
+   ],
+   "devMean": -0.0056,
+   "holdout": -0.0037,
+   "holdoutMonthly": [
+    0.0048,
+    -0.0031,
+    -0.0241
+   ]
+  },
+  "ddtw/200/6/muAdj": {
+   "devMonthly": [
+    -0.0104,
+    -0.0119,
+    0.0001,
+    -0.0046,
+    0.0164,
+    -0.0146
+   ],
+   "devMean": -0.0042,
+   "holdout": -0.0021,
+   "holdoutMonthly": [
+    0.0066,
+    -0.0014,
+    -0.0222
+   ]
+  },
+  "ddtw/800/2/mu": {
+   "devMonthly": [
+    -0.034,
+    -0.0092,
+    -0.031,
+    -0.0004,
+    -0.0083,
+    -0.0178
+   ],
+   "devMean": -0.0168,
+   "holdout": -0.019,
+   "holdoutMonthly": [
+    -0.0277,
+    -0.0129,
+    -0.0143
+   ]
+  },
+  "ddtw/800/2/line": {
+   "devMonthly": [
+    -0.0278,
+    -0.0145,
+    -0.0361,
+    -0.014,
+    0.0109,
+    -0.0224
+   ],
+   "devMean": -0.0173,
+   "holdout": -0.0035,
+   "holdoutMonthly": [
+    -0.0065,
+    -0.0043,
+    0.0042
+   ]
+  },
+  "ddtw/800/2/muAdj": {
+   "devMonthly": [
+    -0.0107,
+    -0.0002,
+    -0.0103,
+    0.0118,
+    0.0032,
+    0.0001
+   ],
+   "devMean": -0.001,
+   "holdout": -0.0054,
+   "holdoutMonthly": [
+    -0.0122,
+    0.0004,
+    -0.0049
+   ]
+  },
+  "ddtw/800/6/mu": {
+   "devMonthly": [
+    -0.0281,
+    -0.0065,
+    -0.0192,
+    -0.0038,
+    0.0044,
+    -0.0092
+   ],
+   "devMean": -0.0104,
+   "holdout": -0.0102,
+   "holdoutMonthly": [
+    -0.0095,
+    -0.0052,
+    -0.0224
+   ]
+  },
+  "ddtw/800/6/line": {
+   "devMonthly": [
+    -0.0257,
+    -0.0061,
+    -0.029,
+    -0.0099,
+    0.0165,
+    -0.0073
+   ],
+   "devMean": -0.0102,
+   "holdout": -0.0069,
+   "holdoutMonthly": [
+    -0.0057,
+    -0.0028,
+    -0.0187
+   ]
+  },
+  "ddtw/800/6/muAdj": {
+   "devMonthly": [
+    -0.0084,
+    -0.0022,
+    -0.0066,
+    0.013,
+    0.0144,
+    -0.0019
+   ],
+   "devMean": 0.0014,
+   "holdout": -0.001,
+   "holdoutMonthly": [
+    0.0034,
+    0.0014,
+    -0.0155
+   ],
+   "profitCorr": {
+    "dev": -0.0059,
+    "holdout": -0.0005
+   }
+  },
+  "sbd/50/2/mu": {
+   "devMonthly": [
+    0.0106,
+    0.0108,
+    0.0233,
+    0.0148,
+    0.0084,
+    -0.0115
+   ],
+   "devMean": 0.0094,
+   "holdout": -0.013,
+   "holdoutMonthly": [
+    -0.0081,
+    0.0022,
+    -0.0538
+   ]
+  },
+  "sbd/50/2/line": {
+   "devMonthly": [
+    0.0096,
+    0.011,
+    0.0194,
+    0.0111,
+    0.0137,
+    -0.0124
+   ],
+   "devMean": 0.0087,
+   "holdout": -0.0088,
+   "holdoutMonthly": [
+    -0.0031,
+    0.0062,
+    -0.0506
+   ]
+  },
+  "sbd/50/2/muAdj": {
+   "devMonthly": [
+    0.0114,
+    0.0109,
+    0.0234,
+    0.0156,
+    0.0091,
+    -0.011
+   ],
+   "devMean": 0.0099,
+   "holdout": -0.012,
+   "holdoutMonthly": [
+    -0.0076,
+    0.0033,
+    -0.0522
+   ]
+  },
+  "sbd/50/6/mu": {
+   "devMonthly": [
+    0.0057,
+    0.0165,
+    0.0031,
+    0.0084,
+    -0.0056,
+    -0.0095
+   ],
+   "devMean": 0.0031,
+   "holdout": -0.0037,
+   "holdoutMonthly": [
+    0.0045,
+    0.0133,
+    -0.0529
+   ]
+  },
+  "sbd/50/6/line": {
+   "devMonthly": [
+    0.0031,
+    0.0168,
+    0.0031,
+    0.0061,
+    -0.0005,
+    -0.0076
+   ],
+   "devMean": 0.0035,
+   "holdout": -0.0013,
+   "holdoutMonthly": [
+    0.0079,
+    0.0154,
+    -0.0509
+   ]
+  },
+  "sbd/50/6/muAdj": {
+   "devMonthly": [
+    0.0065,
+    0.0154,
+    0.0023,
+    0.0091,
+    -0.0064,
+    -0.0091
+   ],
+   "devMean": 0.003,
+   "holdout": -0.0034,
+   "holdoutMonthly": [
+    0.0041,
+    0.0139,
+    -0.0519
+   ]
+  },
+  "sbd/200/2/mu": {
+   "devMonthly": [
+    0.0059,
+    0.005,
+    0.0136,
+    0.006,
+    0.0229,
+    -0.0187
+   ],
+   "devMean": 0.0058,
+   "holdout": -0.0221,
+   "holdoutMonthly": [
+    -0.0137,
+    -0.0123,
+    -0.06
+   ]
+  },
+  "sbd/200/2/line": {
+   "devMonthly": [
+    0.0024,
+    0.0063,
+    0.0056,
+    0.0006,
+    0.0287,
+    -0.0246
+   ],
+   "devMean": 0.0032,
+   "holdout": -0.0129,
+   "holdoutMonthly": [
+    -0.0043,
+    -0.0047,
+    -0.0469
+   ]
+  },
+  "sbd/200/2/muAdj": {
+   "devMonthly": [
+    0.0088,
+    0.0068,
+    0.0157,
+    0.0072,
+    0.0246,
+    -0.0175
+   ],
+   "devMean": 0.0076,
+   "holdout": -0.0197,
+   "holdoutMonthly": [
+    -0.0109,
+    -0.0107,
+    -0.0572
+   ]
+  },
+  "sbd/200/6/mu": {
+   "devMonthly": [
+    0.0144,
+    0.0128,
+    0.0142,
+    0.0146,
+    0.0091,
+    -0.0059
+   ],
+   "devMean": 0.0099,
+   "holdout": -0.014,
+   "holdoutMonthly": [
+    -0.0091,
+    0.0011,
+    -0.0546
+   ]
+  },
+  "sbd/200/6/line": {
+   "devMonthly": [
+    0.0128,
+    0.0148,
+    0.0105,
+    0.0114,
+    0.0133,
+    -0.0063
+   ],
+   "devMean": 0.0094,
+   "holdout": -0.009,
+   "holdoutMonthly": [
+    -0.0042,
+    0.0069,
+    -0.0502
+   ]
+  },
+  "sbd/200/6/muAdj": {
+   "devMonthly": [
+    0.0152,
+    0.0127,
+    0.014,
+    0.0151,
+    0.0098,
+    -0.0048
+   ],
+   "devMean": 0.0103,
+   "holdout": -0.0129,
+   "holdoutMonthly": [
+    -0.0083,
+    0.002,
+    -0.0523
+   ],
+   "profitCorr": {
+    "dev": 0.0088,
+    "holdout": -0.0126
+   }
+  },
+  "sbd/800/2/mu": {
+   "devMonthly": [
+    -0.0062,
+    0.0106,
+    -0.0089,
+    -0.0026,
+    0.0049,
+    -0.0293
+   ],
+   "devMean": -0.0052,
+   "holdout": -0.0183,
+   "holdoutMonthly": [
+    -0.0173,
+    -0.0041,
+    -0.0492
+   ]
+  },
+  "sbd/800/2/line": {
+   "devMonthly": [
+    -0.0112,
+    0.0086,
+    -0.0203,
+    -0.0126,
+    0.017,
+    -0.042
+   ],
+   "devMean": -0.0101,
+   "holdout": -0.0019,
+   "holdoutMonthly": [
+    0.0036,
+    0.0035,
+    -0.0235
+   ]
+  },
+  "sbd/800/2/muAdj": {
+   "devMonthly": [
+    0.0009,
+    0.0141,
+    -0.0031,
+    0.0006,
+    0.008,
+    -0.0293
+   ],
+   "devMean": -0.0015,
+   "holdout": -0.0137,
+   "holdoutMonthly": [
+    -0.0112,
+    -0.0015,
+    -0.0449
+   ]
+  },
+  "sbd/800/6/mu": {
+   "devMonthly": [
+    0.0049,
+    0.0076,
+    0.014,
+    0.0103,
+    0.0141,
+    -0.0273
+   ],
+   "devMean": 0.0039,
+   "holdout": -0.0231,
+   "holdoutMonthly": [
+    -0.0165,
+    -0.0117,
+    -0.0598
+   ]
+  },
+  "sbd/800/6/line": {
+   "devMonthly": [
+    0.0011,
+    0.0095,
+    0.0032,
+    0.0044,
+    0.0204,
+    -0.0336
+   ],
+   "devMean": 0.0008,
+   "holdout": -0.0117,
+   "holdoutMonthly": [
+    -0.0049,
+    -0.0022,
+    -0.0436
+   ]
+  },
+  "sbd/800/6/muAdj": {
+   "devMonthly": [
+    0.0087,
+    0.0098,
+    0.017,
+    0.0125,
+    0.0162,
+    -0.0252
+   ],
+   "devMean": 0.0065,
+   "holdout": -0.0202,
+   "holdoutMonthly": [
+    -0.0128,
+    -0.0101,
+    -0.0565
+   ]
+  }
+ },
+ "chosen": "sbd/200/6/muAdj",
+ "decileCuts": [
+  48.606,
+  49.308,
+  49.679,
+  49.88,
+  49.989,
+  50.071,
+  50.255,
+  50.583,
+  51.265
+ ],
+ "bandCuts": {
+  "red": 2.063,
+  "orange": 0.915
+ },
+ "deciles": {
+  "1": {
+   "range": [
+    -Infinity,
+    48.6063119584356
+   ],
+   "dev": {
+    "N": 2535,
+    "winRate": 0.4894,
+    "winSE": 0.0102,
+    "baseline": 0.4646,
+    "lift": 0.0248,
+    "roi": -0.052
+   },
+   "holdout": {
+    "N": 1600,
+    "winRate": 0.4953,
+    "winSE": 0.0129,
+    "baseline": 0.4623,
+    "lift": 0.033,
+    "roi": -0.0444
+   },
+   "8月": {
+    "N": 655,
+    "winRate": 0.4992,
+    "winSE": 0.0203,
+    "baseline": 0.4641,
+    "lift": 0.0351,
+    "roi": -0.0362
+   },
+   "9月": {
+    "N": 635,
+    "winRate": 0.4857,
+    "winSE": 0.0205,
+    "baseline": 0.4601,
+    "lift": 0.0255,
+    "roi": -0.0619
+   },
+   "10月": {
+    "N": 312,
+    "winRate": 0.5034,
+    "winSE": 0.0292,
+    "baseline": 0.4624,
+    "lift": 0.041,
+    "roi": -0.0323
+   }
+  },
+  "2": {
+   "range": [
+    48.6063119584356,
+    49.30760814697504
+   ],
+   "dev": {
+    "N": 2535,
+    "winRate": 0.4861,
+    "winSE": 0.0103,
+    "baseline": 0.4611,
+    "lift": 0.025,
+    "roi": -0.0468
+   },
+   "holdout": {
+    "N": 1496,
+    "winRate": 0.5071,
+    "winSE": 0.0133,
+    "baseline": 0.462,
+    "lift": 0.0451,
+    "roi": -0.0238
+   },
+   "8月": {
+    "N": 605,
+    "winRate": 0.507,
+    "winSE": 0.0209,
+    "baseline": 0.4596,
+    "lift": 0.0474,
+    "roi": -0.0203
+   },
+   "9月": {
+    "N": 623,
+    "winRate": 0.4898,
+    "winSE": 0.0206,
+    "baseline": 0.4621,
+    "lift": 0.0277,
+    "roi": -0.051
+   },
+   "10月": {
+    "N": 268,
+    "winRate": 0.5476,
+    "winSE": 0.0314,
+    "baseline": 0.4672,
+    "lift": 0.0804,
+    "roi": 0.0317
+   }
+  },
+  "3": {
+   "range": [
+    49.30760814697504,
+    49.679085176111386
+   ],
+   "dev": {
+    "N": 2534,
+    "winRate": 0.4578,
+    "winSE": 0.0103,
+    "baseline": 0.4579,
+    "lift": -0.0001,
+    "roi": -0.0881
+   },
+   "holdout": {
+    "N": 1529,
+    "winRate": 0.4943,
+    "winSE": 0.0133,
+    "baseline": 0.4587,
+    "lift": 0.0356,
+    "roi": -0.0294
+   },
+   "8月": {
+    "N": 635,
+    "winRate": 0.4958,
+    "winSE": 0.0206,
+    "baseline": 0.457,
+    "lift": 0.0388,
+    "roi": -0.0262
+   },
+   "9月": {
+    "N": 641,
+    "winRate": 0.4862,
+    "winSE": 0.0208,
+    "baseline": 0.4599,
+    "lift": 0.0262,
+    "roi": -0.0428
+   },
+   "10月": {
+    "N": 254,
+    "winRate": 0.5127,
+    "winSE": 0.0325,
+    "baseline": 0.4601,
+    "lift": 0.0526,
+    "roi": -0.0012
+   }
+  },
+  "4": {
+   "range": [
+    49.679085176111386,
+    49.87994226072671
+   ],
+   "dev": {
+    "N": 2535,
+    "winRate": 0.4768,
+    "winSE": 0.0103,
+    "baseline": 0.4587,
+    "lift": 0.0181,
+    "roi": -0.0531
+   },
+   "holdout": {
+    "N": 1518,
+    "winRate": 0.5046,
+    "winSE": 0.0133,
+    "baseline": 0.4584,
+    "lift": 0.0462,
+    "roi": -0.0176
+   },
+   "8月": {
+    "N": 607,
+    "winRate": 0.5097,
+    "winSE": 0.021,
+    "baseline": 0.4589,
+    "lift": 0.0508,
+    "roi": -0.0017
+   },
+   "9月": {
+    "N": 635,
+    "winRate": 0.5008,
+    "winSE": 0.0206,
+    "baseline": 0.4573,
+    "lift": 0.0435,
+    "roi": -0.0266
+   },
+   "10月": {
+    "N": 279,
+    "winRate": 0.5059,
+    "winSE": 0.0313,
+    "baseline": 0.4607,
+    "lift": 0.0452,
+    "roi": -0.0277
+   }
+  },
+  "5": {
+   "range": [
+    49.87994226072671,
+    49.988554138328794
+   ],
+   "dev": {
+    "N": 2534,
+    "winRate": 0.4968,
+    "winSE": 0.0103,
+    "baseline": 0.4607,
+    "lift": 0.0361,
+    "roi": -0.0249
+   },
+   "holdout": {
+    "N": 1399,
+    "winRate": 0.4734,
+    "winSE": 0.0139,
+    "baseline": 0.4633,
+    "lift": 0.0102,
+    "roi": -0.065
+   },
+   "8月": {
+    "N": 583,
+    "winRate": 0.4684,
+    "winSE": 0.0215,
+    "baseline": 0.4631,
+    "lift": 0.0053,
+    "roi": -0.0768
+   },
+   "9月": {
+    "N": 557,
+    "winRate": 0.4566,
+    "winSE": 0.0219,
+    "baseline": 0.463,
+    "lift": -0.0063,
+    "roi": -0.087
+   },
+   "10月": {
+    "N": 261,
+    "winRate": 0.5205,
+    "winSE": 0.032,
+    "baseline": 0.464,
+    "lift": 0.0565,
+    "roi": 0.008
+   }
+  },
+  "6": {
+   "range": [
+    49.988554138328794,
+    50.07139428564373
+   ],
+   "dev": {
+    "N": 2535,
+    "winRate": 0.4794,
+    "winSE": 0.0103,
+    "baseline": 0.4573,
+    "lift": 0.0221,
+    "roi": -0.0455
+   },
+   "holdout": {
+    "N": 1239,
+    "winRate": 0.4753,
+    "winSE": 0.0148,
+    "baseline": 0.4623,
+    "lift": 0.0131,
+    "roi": -0.0586
+   },
+   "8月": {
+    "N": 519,
+    "winRate": 0.4653,
+    "winSE": 0.0229,
+    "baseline": 0.4593,
+    "lift": 0.0059,
+    "roi": -0.0683
+   },
+   "9月": {
+    "N": 526,
+    "winRate": 0.4769,
+    "winSE": 0.0229,
+    "baseline": 0.4633,
+    "lift": 0.0136,
+    "roi": -0.0589
+   },
+   "10月": {
+    "N": 199,
+    "winRate": 0.5,
+    "winSE": 0.0365,
+    "baseline": 0.4664,
+    "lift": 0.0336,
+    "roi": -0.0252
+   }
+  },
+  "7": {
+   "range": [
+    50.07139428564373,
+    50.25451370811074
+   ],
+   "dev": {
+    "N": 2534,
+    "winRate": 0.4864,
+    "winSE": 0.0103,
+    "baseline": 0.4595,
+    "lift": 0.0269,
+    "roi": -0.0425
+   },
+   "holdout": {
+    "N": 1483,
+    "winRate": 0.4859,
+    "winSE": 0.0134,
+    "baseline": 0.457,
+    "lift": 0.0289,
+    "roi": -0.0423
+   },
+   "8月": {
+    "N": 590,
+    "winRate": 0.5135,
+    "winSE": 0.0212,
+    "baseline": 0.457,
+    "lift": 0.0565,
+    "roi": 0.0007
+   },
+   "9月": {
+    "N": 644,
+    "winRate": 0.4975,
+    "winSE": 0.0205,
+    "baseline": 0.4562,
+    "lift": 0.0413,
+    "roi": -0.0157
+   },
+   "10月": {
+    "N": 251,
+    "winRate": 0.3906,
+    "winSE": 0.032,
+    "baseline": 0.4584,
+    "lift": -0.0678,
+    "roi": -0.2112
+   }
+  },
+  "8": {
+   "range": [
+    50.25451370811074,
+    50.58315091021736
+   ],
+   "dev": {
+    "N": 2535,
+    "winRate": 0.5021,
+    "winSE": 0.0103,
+    "baseline": 0.4607,
+    "lift": 0.0414,
+    "roi": -0.0213
+   },
+   "holdout": {
+    "N": 1494,
+    "winRate": 0.4672,
+    "winSE": 0.0134,
+    "baseline": 0.4564,
+    "lift": 0.0108,
+    "roi": -0.0781
+   },
+   "8月": {
+    "N": 624,
+    "winRate": 0.4586,
+    "winSE": 0.0207,
+    "baseline": 0.455,
+    "lift": 0.0036,
+    "roi": -0.083
+   },
+   "9月": {
+    "N": 596,
+    "winRate": 0.473,
+    "winSE": 0.0212,
+    "baseline": 0.4572,
+    "lift": 0.0158,
+    "roi": -0.0698
+   },
+   "10月": {
+    "N": 275,
+    "winRate": 0.4724,
+    "winSE": 0.0313,
+    "baseline": 0.4578,
+    "lift": 0.0146,
+    "roi": -0.0881
+   }
+  },
+  "9": {
+   "range": [
+    50.58315091021736,
+    51.26469425225193
+   ],
+   "dev": {
+    "N": 2534,
+    "winRate": 0.4939,
+    "winSE": 0.0103,
+    "baseline": 0.4619,
+    "lift": 0.032,
+    "roi": -0.0401
+   },
+   "holdout": {
+    "N": 1585,
+    "winRate": 0.4909,
+    "winSE": 0.013,
+    "baseline": 0.4622,
+    "lift": 0.0288,
+    "roi": -0.0358
+   },
+   "8月": {
+    "N": 658,
+    "winRate": 0.4951,
+    "winSE": 0.0202,
+    "baseline": 0.4601,
+    "lift": 0.035,
+    "roi": -0.0181
+   },
+   "9月": {
+    "N": 618,
+    "winRate": 0.5259,
+    "winSE": 0.0207,
+    "baseline": 0.4624,
+    "lift": 0.0635,
+    "roi": 0.02
+   },
+   "10月": {
+    "N": 311,
+    "winRate": 0.4141,
+    "winSE": 0.0286,
+    "baseline": 0.466,
+    "lift": -0.0519,
+    "roi": -0.184
+   }
+  },
+  "10": {
+   "range": [
+    51.26469425225193,
+    Infinity
+   ],
+   "dev": {
+    "N": 2535,
+    "winRate": 0.4948,
+    "winSE": 0.0102,
+    "baseline": 0.4649,
+    "lift": 0.0298,
+    "roi": -0.0422
+   },
+   "holdout": {
+    "N": 1598,
+    "winRate": 0.4851,
+    "winSE": 0.0129,
+    "baseline": 0.4642,
+    "lift": 0.0209,
+    "roi": -0.0635
+   },
+   "8月": {
+    "N": 662,
+    "winRate": 0.4662,
+    "winSE": 0.02,
+    "baseline": 0.4625,
+    "lift": 0.0037,
+    "roi": -0.0846
+   },
+   "9月": {
+    "N": 607,
+    "winRate": 0.5034,
+    "winSE": 0.0208,
+    "baseline": 0.4649,
+    "lift": 0.0386,
+    "roi": -0.039
+   },
+   "10月": {
+    "N": 330,
+    "winRate": 0.4869,
+    "winSE": 0.0286,
+    "baseline": 0.4665,
+    "lift": 0.0205,
+    "roi": -0.069
+   }
+  }
+ },
+ "bands": {
+  "红": {
+   "dev": {
+    "N": 2535,
+    "winRate": 0.5157,
+    "winSE": 0.0102,
+    "baseline": 0.5026,
+    "lift": 0.0131,
+    "roi": -0.0265
+   },
+   "holdout": {
+    "N": 1695,
+    "winRate": 0.4915,
+    "winSE": 0.0125,
+    "baseline": 0.5054,
+    "lift": -0.0139,
+    "roi": -0.0722
+   },
+   "8月": {
+    "N": 701,
+    "winRate": 0.4764,
+    "winSE": 0.0195,
+    "baseline": 0.5044,
+    "lift": -0.028,
+    "roi": -0.0868
+   },
+   "9月": {
+    "N": 651,
+    "winRate": 0.4984,
+    "winSE": 0.0201,
+    "baseline": 0.5074,
+    "lift": -0.009,
+    "roi": -0.0665
+   },
+   "10月": {
+    "N": 344,
+    "winRate": 0.511,
+    "winSE": 0.028,
+    "baseline": 0.5037,
+    "lift": 0.0073,
+    "roi": -0.0506
+   }
+  },
+  "橙": {
+   "dev": {
+    "N": 5069,
+    "winRate": 0.5019,
+    "winSE": 0.0072,
+    "baseline": 0.5034,
+    "lift": -0.0015,
+    "roi": -0.0524
+   },
+   "holdout": {
+    "N": 3056,
+    "winRate": 0.4882,
+    "winSE": 0.0093,
+    "baseline": 0.5012,
+    "lift": -0.013,
+    "roi": -0.0642
+   },
+   "8月": {
+    "N": 1233,
+    "winRate": 0.4694,
+    "winSE": 0.0147,
+    "baseline": 0.4989,
+    "lift": -0.0295,
+    "roi": -0.0893
+   },
+   "9月": {
+    "N": 1238,
+    "winRate": 0.5279,
+    "winSE": 0.0146,
+    "baseline": 0.5042,
+    "lift": 0.0237,
+    "roi": -0.0028
+   },
+   "10月": {
+    "N": 588,
+    "winRate": 0.4432,
+    "winSE": 0.0211,
+    "baseline": 0.4998,
+    "lift": -0.0565,
+    "roi": -0.1429
+   }
+  },
+  "绿": {
+   "dev": {
+    "N": 17742,
+    "winRate": 0.5074,
+    "winSE": 0.0039,
+    "baseline": 0.5013,
+    "lift": 0.0062,
+    "roi": -0.0338
+   },
+   "holdout": {
+    "N": 10190,
+    "winRate": 0.496,
+    "winSE": 0.0051,
+    "baseline": 0.5004,
+    "lift": -0.0044,
+    "roi": -0.0502
+   },
+   "8月": {
+    "N": 4204,
+    "winRate": 0.5012,
+    "winSE": 0.008,
+    "baseline": 0.5007,
+    "lift": 0.0005,
+    "roi": -0.04
+   },
+   "9月": {
+    "N": 4193,
+    "winRate": 0.5022,
+    "winSE": 0.008,
+    "baseline": 0.5,
+    "lift": 0.0022,
+    "roi": -0.0393
+   },
+   "10月": {
+    "N": 1808,
+    "winRate": 0.4694,
+    "winSE": 0.0122,
+    "baseline": 0.5003,
+    "lift": -0.0308,
+    "roi": -0.0999
+   }
+  }
+ }
+}

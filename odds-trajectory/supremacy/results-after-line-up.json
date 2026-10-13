@@ -1,0 +1,588 @@
+{
+ "method": [
+  "Matches whose last Royal line change before T-10 moved the line toward the\nupper side (upper = giving team at the T-10 line; on a level T-10 line, home).\nFrom the quote just after that change to the T-10 quote:\n  water move   upper water at T-10 - upper water just after the change\n               (< 0: the upper side keeps being backed at the new line;\n                > 0: the new line is not supported, water drifts back)\n  mu move      the same in implied supremacy (supremacy.py)\n  time         minutes from the change to T-10\n  upgrades     number of upward line moves over the whole path",
+  "Read-out per group (dev 02-01..07-31 and holdout 08-01..10-12 separately):\n  upper win rate (win + half win, push excluded), price baseline (v1style.baseline_fit,\n  fitted on dev) and lift, ROI backing the upper and the lower side at the T-10\n  quote, and upper goal margin minus mu_up(T-10) with its SE.\n  \"Overheated\" = the upper side does worse than its price (negative margin, negative\n  lift); \"real conviction\" = better than its price."
+ ],
+ "features": {
+  "升盘后水位变化": {
+   "升水 0.03…0.10": {
+    "dev": {
+     "n": 1099,
+     "winRate": 0.4666,
+     "winSE": 0.0154,
+     "baseline": 0.4414,
+     "lift": 0.0252,
+     "roiUpper": -0.0476,
+     "roiLower": -0.0407,
+     "marginVsPrice": 0.0342,
+     "marginSE": 0.0507
+    },
+    "holdout": {
+     "n": 547,
+     "winRate": 0.4811,
+     "winSE": 0.0223,
+     "baseline": 0.435,
+     "lift": 0.0461,
+     "roiUpper": -0.0213,
+     "roiLower": -0.062,
+     "marginVsPrice": -0.0103,
+     "marginSE": 0.0702
+    },
+    "combinedZ": 0.37,
+    "verdict": ""
+   },
+   "大幅升水 ≥0.10": {
+    "dev": {
+     "n": 417,
+     "winRate": 0.4517,
+     "winSE": 0.0254,
+     "baseline": 0.4243,
+     "lift": 0.0274,
+     "roiUpper": -0.0676,
+     "roiLower": -0.0386,
+     "marginVsPrice": -0.0077,
+     "marginSE": 0.0858
+    },
+    "holdout": {
+     "n": 197,
+     "winRate": 0.5109,
+     "winSE": 0.0369,
+     "baseline": 0.4235,
+     "lift": 0.0874,
+     "roiUpper": 0.0478,
+     "roiLower": -0.1385,
+     "marginVsPrice": 0.1305,
+     "marginSE": 0.1296
+    },
+    "combinedZ": 0.65,
+    "verdict": ""
+   },
+   "大幅降水 ≤−0.10": {
+    "dev": {
+     "n": 2312,
+     "winRate": 0.4902,
+     "winSE": 0.0108,
+     "baseline": 0.4759,
+     "lift": 0.0143,
+     "roiUpper": -0.0772,
+     "roiLower": -0.0056,
+     "marginVsPrice": -0.025,
+     "marginSE": 0.0354
+    },
+    "holdout": {
+     "n": 1260,
+     "winRate": 0.5204,
+     "winSE": 0.0146,
+     "baseline": 0.4784,
+     "lift": 0.042,
+     "roiUpper": -0.0329,
+     "roiLower": -0.0548,
+     "marginVsPrice": 0.1002,
+     "marginSE": 0.0508
+    },
+    "combinedZ": 0.9,
+    "verdict": ""
+   },
+   "水平 ±0.03": {
+    "dev": {
+     "n": 3102,
+     "winRate": 0.472,
+     "winSE": 0.0093,
+     "baseline": 0.4437,
+     "lift": 0.0283,
+     "roiUpper": -0.052,
+     "roiLower": -0.0423,
+     "marginVsPrice": 0.036,
+     "marginSE": 0.0295
+    },
+    "holdout": {
+     "n": 1758,
+     "winRate": 0.4679,
+     "winSE": 0.0123,
+     "baseline": 0.4475,
+     "lift": 0.0203,
+     "roiUpper": -0.0605,
+     "roiLower": -0.0282,
+     "marginVsPrice": 0.0372,
+     "marginSE": 0.04
+    },
+    "combinedZ": 1.52,
+    "verdict": ""
+   },
+   "降水 −0.10…−0.03": {
+    "dev": {
+     "n": 2463,
+     "winRate": 0.4816,
+     "winSE": 0.0103,
+     "baseline": 0.4594,
+     "lift": 0.0222,
+     "roiUpper": -0.0576,
+     "roiLower": -0.0281,
+     "marginVsPrice": 0.0214,
+     "marginSE": 0.0339
+    },
+    "holdout": {
+     "n": 1488,
+     "winRate": 0.494,
+     "winSE": 0.0133,
+     "baseline": 0.4591,
+     "lift": 0.0349,
+     "roiUpper": -0.0453,
+     "roiLower": -0.0402,
+     "marginVsPrice": 0.0092,
+     "marginSE": 0.044
+    },
+    "combinedZ": 0.59,
+    "verdict": ""
+   }
+  },
+  "升盘后μ变化": {
+   "回落": {
+    "dev": {
+     "n": 920,
+     "winRate": 0.4778,
+     "winSE": 0.0169,
+     "baseline": 0.4426,
+     "lift": 0.0352,
+     "roiUpper": -0.0319,
+     "roiLower": -0.0596,
+     "marginVsPrice": 0.0619,
+     "marginSE": 0.0552
+    },
+    "holdout": {
+     "n": 453,
+     "winRate": 0.4821,
+     "winSE": 0.0244,
+     "baseline": 0.4362,
+     "lift": 0.0459,
+     "roiUpper": -0.0182,
+     "roiLower": -0.0674,
+     "marginVsPrice": -0.0057,
+     "marginSE": 0.0799
+    },
+    "combinedZ": 0.74,
+    "verdict": ""
+   },
+   "大幅上升": {
+    "dev": {
+     "n": 2544,
+     "winRate": 0.4935,
+     "winSE": 0.0102,
+     "baseline": 0.4797,
+     "lift": 0.0138,
+     "roiUpper": -0.0737,
+     "roiLower": -0.0111,
+     "marginVsPrice": -0.0041,
+     "marginSE": 0.0341
+    },
+    "holdout": {
+     "n": 1338,
+     "winRate": 0.5235,
+     "winSE": 0.0141,
+     "baseline": 0.4829,
+     "lift": 0.0406,
+     "roiUpper": -0.0315,
+     "roiLower": -0.0579,
+     "marginVsPrice": 0.1096,
+     "marginSE": 0.0494
+    },
+    "combinedZ": 1.48,
+    "verdict": ""
+   },
+   "大幅回落": {
+    "dev": {
+     "n": 400,
+     "winRate": 0.4626,
+     "winSE": 0.0258,
+     "baseline": 0.4345,
+     "lift": 0.0281,
+     "roiUpper": -0.0579,
+     "roiLower": -0.0532,
+     "marginVsPrice": 0.01,
+     "marginSE": 0.092
+    },
+    "holdout": {
+     "n": 177,
+     "winRate": 0.5179,
+     "winSE": 0.0386,
+     "baseline": 0.431,
+     "lift": 0.0868,
+     "roiUpper": 0.0579,
+     "roiLower": -0.1474,
+     "marginVsPrice": 0.2016,
+     "marginSE": 0.1385
+    },
+    "combinedZ": 1.11,
+    "verdict": ""
+   },
+   "平稳": {
+    "dev": {
+     "n": 3357,
+     "winRate": 0.4652,
+     "winSE": 0.0089,
+     "baseline": 0.4384,
+     "lift": 0.0268,
+     "roiUpper": -0.0555,
+     "roiLower": -0.0366,
+     "marginVsPrice": 0.0279,
+     "marginSE": 0.0281
+    },
+    "holdout": {
+     "n": 1912,
+     "winRate": 0.4664,
+     "winSE": 0.0119,
+     "baseline": 0.4436,
+     "lift": 0.0228,
+     "roiUpper": -0.0613,
+     "roiLower": -0.0274,
+     "marginVsPrice": 0.013,
+     "marginSE": 0.0381
+    },
+    "combinedZ": 0.94,
+    "verdict": ""
+   },
+   "继续上升": {
+    "dev": {
+     "n": 2172,
+     "winRate": 0.4801,
+     "winSE": 0.011,
+     "baseline": 0.4589,
+     "lift": 0.0212,
+     "roiUpper": -0.0626,
+     "roiLower": -0.0215,
+     "marginVsPrice": -0.0015,
+     "marginSE": 0.0359
+    },
+    "holdout": {
+     "n": 1370,
+     "winRate": 0.4922,
+     "winSE": 0.0139,
+     "baseline": 0.4567,
+     "lift": 0.0355,
+     "roiUpper": -0.0439,
+     "roiLower": -0.0388,
+     "marginVsPrice": 0.0152,
+     "marginSE": 0.0453
+    },
+    "combinedZ": 0.21,
+    "verdict": ""
+   }
+  },
+  "升盘距T-10": {
+   "2–6 小时": {
+    "dev": {
+     "n": 1884,
+     "winRate": 0.4497,
+     "winSE": 0.0118,
+     "baseline": 0.4555,
+     "lift": -0.0058,
+     "roiUpper": -0.1131,
+     "roiLower": 0.0209,
+     "marginVsPrice": -0.0876,
+     "marginSE": 0.0395
+    },
+    "holdout": {
+     "n": 1066,
+     "winRate": 0.4804,
+     "winSE": 0.0158,
+     "baseline": 0.457,
+     "lift": 0.0234,
+     "roiUpper": -0.0682,
+     "roiLower": -0.0242,
+     "marginVsPrice": 0.0103,
+     "marginSE": 0.0548
+    },
+    "combinedZ": -1.44,
+    "verdict": ""
+   },
+   "30–120 分钟": {
+    "dev": {
+     "n": 2243,
+     "winRate": 0.489,
+     "winSE": 0.0109,
+     "baseline": 0.4569,
+     "lift": 0.0321,
+     "roiUpper": -0.0533,
+     "roiLower": -0.0381,
+     "marginVsPrice": 0.0254,
+     "marginSE": 0.0365
+    },
+    "holdout": {
+     "n": 1282,
+     "winRate": 0.5058,
+     "winSE": 0.0144,
+     "baseline": 0.4612,
+     "lift": 0.0445,
+     "roiUpper": -0.0303,
+     "roiLower": -0.0627,
+     "marginVsPrice": 0.0916,
+     "marginSE": 0.0491
+    },
+    "combinedZ": 1.81,
+    "verdict": ""
+   },
+   "<30 分钟": {
+    "dev": {
+     "n": 2782,
+     "winRate": 0.4876,
+     "winSE": 0.0098,
+     "baseline": 0.453,
+     "lift": 0.0346,
+     "roiUpper": -0.036,
+     "roiLower": -0.0532,
+     "marginVsPrice": 0.0687,
+     "marginSE": 0.032
+    },
+    "holdout": {
+     "n": 1651,
+     "winRate": 0.4714,
+     "winSE": 0.0127,
+     "baseline": 0.4524,
+     "lift": 0.019,
+     "roiUpper": -0.0683,
+     "roiLower": -0.0179,
+     "marginVsPrice": -0.0192,
+     "marginSE": 0.0419
+    },
+    "combinedZ": 1.19,
+    "verdict": ""
+   },
+   ">6 小时": {
+    "dev": {
+     "n": 2484,
+     "winRate": 0.4768,
+     "winSE": 0.0103,
+     "baseline": 0.4536,
+     "lift": 0.0232,
+     "roiUpper": -0.0521,
+     "roiLower": -0.0321,
+     "marginVsPrice": 0.0232,
+     "marginSE": 0.032
+    },
+    "holdout": {
+     "n": 1251,
+     "winRate": 0.5103,
+     "winSE": 0.0147,
+     "baseline": 0.4547,
+     "lift": 0.0557,
+     "roiUpper": 0.0055,
+     "roiLower": -0.0831,
+     "marginVsPrice": 0.1028,
+     "marginSE": 0.0457
+    },
+    "combinedZ": 2.1,
+    "verdict": "倾向看好（证据弱）"
+   }
+  },
+  "T-10上盘水位": {
+   "0.80–0.90": {
+    "dev": {
+     "n": 2253,
+     "winRate": 0.5078,
+     "winSE": 0.0109,
+     "baseline": 0.4701,
+     "lift": 0.0377,
+     "roiUpper": -0.0411,
+     "roiLower": -0.0507,
+     "marginVsPrice": 0.0464,
+     "marginSE": 0.0358
+    },
+    "holdout": {
+     "n": 1204,
+     "winRate": 0.4974,
+     "winSE": 0.0148,
+     "baseline": 0.4688,
+     "lift": 0.0286,
+     "roiUpper": -0.049,
+     "roiLower": -0.0412,
+     "marginVsPrice": 0.0901,
+     "marginSE": 0.0519
+    },
+    "combinedZ": 2.14,
+    "verdict": "倾向看好（证据弱）"
+   },
+   "0.90–1.00": {
+    "dev": {
+     "n": 3272,
+     "winRate": 0.4647,
+     "winSE": 0.009,
+     "baseline": 0.4506,
+     "lift": 0.0141,
+     "roiUpper": -0.0673,
+     "roiLower": -0.0188,
+     "marginVsPrice": -0.0056,
+     "marginSE": 0.0286
+    },
+    "holdout": {
+     "n": 1684,
+     "winRate": 0.4763,
+     "winSE": 0.0126,
+     "baseline": 0.4514,
+     "lift": 0.0248,
+     "roiUpper": -0.0583,
+     "roiLower": -0.0216,
+     "marginVsPrice": -0.0427,
+     "marginSE": 0.0402
+    },
+    "combinedZ": -0.89,
+    "verdict": ""
+   },
+   ">1.00": {
+    "dev": {
+     "n": 2348,
+     "winRate": 0.4412,
+     "winSE": 0.0106,
+     "baseline": 0.4173,
+     "lift": 0.0239,
+     "roiUpper": -0.0472,
+     "roiLower": -0.025,
+     "marginVsPrice": 0.0117,
+     "marginSE": 0.0319
+    },
+    "holdout": {
+     "n": 1370,
+     "winRate": 0.4437,
+     "winSE": 0.0139,
+     "baseline": 0.4187,
+     "lift": 0.0249,
+     "roiUpper": -0.043,
+     "roiLower": -0.0229,
+     "marginVsPrice": 0.037,
+     "marginSE": 0.0417
+    },
+    "combinedZ": 0.89,
+    "verdict": ""
+   },
+   "≤0.80": {
+    "dev": {
+     "n": 1520,
+     "winRate": 0.5153,
+     "winSE": 0.0132,
+     "baseline": 0.497,
+     "lift": 0.0183,
+     "roiUpper": -0.0912,
+     "roiLower": -0.0261,
+     "marginVsPrice": 0.0178,
+     "marginSE": 0.0492
+    },
+    "holdout": {
+     "n": 992,
+     "winRate": 0.5743,
+     "winSE": 0.0164,
+     "baseline": 0.5001,
+     "lift": 0.0742,
+     "roiUpper": -0.0014,
+     "roiLower": -0.1233,
+     "marginVsPrice": 0.1393,
+     "marginSE": 0.0611
+    },
+    "combinedZ": 1.87,
+    "verdict": ""
+   }
+  },
+  "升盘次数": {
+   "1 次": {
+    "dev": {
+     "n": 5551,
+     "winRate": 0.466,
+     "winSE": 0.0069,
+     "baseline": 0.4527,
+     "lift": 0.0132,
+     "roiUpper": -0.0773,
+     "roiLower": -0.0158,
+     "marginVsPrice": -0.0159,
+     "marginSE": 0.0224
+    },
+    "holdout": {
+     "n": 3604,
+     "winRate": 0.4883,
+     "winSE": 0.0086,
+     "baseline": 0.4539,
+     "lift": 0.0343,
+     "roiUpper": -0.0407,
+     "roiLower": -0.048,
+     "marginVsPrice": 0.0524,
+     "marginSE": 0.0283
+    },
+    "combinedZ": 0.81,
+    "verdict": ""
+   },
+   "2 次": {
+    "dev": {
+     "n": 2269,
+     "winRate": 0.5021,
+     "winSE": 0.0108,
+     "baseline": 0.4591,
+     "lift": 0.043,
+     "roiUpper": -0.0236,
+     "roiLower": -0.0622,
+     "marginVsPrice": 0.0779,
+     "marginSE": 0.0356
+    },
+    "holdout": {
+     "n": 1130,
+     "winRate": 0.501,
+     "winSE": 0.0154,
+     "baseline": 0.461,
+     "lift": 0.0399,
+     "roiUpper": -0.0402,
+     "roiLower": -0.0499,
+     "marginVsPrice": 0.0557,
+     "marginSE": 0.0525
+    },
+    "combinedZ": 2.3,
+    "verdict": "倾向看好（证据弱）"
+   },
+   "≥3 次": {
+    "dev": {
+     "n": 1573,
+     "winRate": 0.4827,
+     "winSE": 0.013,
+     "baseline": 0.4548,
+     "lift": 0.0279,
+     "roiUpper": -0.0507,
+     "roiLower": -0.0286,
+     "marginVsPrice": 0.0332,
+     "marginSE": 0.0424
+    },
+    "holdout": {
+     "n": 516,
+     "winRate": 0.4875,
+     "winSE": 0.0228,
+     "baseline": 0.46,
+     "lift": 0.0275,
+     "roiUpper": -0.049,
+     "roiLower": -0.0199,
+     "marginVsPrice": -0.0512,
+     "marginSE": 0.076
+    },
+    "combinedZ": 0.08,
+    "verdict": ""
+   }
+  }
+ },
+ "all": {
+  "dev": {
+   "n": 9393,
+   "winRate": 0.4775,
+   "winSE": 0.0053,
+   "baseline": 0.4546,
+   "lift": 0.0229,
+   "roiUpper": -0.0599,
+   "roiLower": -0.0292,
+   "marginVsPrice": 0.015,
+   "marginSE": 0.0173
+  },
+  "holdout": {
+   "n": 5250,
+   "winRate": 0.4909,
+   "winSE": 0.0071,
+   "baseline": 0.456,
+   "lift": 0.0349,
+   "roiUpper": -0.0414,
+   "roiLower": -0.0456,
+   "marginVsPrice": 0.0429,
+   "marginSE": 0.0237
+  }
+ }
+}

@@ -1,0 +1,230 @@
+{
+ "method": "Carries the V1 pipeline over from per-line water channels to one continuous\nchannel, mu (supremacy.py), so no line segmentation is needed:",
+ "sigma": 1.683585632718743,
+ "windows": {
+  "dev": {
+   "targets": 25346,
+   "binary": {
+    "withDirection": 19725,
+    "corrWithMarketError": -0.0058,
+    "all": {
+     "N": 19725,
+     "winRate": 0.5197,
+     "winSE": 0.0037,
+     "baseline": 0.5229,
+     "lift": -0.0033,
+     "roi": -0.0466
+    },
+    "green": {
+     "N": 7011,
+     "winRate": 0.5001,
+     "winSE": 0.0062,
+     "baseline": 0.5073,
+     "lift": -0.0072,
+     "roi": -0.0538
+    },
+    "orange": {
+     "N": 7023,
+     "winRate": 0.5158,
+     "winSE": 0.0062,
+     "baseline": 0.5199,
+     "lift": -0.0041,
+     "roi": -0.0468
+    },
+    "red": {
+     "N": 5691,
+     "winRate": 0.548,
+     "winSE": 0.0068,
+     "baseline": 0.5455,
+     "lift": 0.0025,
+     "roi": -0.0376
+    }
+   },
+   "margin": {
+    "withDirection": 19731,
+    "corrWithMarketError": 0.0024,
+    "all": {
+     "N": 19731,
+     "winRate": 0.5045,
+     "winSE": 0.0037,
+     "baseline": 0.5067,
+     "lift": -0.0022,
+     "roi": -0.0426
+    },
+    "green": {
+     "N": 7991,
+     "winRate": 0.5014,
+     "winSE": 0.0058,
+     "baseline": 0.5031,
+     "lift": -0.0017,
+     "roi": -0.0397
+    },
+    "orange": {
+     "N": 7217,
+     "winRate": 0.5049,
+     "winSE": 0.0061,
+     "baseline": 0.5089,
+     "lift": -0.004,
+     "roi": -0.045
+    },
+    "red": {
+     "N": 4523,
+     "winRate": 0.5096,
+     "winSE": 0.0077,
+     "baseline": 0.5096,
+     "lift": -0.0,
+     "roi": -0.0438
+    }
+   },
+   "residual": {
+    "withDirection": 19850,
+    "corrWithMarketError": 0.0009,
+    "all": {
+     "N": 19850,
+     "winRate": 0.4977,
+     "winSE": 0.0037,
+     "baseline": 0.5013,
+     "lift": -0.0036,
+     "roi": -0.0447
+    },
+    "green": {
+     "N": 8381,
+     "winRate": 0.498,
+     "winSE": 0.0056,
+     "baseline": 0.5021,
+     "lift": -0.004,
+     "roi": -0.0451
+    },
+    "orange": {
+     "N": 7304,
+     "winRate": 0.4963,
+     "winSE": 0.0061,
+     "baseline": 0.5016,
+     "lift": -0.0053,
+     "roi": -0.0452
+    },
+    "red": {
+     "N": 4165,
+     "winRate": 0.4996,
+     "winSE": 0.008,
+     "baseline": 0.4991,
+     "lift": 0.0005,
+     "roi": -0.043
+    }
+   },
+   "medianCandidates": 12.0
+  },
+  "holdout": {
+   "targets": 14941,
+   "binary": {
+    "withDirection": 12418,
+    "corrWithMarketError": 0.0005,
+    "all": {
+     "N": 12418,
+     "winRate": 0.5286,
+     "winSE": 0.0046,
+     "baseline": 0.5247,
+     "lift": 0.004,
+     "roi": -0.0424
+    },
+    "green": {
+     "N": 3363,
+     "winRate": 0.5063,
+     "winSE": 0.009,
+     "baseline": 0.5046,
+     "lift": 0.0017,
+     "roi": -0.0448
+    },
+    "orange": {
+     "N": 4052,
+     "winRate": 0.5168,
+     "winSE": 0.0082,
+     "baseline": 0.515,
+     "lift": 0.0019,
+     "roi": -0.0428
+    },
+    "red": {
+     "N": 5003,
+     "winRate": 0.5527,
+     "winSE": 0.0072,
+     "baseline": 0.5455,
+     "lift": 0.0071,
+     "roi": -0.0404
+    }
+   },
+   "margin": {
+    "withDirection": 12418,
+    "corrWithMarketError": 0.0076,
+    "all": {
+     "N": 12418,
+     "winRate": 0.5115,
+     "winSE": 0.0046,
+     "baseline": 0.5061,
+     "lift": 0.0054,
+     "roi": -0.0378
+    },
+    "green": {
+     "N": 3815,
+     "winRate": 0.5129,
+     "winSE": 0.0084,
+     "baseline": 0.5022,
+     "lift": 0.0107,
+     "roi": -0.0289
+    },
+    "orange": {
+     "N": 4445,
+     "winRate": 0.509,
+     "winSE": 0.0078,
+     "baseline": 0.5055,
+     "lift": 0.0035,
+     "roi": -0.0379
+    },
+    "red": {
+     "N": 4158,
+     "winRate": 0.5129,
+     "winSE": 0.008,
+     "baseline": 0.5105,
+     "lift": 0.0024,
+     "roi": -0.0457
+    }
+   },
+   "residual": {
+    "withDirection": 12454,
+    "corrWithMarketError": -0.0087,
+    "all": {
+     "N": 12454,
+     "winRate": 0.4963,
+     "winSE": 0.0046,
+     "baseline": 0.4982,
+     "lift": -0.0019,
+     "roi": -0.0492
+    },
+    "green": {
+     "N": 4194,
+     "winRate": 0.505,
+     "winSE": 0.008,
+     "baseline": 0.5,
+     "lift": 0.005,
+     "roi": -0.035
+    },
+    "orange": {
+     "N": 4845,
+     "winRate": 0.4913,
+     "winSE": 0.0074,
+     "baseline": 0.4981,
+     "lift": -0.0068,
+     "roi": -0.0582
+    },
+    "red": {
+     "N": 3415,
+     "winRate": 0.4928,
+     "winSE": 0.0089,
+     "baseline": 0.4961,
+     "lift": -0.0033,
+     "roi": -0.0539
+    }
+   },
+   "medianCandidates": 35.0
+  }
+ }
+}
