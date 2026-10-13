@@ -122,6 +122,36 @@ def upper_items(rows, idx, p_up):
                       for i in idx])
 
 
+def grouped(rows, D, kick, dev, hold, p_up, report):
+    """Decile groups of D and red / orange / green strength bands on |D - 50|; cut points from dev."""
+    hold_months = [(month_start(2026, m), month_start(2026, m + 1)) for m in (8, 9, 10)]
+    cuts = np.quantile(D[dev], np.linspace(.1, .9, 9))
+    strength = np.abs(D - 50)
+    red, orange = np.quantile(strength[dev], .9), np.quantile(strength[dev], .7)
+    band = np.where(strength >= red, '红', np.where(strength >= orange, '橙', '绿'))
+    group = np.searchsorted(cuts, D)
+    report.update({'decileCuts': [round(float(c), 3) for c in cuts],
+                   'bandCuts': {'red': round(float(red), 3), 'orange': round(float(orange), 3)},
+                   'deciles': {}, 'bands': {}})
+    windows = {'dev': dev, 'holdout': hold, **{f'{m}月': (kick >= lo) & (kick < hi)
+                                                 for m, (lo, hi) in zip((8, 9, 10), hold_months)}}
+    print('\n== 按 D 十分位分组（组 1 最看好下盘 … 组 10 最看好上盘）；列为"买上盘"的结果')
+    print('   组  D 区间            | 开发：场次 上盘赢盘率(提升) ROI | 留出：场次 上盘赢盘率(提升) ROI')
+    edges = [-np.inf, *cuts, np.inf]
+    for g in range(10):
+        block = {w: upper_items(rows, np.nonzero(m & (group == g))[0], p_up) for w, m in windows.items()}
+        report['deciles'][g + 1] = {'range': [float(edges[g]), float(edges[g + 1])], **block}
+        cells = ' | '.join(f"{block[w]['N']:5d} {block[w]['winRate']:.3f}({block[w]['lift']:+.3f}) {block[w]['roi']:+.3f}"
+                           for w in ('dev', 'holdout'))
+        print(f'  {g + 1:3d}  {edges[g]:7.2f} – {edges[g + 1]:7.2f} | {cells}')
+    print(f'\n== 按强度分色（红 |D−50| ≥ {red:.2f}，橙 ≥ {orange:.2f}），买评分看好的一方')
+    for b in ('红', '橙', '绿'):
+        block = {w: side_items(rows, np.nonzero(m & (band == b))[0], D, p_up) for w, m in windows.items()}
+        report['bands'][b] = block
+        print(f'  {b}  ' + ' | '.join(f"{w} {v['N']:5d} 场 {v['winRate']:.3f}±{v['winSE']:.3f}({v['lift']:+.3f}) ROI {v['roi']:+.3f}"
+                                     for w, v in block.items()))
+
+
 def main():
     rows, F, Pth = build()
     kick = np.array([r['kickoff'] for r in rows])
@@ -156,32 +186,7 @@ def main():
     report['chosen'] = '/'.join(map(str, best))
     print(f'\n开发段选出：{report["chosen"]}')
 
-    # Decile groups of D and strength bands on |D - 50|, cut points from dev.
-    cuts = np.quantile(D[dev], np.linspace(.1, .9, 9))
-    strength = np.abs(D - 50)
-    red, orange = np.quantile(strength[dev], .9), np.quantile(strength[dev], .7)
-    band = np.where(strength >= red, '红', np.where(strength >= orange, '橙', '绿'))
-    group = np.searchsorted(cuts, D)
-    report.update({'decileCuts': [round(float(c), 3) for c in cuts],
-                   'bandCuts': {'red': round(float(red), 3), 'orange': round(float(orange), 3)},
-                   'deciles': {}, 'bands': {}})
-    windows = {'dev': dev, 'holdout': hold, **{f'{m}月': (kick >= lo) & (kick < hi)
-                                                 for m, (lo, hi) in zip((8, 9, 10), hold_months)}}
-    print('\n== 按 D 十分位分组（组 1 最看好下盘 … 组 10 最看好上盘）；列为"买上盘"的结果')
-    print('   组  D 区间            | 开发：场次 上盘赢盘率(提升) ROI | 留出：场次 上盘赢盘率(提升) ROI')
-    edges = [-np.inf, *cuts, np.inf]
-    for g in range(10):
-        block = {w: upper_items(rows, np.nonzero(m & (group == g))[0], p_up) for w, m in windows.items()}
-        report['deciles'][g + 1] = {'range': [float(edges[g]), float(edges[g + 1])], **block}
-        cells = ' | '.join(f"{block[w]['N']:5d} {block[w]['winRate']:.3f}({block[w]['lift']:+.3f}) {block[w]['roi']:+.3f}"
-                           for w in ('dev', 'holdout'))
-        print(f'  {g + 1:3d}  {edges[g]:7.2f} – {edges[g + 1]:7.2f} | {cells}')
-    print(f'\n== 按强度分色（红 |D−50| ≥ {red:.2f}，橙 ≥ {orange:.2f}），买评分看好的一方')
-    for b in ('红', '橙', '绿'):
-        block = {w: side_items(rows, np.nonzero(m & (band == b))[0], D, p_up) for w, m in windows.items()}
-        report['bands'][b] = block
-        print(f'  {b}  ' + ' | '.join(f"{w} {v['N']:5d} 场 {v['winRate']:.3f}±{v['winSE']:.3f}({v['lift']:+.3f}) ROI {v['roi']:+.3f}"
-                                     for w, v in block.items()))
+    grouped(rows, D, kick, dev, hold, p_up, report)
     (HERE / 'results-similar-score.json').write_text(json.dumps(report, ensure_ascii=False, indent=1), 'utf-8')
 
 

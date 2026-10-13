@@ -1,0 +1,660 @@
+{
+ "method": [
+  "Same matches, target and grouping as similar_score.py; only the score\nchanges. Instead of averaging the returns of similar past matches, the score\nis the output of the turning-point model (multi_source.fit_average: ridge\nalpha 100 + gradient-boosted trees depth 2, leaf 400, averaged after\nstandardising each on its training predictions) on the trajectory-only\nfeatures (no T-10 level, depth, line type or water), target\nz = (upper profit - lower profit) / 2.",
+  "Rolling by month: for each month Feb..Oct the model is trained on every match\nwhose kickoff + 90 min is before the month starts, then scores that month, so\ndev scores are out of sample too. D = 50 + 10 * score (score in standard\ndeviations of the training predictions); D > 50 backs the upper side at the\nT-10 quote. Decile and band cut points come from dev (02-01..07-31); holdout\n(08-01..10-12) is evaluated once."
+ ],
+ "monthly": {
+  "2": {
+   "train": 6019,
+   "n": 5066,
+   "corr": -0.0235
+  },
+  "3": {
+   "train": 11091,
+   "n": 4163,
+   "corr": 0.0024
+  },
+  "4": {
+   "train": 15351,
+   "n": 4532,
+   "corr": -0.0198
+  },
+  "5": {
+   "train": 19876,
+   "n": 4763,
+   "corr": -0.0089
+  },
+  "6": {
+   "train": 24641,
+   "n": 3026,
+   "corr": 0.0082
+  },
+  "7": {
+   "train": 27675,
+   "n": 3796,
+   "corr": 0.0357
+  },
+  "8": {
+   "train": 31459,
+   "n": 6138,
+   "corr": 0.0176
+  },
+  "9": {
+   "train": 37604,
+   "n": 6082,
+   "corr": 0.0142
+  },
+  "10": {
+   "train": 43693,
+   "n": 2721,
+   "corr": 0.0021
+  }
+ },
+ "devCorr": -0.0045,
+ "holdoutCorr": 0.0129,
+ "decileCuts": [
+  40.56,
+  44.002,
+  46.383,
+  48.492,
+  50.398,
+  52.215,
+  54.072,
+  56.202,
+  59.52
+ ],
+ "bandCuts": {
+  "red": 12.74,
+  "orange": 7.562
+ },
+ "deciles": {
+  "1": {
+   "range": [
+    -Infinity,
+    40.5598423940604
+   ],
+   "dev": {
+    "N": 2535,
+    "winRate": 0.4819,
+    "winSE": 0.0102,
+    "baseline": 0.4517,
+    "lift": 0.0302,
+    "roi": -0.0413
+   },
+   "holdout": {
+    "N": 1578,
+    "winRate": 0.4542,
+    "winSE": 0.0129,
+    "baseline": 0.4377,
+    "lift": 0.0165,
+    "roi": -0.0661
+   },
+   "8月": {
+    "N": 617,
+    "winRate": 0.4263,
+    "winSE": 0.0206,
+    "baseline": 0.4351,
+    "lift": -0.0088,
+    "roi": -0.1057
+   },
+   "9月": {
+    "N": 680,
+    "winRate": 0.4631,
+    "winSE": 0.0198,
+    "baseline": 0.439,
+    "lift": 0.0241,
+    "roi": -0.0496
+   },
+   "10月": {
+    "N": 281,
+    "winRate": 0.4926,
+    "winSE": 0.0304,
+    "baseline": 0.4402,
+    "lift": 0.0524,
+    "roi": -0.0195
+   }
+  },
+  "2": {
+   "range": [
+    40.5598423940604,
+    44.001985720753325
+   ],
+   "dev": {
+    "N": 2535,
+    "winRate": 0.4781,
+    "winSE": 0.0103,
+    "baseline": 0.4589,
+    "lift": 0.0192,
+    "roi": -0.0564
+   },
+   "holdout": {
+    "N": 1969,
+    "winRate": 0.4797,
+    "winSE": 0.0116,
+    "baseline": 0.4517,
+    "lift": 0.0279,
+    "roi": -0.042
+   },
+   "8月": {
+    "N": 566,
+    "winRate": 0.4837,
+    "winSE": 0.0219,
+    "baseline": 0.4616,
+    "lift": 0.0222,
+    "roi": -0.0375
+   },
+   "9月": {
+    "N": 1056,
+    "winRate": 0.4718,
+    "winSE": 0.0158,
+    "baseline": 0.4477,
+    "lift": 0.0241,
+    "roi": -0.0511
+   },
+   "10月": {
+    "N": 347,
+    "winRate": 0.4969,
+    "winSE": 0.0277,
+    "baseline": 0.4482,
+    "lift": 0.0487,
+    "roi": -0.0213
+   }
+  },
+  "3": {
+   "range": [
+    44.001985720753325,
+    46.38340226391985
+   ],
+   "dev": {
+    "N": 2534,
+    "winRate": 0.4895,
+    "winSE": 0.0103,
+    "baseline": 0.4587,
+    "lift": 0.0308,
+    "roi": -0.0396
+   },
+   "holdout": {
+    "N": 1812,
+    "winRate": 0.4847,
+    "winSE": 0.0121,
+    "baseline": 0.4575,
+    "lift": 0.0272,
+    "roi": -0.0381
+   },
+   "8月": {
+    "N": 664,
+    "winRate": 0.5197,
+    "winSE": 0.0199,
+    "baseline": 0.4578,
+    "lift": 0.062,
+    "roi": 0.0206
+   },
+   "9月": {
+    "N": 829,
+    "winRate": 0.4727,
+    "winSE": 0.018,
+    "baseline": 0.4572,
+    "lift": 0.0154,
+    "roi": -0.0611
+   },
+   "10月": {
+    "N": 319,
+    "winRate": 0.4411,
+    "winSE": 0.0288,
+    "baseline": 0.4578,
+    "lift": -0.0167,
+    "roi": -0.1007
+   }
+  },
+  "4": {
+   "range": [
+    46.38340226391985,
+    48.49229145001761
+   ],
+   "dev": {
+    "N": 2535,
+    "winRate": 0.4831,
+    "winSE": 0.0103,
+    "baseline": 0.4596,
+    "lift": 0.0235,
+    "roi": -0.0475
+   },
+   "holdout": {
+    "N": 1599,
+    "winRate": 0.4929,
+    "winSE": 0.013,
+    "baseline": 0.462,
+    "lift": 0.0309,
+    "roi": -0.0374
+   },
+   "8月": {
+    "N": 685,
+    "winRate": 0.496,
+    "winSE": 0.0199,
+    "baseline": 0.4636,
+    "lift": 0.0325,
+    "roi": -0.0386
+   },
+   "9月": {
+    "N": 623,
+    "winRate": 0.4965,
+    "winSE": 0.0208,
+    "baseline": 0.4613,
+    "lift": 0.0352,
+    "roi": -0.0188
+   },
+   "10月": {
+    "N": 291,
+    "winRate": 0.4779,
+    "winSE": 0.0303,
+    "baseline": 0.4599,
+    "lift": 0.0181,
+    "roi": -0.0747
+   }
+  },
+  "5": {
+   "range": [
+    48.49229145001761,
+    50.39827132927462
+   ],
+   "dev": {
+    "N": 2534,
+    "winRate": 0.4934,
+    "winSE": 0.0103,
+    "baseline": 0.4605,
+    "lift": 0.0329,
+    "roi": -0.0334
+   },
+   "holdout": {
+    "N": 1318,
+    "winRate": 0.4873,
+    "winSE": 0.0143,
+    "baseline": 0.4635,
+    "lift": 0.0238,
+    "roi": -0.0522
+   },
+   "8月": {
+    "N": 663,
+    "winRate": 0.4797,
+    "winSE": 0.0201,
+    "baseline": 0.4625,
+    "lift": 0.0172,
+    "roi": -0.0561
+   },
+   "9月": {
+    "N": 387,
+    "winRate": 0.5143,
+    "winSE": 0.0267,
+    "baseline": 0.4709,
+    "lift": 0.0434,
+    "roi": -0.0169
+   },
+   "10月": {
+    "N": 268,
+    "winRate": 0.4688,
+    "winSE": 0.0312,
+    "baseline": 0.4557,
+    "lift": 0.013,
+    "roi": -0.0936
+   }
+  },
+  "6": {
+   "range": [
+    50.39827132927462,
+    52.21519202993694
+   ],
+   "dev": {
+    "N": 2535,
+    "winRate": 0.493,
+    "winSE": 0.0103,
+    "baseline": 0.4597,
+    "lift": 0.0334,
+    "roi": -0.0314
+   },
+   "holdout": {
+    "N": 1191,
+    "winRate": 0.4892,
+    "winSE": 0.015,
+    "baseline": 0.4655,
+    "lift": 0.0236,
+    "roi": -0.0514
+   },
+   "8月": {
+    "N": 640,
+    "winRate": 0.4615,
+    "winSE": 0.0204,
+    "baseline": 0.4625,
+    "lift": -0.001,
+    "roi": -0.0933
+   },
+   "9月": {
+    "N": 287,
+    "winRate": 0.5573,
+    "winSE": 0.0307,
+    "baseline": 0.4673,
+    "lift": 0.0899,
+    "roi": 0.0523
+   },
+   "10月": {
+    "N": 264,
+    "winRate": 0.4839,
+    "winSE": 0.0317,
+    "baseline": 0.4709,
+    "lift": 0.013,
+    "roi": -0.0623
+   }
+  },
+  "7": {
+   "range": [
+    52.21519202993694,
+    54.072074744132834
+   ],
+   "dev": {
+    "N": 2534,
+    "winRate": 0.4687,
+    "winSE": 0.0103,
+    "baseline": 0.4614,
+    "lift": 0.0073,
+    "roi": -0.0752
+   },
+   "holdout": {
+    "N": 1165,
+    "winRate": 0.4742,
+    "winSE": 0.0152,
+    "baseline": 0.4633,
+    "lift": 0.0109,
+    "roi": -0.0801
+   },
+   "8月": {
+    "N": 630,
+    "winRate": 0.4855,
+    "winSE": 0.0206,
+    "baseline": 0.4613,
+    "lift": 0.0243,
+    "roi": -0.0555
+   },
+   "9月": {
+    "N": 302,
+    "winRate": 0.4594,
+    "winSE": 0.0296,
+    "baseline": 0.4701,
+    "lift": -0.0108,
+    "roi": -0.1233
+   },
+   "10月": {
+    "N": 233,
+    "winRate": 0.463,
+    "winSE": 0.0339,
+    "baseline": 0.46,
+    "lift": 0.003,
+    "roi": -0.0906
+   }
+  },
+  "8": {
+   "range": [
+    54.072074744132834,
+    56.20248794219761
+   ],
+   "dev": {
+    "N": 2535,
+    "winRate": 0.4998,
+    "winSE": 0.0103,
+    "baseline": 0.4604,
+    "lift": 0.0393,
+    "roi": -0.0261
+   },
+   "holdout": {
+    "N": 1202,
+    "winRate": 0.4776,
+    "winSE": 0.015,
+    "baseline": 0.4619,
+    "lift": 0.0157,
+    "roi": -0.0622
+   },
+   "8月": {
+    "N": 582,
+    "winRate": 0.4743,
+    "winSE": 0.0214,
+    "baseline": 0.463,
+    "lift": 0.0113,
+    "roi": -0.0725
+   },
+   "9月": {
+    "N": 431,
+    "winRate": 0.4764,
+    "winSE": 0.0249,
+    "baseline": 0.4572,
+    "lift": 0.0192,
+    "roi": -0.0511
+   },
+   "10月": {
+    "N": 189,
+    "winRate": 0.4911,
+    "winSE": 0.0385,
+    "baseline": 0.4697,
+    "lift": 0.0215,
+    "roi": -0.056
+   }
+  },
+  "9": {
+   "range": [
+    56.20248794219761,
+    59.519856543494114
+   ],
+   "dev": {
+    "N": 2534,
+    "winRate": 0.4898,
+    "winSE": 0.0103,
+    "baseline": 0.4608,
+    "lift": 0.029,
+    "roi": -0.0426
+   },
+   "holdout": {
+    "N": 1431,
+    "winRate": 0.5034,
+    "winSE": 0.0137,
+    "baseline": 0.4667,
+    "lift": 0.0367,
+    "roi": -0.0313
+   },
+   "8月": {
+    "N": 693,
+    "winRate": 0.5397,
+    "winSE": 0.0197,
+    "baseline": 0.4674,
+    "lift": 0.0723,
+    "roi": 0.0328
+   },
+   "9月": {
+    "N": 577,
+    "winRate": 0.4709,
+    "winSE": 0.0216,
+    "baseline": 0.4609,
+    "lift": 0.01,
+    "roi": -0.0846
+   },
+   "10月": {
+    "N": 161,
+    "winRate": 0.4631,
+    "winSE": 0.0408,
+    "baseline": 0.4845,
+    "lift": -0.0214,
+    "roi": -0.1162
+   }
+  },
+  "10": {
+   "range": [
+    59.519856543494114,
+    Infinity
+   ],
+   "dev": {
+    "N": 2535,
+    "winRate": 0.4866,
+    "winSE": 0.0102,
+    "baseline": 0.4758,
+    "lift": 0.0108,
+    "roi": -0.0629
+   },
+   "holdout": {
+    "N": 1676,
+    "winRate": 0.5359,
+    "winSE": 0.0126,
+    "baseline": 0.4818,
+    "lift": 0.0541,
+    "roi": -0.0122
+   },
+   "8月": {
+    "N": 398,
+    "winRate": 0.5161,
+    "winSE": 0.0259,
+    "baseline": 0.4623,
+    "lift": 0.0539,
+    "roi": -0.0068
+   },
+   "9月": {
+    "N": 910,
+    "winRate": 0.5424,
+    "winSE": 0.0171,
+    "baseline": 0.4862,
+    "lift": 0.0562,
+    "roi": -0.009
+   },
+   "10月": {
+    "N": 387,
+    "winRate": 0.5393,
+    "winSE": 0.0264,
+    "baseline": 0.4901,
+    "lift": 0.0492,
+    "roi": -0.0287
+   }
+  }
+ },
+ "bands": {
+  "红": {
+   "dev": {
+    "N": 2535,
+    "winRate": 0.499,
+    "winSE": 0.0102,
+    "baseline": 0.5129,
+    "lift": -0.014,
+    "roi": -0.0652
+   },
+   "holdout": {
+    "N": 1608,
+    "winRate": 0.5402,
+    "winSE": 0.0128,
+    "baseline": 0.519,
+    "lift": 0.0212,
+    "roi": -0.0235
+   },
+   "8月": {
+    "N": 454,
+    "winRate": 0.5187,
+    "winSE": 0.0242,
+    "baseline": 0.5396,
+    "lift": -0.0209,
+    "roi": -0.0598
+   },
+   "9月": {
+    "N": 772,
+    "winRate": 0.5565,
+    "winSE": 0.0184,
+    "baseline": 0.5086,
+    "lift": 0.0479,
+    "roi": 0.0042
+   },
+   "10月": {
+    "N": 382,
+    "winRate": 0.5328,
+    "winSE": 0.0266,
+    "baseline": 0.5153,
+    "lift": 0.0175,
+    "roi": -0.0362
+   }
+  },
+  "橙": {
+   "dev": {
+    "N": 5069,
+    "winRate": 0.5058,
+    "winSE": 0.0072,
+    "baseline": 0.5064,
+    "lift": -0.0007,
+    "roi": -0.046
+   },
+   "holdout": {
+    "N": 3333,
+    "winRate": 0.5329,
+    "winSE": 0.0089,
+    "baseline": 0.5193,
+    "lift": 0.0136,
+    "roi": -0.0135
+   },
+   "8月": {
+    "N": 1188,
+    "winRate": 0.5545,
+    "winSE": 0.015,
+    "baseline": 0.506,
+    "lift": 0.0485,
+    "roi": 0.0376
+   },
+   "9月": {
+    "N": 1654,
+    "winRate": 0.5223,
+    "winSE": 0.0127,
+    "baseline": 0.525,
+    "lift": -0.0027,
+    "roi": -0.0388
+   },
+   "10月": {
+    "N": 491,
+    "winRate": 0.5172,
+    "winSE": 0.0232,
+    "baseline": 0.532,
+    "lift": -0.0148,
+    "roi": -0.0516
+   }
+  },
+  "绿": {
+   "dev": {
+    "N": 17742,
+    "winRate": 0.4985,
+    "winSE": 0.0039,
+    "baseline": 0.498,
+    "lift": 0.0005,
+    "roi": -0.0488
+   },
+   "holdout": {
+    "N": 10000,
+    "winRate": 0.4996,
+    "winSE": 0.0052,
+    "baseline": 0.5056,
+    "lift": -0.006,
+    "roi": -0.0513
+   },
+   "8月": {
+    "N": 4496,
+    "winRate": 0.4927,
+    "winSE": 0.0077,
+    "baseline": 0.499,
+    "lift": -0.0062,
+    "roi": -0.0582
+   },
+   "9月": {
+    "N": 3656,
+    "winRate": 0.5043,
+    "winSE": 0.0086,
+    "baseline": 0.5122,
+    "lift": -0.0079,
+    "roi": -0.0484
+   },
+   "10月": {
+    "N": 1867,
+    "winRate": 0.5069,
+    "winSE": 0.012,
+    "baseline": 0.5092,
+    "lift": -0.0023,
+    "roi": -0.0406
+   }
+  }
+ }
+}
