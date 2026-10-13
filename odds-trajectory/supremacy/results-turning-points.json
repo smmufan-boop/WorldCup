@@ -1,0 +1,1117 @@
+{
+ "features": [
+  "level",
+  "depth",
+  "quarter25",
+  "quarter75",
+  "water",
+  "logTicks",
+  "logAgeMin",
+  "net",
+  "pathLength",
+  "efficiency",
+  "peakRetreat",
+  "troughRecovery",
+  "logMinHigh",
+  "logMinLow",
+  "early",
+  "late",
+  "last20",
+  "lineUp",
+  "lineDown",
+  "finalWaterMove",
+  "unchangedLineWaterDrop",
+  "swings03",
+  "amplitude03",
+  "lastLeg03",
+  "lastDir03",
+  "logMinSincePivot03",
+  "swings08",
+  "amplitude08",
+  "lastLeg08",
+  "lastDir08",
+  "logMinSincePivot08"
+ ],
+ "n": {
+  "dev": 25346,
+  "holdout": 14941
+ },
+ "runs": {
+  "margin / 全部特征": {
+   "singleFeatureCorr": {
+    "level": {
+     "dev": -0.0516,
+     "holdout": -0.0369
+    },
+    "depth": {
+     "dev": -0.0462,
+     "holdout": -0.0316
+    },
+    "quarter25": {
+     "dev": 0.0021,
+     "holdout": -0.0002
+    },
+    "quarter75": {
+     "dev": -0.0165,
+     "holdout": 0.0031
+    },
+    "water": {
+     "dev": -0.0106,
+     "holdout": -0.0312
+    },
+    "logTicks": {
+     "dev": -0.0034,
+     "holdout": -0.0026
+    },
+    "logAgeMin": {
+     "dev": 0.0054,
+     "holdout": 0.0119
+    },
+    "net": {
+     "dev": -0.0023,
+     "holdout": 0.0068
+    },
+    "pathLength": {
+     "dev": -0.0121,
+     "holdout": -0.0124
+    },
+    "efficiency": {
+     "dev": 0.003,
+     "holdout": -0.008
+    },
+    "peakRetreat": {
+     "dev": -0.013,
+     "holdout": -0.0202
+    },
+    "troughRecovery": {
+     "dev": -0.007,
+     "holdout": -0.0091
+    },
+    "logMinHigh": {
+     "dev": 0.0065,
+     "holdout": -0.0148
+    },
+    "logMinLow": {
+     "dev": -0.003,
+     "holdout": 0.0189
+    },
+    "early": {
+     "dev": -0.0101,
+     "holdout": 0.0071
+    },
+    "late": {
+     "dev": 0.0113,
+     "holdout": 0.0013
+    },
+    "last20": {
+     "dev": 0.0099,
+     "holdout": 0.0182
+    },
+    "lineUp": {
+     "dev": -0.0043,
+     "holdout": 0.0008
+    },
+    "lineDown": {
+     "dev": 0.002,
+     "holdout": 0.0012
+    },
+    "finalWaterMove": {
+     "dev": -0.008,
+     "holdout": -0.028
+    },
+    "unchangedLineWaterDrop": {
+     "dev": 0.0153,
+     "holdout": 0.0252
+    },
+    "swings03": {
+     "dev": -0.0002,
+     "holdout": 0.0046
+    },
+    "amplitude03": {
+     "dev": -0.0124,
+     "holdout": -0.014
+    },
+    "lastLeg03": {
+     "dev": 0.0206,
+     "holdout": 0.0109
+    },
+    "lastDir03": {
+     "dev": 0.0154,
+     "holdout": 0.0112
+    },
+    "logMinSincePivot03": {
+     "dev": -0.0062,
+     "holdout": 0.0109
+    },
+    "swings08": {
+     "dev": -0.0067,
+     "holdout": -0.0015
+    },
+    "amplitude08": {
+     "dev": -0.0155,
+     "holdout": -0.0193
+    },
+    "lastLeg08": {
+     "dev": 0.0128,
+     "holdout": 0.0113
+    },
+    "lastDir08": {
+     "dev": 0.0057,
+     "holdout": 0.006
+    },
+    "logMinSincePivot08": {
+     "dev": 0.0067,
+     "holdout": 0.0141
+    }
+   },
+   "forwardValidation": {
+    "('ridge', 1.0)": 0.0586,
+    "('ridge', 100.0)": 0.0595,
+    "('ridge', 3000.0)": 0.0527,
+    "('gbm', (2, 400, 150))": 0.0378,
+    "('gbm', (2, 400, 400))": 0.0378,
+    "('gbm', (2, 1500, 150))": 0.0168,
+    "('gbm', (2, 1500, 400))": 0.0168,
+    "('gbm', (3, 400, 150))": 0.0346,
+    "('gbm', (3, 400, 400))": 0.0346,
+    "('gbm', (3, 1500, 150))": 0.008,
+    "('gbm', (3, 1500, 400))": 0.008
+   },
+   "chosen": {
+    "ridge": "('ridge', 100.0)",
+    "gbm": "('gbm', (2, 400, 150))"
+   },
+   "ridgeCoefficients": {
+    "level": -0.4485,
+    "depth": 0.3654,
+    "water": -0.0603,
+    "pathLength": -0.0385,
+    "lineDown": 0.0361,
+    "lastLeg03": 0.0328,
+    "lineUp": -0.0256,
+    "swings03": 0.0245,
+    "unchangedLineWaterDrop": 0.0233,
+    "lastDir08": -0.0227
+   },
+   "holdout": {
+    "ridge": {
+     "corr": 0.075,
+     "monthlyCorr": {
+      "8": 0.0385,
+      "9": 0.1005,
+      "10": 0.0875
+     },
+     "top10": {
+      "N": 1494,
+      "winRate": 0.5181,
+      "winSE": 0.0135,
+      "baseline": 0.5053,
+      "lift": 0.0128,
+      "roi": -0.0219
+     },
+     "top20": {
+      "N": 2988,
+      "winRate": 0.5208,
+      "winSE": 0.0095,
+      "baseline": 0.5033,
+      "lift": 0.0175,
+      "roi": -0.0154
+     },
+     "top30": {
+      "N": 4482,
+      "winRate": 0.5134,
+      "winSE": 0.0078,
+      "baseline": 0.5027,
+      "lift": 0.0107,
+      "roi": -0.0293
+     },
+     "top100": {
+      "N": 14941,
+      "winRate": 0.5067,
+      "winSE": 0.0042,
+      "baseline": 0.4989,
+      "lift": 0.0078,
+      "roi": -0.034
+     }
+    },
+    "gbm": {
+     "corr": 0.0652,
+     "monthlyCorr": {
+      "8": 0.0321,
+      "9": 0.0827,
+      "10": 0.0891
+     },
+     "top10": {
+      "N": 1494,
+      "winRate": 0.5316,
+      "winSE": 0.0133,
+      "baseline": 0.5457,
+      "lift": -0.014,
+      "roi": -0.0226
+     },
+     "top20": {
+      "N": 2988,
+      "winRate": 0.507,
+      "winSE": 0.0095,
+      "baseline": 0.5195,
+      "lift": -0.0125,
+      "roi": -0.0395
+     },
+     "top30": {
+      "N": 4482,
+      "winRate": 0.4968,
+      "winSE": 0.0077,
+      "baseline": 0.5095,
+      "lift": -0.0127,
+      "roi": -0.0556
+     },
+     "top100": {
+      "N": 14941,
+      "winRate": 0.4971,
+      "winSE": 0.0042,
+      "baseline": 0.4925,
+      "lift": 0.0047,
+      "roi": -0.0436
+     }
+    },
+    "average": {
+     "corr": 0.0753,
+     "monthlyCorr": {
+      "8": 0.0382,
+      "9": 0.0979,
+      "10": 0.0946
+     },
+     "top10": {
+      "N": 1494,
+      "winRate": 0.5107,
+      "winSE": 0.0136,
+      "baseline": 0.5038,
+      "lift": 0.0069,
+      "roi": -0.048
+     },
+     "top20": {
+      "N": 2988,
+      "winRate": 0.5176,
+      "winSE": 0.0096,
+      "baseline": 0.4962,
+      "lift": 0.0214,
+      "roi": -0.031
+     },
+     "top30": {
+      "N": 4482,
+      "winRate": 0.5207,
+      "winSE": 0.0078,
+      "baseline": 0.4919,
+      "lift": 0.0288,
+      "roi": -0.0162
+     },
+     "top100": {
+      "N": 14941,
+      "winRate": 0.4981,
+      "winSE": 0.0042,
+      "baseline": 0.49,
+      "lift": 0.0081,
+      "roi": -0.0427
+     }
+    }
+   }
+  },
+  "margin / 只用轨迹特征": {
+   "singleFeatureCorr": {
+    "logTicks": {
+     "dev": -0.0034,
+     "holdout": -0.0026
+    },
+    "logAgeMin": {
+     "dev": 0.0054,
+     "holdout": 0.0119
+    },
+    "net": {
+     "dev": -0.0023,
+     "holdout": 0.0068
+    },
+    "pathLength": {
+     "dev": -0.0121,
+     "holdout": -0.0124
+    },
+    "efficiency": {
+     "dev": 0.003,
+     "holdout": -0.008
+    },
+    "peakRetreat": {
+     "dev": -0.013,
+     "holdout": -0.0202
+    },
+    "troughRecovery": {
+     "dev": -0.007,
+     "holdout": -0.0091
+    },
+    "logMinHigh": {
+     "dev": 0.0065,
+     "holdout": -0.0148
+    },
+    "logMinLow": {
+     "dev": -0.003,
+     "holdout": 0.0189
+    },
+    "early": {
+     "dev": -0.0101,
+     "holdout": 0.0071
+    },
+    "late": {
+     "dev": 0.0113,
+     "holdout": 0.0013
+    },
+    "last20": {
+     "dev": 0.0099,
+     "holdout": 0.0182
+    },
+    "lineUp": {
+     "dev": -0.0043,
+     "holdout": 0.0008
+    },
+    "lineDown": {
+     "dev": 0.002,
+     "holdout": 0.0012
+    },
+    "finalWaterMove": {
+     "dev": -0.008,
+     "holdout": -0.028
+    },
+    "unchangedLineWaterDrop": {
+     "dev": 0.0153,
+     "holdout": 0.0252
+    },
+    "swings03": {
+     "dev": -0.0002,
+     "holdout": 0.0046
+    },
+    "amplitude03": {
+     "dev": -0.0124,
+     "holdout": -0.014
+    },
+    "lastLeg03": {
+     "dev": 0.0206,
+     "holdout": 0.0109
+    },
+    "lastDir03": {
+     "dev": 0.0154,
+     "holdout": 0.0112
+    },
+    "logMinSincePivot03": {
+     "dev": -0.0062,
+     "holdout": 0.0109
+    },
+    "swings08": {
+     "dev": -0.0067,
+     "holdout": -0.0015
+    },
+    "amplitude08": {
+     "dev": -0.0155,
+     "holdout": -0.0193
+    },
+    "lastLeg08": {
+     "dev": 0.0128,
+     "holdout": 0.0113
+    },
+    "lastDir08": {
+     "dev": 0.0057,
+     "holdout": 0.006
+    },
+    "logMinSincePivot08": {
+     "dev": 0.0067,
+     "holdout": 0.0141
+    }
+   },
+   "forwardValidation": {
+    "('ridge', 1.0)": 0.0205,
+    "('ridge', 100.0)": 0.0211,
+    "('ridge', 3000.0)": 0.0243,
+    "('gbm', (2, 400, 150))": 0.0138,
+    "('gbm', (2, 400, 400))": 0.0138,
+    "('gbm', (2, 1500, 150))": 0.0118,
+    "('gbm', (2, 1500, 400))": 0.0118,
+    "('gbm', (3, 400, 150))": 0.0117,
+    "('gbm', (3, 400, 400))": 0.0117,
+    "('gbm', (3, 1500, 150))": 0.0129,
+    "('gbm', (3, 1500, 400))": 0.0129
+   },
+   "chosen": {
+    "ridge": "('ridge', 3000.0)",
+    "gbm": "('gbm', (2, 400, 150))"
+   },
+   "ridgeCoefficients": {
+    "lastLeg03": 0.0263,
+    "swings03": 0.0247,
+    "unchangedLineWaterDrop": 0.0204,
+    "pathLength": -0.0182,
+    "amplitude08": -0.0181,
+    "lineDown": 0.0173,
+    "logMinSincePivot08": 0.0167,
+    "lastDir08": -0.0165,
+    "logMinLow": -0.0164,
+    "peakRetreat": -0.0158
+   },
+   "holdout": {
+    "ridge": {
+     "corr": 0.0359,
+     "monthlyCorr": {
+      "8": 0.0202,
+      "9": 0.0483,
+      "10": 0.0452
+     },
+     "top10": {
+      "N": 1494,
+      "winRate": 0.5329,
+      "winSE": 0.0133,
+      "baseline": 0.5316,
+      "lift": 0.0013,
+      "roi": -0.0302
+     },
+     "top20": {
+      "N": 2988,
+      "winRate": 0.5332,
+      "winSE": 0.0094,
+      "baseline": 0.5259,
+      "lift": 0.0074,
+      "roi": -0.0255
+     },
+     "top30": {
+      "N": 4482,
+      "winRate": 0.5318,
+      "winSE": 0.0077,
+      "baseline": 0.5251,
+      "lift": 0.0067,
+      "roi": -0.0259
+     },
+     "top100": {
+      "N": 14941,
+      "winRate": 0.5156,
+      "winSE": 0.0042,
+      "baseline": 0.5124,
+      "lift": 0.0032,
+      "roi": -0.0345
+     }
+    },
+    "gbm": {
+     "corr": 0.0114,
+     "monthlyCorr": {
+      "8": 0.0005,
+      "9": 0.0133,
+      "10": 0.0332
+     },
+     "top10": {
+      "N": 1494,
+      "winRate": 0.555,
+      "winSE": 0.0132,
+      "baseline": 0.5586,
+      "lift": -0.0036,
+      "roi": -0.0043
+     },
+     "top20": {
+      "N": 2988,
+      "winRate": 0.5334,
+      "winSE": 0.0094,
+      "baseline": 0.5587,
+      "lift": -0.0254,
+      "roi": -0.0424
+     },
+     "top30": {
+      "N": 4482,
+      "winRate": 0.5193,
+      "winSE": 0.0077,
+      "baseline": 0.5498,
+      "lift": -0.0306,
+      "roi": -0.053
+     },
+     "top100": {
+      "N": 14941,
+      "winRate": 0.5101,
+      "winSE": 0.0042,
+      "baseline": 0.5367,
+      "lift": -0.0266,
+      "roi": -0.0486
+     }
+    },
+    "average": {
+     "corr": 0.0279,
+     "monthlyCorr": {
+      "8": 0.0122,
+      "9": 0.0365,
+      "10": 0.0459
+     },
+     "top10": {
+      "N": 1494,
+      "winRate": 0.5366,
+      "winSE": 0.0133,
+      "baseline": 0.5468,
+      "lift": -0.0103,
+      "roi": -0.0319
+     },
+     "top20": {
+      "N": 2988,
+      "winRate": 0.5324,
+      "winSE": 0.0094,
+      "baseline": 0.5281,
+      "lift": 0.0043,
+      "roi": -0.0344
+     },
+     "top30": {
+      "N": 4482,
+      "winRate": 0.5267,
+      "winSE": 0.0077,
+      "baseline": 0.5186,
+      "lift": 0.0081,
+      "roi": -0.0331
+     },
+     "top100": {
+      "N": 14941,
+      "winRate": 0.5123,
+      "winSE": 0.0042,
+      "baseline": 0.4997,
+      "lift": 0.0126,
+      "roi": -0.0343
+     }
+    }
+   }
+  },
+  "profit / 全部特征": {
+   "singleFeatureCorr": {
+    "level": {
+     "dev": -0.0094,
+     "holdout": 0.0063
+    },
+    "depth": {
+     "dev": -0.0119,
+     "holdout": 0.0037
+    },
+    "quarter25": {
+     "dev": -0.0049,
+     "holdout": 0.0096
+    },
+    "quarter75": {
+     "dev": -0.01,
+     "holdout": 0.006
+    },
+    "water": {
+     "dev": -0.0122,
+     "holdout": -0.0357
+    },
+    "logTicks": {
+     "dev": -0.0057,
+     "holdout": -0.0009
+    },
+    "logAgeMin": {
+     "dev": 0.0011,
+     "holdout": 0.0099
+    },
+    "net": {
+     "dev": -0.0005,
+     "holdout": 0.0093
+    },
+    "pathLength": {
+     "dev": -0.0021,
+     "holdout": 0.0062
+    },
+    "efficiency": {
+     "dev": 0.0052,
+     "holdout": -0.0047
+    },
+    "peakRetreat": {
+     "dev": -0.0045,
+     "holdout": -0.0079
+    },
+    "troughRecovery": {
+     "dev": -0.0003,
+     "holdout": 0.0044
+    },
+    "logMinHigh": {
+     "dev": 0.0103,
+     "holdout": -0.0092
+    },
+    "logMinLow": {
+     "dev": -0.0059,
+     "holdout": 0.0142
+    },
+    "early": {
+     "dev": -0.0049,
+     "holdout": 0.011
+    },
+    "late": {
+     "dev": 0.0066,
+     "holdout": -0.0002
+    },
+    "last20": {
+     "dev": 0.0043,
+     "holdout": 0.0168
+    },
+    "lineUp": {
+     "dev": -0.0064,
+     "holdout": -0.0008
+    },
+    "lineDown": {
+     "dev": 0.0005,
+     "holdout": 0.0022
+    },
+    "finalWaterMove": {
+     "dev": -0.0025,
+     "holdout": -0.02
+    },
+    "unchangedLineWaterDrop": {
+     "dev": 0.0157,
+     "holdout": 0.0223
+    },
+    "swings03": {
+     "dev": 0.0017,
+     "holdout": 0.0123
+    },
+    "amplitude03": {
+     "dev": -0.0015,
+     "holdout": 0.0063
+    },
+    "lastLeg03": {
+     "dev": 0.0098,
+     "holdout": 0.0064
+    },
+    "lastDir03": {
+     "dev": 0.0076,
+     "holdout": 0.0059
+    },
+    "logMinSincePivot03": {
+     "dev": -0.0092,
+     "holdout": -0.002
+    },
+    "swings08": {
+     "dev": 0.0016,
+     "holdout": 0.0138
+    },
+    "amplitude08": {
+     "dev": -0.0015,
+     "holdout": 0.0048
+    },
+    "lastLeg08": {
+     "dev": 0.0033,
+     "holdout": 0.0113
+    },
+    "lastDir08": {
+     "dev": -0.0033,
+     "holdout": 0.0094
+    },
+    "logMinSincePivot08": {
+     "dev": 0.0047,
+     "holdout": 0.0112
+    }
+   },
+   "forwardValidation": {
+    "('ridge', 1.0)": 0.0084,
+    "('ridge', 100.0)": 0.0093,
+    "('ridge', 3000.0)": 0.0123,
+    "('gbm', (2, 400, 150))": -0.0058,
+    "('gbm', (2, 400, 400))": -0.0058,
+    "('gbm', (2, 1500, 150))": -0.0125,
+    "('gbm', (2, 1500, 400))": -0.0125,
+    "('gbm', (3, 400, 150))": -0.0035,
+    "('gbm', (3, 400, 400))": -0.0035,
+    "('gbm', (3, 1500, 150))": -0.0076,
+    "('gbm', (3, 1500, 400))": -0.0076
+   },
+   "chosen": {
+    "ridge": "('ridge', 3000.0)",
+    "gbm": "('gbm', (3, 400, 150))"
+   },
+   "ridgeCoefficients": {
+    "unchangedLineWaterDrop": 0.0116,
+    "logMinSincePivot03": -0.0094,
+    "swings03": 0.0093,
+    "logMinHigh": 0.0086,
+    "water": -0.0076,
+    "logMinLow": -0.0076,
+    "lastDir08": -0.0073,
+    "lastLeg03": 0.0069,
+    "peakRetreat": -0.0065,
+    "logTicks": -0.0062
+   },
+   "holdout": {
+    "ridge": {
+     "corr": 0.0178,
+     "monthlyCorr": {
+      "8": 0.0216,
+      "9": 0.0227,
+      "10": -0.0003
+     },
+     "top10": {
+      "N": 1494,
+      "winRate": 0.5458,
+      "winSE": 0.0133,
+      "baseline": 0.5283,
+      "lift": 0.0176,
+      "roi": -0.0206
+     },
+     "top20": {
+      "N": 2988,
+      "winRate": 0.5339,
+      "winSE": 0.0094,
+      "baseline": 0.5256,
+      "lift": 0.0083,
+      "roi": -0.0335
+     },
+     "top30": {
+      "N": 4482,
+      "winRate": 0.533,
+      "winSE": 0.0077,
+      "baseline": 0.5253,
+      "lift": 0.0077,
+      "roi": -0.0313
+     },
+     "top100": {
+      "N": 14941,
+      "winRate": 0.5223,
+      "winSE": 0.0042,
+      "baseline": 0.5137,
+      "lift": 0.0086,
+      "roi": -0.029
+     }
+    },
+    "gbm": {
+     "corr": 0.015,
+     "monthlyCorr": {
+      "8": 0.0225,
+      "9": 0.0113,
+      "10": 0.0051
+     },
+     "top10": {
+      "N": 1494,
+      "winRate": 0.5529,
+      "winSE": 0.0133,
+      "baseline": 0.5612,
+      "lift": -0.0084,
+      "roi": -0.0034
+     },
+     "top20": {
+      "N": 2988,
+      "winRate": 0.5265,
+      "winSE": 0.0094,
+      "baseline": 0.5437,
+      "lift": -0.0173,
+      "roi": -0.0305
+     },
+     "top30": {
+      "N": 4482,
+      "winRate": 0.5284,
+      "winSE": 0.0077,
+      "baseline": 0.5392,
+      "lift": -0.0107,
+      "roi": -0.0266
+     },
+     "top100": {
+      "N": 14941,
+      "winRate": 0.5151,
+      "winSE": 0.0042,
+      "baseline": 0.5284,
+      "lift": -0.0133,
+      "roi": -0.0428
+     }
+    },
+    "average": {
+     "corr": 0.0209,
+     "monthlyCorr": {
+      "8": 0.0283,
+      "9": 0.0217,
+      "10": 0.0027
+     },
+     "top10": {
+      "N": 1494,
+      "winRate": 0.5596,
+      "winSE": 0.0133,
+      "baseline": 0.5253,
+      "lift": 0.0344,
+      "roi": -0.0013
+     },
+     "top20": {
+      "N": 2988,
+      "winRate": 0.5379,
+      "winSE": 0.0095,
+      "baseline": 0.5166,
+      "lift": 0.0213,
+      "roi": -0.023
+     },
+     "top30": {
+      "N": 4482,
+      "winRate": 0.5342,
+      "winSE": 0.0077,
+      "baseline": 0.5158,
+      "lift": 0.0185,
+      "roi": -0.0246
+     },
+     "top100": {
+      "N": 14941,
+      "winRate": 0.5195,
+      "winSE": 0.0042,
+      "baseline": 0.5103,
+      "lift": 0.0091,
+      "roi": -0.0322
+     }
+    }
+   }
+  },
+  "profit / 只用轨迹特征": {
+   "singleFeatureCorr": {
+    "logTicks": {
+     "dev": -0.0057,
+     "holdout": -0.0009
+    },
+    "logAgeMin": {
+     "dev": 0.0011,
+     "holdout": 0.0099
+    },
+    "net": {
+     "dev": -0.0005,
+     "holdout": 0.0093
+    },
+    "pathLength": {
+     "dev": -0.0021,
+     "holdout": 0.0062
+    },
+    "efficiency": {
+     "dev": 0.0052,
+     "holdout": -0.0047
+    },
+    "peakRetreat": {
+     "dev": -0.0045,
+     "holdout": -0.0079
+    },
+    "troughRecovery": {
+     "dev": -0.0003,
+     "holdout": 0.0044
+    },
+    "logMinHigh": {
+     "dev": 0.0103,
+     "holdout": -0.0092
+    },
+    "logMinLow": {
+     "dev": -0.0059,
+     "holdout": 0.0142
+    },
+    "early": {
+     "dev": -0.0049,
+     "holdout": 0.011
+    },
+    "late": {
+     "dev": 0.0066,
+     "holdout": -0.0002
+    },
+    "last20": {
+     "dev": 0.0043,
+     "holdout": 0.0168
+    },
+    "lineUp": {
+     "dev": -0.0064,
+     "holdout": -0.0008
+    },
+    "lineDown": {
+     "dev": 0.0005,
+     "holdout": 0.0022
+    },
+    "finalWaterMove": {
+     "dev": -0.0025,
+     "holdout": -0.02
+    },
+    "unchangedLineWaterDrop": {
+     "dev": 0.0157,
+     "holdout": 0.0223
+    },
+    "swings03": {
+     "dev": 0.0017,
+     "holdout": 0.0123
+    },
+    "amplitude03": {
+     "dev": -0.0015,
+     "holdout": 0.0063
+    },
+    "lastLeg03": {
+     "dev": 0.0098,
+     "holdout": 0.0064
+    },
+    "lastDir03": {
+     "dev": 0.0076,
+     "holdout": 0.0059
+    },
+    "logMinSincePivot03": {
+     "dev": -0.0092,
+     "holdout": -0.002
+    },
+    "swings08": {
+     "dev": 0.0016,
+     "holdout": 0.0138
+    },
+    "amplitude08": {
+     "dev": -0.0015,
+     "holdout": 0.0048
+    },
+    "lastLeg08": {
+     "dev": 0.0033,
+     "holdout": 0.0113
+    },
+    "lastDir08": {
+     "dev": -0.0033,
+     "holdout": 0.0094
+    },
+    "logMinSincePivot08": {
+     "dev": 0.0047,
+     "holdout": 0.0112
+    }
+   },
+   "forwardValidation": {
+    "('ridge', 1.0)": 0.0121,
+    "('ridge', 100.0)": 0.0128,
+    "('ridge', 3000.0)": 0.0143,
+    "('gbm', (2, 400, 150))": -0.0024,
+    "('gbm', (2, 400, 400))": -0.0024,
+    "('gbm', (2, 1500, 150))": -0.009,
+    "('gbm', (2, 1500, 400))": -0.009,
+    "('gbm', (3, 400, 150))": -0.0051,
+    "('gbm', (3, 400, 400))": -0.0051,
+    "('gbm', (3, 1500, 150))": -0.0103,
+    "('gbm', (3, 1500, 400))": -0.0103
+   },
+   "chosen": {
+    "ridge": "('ridge', 3000.0)",
+    "gbm": "('gbm', (2, 400, 150))"
+   },
+   "ridgeCoefficients": {
+    "unchangedLineWaterDrop": 0.0121,
+    "swings03": 0.0099,
+    "lineDown": 0.0095,
+    "logMinHigh": 0.0091,
+    "logMinSincePivot03": -0.0091,
+    "logMinLow": -0.0082,
+    "lastDir08": -0.0076,
+    "lastLeg03": 0.0073,
+    "peakRetreat": -0.0071,
+    "logTicks": -0.0069
+   },
+   "holdout": {
+    "ridge": {
+     "corr": 0.0165,
+     "monthlyCorr": {
+      "8": 0.024,
+      "9": 0.0168,
+      "10": -0.0002
+     },
+     "top10": {
+      "N": 1494,
+      "winRate": 0.5486,
+      "winSE": 0.0133,
+      "baseline": 0.5336,
+      "lift": 0.015,
+      "roi": -0.0097
+     },
+     "top20": {
+      "N": 2988,
+      "winRate": 0.5424,
+      "winSE": 0.0094,
+      "baseline": 0.5289,
+      "lift": 0.0135,
+      "roi": -0.0148
+     },
+     "top30": {
+      "N": 4482,
+      "winRate": 0.5304,
+      "winSE": 0.0077,
+      "baseline": 0.529,
+      "lift": 0.0014,
+      "roi": -0.0294
+     },
+     "top100": {
+      "N": 14941,
+      "winRate": 0.518,
+      "winSE": 0.0042,
+      "baseline": 0.5149,
+      "lift": 0.0031,
+      "roi": -0.0327
+     }
+    },
+    "gbm": {
+     "corr": 0.0169,
+     "monthlyCorr": {
+      "8": 0.0229,
+      "9": 0.0122,
+      "10": 0.0135
+     },
+     "top10": {
+      "N": 1494,
+      "winRate": 0.5418,
+      "winSE": 0.0133,
+      "baseline": 0.5542,
+      "lift": -0.0124,
+      "roi": -0.0168
+     },
+     "top20": {
+      "N": 2988,
+      "winRate": 0.5261,
+      "winSE": 0.0094,
+      "baseline": 0.5471,
+      "lift": -0.021,
+      "roi": -0.0298
+     },
+     "top30": {
+      "N": 4482,
+      "winRate": 0.5224,
+      "winSE": 0.0077,
+      "baseline": 0.5457,
+      "lift": -0.0233,
+      "roi": -0.0327
+     },
+     "top100": {
+      "N": 14941,
+      "winRate": 0.5107,
+      "winSE": 0.0042,
+      "baseline": 0.5252,
+      "lift": -0.0145,
+      "roi": -0.0453
+     }
+    },
+    "average": {
+     "corr": 0.0214,
+     "monthlyCorr": {
+      "8": 0.0303,
+      "9": 0.0185,
+      "10": 0.008
+     },
+     "top10": {
+      "N": 1494,
+      "winRate": 0.5639,
+      "winSE": 0.0132,
+      "baseline": 0.5296,
+      "lift": 0.0343,
+      "roi": 0.0052
+     },
+     "top20": {
+      "N": 2988,
+      "winRate": 0.5372,
+      "winSE": 0.0094,
+      "baseline": 0.5168,
+      "lift": 0.0204,
+      "roi": -0.0184
+     },
+     "top30": {
+      "N": 4482,
+      "winRate": 0.5337,
+      "winSE": 0.0077,
+      "baseline": 0.5132,
+      "lift": 0.0205,
+      "roi": -0.0199
+     },
+     "top100": {
+      "N": 14941,
+      "winRate": 0.5165,
+      "winSE": 0.0042,
+      "baseline": 0.5081,
+      "lift": 0.0085,
+      "roi": -0.031
+     }
+    }
+   }
+  }
+ }
+}
