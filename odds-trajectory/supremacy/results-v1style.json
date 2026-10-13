@@ -1,0 +1,81 @@
+{
+ "method": "Carries the V1 pipeline over from per-line water channels to one continuous\nchannel, mu (supremacy.py), so no line segmentation is needed:",
+ "windows": {
+  "dev": {
+   "targets": 25346,
+   "withDirection": 19672,
+   "medianCandidates": 13.0,
+   "medianEffectiveN": 11.56350810860977,
+   "all": {
+    "N": 19672,
+    "winRate": 0.5238,
+    "winSE": 0.0037,
+    "baseline": 0.5228,
+    "lift": 0.001,
+    "roi": -0.0404
+   },
+   "green": {
+    "N": 6827,
+    "winRate": 0.5088,
+    "winSE": 0.0063,
+    "baseline": 0.5062,
+    "lift": 0.0026,
+    "roi": -0.0362
+   },
+   "orange": {
+    "N": 7052,
+    "winRate": 0.5177,
+    "winSE": 0.0062,
+    "baseline": 0.5194,
+    "lift": -0.0017,
+    "roi": -0.0452
+   },
+   "red": {
+    "N": 5793,
+    "winRate": 0.5484,
+    "winSE": 0.0067,
+    "baseline": 0.5461,
+    "lift": 0.0022,
+    "roi": -0.0395
+   }
+  },
+  "holdout": {
+   "targets": 14941,
+   "withDirection": 12381,
+   "medianCandidates": 36.0,
+   "medianEffectiveN": 26.878725877265175,
+   "all": {
+    "N": 12381,
+    "winRate": 0.5272,
+    "winSE": 0.0046,
+    "baseline": 0.5254,
+    "lift": 0.0018,
+    "roi": -0.044
+   },
+   "green": {
+    "N": 3316,
+    "winRate": 0.5034,
+    "winSE": 0.009,
+    "baseline": 0.5049,
+    "lift": -0.0015,
+    "roi": -0.0435
+   },
+   "orange": {
+    "N": 4137,
+    "winRate": 0.5063,
+    "winSE": 0.0081,
+    "baseline": 0.5156,
+    "lift": -0.0093,
+    "roi": -0.0631
+   },
+   "red": {
+    "N": 4928,
+    "winRate": 0.5601,
+    "winSE": 0.0073,
+    "baseline": 0.5469,
+    "lift": 0.0132,
+    "roi": -0.0282
+   }
+  }
+ }
+}
