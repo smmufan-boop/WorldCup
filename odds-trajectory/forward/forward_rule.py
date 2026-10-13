@@ -1,12 +1,14 @@
 """forward-rule-v1: no-model quarter-line rule, V1 trajectory confirmation, line-move gate.
 
 The rule, gates and evaluation are fixed in rule_spec.json and RULES.md.
+Two shadow versions, V1-四分之一 and V1-多阶段 (shadow_spec.json), are recorded
+on the same decisions and evaluated in parallel; they never change v1.
 V1 is called unchanged through the research builders (same cleaning, history
 pool and parameters as the published V1 package).
 
 Modes
-  backtest  check the frozen rule on the research replay caches (retrospective)
-  scan      freeze V1 at T-120 and issue T-10 decisions into a JSONL ledger
+  backtest  check the frozen rule and the shadows on the research caches (retrospective)
+  scan      freeze V1 at T-120/T-60/T-30 and issue T-10 decisions into a JSONL ledger
   settle    score ledger decisions with verified 90-minute results
 
 Sources: ``--db trajectory.sqlite3`` (a restored snapshot or the live Pankou
@@ -14,11 +16,12 @@ database with the same four tables) or ``--snapshot DIR`` (published CSV parts).
 
     python odds-trajectory/forward/forward_rule.py backtest
     python odds-trajectory/forward/forward_rule.py scan --db PATH --ledger ledger.jsonl [--now ISO]
-    python odds-trajectory/forward/forward_rule.py settle --db PATH --ledger ledger.jsonl
+    python odds-trajectory/forward/forward_rule.py settle --db PATH --ledger ledger.jsonl [--list V1-四分之一]
 """
 from __future__ import annotations
 
 import argparse
+import bisect
 import csv
 import glob
 import gzip
@@ -42,10 +45,14 @@ from direction_v1 import configuration  # noqa: E402
 from matching_core import BJT, clock  # noqa: E402
 
 SPEC = json.loads((HERE / 'rule_spec.json').read_text('utf-8'))
+SHADOW = json.loads((HERE / 'shadow_spec.json').read_text('utf-8'))
 VERSION = SPEC['version']
 COMPANY = SPEC['company']
 DECISION = SPEC['stages']['decisionMinutesBeforeKickoff'] * 60
 CONFIRM = SPEC['stages']['confirmationMinutesBeforeKickoff'] * 60
+SHADOW_LEADS = tuple(m * 60 for m in SHADOW['extraStagesMinutesBeforeKickoff'])
+FREEZE_LEADS = (CONFIRM, *SHADOW_LEADS)  # frozen between their cutoff and the decision
+SHADOW_NAMES = tuple(v['name'] for v in SHADOW['versions'])
 TOL = SPEC['v1']['neutralTolerance']
 FLIP = {'win': 'loss', 'half_win': 'half_loss', 'push': 'push', 'half_loss': 'half_win', 'loss': 'win'}
 WINS, LOSSES = ('win', 'half_win'), ('half_loss', 'loss')
@@ -97,6 +104,20 @@ def decide(line, home_water, away_water, line_open, v1_t10, v1_t120):
             'levels': {'L0': True, 'L1': gate120 and gate10, 'L2': gate120 and gate10 and gate_line}}
 
 
+def shadow_verdicts(d, line, team_t60, team_t30):
+    """Shadow versions on top of a v1 decision ``d`` (shadow_spec.json)."""
+    quarter = round(abs(line) * 4) % 4 in (1, 3)
+    team = d['team']
+    teams = {120: d['v1TeamT120'], 60: team_t60, 30: team_t30, 10: d['v1TeamT10']}
+    agree = [s for s in (120, 60, 30) if teams[s] == team]
+    against = [s for s in (120, 60, 30, 10) if teams[s] not in (None, team)]
+    return {
+        'V1-四分之一': {'id': 'v1-quarter', 'bet': d['levels']['L2'] and quarter, 'quarterLine': quarter},
+        'V1-多阶段': {'id': 'v1-multistage', 'quarterLine': quarter, 'agreeStages': agree, 'againstStages': against,
+                   'bet': quarter and d['gates']['G_LINE'] and len(agree) >= 2 and not against},
+    }
+
+
 def settle_team(team, line, home_water, away_water, score):
     result, upper_profit, lower_profit = settle(line, home_water, away_water, *score)
     if team == upper_team(line):
@@ -120,6 +141,13 @@ def dedupe_fixtures(records):
     for r in sorted(records, key=lambda r: r['matchId']):
         kept.setdefault(tuple(r['fixtureKey']), r)
     return list(kept.values())
+
+
+def selected(entry, level):
+    """Whether a decision (ledger entry or backtest row) bets at a v1 level or a shadow name."""
+    if level in ('L0', 'L1', 'L2'):
+        return entry['levels'][level]
+    return bool(entry.get('shadows', {}).get(level, {}).get('bet'))
 
 
 # ---------------------------------------------------------------- summaries
@@ -146,6 +174,14 @@ def by_level(rows):
     return {lv: summarise([r for r in rows if r['levels'][lv]]) for lv in ('L0', 'L1', 'L2')}
 
 
+def by_shadow(rows):
+    """Each shadow with v1 L2 and L0 on the same rows for comparison."""
+    out = {name: summarise([r for r in rows if selected(r, name)]) for name in SHADOW_NAMES}
+    out.update({'对照 L2': summarise([r for r in rows if r['levels']['L2']]),
+                '对照 L0': summarise(rows)})
+    return out
+
+
 def print_levels(title, block):
     print(title)
     for lv, s in block.items():
@@ -161,7 +197,7 @@ def backtest(args):
     cache = RESEARCH / 'cache'
     inputs = dedupe_fixtures(r for r in pickle.load(open(cache / 'inputs-company3-T10.pkl', 'rb')) if 'score' in r)
     v1 = {}
-    for stage in (10, 120):
+    for stage in (10, 120, 60, 30):
         for t in pickle.load(open(cache / f'targets-company3-T{stage}.pkl', 'rb')):
             v1.setdefault(t['matchId'], {})[stage] = {'score': t['score'], 'line': t['line']}
     start = datetime.fromisoformat('2026-02-01T00:00:00+08:00').timestamp()
@@ -170,27 +206,36 @@ def backtest(args):
         if r['kickoff'] < start:
             continue
         line_open = -r['records'][0]['home_handicap']
-        d = decide(r['line'], r['homeWater'], r['awayWater'], line_open,
-                   v1.get(r['matchId'], {}).get(10), v1.get(r['matchId'], {}).get(120))
+        m = v1.get(r['matchId'], {})
+        d = decide(r['line'], r['homeWater'], r['awayWater'], line_open, m.get(10), m.get(120))
+        teams = {s: v1_team(m[s]['score'], m[s]['line']) if s in m else None for s in (60, 30)}
         result, profit = settle_team(d['team'], r['line'], r['homeWater'], r['awayWater'], r['score'])
-        rows.append({**d, 'kickoff': r['kickoff'], 'firstTier': r['firstTier'], 'result': result, 'profit': profit,
+        rows.append({**d, 'shadows': shadow_verdicts(d, r['line'], teams[60], teams[30]),
+                     'kickoff': r['kickoff'], 'firstTier': r['firstTier'], 'result': result, 'profit': profit,
                      'expected': baseline_expected(d['team'], r['line'], r['homeWater'], r['awayWater'])})
     windows = {'dev 2026-02-01..07-31': ('2026-02-01', '2026-08-01'),
                'holdout 2026-08-01..10-12': ('2026-08-01', '2026-10-13')}
     report = {'version': VERSION, 'mode': 'retrospective backtest on research caches', 'windows': {}}
+    shadows = {'mode': 'retrospective backtest on research caches', 'windows': {}}
     for name, (a, b) in windows.items():
         lo = datetime.fromisoformat(a + 'T00:00:00+08:00').timestamp()
         hi = datetime.fromisoformat(b + 'T00:00:00+08:00').timestamp()
         part = [r for r in rows if lo <= r['kickoff'] < hi]
         report['windows'][name] = {'all': by_level(part), 'firstTier': by_level([r for r in part if r['firstTier']])}
+        shadows['windows'][name] = {'all': by_shadow(part), 'firstTier': by_shadow([r for r in part if r['firstTier']])}
         print_levels(f'== {name} (all competitions)', report['windows'][name]['all'])
+        print_levels(f'== {name} shadows (all competitions)', shadows['windows'][name]['all'])
     months = defaultdict(list)
     for r in rows:
         months[datetime.fromtimestamp(r['kickoff'], BJT).strftime('%Y-%m')].append(r)
     report['monthlyL2'] = {m: summarise([r for r in rs if r['levels']['L2']]) for m, rs in sorted(months.items())}
+    shadows['monthly'] = {name: {m: summarise([r for r in rs if selected(r, name)]) for m, rs in sorted(months.items())}
+                          for name in SHADOW_NAMES}
     out = HERE / 'backtest-forward-rule-v1.json'
     out.write_text(json.dumps(report, ensure_ascii=False, indent=1), 'utf-8')
-    print('written', out)
+    out_shadow = HERE / 'backtest-shadows.json'
+    out_shadow.write_text(json.dumps(shadows, ensure_ascii=False, indent=1), 'utf-8')
+    print('written', out, out_shadow)
 
 
 # ---------------------------------------------------------------- sources
@@ -261,65 +306,106 @@ def stamp(ts):
     return datetime.fromtimestamp(ts, BJT).isoformat(timespec='seconds')
 
 
-def scan_once(data, now, ledger, scorers):
-    entries = read_ledger(ledger)
-    frozen120 = {e['matchId']: e for e in entries if e['kind'] == 'v1_t120' and e['specVersion'] == VERSION}
-    decided = {e['matchId'] for e in entries if e['kind'] == 'decision' and e['specVersion'] == VERSION}
-    decided_fixtures = {tuple(e['fixtureKey']) for e in entries
-                        if e['kind'] == 'decision' and e['specVersion'] == VERSION and 'fixtureKey' in e}
+class LedgerState:
+    """Frozen stage scores and decided matches, read once and kept in step with appends."""
+
+    def __init__(self, path):
+        self.path = path
+        self.frozen = {lead: {} for lead in FREEZE_LEADS}
+        self.decided, self.decided_fixtures = set(), set()
+        for e in read_ledger(path):
+            if e.get('specVersion') != VERSION:
+                continue
+            self.add(e)
+
+    def add(self, e):
+        if e['kind'] == 'decision':
+            self.decided.add(e['matchId'])
+            if 'fixtureKey' in e:
+                self.decided_fixtures.add(tuple(e['fixtureKey']))
+        elif e['kind'].startswith('v1_t'):
+            lead = int(e['kind'][4:]) * 60
+            if lead in self.frozen:
+                self.frozen[lead][e['matchId']] = e
+
+    def append(self, entries):
+        if not entries:
+            return
+        with open(self.path, 'a', encoding='utf-8') as stream:
+            for e in entries:
+                stream.write(json.dumps(e, ensure_ascii=False) + '\n')
+                self.add(e)
+
+
+def stage_score(data, mid, lead, scorer, state):
+    """Frozen V1 score for a stage, else recomputed at the stage cutoff (flagged)."""
+    if mid in state.frozen[lead]:
+        return state.frozen[lead][mid], 'frozen'
+    rec, reason = build_record(data, mid, lead)
+    return (scorer.score(rec) if rec else {'score': None, 'line': None, 'unavailable': reason}), 'recomputed_at_decision'
+
+
+def scan_once(data, now, state, scorers, candidates):
+    """candidates: (kickoff, matchId) whose freeze or decision window may contain ``now``."""
     new = []
-    for mid in sorted(data['quotes']):  # smallest source ID first, as in backtest
-        kickoff = kickoff_of(data, mid)
-        if kickoff is None:
-            continue
-        if kickoff - CONFIRM <= now < kickoff - DECISION and mid not in frozen120:
-            rec, reason = build_record(data, mid, CONFIRM)
-            entry = {'kind': 'v1_t120', 'specVersion': VERSION, 'matchId': mid, 'kickoff': stamp(kickoff),
-                     'generatedAt': stamp(now)}
-            entry.update(scorers[CONFIRM].score(rec) if rec else {'score': None, 'unavailable': reason})
-            new.append(entry)
-            frozen120[mid] = entry
-        if kickoff - DECISION <= now < kickoff + DECISION and mid not in decided:
+    for kickoff, mid in sorted(candidates, key=lambda x: x[1]):  # smallest source ID first, as in backtest
+        for lead in FREEZE_LEADS:
+            if kickoff - lead <= now < kickoff - DECISION and mid not in state.frozen[lead]:
+                rec, reason = build_record(data, mid, lead)
+                entry = {'kind': f'v1_t{lead // 60}', 'specVersion': VERSION, 'matchId': mid,
+                         'kickoff': stamp(kickoff), 'generatedAt': stamp(now)}
+                entry.update(scorers[lead].score(rec) if rec else {'score': None, 'unavailable': reason})
+                state.frozen[lead][mid] = entry
+                new.append(entry)
+        if kickoff - DECISION <= now < kickoff + DECISION and mid not in state.decided:
             rec, reason = build_record(data, mid, DECISION)
             if rec is None:
                 continue  # no valid T-10 quote path: the rule cannot be applied
-            if tuple(rec['fixtureKey']) in decided_fixtures:
+            if tuple(rec['fixtureKey']) in state.decided_fixtures:
                 continue  # same real match already decided under another source ID
             v10 = scorers[DECISION].score(rec)
-            if mid in frozen120:
-                v120, source = frozen120[mid], 'frozen'
-            else:
-                rec120, reason120 = build_record(data, mid, CONFIRM)
-                v120 = scorers[CONFIRM].score(rec120) if rec120 else {'score': None, 'line': None,
-                                                                       'unavailable': reason120}
-                source = 'recomputed_at_decision'
+            stages = {lead: stage_score(data, mid, lead, scorers[lead], state) for lead in FREEZE_LEADS}
+            v120, source = stages[CONFIRM]
             line_open = -rec['records'][0]['home_handicap']
             d = decide(rec['line'], rec['homeWater'], rec['awayWater'], line_open,
                        {'score': v10['score'], 'line': v10['line']},
                        {'score': v120.get('score'), 'line': v120.get('line')} if v120.get('score') is not None else None)
-            new.append({'kind': 'decision', 'specVersion': VERSION, 'matchId': mid, 'fixtureKey': rec['fixtureKey'],
-                        'kickoff': stamp(kickoff),
-                        'generatedAt': stamp(now), 'late': now >= kickoff,
-                        'competition': rec['competition'], 'firstTier': rec['firstTier'],
-                        'home': rec['home'], 'away': rec['away'],
-                        'teamName': rec['home'] if d['team'] == 'home' else rec['away'],
-                        'frozenQuote': {'ts': stamp(rec['feature']['last']['ts']), 'line': rec['line'],
-                                        'homeWater': rec['homeWater'], 'awayWater': rec['awayWater']},
-                        'lineOpen': line_open, 'v1T10': v10, 'v1T120': v120, 'v1T120Source': source, **d})
-            decided.add(mid)
-            decided_fixtures.add(tuple(rec['fixtureKey']))
-    if new:
-        with open(ledger, 'a', encoding='utf-8') as stream:
-            for e in new:
-                stream.write(json.dumps(e, ensure_ascii=False) + '\n')
+            shadow_teams = [v1_team(stages[lead][0].get('score'), stages[lead][0].get('line')) for lead in SHADOW_LEADS]
+            entry = {'kind': 'decision', 'specVersion': VERSION, 'matchId': mid, 'fixtureKey': rec['fixtureKey'],
+                     'kickoff': stamp(kickoff),
+                     'generatedAt': stamp(now), 'late': now >= kickoff,
+                     'competition': rec['competition'], 'firstTier': rec['firstTier'],
+                     'home': rec['home'], 'away': rec['away'],
+                     'teamName': rec['home'] if d['team'] == 'home' else rec['away'],
+                     'frozenQuote': {'ts': stamp(rec['feature']['last']['ts']), 'line': rec['line'],
+                                     'homeWater': rec['homeWater'], 'awayWater': rec['awayWater']},
+                     'lineOpen': line_open, 'v1T10': v10, 'v1T120': v120, 'v1T120Source': source, **d}
+            for lead in SHADOW_LEADS:
+                entry[f'v1T{lead // 60}'], entry[f'v1T{lead // 60}Source'] = stages[lead]
+            entry['shadows'] = shadow_verdicts(d, rec['line'], *shadow_teams)
+            new.append(entry)
+            state.decided.add(mid)
+            state.decided_fixtures.add(tuple(rec['fixtureKey']))
+    state.append(new)
     return new
+
+
+def describe(e):
+    sign = -1 if e['team'] == 'home' else 1
+    water = e['frozenQuote']['homeWater'] if e['team'] == 'home' else e['frozenQuote']['awayWater']
+    return (f"{e['kickoff']} {e['competition']} {e['home']} v {e['away']}: {e['teamName']} "
+            f"{sign * e['frozenQuote']['line'] + 0.0:+g} @{water}")
 
 
 def scan(args):
     now = datetime.fromisoformat(args.now).timestamp() if args.now else time.time()
     t0 = time.time()
     data = load_source(args)
-    scorers = {lead: StageScorer(data, lead) for lead in (DECISION, CONFIRM)}
+    kickoffs = sorted((k, mid) for mid in data['quotes'] for k in (kickoff_of(data, mid),) if k is not None)
+    times = [k for k, _ in kickoffs]
+    horizon = max(FREEZE_LEADS)
+    scorers = {lead: StageScorer(data, lead) for lead in (DECISION, *FREEZE_LEADS)}
+    state = LedgerState(args.ledger)
     if args.until:
         end = datetime.fromisoformat(args.until).timestamp()
         steps = []
@@ -330,43 +416,56 @@ def scan(args):
         steps = [now]
     total = []
     for at in steps:
-        total += scan_once(data, at, args.ledger, scorers)
+        # Freeze windows need kickoff <= at + lead; the decision window needs kickoff > at - DECISION.
+        lo, hi = bisect.bisect_right(times, at - DECISION), bisect.bisect_right(times, at + horizon)
+        total += scan_once(data, at, state, scorers, kickoffs[lo:hi])
     decisions = [e for e in total if e['kind'] == 'decision']
-    print(json.dumps({'version': VERSION, 'scans': len(steps), 'newV1T120': len(total) - len(decisions),
-                      'newDecisions': len(decisions),
-                      'newL2': [f"{e['kickoff']} {e['competition']} {e['home']} v {e['away']}: {e['teamName']} "
-                                f"{(-1 if e['team'] == 'home' else 1) * e['frozenQuote']['line']:+g} "
-                                f"@{e['frozenQuote']['homeWater'] if e['team'] == 'home' else e['frozenQuote']['awayWater']}"
-                                for e in decisions if e['levels']['L2']],
-                      'seconds': round(time.time() - t0, 1)}, ensure_ascii=False, indent=1))
+    summary = {'version': VERSION, 'scans': len(steps), 'newFrozenStages': len(total) - len(decisions),
+               'newDecisions': len(decisions), 'newL2': [describe(e) for e in decisions if e['levels']['L2']]}
+    for name in SHADOW_NAMES:
+        summary[f'new {name}'] = [describe(e) for e in decisions if selected(e, name)]
+    summary['seconds'] = round(time.time() - t0, 1)
+    print(json.dumps(summary, ensure_ascii=False, indent=1))
 
 
 def settle_ledger(args):
     data = load_source(args)
-    prospective_from = datetime.fromisoformat(SPEC['prospectiveFrom']).timestamp()
-    rows, pending, excluded, listed = [], 0, defaultdict(int), []
+    starts = {'v1': datetime.fromisoformat(SPEC['prospectiveFrom']).timestamp(),
+              'shadow': datetime.fromisoformat(SHADOW['prospectiveFrom']).timestamp()}
+    rows, shadow_rows, pending, excluded, listed = [], [], 0, defaultdict(int), []
+    list_start = starts['v1' if args.list in (None, 'L0', 'L1', 'L2') else 'shadow']
     for e in read_ledger(args.ledger):
         if e['kind'] != 'decision' or e['specVersion'] != VERSION:
             continue
         if e['late']:
             excluded['late'] += 1
             continue
-        if datetime.fromisoformat(e['kickoff']).timestamp() < prospective_from and not args.retrospective:
+        kickoff = datetime.fromisoformat(e['kickoff']).timestamp()
+        in_v1 = args.retrospective or kickoff >= starts['v1']
+        in_shadow = 'shadows' in e and (args.retrospective or kickoff >= starts['shadow'])
+        if not in_v1:
             excluded['beforeProspectiveFrom'] += 1
             continue
         score = result_of(data, e['matchId']) if e['matchId'] in data['matches'] else None
         q = e['frozenQuote']
-        if args.list and e['levels'][args.list]:
+        if args.list and selected(e, args.list) and (args.retrospective or kickoff >= list_start):
             listed.append((e, score, settle_team(e['team'], q['line'], q['homeWater'], q['awayWater'], score)
                            if score else (None, None)))
         if score is None:
             pending += 1
             continue
         result, profit = settle_team(e['team'], q['line'], q['homeWater'], q['awayWater'], score)
-        rows.append({'levels': e['levels'], 'firstTier': e['firstTier'], 'result': result, 'profit': profit,
-                     'expected': baseline_expected(e['team'], q['line'], q['homeWater'], q['awayWater'])})
+        row = {'levels': e['levels'], 'shadows': e.get('shadows', {}), 'firstTier': e['firstTier'],
+               'result': result, 'profit': profit,
+               'expected': baseline_expected(e['team'], q['line'], q['homeWater'], q['awayWater'])}
+        rows.append(row)
+        if in_shadow:
+            shadow_rows.append(row)
     report = {'version': VERSION, 'settled': len(rows), 'pending': pending, 'excluded': dict(excluded),
-              'all': by_level(rows), 'firstTier': by_level([r for r in rows if r['firstTier']])}
+              'all': by_level(rows), 'firstTier': by_level([r for r in rows if r['firstTier']]),
+              'shadows': {'prospectiveFrom': SHADOW['prospectiveFrom'], 'settled': len(shadow_rows),
+                          'all': by_shadow(shadow_rows),
+                          'firstTier': by_shadow([r for r in shadow_rows if r['firstTier']])}}
     l2 = report['all']['L2'].get('bets', 0)
     report['nextCheckpoint'] = next((c for c in SPEC['evaluation']['checkpointsL2Settled'] if c > l2), None)
     label = 'RETROSPECTIVE TEST, not evidence' if args.retrospective else 'prospective'
@@ -374,6 +473,9 @@ def settle_ledger(args):
     print_levels(f"== {VERSION} {label} (settled {len(rows)}, pending {pending}, excluded {dict(excluded)})",
                  report['all'])
     print_levels('== first tier', report['firstTier'])
+    start_note = '' if args.retrospective else f", from {SHADOW['prospectiveFrom']}"
+    print_levels(f"== 影子版本 shadows {label} (settled {len(shadow_rows)}{start_note}; L2/L0 on the same decisions)",
+                 report['shadows']['all'])
     if args.output:
         Path(args.output).write_text(json.dumps(report, ensure_ascii=False, indent=1), 'utf-8')
     if args.list:
@@ -385,17 +487,20 @@ RESULT_ZH = {'win': '全赢', 'half_win': '赢半', 'push': '走盘', 'half_loss
 
 def print_matches(listed, level, csv_path=None):
     """One line per decision at ``level``: team-perspective handicap (- gives, + receives)."""
-    header = ['开球(北京时间)', '赛事', '主队', '客队', '选择', '盘口', '水位', '初盘', 'V1 T-120', 'V1 T-10',
-              '比分', '结果', '盈亏']
+    header = ['开球(北京时间)', '赛事', '主队', '客队', '选择', '盘口', '水位', '初盘',
+              'V1 T-120', 'V1 T-60', 'V1 T-30', 'V1 T-10', '比分', '结果', '盈亏']
     lines = []
+
+    def d(e, key):
+        value = (e.get(key) or {}).get('score')
+        return '-' if value is None else f'{value:.1f}'
     for e, score, (result, profit) in sorted(listed, key=lambda x: (x[0]['kickoff'], x[0]['matchId'])):
         q = e['frozenQuote']
         sign = -1 if e['team'] == 'home' else 1  # local line + = home gives
         water = q['homeWater'] if e['team'] == 'home' else q['awayWater']
-        d120, d10 = e['v1T120'].get('score'), e['v1T10'].get('score')
         lines.append([e['kickoff'][5:16].replace('T', ' '), e['competition'], e['home'], e['away'], e['teamName'],
                       f"{sign * q['line'] + 0.0:+g}", f'{water:.2f}', f"{sign * e['lineOpen'] + 0.0:+g}",
-                      '-' if d120 is None else f'{d120:.1f}', '-' if d10 is None else f'{d10:.1f}',
+                      d(e, 'v1T120'), d(e, 'v1T60'), d(e, 'v1T30'), d(e, 'v1T10'),
                       '-' if score is None else f'{score[0]}-{score[1]}', RESULT_ZH[result],
                       '' if profit is None else f'{profit:+.3f}'])
     print(f'\n{level} 比赛（{len(lines)} 场；盘口为所选球队视角，负数为让球）')
@@ -427,7 +532,8 @@ def main():
             p.add_argument('--output')
             p.add_argument('--retrospective', action='store_true',
                            help='also settle decisions before prospectiveFrom (testing only)')
-            p.add_argument('--list', choices=('L0', 'L1', 'L2'), help='print every decision at this level')
+            p.add_argument('--list', choices=('L0', 'L1', 'L2', *SHADOW_NAMES),
+                           help='print every decision at this v1 level or shadow version')
             p.add_argument('--list-csv', help='also write the listed decisions to this CSV')
     args = parser.parse_args()
     if configuration()['companies'][COMPANY] != SPEC['v1']['parameters']:

@@ -1,0 +1,30 @@
+{
+ "registeredAt": "2026-10-13T14:13:00+08:00",
+ "prospectiveFrom": "2026-10-14T12:00:00+08:00",
+ "parent": "forward-rule-v1",
+ "status": "shadow versions: recorded and evaluated in parallel with forward-rule-v1, which they do not change; parameters frozen; any change requires a new version",
+ "extraStagesMinutesBeforeKickoff": [60, 30],
+ "versions": [
+  {
+   "id": "v1-quarter",
+   "name": "V1-四分之一",
+   "definition": "forward-rule-v1 L2, and the T-10 line is a quarter line (|line| mod 1 is 0.25 or 0.75), i.e. the rule team is the .25 receiving team or the .75 giving team",
+   "origin": "research/README.md section on further improvements; proposed after the 10-09..10-12 review"
+  },
+  {
+   "id": "v1-multistage",
+   "name": "V1-多阶段",
+   "definition": "rule team on a quarter line; G_LINE; at least two of V1 at T-120, T-60 and T-30 point to the rule team; none of V1 at T-120, T-60, T-30 and T-10 points to the other team",
+   "stageTeam": "each stage uses its own cutoff (kickoff minus the stage lead) and its own line: D > 50 is the giving team at that line, D < 50 the other team; neutral or unavailable counts as no direction",
+   "origin": "research/improve.py multi-stage vote, selected while exploring"
+  }
+ ],
+ "evaluation": {
+  "decisionsCounted": "non-late decisions with kickoff at or after prospectiveFrom; the same frozen T-10 quote and settlement as forward-rule-v1",
+  "comparison": "each shadow against forward-rule-v1 L2 and L0 on the same decisions (same period)",
+  "winRate": "(win + half_win) / (win + half_win + half_loss + loss); push excluded",
+  "secondary": ["lift over the registered baseline", "ROI at the frozen quote"],
+  "checkpointsSettled": [150, 300]
+ },
+ "historicalReference": "forward_rule.py backtest writes backtest-shadows.json; see RULES.md"
+}
