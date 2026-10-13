@@ -1,5 +1,5 @@
 {
-  "version": "ie1-0.2.0",
+  "version": "ie1-0.3.0",
   "status": "experimental_retrospective_only",
   "warning": "Signals M1-M7 are report-only diagnostics: none passed the development test (joint |t|<2). Stake candidates come only from pricing another company's Asian quote with the Royal T-10 fair price. Backtests are retrospective (data collected after the matches); a forward record is required before real staking.",
   "cutoffSeconds": 600,
@@ -66,6 +66,8 @@
     "evTierA": 0.04,
     "evTierB": 0.02,
     "maxDataAgeMinutes": 30,
+    "maxReferenceAgeMinutes": 360,
+    "maxStakeQuoteAgeMinutes": 120,
     "requireFirstTier": true,
     "blockedLabelRegex": "女|青年|少年|后备|後備|预备|預備|友谊|友誼|u\\s*-?\\s*\\d{2}(?!\\d)|women|youth|reserve|friendly",
     "cautionLabelRegex": "杯|欧国联|欧联|欧冠|欧协联|预选|国际|洲际",

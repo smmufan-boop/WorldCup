@@ -147,5 +147,38 @@ class RunAndLedger(unittest.TestCase):
         self.assertNotIn("M6", res["signals"])
 
 
+class QuoteAgeGates(unittest.TestCase):
+    def _book(self, macau_minute, royal=None):
+        from quotes import market_book
+        payloads = dict(PAYLOADS)
+        payloads[("1", "asia")] = [("08:00", "0.90", "半球", "0.95"), (macau_minute, "0.94", "半球", "0.91")]
+        if royal:
+            payloads[("3", "asia")] = royal
+        rows = {}
+        for (company, market), items in payloads.items():
+            payload = {"detail": [element(*i) for i in reversed(items)]}
+            rows.setdefault(company, []).extend(rows_from_payload(payload, market, "x", company, KICKOFF)[0])
+        return market_book(rows, KICKOFF, KICKOFF - 600)
+
+    def _predict(self, book):
+        from engine import predict
+        meta = {"matchId": "x", "competition": "英超", "home": "A", "away": "B", "kickoff": KICKOFF}
+        return predict(meta, book, load_parameters())
+
+    def test_stale_stake_quote_is_void(self):
+        fresh = self._predict(self._book("19:30"))
+        self.assertIn(fresh["decision"]["tier"], ("A", "B"))
+        stale = self._predict(self._book("17:00"))  # 170 minutes before the 19:50 cutoff
+        self.assertIsNone(stale["decision"]["tier"])
+        self.assertIn("作废", stale["staleRejected"])
+
+    def test_stale_reference_blocks_match(self):
+        royal = [("08:00", "0.92", "半球", "0.96"), ("10:00", "0.84", "半球", "1.04"),
+                 ("13:00", "0.86", "半/一", "1.02")]  # Royal unchanged for 410 minutes before the cutoff
+        res = self._predict(self._book("19:30", royal))
+        self.assertTrue(any("超过硬门槛" in b for b in res["blocks"]))
+        self.assertIsNone(res["decision"]["tier"])
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -106,7 +106,10 @@ def predict(meta, book, params=None, manual=None, v1=None):
     if ctx.get("totalSource") == "prior":
         result["cautions"].append(f"缺大小球报价，总进球用先验 {params['priorTotal']}")
     age = (cutoff - asian[-1]["ts"]) / 60
-    if age > gates["maxDataAgeMinutes"]:
+    if age > gates["maxReferenceAgeMinutes"]:
+        result["blocks"].append(f"参考亚盘末报价距截点 {age:.0f} 分钟，超过硬门槛 "
+                                f"{gates['maxReferenceAgeMinutes']} 分钟，公允价视为过旧")
+    elif age > gates["maxDataAgeMinutes"]:
         result["cautions"].append(f"参考亚盘末报价距截点 {age:.0f} 分钟")
 
     rho = params["rho"]
@@ -136,11 +139,19 @@ def predict(meta, book, params=None, manual=None, v1=None):
     result["candidates"] = candidates[:8]
     result["stakeMarkets"] = list(gates["stakeMarkets"])
     result["stakeCompanies"] = list(gates["stakeCompanies"])
-    best = None
+    for c in candidates:
+        c["ageMinutes"] = (cutoff - c["quoteTs"]) / 60
+        c["stale"] = c["ageMinutes"] > gates["maxStakeQuoteAgeMinutes"]
+    best, stale = None, []
     for c in candidates:
         axis, sign = _direction(c)
         if (axis is None or c["market"] not in gates["stakeMarkets"]
                 or c["company"] not in gates["stakeCompanies"]):
+            continue
+        if c["stale"]:
+            # Hard gate: an unchanged quote this old may no longer be tradeable.
+            if c["ev"] >= gates["evTierB"]:
+                stale.append(c)
             continue
         v = votes(signals, axis, gates["signalThreshold"], params)
         support, oppose = (v["pos"], v["neg"]) if sign > 0 else (v["neg"], v["pos"])
@@ -151,6 +162,10 @@ def predict(meta, book, params=None, manual=None, v1=None):
             best = c
             break
     result["pick"] = best
+    if stale:
+        c = stale[0]
+        result["staleRejected"] = (f"{describe_pick(c, meta)} EV {c['ev']:+.1%}，报价距截点 {c['ageMinutes']:.0f} 分钟，"
+                                   f"超过硬门槛 {gates['maxStakeQuoteAgeMinutes']} 分钟，作废")
     tier = None
     if best and not result["blocks"]:
         if best["ev"] >= gates["evTierA"]:
@@ -210,6 +225,8 @@ def render(result):
     for c in result["candidates"][:4]:
         age = (m["kickoff"] - result_cutoff_seconds(result) - c["quoteTs"]) / 60
         lines.append(f"  {describe_pick(c, m)}  EV {c['ev']:+.1%}｜报价距截点 {age:.0f} 分钟"
+                     + ("（过旧）" if c.get("stale") and c["company"] in result["stakeCompanies"]
+                        and c["market"] in result["stakeMarkets"] else "")
                      + ("" if c["market"] in result["stakeMarkets"] and c["company"] in result["stakeCompanies"]
                         else "（仅观察）"))
     d = result["decision"]
@@ -218,6 +235,8 @@ def render(result):
         lines.append("阻断：" + "；".join(result["blocks"]))
     if result["cautions"]:
         lines.append("提示：" + "；".join(result["cautions"]))
+    if result.get("staleRejected"):
+        lines.append("报价过旧：" + result["staleRejected"])
     pick = result.get("pick")
     if pick:
         lines.append(f"支持信号 {pick['support']:.0f} / 反向 {pick['oppose']:.0f}")
