@@ -33,6 +33,51 @@
      "lift": 0.1431,
      "roi": 0.1962
     },
+    "L0-水位门": {
+     "bets": 24675,
+     "counts": {
+      "win": 9397,
+      "half_win": 3280,
+      "push": 1629,
+      "half_loss": 0,
+      "loss": 10369
+     },
+     "winRate": 0.5501,
+     "winSE": 0.0033,
+     "baseline": 0.5499,
+     "lift": 0.0002,
+     "roi": -0.0436
+    },
+    "L1-水位门": {
+     "bets": 3211,
+     "counts": {
+      "win": 1203,
+      "half_win": 513,
+      "push": 184,
+      "half_loss": 0,
+      "loss": 1311
+     },
+     "winRate": 0.5669,
+     "winSE": 0.009,
+     "baseline": 0.5564,
+     "lift": 0.0105,
+     "roi": -0.0224
+    },
+    "水位门否决": {
+     "bets": 671,
+     "counts": {
+      "win": 157,
+      "half_win": 173,
+      "push": 0,
+      "half_loss": 0,
+      "loss": 341
+     },
+     "winRate": 0.4918,
+     "winSE": 0.0193,
+     "baseline": 0.5262,
+     "lift": -0.0344,
+     "roi": -0.1388
+    },
     "对照 L2": {
      "bets": 471,
      "counts": {
@@ -94,6 +139,51 @@
      "baseline": 0.5611,
      "lift": 0.0919,
      "roi": 0.1338
+    },
+    "L0-水位门": {
+     "bets": 7456,
+     "counts": {
+      "win": 2768,
+      "half_win": 1091,
+      "push": 518,
+      "half_loss": 0,
+      "loss": 3079
+     },
+     "winRate": 0.5562,
+     "winSE": 0.006,
+     "baseline": 0.5487,
+     "lift": 0.0075,
+     "roi": -0.025
+    },
+    "L1-水位门": {
+     "bets": 1180,
+     "counts": {
+      "win": 423,
+      "half_win": 192,
+      "push": 68,
+      "half_loss": 0,
+      "loss": 497
+     },
+     "winRate": 0.5531,
+     "winSE": 0.0149,
+     "baseline": 0.5544,
+     "lift": -0.0014,
+     "roi": -0.0355
+    },
+    "水位门否决": {
+     "bets": 85,
+     "counts": {
+      "win": 21,
+      "half_win": 29,
+      "push": 0,
+      "half_loss": 0,
+      "loss": 35
+     },
+     "winRate": 0.5882,
+     "winSE": 0.0534,
+     "baseline": 0.5245,
+     "lift": 0.0637,
+     "roi": 0.0214
     },
     "对照 L2": {
      "bets": 167,
@@ -159,6 +249,51 @@
      "lift": 0.0775,
      "roi": 0.0788
     },
+    "L0-水位门": {
+     "bets": 14459,
+     "counts": {
+      "win": 5601,
+      "half_win": 1850,
+      "push": 1019,
+      "half_loss": 0,
+      "loss": 5989
+     },
+     "winRate": 0.5544,
+     "winSE": 0.0043,
+     "baseline": 0.5506,
+     "lift": 0.0038,
+     "roi": -0.0354
+    },
+    "L1-水位门": {
+     "bets": 2562,
+     "counts": {
+      "win": 995,
+      "half_win": 401,
+      "push": 140,
+      "half_loss": 0,
+      "loss": 1026
+     },
+     "winRate": 0.5764,
+     "winSE": 0.01,
+     "baseline": 0.5565,
+     "lift": 0.0199,
+     "roi": -0.006
+    },
+    "水位门否决": {
+     "bets": 482,
+     "counts": {
+      "win": 111,
+      "half_win": 114,
+      "push": 0,
+      "half_loss": 0,
+      "loss": 257
+     },
+     "winRate": 0.4668,
+     "winSE": 0.0227,
+     "baseline": 0.5237,
+     "lift": -0.0569,
+     "roi": -0.1789
+    },
     "对照 L2": {
      "bets": 353,
      "counts": {
@@ -220,6 +355,51 @@
      "baseline": 0.5588,
      "lift": 0.019,
      "roi": -0.0357
+    },
+    "L0-水位门": {
+     "bets": 4582,
+     "counts": {
+      "win": 1689,
+      "half_win": 633,
+      "push": 360,
+      "half_loss": 0,
+      "loss": 1900
+     },
+     "winRate": 0.55,
+     "winSE": 0.0077,
+     "baseline": 0.5487,
+     "lift": 0.0013,
+     "roi": -0.0325
+    },
+    "L1-水位门": {
+     "bets": 942,
+     "counts": {
+      "win": 361,
+      "half_win": 159,
+      "push": 48,
+      "half_loss": 0,
+      "loss": 374
+     },
+     "winRate": 0.5817,
+     "winSE": 0.0165,
+     "baseline": 0.5536,
+     "lift": 0.028,
+     "roi": 0.0134
+    },
+    "水位门否决": {
+     "bets": 78,
+     "counts": {
+      "win": 20,
+      "half_win": 21,
+      "push": 0,
+      "half_loss": 0,
+      "loss": 37
+     },
+     "winRate": 0.5256,
+     "winSE": 0.0565,
+     "baseline": 0.5211,
+     "lift": 0.0046,
+     "roi": -0.0651
     },
     "对照 L2": {
      "bets": 120,
@@ -527,6 +707,417 @@
     "baseline": 0.5721,
     "lift": 0.0595,
     "roi": 0.1571
+   }
+  },
+  "L0-水位门": {
+   "2026-02": {
+    "bets": 4979,
+    "counts": {
+     "win": 1843,
+     "half_win": 706,
+     "push": 342,
+     "half_loss": 0,
+     "loss": 2088
+    },
+    "winRate": 0.5497,
+    "winSE": 0.0073,
+    "baseline": 0.5498,
+    "lift": -0.0,
+    "roi": -0.0458
+   },
+   "2026-03": {
+    "bets": 4087,
+    "counts": {
+     "win": 1529,
+     "half_win": 590,
+     "push": 279,
+     "half_loss": 0,
+     "loss": 1689
+    },
+    "winRate": 0.5565,
+    "winSE": 0.0081,
+    "baseline": 0.5482,
+    "lift": 0.0083,
+    "roi": -0.0347
+   },
+   "2026-04": {
+    "bets": 4437,
+    "counts": {
+     "win": 1638,
+     "half_win": 590,
+     "push": 297,
+     "half_loss": 0,
+     "loss": 1912
+    },
+    "winRate": 0.5382,
+    "winSE": 0.0077,
+    "baseline": 0.5494,
+    "lift": -0.0112,
+    "roi": -0.0611
+   },
+   "2026-05": {
+    "bets": 4635,
+    "counts": {
+     "win": 1807,
+     "half_win": 607,
+     "push": 313,
+     "half_loss": 0,
+     "loss": 1908
+    },
+    "winRate": 0.5585,
+    "winSE": 0.0076,
+    "baseline": 0.5499,
+    "lift": 0.0087,
+    "roi": -0.0266
+   },
+   "2026-06": {
+    "bets": 2901,
+    "counts": {
+     "win": 1172,
+     "half_win": 349,
+     "push": 182,
+     "half_loss": 0,
+     "loss": 1198
+    },
+    "winRate": 0.5594,
+    "winSE": 0.0095,
+    "baseline": 0.5505,
+    "lift": 0.0089,
+    "roi": -0.0282
+   },
+   "2026-07": {
+    "bets": 3636,
+    "counts": {
+     "win": 1408,
+     "half_win": 438,
+     "push": 216,
+     "half_loss": 0,
+     "loss": 1574
+    },
+    "winRate": 0.5398,
+    "winSE": 0.0085,
+    "baseline": 0.552,
+    "lift": -0.0123,
+    "roi": -0.0633
+   },
+   "2026-08": {
+    "bets": 5951,
+    "counts": {
+     "win": 2323,
+     "half_win": 744,
+     "push": 415,
+     "half_loss": 0,
+     "loss": 2469
+    },
+    "winRate": 0.554,
+    "winSE": 0.0067,
+    "baseline": 0.5505,
+    "lift": 0.0036,
+    "roi": -0.0334
+   },
+   "2026-09": {
+    "bets": 5881,
+    "counts": {
+     "win": 2254,
+     "half_win": 766,
+     "push": 424,
+     "half_loss": 0,
+     "loss": 2437
+    },
+    "winRate": 0.5534,
+    "winSE": 0.0067,
+    "baseline": 0.5504,
+    "lift": 0.003,
+    "roi": -0.038
+   },
+   "2026-10": {
+    "bets": 2646,
+    "counts": {
+     "win": 1032,
+     "half_win": 342,
+     "push": 181,
+     "half_loss": 0,
+     "loss": 1091
+    },
+    "winRate": 0.5574,
+    "winSE": 0.01,
+    "baseline": 0.5512,
+    "lift": 0.0062,
+    "roi": -0.0344
+   }
+  },
+  "L1-水位门": {
+   "2026-02": {
+    "bets": 573,
+    "counts": {
+     "win": 190,
+     "half_win": 93,
+     "push": 36,
+     "half_loss": 0,
+     "loss": 254
+    },
+    "winRate": 0.527,
+    "winSE": 0.0215,
+    "baseline": 0.5548,
+    "lift": -0.0278,
+    "roi": -0.087
+   },
+   "2026-03": {
+    "bets": 447,
+    "counts": {
+     "win": 146,
+     "half_win": 85,
+     "push": 29,
+     "half_loss": 0,
+     "loss": 187
+    },
+    "winRate": 0.5526,
+    "winSE": 0.0243,
+    "baseline": 0.5583,
+    "lift": -0.0056,
+    "roi": -0.0555
+   },
+   "2026-04": {
+    "bets": 552,
+    "counts": {
+     "win": 226,
+     "half_win": 78,
+     "push": 30,
+     "half_loss": 0,
+     "loss": 218
+    },
+    "winRate": 0.5824,
+    "winSE": 0.0216,
+    "baseline": 0.5542,
+    "lift": 0.0281,
+    "roi": 0.0137
+   },
+   "2026-05": {
+    "bets": 698,
+    "counts": {
+     "win": 276,
+     "half_win": 113,
+     "push": 33,
+     "half_loss": 0,
+     "loss": 276
+    },
+    "winRate": 0.585,
+    "winSE": 0.0191,
+    "baseline": 0.5554,
+    "lift": 0.0295,
+    "roi": 0.0087
+   },
+   "2026-06": {
+    "bets": 420,
+    "counts": {
+     "win": 161,
+     "half_win": 67,
+     "push": 25,
+     "half_loss": 0,
+     "loss": 167
+    },
+    "winRate": 0.5772,
+    "winSE": 0.0249,
+    "baseline": 0.5577,
+    "lift": 0.0195,
+    "roi": -0.0102
+   },
+   "2026-07": {
+    "bets": 521,
+    "counts": {
+     "win": 204,
+     "half_win": 77,
+     "push": 31,
+     "half_loss": 0,
+     "loss": 209
+    },
+    "winRate": 0.5735,
+    "winSE": 0.0223,
+    "baseline": 0.5591,
+    "lift": 0.0143,
+    "roi": -0.0125
+   },
+   "2026-08": {
+    "bets": 1086,
+    "counts": {
+     "win": 425,
+     "half_win": 169,
+     "push": 66,
+     "half_loss": 0,
+     "loss": 426
+    },
+    "winRate": 0.5824,
+    "winSE": 0.0154,
+    "baseline": 0.5555,
+    "lift": 0.0268,
+    "roi": 0.0066
+   },
+   "2026-09": {
+    "bets": 1039,
+    "counts": {
+     "win": 403,
+     "half_win": 160,
+     "push": 51,
+     "half_loss": 0,
+     "loss": 425
+    },
+    "winRate": 0.5698,
+    "winSE": 0.0158,
+    "baseline": 0.5573,
+    "lift": 0.0125,
+    "roi": -0.0161
+   },
+   "2026-10": {
+    "bets": 440,
+    "counts": {
+     "win": 168,
+     "half_win": 72,
+     "push": 23,
+     "half_loss": 0,
+     "loss": 177
+    },
+    "winRate": 0.5755,
+    "winSE": 0.0242,
+    "baseline": 0.5569,
+    "lift": 0.0186,
+    "roi": -0.0156
+   }
+  },
+  "水位门否决": {
+   "2026-02": {
+    "bets": 87,
+    "counts": {
+     "win": 18,
+     "half_win": 20,
+     "push": 0,
+     "half_loss": 0,
+     "loss": 49
+    },
+    "winRate": 0.4368,
+    "winSE": 0.0532,
+    "baseline": 0.5346,
+    "lift": -0.0978,
+    "roi": -0.2487
+   },
+   "2026-03": {
+    "bets": 76,
+    "counts": {
+     "win": 15,
+     "half_win": 21,
+     "push": 0,
+     "half_loss": 0,
+     "loss": 40
+    },
+    "winRate": 0.4737,
+    "winSE": 0.0573,
+    "baseline": 0.5305,
+    "lift": -0.0568,
+    "roi": -0.1909
+   },
+   "2026-04": {
+    "bets": 95,
+    "counts": {
+     "win": 19,
+     "half_win": 30,
+     "push": 0,
+     "half_loss": 0,
+     "loss": 46
+    },
+    "winRate": 0.5158,
+    "winSE": 0.0513,
+    "baseline": 0.53,
+    "lift": -0.0142,
+    "roi": -0.1205
+   },
+   "2026-05": {
+    "bets": 128,
+    "counts": {
+     "win": 34,
+     "half_win": 33,
+     "push": 0,
+     "half_loss": 0,
+     "loss": 61
+    },
+    "winRate": 0.5234,
+    "winSE": 0.0441,
+    "baseline": 0.5247,
+    "lift": -0.0013,
+    "roi": -0.0757
+   },
+   "2026-06": {
+    "bets": 125,
+    "counts": {
+     "win": 30,
+     "half_win": 34,
+     "push": 0,
+     "half_loss": 0,
+     "loss": 61
+    },
+    "winRate": 0.512,
+    "winSE": 0.0447,
+    "baseline": 0.524,
+    "lift": -0.012,
+    "roi": -0.0987
+   },
+   "2026-07": {
+    "bets": 160,
+    "counts": {
+     "win": 41,
+     "half_win": 35,
+     "push": 0,
+     "half_loss": 0,
+     "loss": 84
+    },
+    "winRate": 0.475,
+    "winSE": 0.0395,
+    "baseline": 0.5201,
+    "lift": -0.0451,
+    "roi": -0.1472
+   },
+   "2026-08": {
+    "bets": 187,
+    "counts": {
+     "win": 43,
+     "half_win": 43,
+     "push": 0,
+     "half_loss": 0,
+     "loss": 101
+    },
+    "winRate": 0.4599,
+    "winSE": 0.0364,
+    "baseline": 0.5231,
+    "lift": -0.0633,
+    "roi": -0.1867
+   },
+   "2026-09": {
+    "bets": 201,
+    "counts": {
+     "win": 45,
+     "half_win": 47,
+     "push": 0,
+     "half_loss": 0,
+     "loss": 109
+    },
+    "winRate": 0.4577,
+    "winSE": 0.0351,
+    "baseline": 0.5247,
+    "lift": -0.067,
+    "roi": -0.1975
+   },
+   "2026-10": {
+    "bets": 94,
+    "counts": {
+     "win": 23,
+     "half_win": 24,
+     "push": 0,
+     "half_loss": 0,
+     "loss": 47
+    },
+    "winRate": 0.5,
+    "winSE": 0.0516,
+    "baseline": 0.5227,
+    "lift": -0.0227,
+    "roi": -0.1236
    }
   }
  }

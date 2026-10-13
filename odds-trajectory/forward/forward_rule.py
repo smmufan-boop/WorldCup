@@ -1,7 +1,8 @@
 """forward-rule-v1: no-model quarter-line rule, V1 trajectory confirmation, line-move gate.
 
 The rule, gates and evaluation are fixed in rule_spec.json and RULES.md.
-Two shadow versions, V1-四分之一 and V1-多阶段 (shadow_spec.json), are recorded
+Shadow versions V1-四分之一, V1-多阶段 and the water-hold gate G_HOLD (L0-水位门,
+L1-水位门, and 水位门否决 = the decisions it vetoes) (shadow_spec.json) are recorded
 on the same decisions and evaluated in parallel; they never change v1.
 V1 is called unchanged through the research builders (same cleaning, history
 pool and parameters as the published V1 package).
@@ -53,6 +54,7 @@ CONFIRM = SPEC['stages']['confirmationMinutesBeforeKickoff'] * 60
 SHADOW_LEADS = tuple(m * 60 for m in SHADOW['extraStagesMinutesBeforeKickoff'])
 FREEZE_LEADS = (CONFIRM, *SHADOW_LEADS)  # frozen between their cutoff and the decision
 SHADOW_NAMES = tuple(v['name'] for v in SHADOW['versions'])
+HOLD = SHADOW['gates']['G_HOLD']['parameters']
 TOL = SPEC['v1']['neutralTolerance']
 FLIP = {'win': 'loss', 'half_win': 'half_loss', 'push': 'push', 'half_loss': 'half_win', 'loss': 'win'}
 WINS, LOSSES = ('win', 'half_win'), ('half_loss', 'loss')
@@ -104,9 +106,29 @@ def decide(line, home_water, away_water, line_open, v1_t10, v1_t120):
             'levels': {'L0': True, 'L1': gate120 and gate10, 'L2': gate120 and gate10 and gate_line}}
 
 
-def shadow_verdicts(d, line, team_t60, team_t30):
+def water_hold(records, line, home_water, away_water):
+    """G_HOLD (shadow_spec.json): side the market keeps favouring by water alone, without moving the line.
+
+    records: every valid prematch Royal quote up to the decision cutoff. Returns
+    (held team or None, upper water at T-10, whether the line ever changed)."""
+    lines = {round(-x['home_handicap'], 2) for x in records}
+    changed = len(lines) > 1
+    up = upper_team(line)
+    up_water = home_water if up == 'home' else away_water
+    held = None
+    if not changed and up_water <= HOLD['upperLowWaterMax']:
+        held = up
+    elif not changed and up_water >= HOLD['upperHighWaterMin']:
+        held = other(up)
+    return held, up_water, changed
+
+
+def shadow_verdicts(d, line, team_t60, team_t30, hold=(None, None, None)):
     """Shadow versions on top of a v1 decision ``d`` (shadow_spec.json)."""
     quarter = round(abs(line) * 4) % 4 in (1, 3)
+    held, up_water, changed = hold
+    gate_hold = held is None or held == d['team']
+    info = {'heldTeam': held, 'upperWaterT10': up_water, 'lineChanged': changed, 'G_HOLD': gate_hold}
     team = d['team']
     teams = {120: d['v1TeamT120'], 60: team_t60, 30: team_t30, 10: d['v1TeamT10']}
     agree = [s for s in (120, 60, 30) if teams[s] == team]
@@ -115,6 +137,9 @@ def shadow_verdicts(d, line, team_t60, team_t30):
         'V1-四分之一': {'id': 'v1-quarter', 'bet': d['levels']['L2'] and quarter, 'quarterLine': quarter},
         'V1-多阶段': {'id': 'v1-multistage', 'quarterLine': quarter, 'agreeStages': agree, 'againstStages': against,
                    'bet': quarter and d['gates']['G_LINE'] and len(agree) >= 2 and not against},
+        'L0-水位门': {'id': 'l0-water-hold', **info, 'bet': gate_hold},
+        'L1-水位门': {'id': 'l1-water-hold', **info, 'bet': d['levels']['L1'] and gate_hold},
+        '水位门否决': {'id': 'water-hold-vetoed', **info, 'bet': not gate_hold},
     }
 
 
@@ -210,7 +235,8 @@ def backtest(args):
         d = decide(r['line'], r['homeWater'], r['awayWater'], line_open, m.get(10), m.get(120))
         teams = {s: v1_team(m[s]['score'], m[s]['line']) if s in m else None for s in (60, 30)}
         result, profit = settle_team(d['team'], r['line'], r['homeWater'], r['awayWater'], r['score'])
-        rows.append({**d, 'shadows': shadow_verdicts(d, r['line'], teams[60], teams[30]),
+        hold = water_hold(r['records'], r['line'], r['homeWater'], r['awayWater'])
+        rows.append({**d, 'shadows': shadow_verdicts(d, r['line'], teams[60], teams[30], hold),
                      'kickoff': r['kickoff'], 'firstTier': r['firstTier'], 'result': result, 'profit': profit,
                      'expected': baseline_expected(d['team'], r['line'], r['homeWater'], r['awayWater'])})
     windows = {'dev 2026-02-01..07-31': ('2026-02-01', '2026-08-01'),
@@ -382,7 +408,8 @@ def scan_once(data, now, state, scorers, candidates):
                      'lineOpen': line_open, 'v1T10': v10, 'v1T120': v120, 'v1T120Source': source, **d}
             for lead in SHADOW_LEADS:
                 entry[f'v1T{lead // 60}'], entry[f'v1T{lead // 60}Source'] = stages[lead]
-            entry['shadows'] = shadow_verdicts(d, rec['line'], *shadow_teams)
+            hold = water_hold(rec['records'], rec['line'], rec['homeWater'], rec['awayWater'])
+            entry['shadows'] = shadow_verdicts(d, rec['line'], *shadow_teams, hold)
             new.append(entry)
             state.decided.add(mid)
             state.decided_fixtures.add(tuple(rec['fixtureKey']))

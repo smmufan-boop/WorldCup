@@ -2,8 +2,11 @@
  "registeredAt": "2026-10-13T14:13:00+08:00",
  "prospectiveFrom": "2026-10-14T12:00:00+08:00",
  "parent": "forward-rule-v1",
- "status": "shadow versions: recorded and evaluated in parallel with forward-rule-v1, which they do not change; parameters frozen; any change requires a new version",
- "extraStagesMinutesBeforeKickoff": [60, 30],
+ "status": "shadow versions: recorded and evaluated in parallel with forward-rule-v1, which they do not change; parameters frozen; any change requires a new version; versions are only ever added, each with its own registeredAt",
+ "extraStagesMinutesBeforeKickoff": [
+  60,
+  30
+ ],
  "versions": [
   {
    "id": "v1-quarter",
@@ -17,14 +20,56 @@
    "definition": "rule team on a quarter line; G_LINE; at least two of V1 at T-120, T-60 and T-30 point to the rule team; none of V1 at T-120, T-60, T-30 and T-10 points to the other team",
    "stageTeam": "each stage uses its own cutoff (kickoff minus the stage lead) and its own line: D > 50 is the giving team at that line, D < 50 the other team; neutral or unavailable counts as no direction",
    "origin": "research/improve.py multi-stage vote, selected while exploring"
+  },
+  {
+   "id": "l0-water-hold",
+   "name": "L0-水位门",
+   "registeredAt": "2026-10-13T20:00:00+08:00",
+   "prospectiveFrom": "2026-10-14T12:00:00+08:00",
+   "definition": "forward-rule-v1 L0 (every rule decision) that passes G_HOLD",
+   "gateRef": "G_HOLD"
+  },
+  {
+   "id": "l1-water-hold",
+   "name": "L1-水位门",
+   "registeredAt": "2026-10-13T20:00:00+08:00",
+   "prospectiveFrom": "2026-10-14T12:00:00+08:00",
+   "definition": "forward-rule-v1 L1 that passes G_HOLD",
+   "gateRef": "G_HOLD"
+  },
+  {
+   "id": "water-hold-vetoed",
+   "name": "水位门否决",
+   "registeredAt": "2026-10-13T20:00:00+08:00",
+   "prospectiveFrom": "2026-10-14T12:00:00+08:00",
+   "definition": "the L0 decisions G_HOLD vetoes (rule team against the held team); recorded to check that the vetoed side keeps losing",
+   "gateRef": "G_HOLD"
   }
  ],
  "evaluation": {
   "decisionsCounted": "non-late decisions with kickoff at or after prospectiveFrom; the same frozen T-10 quote and settlement as forward-rule-v1",
   "comparison": "each shadow against forward-rule-v1 L2 and L0 on the same decisions (same period)",
   "winRate": "(win + half_win) / (win + half_win + half_loss + loss); push excluded",
-  "secondary": ["lift over the registered baseline", "ROI at the frozen quote"],
-  "checkpointsSettled": [150, 300]
+  "secondary": [
+   "lift over the registered baseline",
+   "ROI at the frozen quote"
+  ],
+  "checkpointsSettled": [
+   150,
+   300
+  ]
  },
- "historicalReference": "forward_rule.py backtest writes backtest-shadows.json; see RULES.md"
+ "historicalReference": "forward_rule.py backtest writes backtest-shadows.json; see RULES.md",
+ "gates": {
+  "G_HOLD": {
+   "name": "G_HOLD 水位压盘门",
+   "definition": "over every valid prematch Royal quote up to the T-10 cutoff the line never changed, and the upper side's (giving team, home on a level line) T-10 water is <= upperLowWaterMax (market keeps favouring the upper side by water alone) or >= upperHighWaterMin (it keeps favouring the lower side); that side is the held team. The gate fails when the rule team is the other team; it passes when there is no held team.",
+   "parameters": {
+    "upperLowWaterMax": 0.8,
+    "upperHighWaterMin": 1.05
+   },
+   "evidence": "supremacy research 2026-10-13, all deduped Royal T-10 matches: upper low water with the line never changed -> upper win rate 55.6% dev / 57.3% holdout, backing the lower side ROI -11.8% / -13.5%; upper high water with the line never changed -> upper 40.1% / 39.9%, backing the upper side ROI -10.4% / -10.5%. Thresholds were picked after seeing both windows, so only the prospective record counts as evidence.",
+   "scope": "G_HOLD can only fire on matches whose line never changed, so it never removes an L2, V1-四分之一 or V1-多阶段 bet (all require the line to have moved toward the rule team); it acts on L0 and L1"
+  }
+ }
 }
