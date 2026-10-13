@@ -414,10 +414,10 @@ python odds-trajectory/supremacy/euro_asia.py                # 亚欧对照（�
 python odds-trajectory/supremacy/upper_patterns.py           # 上盘看好/诱盘趋势，约 30 秒
 python odds-trajectory/supremacy/upper_wins_volatility.py    # 上盘赢球时各时点的偏差，约 30 秒
 python odds-trajectory/supremacy/turning_points.py           # 转折点与反复程度合成模型（需要 scikit-learn），约 1 分钟
-python odds-trajectory/supremacy/curve_similarity.py         # 曲线相似度（DTW、导数 DTW、SBD，需要 numba），约 6 分钟
 python odds-trajectory/supremacy/multi_source.py             # 加入 Royal 欧指、澳彩亚盘的转折点特征，约 5 分钟
 python odds-trajectory/supremacy/similar_score.py            # 相似轨迹评分与分组评价，约 6 分钟
 python odds-trajectory/supremacy/model_score.py              # 模型评分与分组评价，约 1 分钟
+python odds-trajectory/supremacy/curve_similarity.py         # 曲线相似度（DTW、导数 DTW、SBD，需要 numba），约 6 分钟
 ```
 
 文件：[`supremacy.py`](supremacy.py)（换算与轨迹特征）、[`prototype.py`](prototype.py)（近邻、时间顺序检验、分解诊断）、[`v1style.py`](v1style.py)（V1 式比对与评分）。
