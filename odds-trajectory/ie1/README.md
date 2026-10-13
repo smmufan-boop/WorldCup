@@ -119,35 +119,45 @@ M6 是唯一会实际改变模型的信号，人工录入就会生效，并参�
 
 ## 7. 文件与运行
 
+**每天怎么执行，见 [RUNBOOK.md 执行手册](RUNBOOK.md)**：首次联网核对报文字段、T−10 自动扫描与登记、信息面录入、结算、复盘和转实盘门槛。
+
 ```text
 ie1/
-  README.md               本文
+  README.md               方案说明（本文）
+  RUNBOOK.md              执行手册
   BACKTEST_REPORT.json    回测输出
   code/
-    parameters.json       版本、截点、系数（全部为 0 = 诊断）、门槛
-    pricing.py            去水、Dixon–Coles、亚盘/大小球结算、(T,S) 拟合
-    quotes.py             接口与公司 ID 映射、V1 亚盘点序、大小球/欧指路径
+    ie1.py                命令行：probe / run / note / settle / stats / offline
+    source.py             限速抓取、停机规则、原始报文存档、赛程读取
+    parse.py              报文解析（中文盘口、进球线、无年份时间）
+    quotes.py             接口与公司 ID 映射、T−10 路径
+    pricing.py            去水、Dixon–Coles、结算概率、(T,S) 拟合
     signals.py            M1–M7 与修正量
     engine.py             公允价 → 修正 → EV → 门槛 → 中文报告
-    dataset.py            连接两份快照，按 T−10 构建每场盘口簿和 90 分钟赛果
+    ledger.py             前瞻台账（冻结输入、首个合格推荐锁定、结算）
+    settle.py             锁定条款结算
+    dataset.py            连接两份快照，构建每场 T−10 盘口簿与 90 分钟赛果
     backtest.py           校准、信号研究、跨公司价值、留出期整套回测
     demo.py               合成数据示例
+    parameters.json       版本、截点、系数、门槛、抓取与报文字段、实盘门槛
+  examples/               赛程 CSV、比分 CSV、手工赔率 JSON 样例
+  tests/test_ie1.py       单元与端到端测试（模拟接口）
 ```
 
 需要 Python 3.10 或更新版本，只用标准库。在仓库根目录运行：
 
 ```powershell
+python -m unittest discover -s odds-trajectory/ie1/tests
 python odds-trajectory/ie1/code/demo.py
+python odds-trajectory/ie1/code/ie1.py offline --input odds-trajectory/ie1/examples/offline_example.json
 python odds-trajectory/ie1/code/backtest.py --cache fixtures.pkl --out report.json --workers 4
 ```
 
 回测大约需要 10 分钟和 2 GB 内存。`--cache` 会保存连接后的盘口簿，第二次运行可跳过读取快照。
 
-接到实时流程时，按 V1 的阶段调度在 T−10 调用 `quotes.market_book()` 和 `engine.predict()`。与 V1 Royal 自动登记一样，要冻结输入报价、参数版本和生成时间。
-
 ## 8. 下一步
 
-1. 从 2026-10-14 赛日起，按本规则逐场前瞻登记澳彩 T−10 候选，记录真实可得报价和延迟，积累 ≥ 200 场后再评估。
+1. 从 2026-10-14 赛日起，用 `ie1.py run` 按本规则逐场前瞻登记澳彩 T−10 候选，记录真实可得报价和延迟，积累 ≥ 200 注后再评估（见执行手册第 7 节）。
 2. 欧指/大小球补采完成后，按同一分段重跑；如果样本扩大后 M2/M5 联合显著，再打开对应系数。
 3. 把 V1 方向原分 D 接成 M7，用同一回测框架检验其增量。
 4. 加入 Bet365 亚盘（亚盘快照已有）做第二家被定价公司，单独验证后再放进 `stakeCompanies`。

@@ -74,32 +74,54 @@ def asian_path(rows, kickoff, cutoff, order_evidence=None):
     return path, error
 
 
-def totals_path(rows, kickoff, cutoff):
-    """IE1 size contract: handicap_value=goal line, home_water=over, away_water=under."""
+def _minute_paths(rows, kickoff, cutoff, market, parse):
+    """Totals/1X2 path with the euro-totals strict-minute and same-minute rules.
+
+    A source minute is used only when it ends at or before the cutoff. A minute
+    holding different quotes has unverified internal order, so it is skipped; if
+    the latest usable minute is such a conflict the market is unavailable (None).
+    """
+    minutes = {}
+    for ts, row in _prematch(rows, kickoff, cutoff - 60, market):
+        q = parse(row)
+        if q is not None:
+            minutes.setdefault(ts, set()).add(q)
+    if not minutes:
+        return []
+    if len(minutes[max(minutes)]) > 1:
+        return None
     path = []
-    for ts, row in sorted(_prematch(rows, kickoff, cutoff, "size"), key=lambda x: x[0]):
-        line, over, under = (_float(row.get(k)) for k in ("handicap_value", "home_water", "away_water"))
-        if None in (line, over, under) or line * 4 != int(line * 4) or not (0 < line <= 12):
+    for ts in sorted(minutes):
+        if len(minutes[ts]) > 1:
             continue
-        if not (0 < over <= 3 and 0 < under <= 3):
-            continue
-        q = {"ts": ts, "line": abs(line), "over": over, "under": under}
-        if not path or (path[-1]["line"], path[-1]["over"], path[-1]["under"]) != (q["line"], over, under):
-            path.append(q)
+        (q,) = minutes[ts]
+        if not path or path[-1][1] != q:
+            path.append((ts, q))
     return path
+
+
+def _size_quote(row):
+    line, over, under = (_float(row.get(k)) for k in ("handicap_value", "home_water", "away_water"))
+    if None in (line, over, under) or line < 0 or line > 12 or line * 4 != int(line * 4):
+        return None
+    return (line, over, under) if 0 < over <= 3 and 0 < under <= 3 else None
+
+
+def _euro_quote(row):
+    odds = tuple(_float(row.get(k)) for k in ("home_water", "handicap_value", "away_water"))
+    return odds if None not in odds and all(1.01 <= o <= 100 for o in odds) else None
+
+
+def totals_path(rows, kickoff, cutoff):
+    """IE1 size contract: handicap_value=goal line, home_water=over, away_water=under (HK)."""
+    path = _minute_paths(rows, kickoff, cutoff, "size", _size_quote)
+    return None if path is None else [{"ts": t, "line": q[0], "over": q[1], "under": q[2]} for t, q in path]
 
 
 def euro_path(rows, kickoff, cutoff):
     """IE1 euro contract: home_water=home, handicap_value=draw, away_water=away (decimal)."""
-    path = []
-    for ts, row in sorted(_prematch(rows, kickoff, cutoff, "euro"), key=lambda x: x[0]):
-        odds = [_float(row.get(k)) for k in ("home_water", "handicap_value", "away_water")]
-        if None in odds or not all(1.01 <= o <= 100 for o in odds):
-            continue
-        q = {"ts": ts, "home": odds[0], "draw": odds[1], "away": odds[2]}
-        if not path or [path[-1][k] for k in ("home", "draw", "away")] != odds:
-            path.append(q)
-    return path
+    path = _minute_paths(rows, kickoff, cutoff, "euro", _euro_quote)
+    return None if path is None else [{"ts": t, "home": q[0], "draw": q[1], "away": q[2]} for t, q in path]
 
 
 def at_or_before(path, ts):
@@ -134,7 +156,7 @@ def market_book(rows_by_company, kickoff, cutoff, order_evidence=None):
     book = {}
     for company, rows in rows_by_company.items():
         asian, error = asian_path(rows, kickoff, cutoff, (order_evidence or {}).get(company))
-        book[company] = {"asian": asian, "asianError": error,
-                         "totals": totals_path(rows, kickoff, cutoff),
-                         "euro": euro_path(rows, kickoff, cutoff)}
+        totals, euro = totals_path(rows, kickoff, cutoff), euro_path(rows, kickoff, cutoff)
+        book[company] = {"asian": asian, "asianError": error, "totals": totals or [], "euro": euro or [],
+                         "totalsConflict": totals is None, "euroConflict": euro is None}
     return book

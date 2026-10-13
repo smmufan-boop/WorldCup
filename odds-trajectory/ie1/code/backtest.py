@@ -28,44 +28,15 @@ import dataset
 from engine import first_tier, load_parameters, predict
 from pricing import ah_outcomes, fit_market, no_push_probability, score_matrix, total_outcomes
 from quotes import BJT, asian_decimal, totals_decimal
+from settle import ah_profit, pick_profit, total_profit
 from signals import compute
 
 SPLIT = datetime(2026, 9, 1, tzinfo=BJT).timestamp()
 SIGNALS = ("M1", "M2", "M3", "M4", "M5")
 
 
-def settle(margin_plus_line_halves, odds):
-    """Profit per unit for a quarter-line bet given margin+line of each half."""
-    profit = 0.0
-    for m in margin_plus_line_halves:
-        profit += 0.5 * ((odds - 1) if m > 1e-9 else 0.0 if abs(m) <= 1e-9 else -1.0)
-    return profit
-
-
-def halves(line):
-    return (line, line) if round(line * 2) == line * 2 else (line - 0.25, line + 0.25)
-
-
-def ah_profit(score, home_handicap, side, odds):
-    d = score[0] - score[1]
-    if side == "home":
-        return settle([d + h for h in halves(home_handicap)], odds)
-    return settle([-d - h for h in halves(home_handicap)], odds)
-
-
-def total_profit(score, line, side, odds):
-    t = score[0] + score[1]
-    sign = 1 if side == "over" else -1
-    return settle([sign * (t - h) for h in halves(line)], odds)
-
-
 def candidate_profit(c, score):
-    if c["market"] == "asian":
-        return ah_profit(score, c["line"], c["side"], c["odds"])
-    if c["market"] == "totals":
-        return total_profit(score, c["line"], c["side"], c["odds"])
-    win = {"home": score[0] > score[1], "draw": score[0] == score[1], "away": score[0] < score[1]}[c["side"]]
-    return c["odds"] - 1 if win else -1.0
+    return pick_profit(c["market"], c["side"], c["line"], c["odds"], score)
 
 
 def study_row(fixture):

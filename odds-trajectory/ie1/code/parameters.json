@@ -95,5 +95,37 @@
       "1": "80",
       "3": "545"
     }
+  },
+  "fetch": {
+    "minIntervalSeconds": 0.5,
+    "timeoutSeconds": 12,
+    "scanSeconds": 30,
+    "runGraceSeconds": 600
+  },
+  "payload": {
+    "list": "detail",
+    "home": "homeWin",
+    "mid": "draw",
+    "away": "awayWin",
+    "time": [
+      "time",
+      "changeTime",
+      "change_time",
+      "updateTime",
+      "date"
+    ],
+    "score": [
+      "score",
+      "matchScore"
+    ],
+    "handicapValue": [
+      "handicap",
+      "handicapValue",
+      "pk"
+    ]
+  },
+  "goLive": {
+    "minSettled": 200,
+    "minLowerBoundRoi": 0.0
   }
 }
